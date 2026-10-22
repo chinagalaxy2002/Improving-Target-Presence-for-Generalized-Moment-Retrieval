@@ -1,0 +1,37 @@
+{
+  "native_source": "/home/guoxiangyu/GMR_Unseen_s4_minus_fusion_baseline_20261019/backbonefolder/qd_detr/gmr_deployment",
+  "s4_components_source": "/home/guoxiangyu/GMR_Unseen/experiments/phase2_s4_migration_20261022/qd_detr",
+  "deviations": [
+    "Use exact trained GMR factory, including original frozen existence head; S4 global query replaces existence output.",
+    "Device compatibility only: transformer decoder target zeros use src.device and src.dtype instead of hardcoded .cuda().",
+    "Raw refined proposals enforce positive widths inside each true duration. Native-grid export is delegated to common validated exporter."
+  ],
+  "sha256": {
+    "backend.py": "24de4b209f62f02ab66dd2d0bfc1c6ce3d610597c4b759f99511ec433f2090b1",
+    "cpu_validate.py": "03194c0d3d020f33d5b96b76cf01186f6828675a1c1410ddaef082cdf3495d30",
+    "data.py": "8f7843cedce788b24eeafffc44b9e8cf33db9d4d9f079d80be2309bf485bc620",
+    "model.py": "069a21f00c0770e42729cd6b4d04e6d7ca8873dc1c137b569ffdc81fd6467a6e",
+    "reference_components.py": "be950826353af2847f1fde962172ba3ed1317fff6318f94b68948fe7aeab7f12",
+    "source/qd_detr/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source/qd_detr/attention.py": "61fe42107e07f1c179238df6514f05a5ec0f8d8b347937f2fda7dc9712570378",
+    "source/qd_detr/config.py": "fa452c2f0792a10303a2b4d11226b8248e4eaa0d43a251855f02507f2135ebb1",
+    "source/qd_detr/gmr_adapter.py": "2187c53403e8c0410989b38fc7a05854d971baf812ad9da00fcf38998472eb14",
+    "source/qd_detr/inference.py": "c5b545fb1f7016c27332d4a1ec48dd74af09d01da4f79e32576a5e171bd673dd",
+    "source/qd_detr/matcher.py": "0ee46a4d133965131a4bc4c9599e297c017feabf059e0457344d36bf3cce5751",
+    "source/qd_detr/misc.py": "dcb02d459d0db988f7bec7f2ef11320274456688ef19725b6e1aab68bd2ad8eb",
+    "source/qd_detr/model.py": "e5c58dd7b6c56215491d2471e4d90be7b2f509a9fde445d049c73d2d21f551ca",
+    "source/qd_detr/position_encoding.py": "73b08a01db79c44dacd6859514d504b943a76a3d3ac3067a1505ee41034ffa6d",
+    "source/qd_detr/postprocessing_qd_detr.py": "6202a2da1f2628175d82bc6322f95f6d733135b44a3eea3eb89d1eac69dda3b5",
+    "source/qd_detr/span_utils.py": "82ec89bdaca05cfb6382551597c3c60d2b79733e7e721b69eacb2cd02c6e001c",
+    "source/qd_detr/start_end_dataset.py": "41f09c3931acc0cb56a917f5dcfd68dc1c05ca61e989aa6876d1a5dcf3f38d91",
+    "source/qd_detr/start_end_dataset_audio.py": "2394003ba243c532e5551b459e0f992103ab52f91193306ded46f3dbf765bc88",
+    "source/qd_detr/text_encoder.py": "d3154e03fddb35397044af07c1e0eadab48757528bbf5a6959f7bf4ae6a66420",
+    "source/qd_detr/train.py": "2fa8a89e1cbf61ec0d95d9160ff189e90fdf02f06b90b90de17a2c41d2b190d5",
+    "source/qd_detr/transformer.py": "c0eee36b72fc02248764beaf8b5ecaf641609760072b54977187e89b3ba73e4e",
+    "source/utils/basic_utils.py": "ecf08301d11dadcf6e9e81a2719e3408b456b8f9cc022ba0d3d767e287c79e92",
+    "source/utils/model_utils.py": "af0a7a355e768da123b777425ff81b54b0899987fa2bbc2ccb2834aa1edc8cee",
+    "source/utils/temporal_nms.py": "5793a161f99692cd4ede98634da153eb532b9dad4b261facd75b9b9566da7b59",
+    "source/utils/tensor_utils.py": "66b4dda8e67ff2bcf36b324566958f5fea88273d2c44549269f01ac52ad342d1",
+    "source/utils/windows_utils.py": "44223a026968951494687c52dd2ac97ec03805d34750436cd375ee17fc0bea69"
+  }
+}

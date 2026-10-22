@@ -1,0 +1,604 @@
+{
+  "generated_utc": "2026-10-22T14:59:47.297958+00:00",
+  "table": "/home/guoxiangyu/GMR_Unseen_s4_minus_fusion_baseline_20261019/backbonefolder/TABLE2_OUR_RESULTS.md",
+  "table_rows": 14,
+  "table_only_markdown": true,
+  "table_threshold": 0.4,
+  "standard_test_sha256": "d8c47dee986b3ea87ba3e008ac2f5f34b0ab000337631e324a6ecffd1dea910c",
+  "test_queries": 1036,
+  "series_by_backbone": {
+    "moment_detr": [
+      "original",
+      "gmr",
+      "s4"
+    ],
+    "qd_detr": [
+      "original",
+      "gmr",
+      "s4"
+    ],
+    "cg_detr": [
+      "original",
+      "gmr",
+      "s4"
+    ],
+    "eatr": [
+      "original",
+      "gmr",
+      "s4"
+    ],
+    "flashvtg": [
+      "gmr",
+      "s4"
+    ]
+  },
+  "delta_reference": "GMR baseline at the identical threshold",
+  "fixed_operating_points": [
+    0.4,
+    0.5,
+    0.6
+  ],
+  "source_archive": "/home/guoxiangyu/GMR_Unseen_s4_minus_fusion_baseline_20261019/Phase2(addbackbone_with_S4_minusFusion)",
+  "source_archive_manifest_sha256": "ab49134973576c7f2706825a786b5e02808ec2fa3dbd339c5e09cbee631a7a54",
+  "source_archive_not_modified": true,
+  "s4_epoch": 4,
+  "s4_no_qcd": true,
+  "flashvtg_s4_kind": "historical verified no-QCD epoch4 reference",
+  "original_flashvtg_included": false,
+  "no_mope_or_other_epochs": true,
+  "outputs": [
+    "/home/guoxiangyu/GMR_Unseen_s4_minus_fusion_baseline_20261019/backbonefolder/figures/complete_comparison/moment_detr_fig7_test_threshold_sweep.png",
+    "/home/guoxiangyu/GMR_Unseen_s4_minus_fusion_baseline_20261019/backbonefolder/figures/complete_comparison/moment_detr_fig7_test_threshold_sweep.pdf",
+    "/home/guoxiangyu/GMR_Unseen_s4_minus_fusion_baseline_20261019/backbonefolder/figures/complete_comparison/moment_detr_fig7_test_threshold_sweep.svg",
+    "/home/guoxiangyu/GMR_Unseen_s4_minus_fusion_baseline_20261019/backbonefolder/figures/complete_comparison/qd_detr_fig7_test_threshold_sweep.png",
+    "/home/guoxiangyu/GMR_Unseen_s4_minus_fusion_baseline_20261019/backbonefolder/figures/complete_comparison/qd_detr_fig7_test_threshold_sweep.pdf",
+    "/home/guoxiangyu/GMR_Unseen_s4_minus_fusion_baseline_20261019/backbonefolder/figures/complete_comparison/qd_detr_fig7_test_threshold_sweep.svg",
+    "/home/guoxiangyu/GMR_Unseen_s4_minus_fusion_baseline_20261019/backbonefolder/figures/complete_comparison/cg_detr_fig7_test_threshold_sweep.png",
+    "/home/guoxiangyu/GMR_Unseen_s4_minus_fusion_baseline_20261019/backbonefolder/figures/complete_comparison/cg_detr_fig7_test_threshold_sweep.pdf",
+    "/home/guoxiangyu/GMR_Unseen_s4_minus_fusion_baseline_20261019/backbonefolder/figures/complete_comparison/cg_detr_fig7_test_threshold_sweep.svg",
+    "/home/guoxiangyu/GMR_Unseen_s4_minus_fusion_baseline_20261019/backbonefolder/figures/complete_comparison/eatr_fig7_test_threshold_sweep.png",
+    "/home/guoxiangyu/GMR_Unseen_s4_minus_fusion_baseline_20261019/backbonefolder/figures/complete_comparison/eatr_fig7_test_threshold_sweep.pdf",
+    "/home/guoxiangyu/GMR_Unseen_s4_minus_fusion_baseline_20261019/backbonefolder/figures/complete_comparison/eatr_fig7_test_threshold_sweep.svg",
+    "/home/guoxiangyu/GMR_Unseen_s4_minus_fusion_baseline_20261019/backbonefolder/figures/complete_comparison/flashvtg_fig7_test_threshold_sweep.png",
+    "/home/guoxiangyu/GMR_Unseen_s4_minus_fusion_baseline_20261019/backbonefolder/figures/complete_comparison/flashvtg_fig7_test_threshold_sweep.pdf",
+    "/home/guoxiangyu/GMR_Unseen_s4_minus_fusion_baseline_20261019/backbonefolder/figures/complete_comparison/flashvtg_fig7_test_threshold_sweep.svg"
+  ],
+  "generator_sha256": "dfe1930e43eeb2b632690ff20a34d244b5b82a1704d7f755358daa3a93797794",
+  "baseline_helper_sha256": "1774000cecbc704ab51c065c424c383268276a1a443884fe48b25eb535867d16",
+  "models": [
+    {
+      "backbone": "moment_detr",
+      "variant": "original",
+      "name": "Moment-DETR",
+      "source_predictions": "/home/guoxiangyu/GMR_Unseen_s4_minus_fusion_baseline_20261019/backbonefolder/moment_detr/original/test_predictions.jsonl",
+      "source_sha256": "d4e5b5d39268b2d558d20dfeae75f2b297102833e993ae34cc8a9ddfa25cd0a6",
+      "score_sources": {
+        "window_score": 1036
+      },
+      "tau_0.4": {
+        "AUROC": 71.51,
+        "Rej-F1@0.4": 0.0,
+        "mAP": 7.69,
+        "mR@1": 4.48,
+        "mR@5": 10.87,
+        "mR+@5": 1.14,
+        "G-mIoU@1": 6.16,
+        "G-mIoU@3": 2.76
+      },
+      "checks": {
+        "query_coverage": 1036,
+        "positive": 544,
+        "negative": 492,
+        "official_operating_points_verified": [
+          0,
+          0.4,
+          0.6,
+          0.8,
+          1
+        ]
+      },
+      "official_metrics_path": "/home/guoxiangyu/GMR_Unseen_s4_minus_fusion_baseline_20261019/backbonefolder/moment_detr/original/summary_table_metrics_tau_0.4.json"
+    },
+    {
+      "backbone": "moment_detr",
+      "variant": "gmr",
+      "name": "Moment-DETR-GMR",
+      "source_predictions": "/home/guoxiangyu/GMR_Unseen_s4_minus_fusion_baseline_20261019/backbonefolder/moment_detr/gmr/test_predictions.jsonl",
+      "source_sha256": "0f05b62748976b850caa94f770940db809d5bc9e1133208245d75aaa480b95f1",
+      "score_sources": {
+        "pred_exist_score": 1036
+      },
+      "tau_0.4": {
+        "AUROC": 70.2,
+        "Rej-F1@0.4": 0.0,
+        "mAP": 6.68,
+        "mR@1": 4.64,
+        "mR@5": 9.44,
+        "mR+@5": 0.88,
+        "G-mIoU@1": 5.83,
+        "G-mIoU@3": 2.43
+      },
+      "checks": {
+        "query_coverage": 1036,
+        "positive": 544,
+        "negative": 492,
+        "official_operating_points_verified": [
+          0,
+          0.4,
+          0.6,
+          0.8,
+          1
+        ]
+      },
+      "official_metrics_path": "/home/guoxiangyu/GMR_Unseen_s4_minus_fusion_baseline_20261019/backbonefolder/moment_detr/gmr/summary_table_metrics_tau_0.4.json"
+    },
+    {
+      "backbone": "moment_detr",
+      "variant": "s4",
+      "epoch": 4,
+      "name": "Moment-DETR-GMR + S4_minus_Fusion (epoch 4)",
+      "source_predictions": "/home/guoxiangyu/GMR_Unseen_s4_minus_fusion_baseline_20261019/Phase2(addbackbone_with_S4_minusFusion)/moment_detr/epoch_004/test_results/test_predictions.jsonl",
+      "source_sha256": "c6d00ce9c30e78d73eacfe8731b880c7897b258a115a66cbbfe352fe84d1ffad",
+      "source_metrics": "/home/guoxiangyu/GMR_Unseen_s4_minus_fusion_baseline_20261019/Phase2(addbackbone_with_S4_minusFusion)/moment_detr/epoch_004/test_results/test_metrics.json",
+      "source_metrics_sha256": "c525238878d756c12fa6e12363766612736fefc1c2c59f6819d224acd62e59ef",
+      "checkpoint": "/home/guoxiangyu/GMR_Unseen_s4_minus_fusion_baseline_20261019/Phase2(addbackbone_with_S4_minusFusion)/moment_detr/epoch_004/checkpoint.ckpt",
+      "checkpoint_sha256": "6be4890943c4ec48d251690e6ac6e519e806aa71596ee85537cc67294567d10e",
+      "initialization_baseline_sha256": "c69fc1bdc6b7187c471bb0272cca5e7bb1087c175f10c646dad30fca1295ca1f",
+      "tau_0.4": {
+        "AUROC": 70.26,
+        "Rej-F1@0.4": 75.0,
+        "mAP": 7.59,
+        "mR@1": 3.46,
+        "mR@5": 12.4,
+        "mR+@5": 0.98,
+        "G-mIoU@1": 51.92,
+        "G-mIoU@3": 48.97
+      },
+      "checks": {
+        "query_coverage": 1036,
+        "positive": 544,
+        "negative": 492,
+        "recomputed_metrics_match_archive": true,
+        "all_101_thresholds_match_archive": true,
+        "initialization_matches_displayed_gmr": true
+      },
+      "archive_index": {
+        "backbone": "moment_detr",
+        "epoch": 4,
+        "split": "test",
+        "queries": 1036,
+        "checkpoint": "epoch_004/checkpoint.ckpt",
+        "checkpoint_sha256": "6be4890943c4ec48d251690e6ac6e519e806aa71596ee85537cc67294567d10e",
+        "baseline_snapshot": "snapshots/c69fc1bdc6b7187c471bb0272cca5e7bb1087c175f10c646dad30fca1295ca1f.ckpt",
+        "baseline_sha256": "c69fc1bdc6b7187c471bb0272cca5e7bb1087c175f10c646dad30fca1295ca1f",
+        "test_predictions": "epoch_004/test_results/test_predictions.jsonl",
+        "test_metrics": "epoch_004/test_results/test_metrics.json",
+        "figures": "epoch_004/figures",
+        "source_experiment": "/home/guoxiangyu/GMR_Unseen/experiments/s4_gmr_finetune6_20261022",
+        "no_best_checkpoint_selection": true
+      },
+      "flashvtg_reference_no_qcd": false
+    },
+    {
+      "backbone": "qd_detr",
+      "variant": "original",
+      "name": "QD-DETR",
+      "source_predictions": "/home/guoxiangyu/GMR_Unseen_s4_minus_fusion_baseline_20261019/backbonefolder/qd_detr/original/test_predictions.jsonl",
+      "source_sha256": "51dd559b452e27a28d6c37088e92aff0f94f0a342cf27a1bce84129dc4d7736a",
+      "score_sources": {
+        "pred_exist_score": 1036
+      },
+      "tau_0.4": {
+        "AUROC": 74.84,
+        "Rej-F1@0.4": 14.55,
+        "mAP": 16.26,
+        "mR@1": 10.8,
+        "mR@5": 22.01,
+        "mR+@5": 11.55,
+        "G-mIoU@1": 16.0,
+        "G-mIoU@3": 10.02
+      },
+      "checks": {
+        "query_coverage": 1036,
+        "positive": 544,
+        "negative": 492,
+        "official_operating_points_verified": [
+          0,
+          0.4,
+          0.6,
+          0.8,
+          1
+        ]
+      },
+      "official_metrics_path": "/home/guoxiangyu/GMR_Unseen_s4_minus_fusion_baseline_20261019/backbonefolder/qd_detr/original/summary_table_metrics_tau_0.4.json"
+    },
+    {
+      "backbone": "qd_detr",
+      "variant": "gmr",
+      "name": "QD-DETR-GMR",
+      "source_predictions": "/home/guoxiangyu/GMR_Unseen_s4_minus_fusion_baseline_20261019/backbonefolder/qd_detr/gmr/test_predictions.jsonl",
+      "source_sha256": "5edb192b5f270af5fbb76773dc58c5a9194742051427017a426e3ea325ecee01",
+      "score_sources": {
+        "pred_exist_score": 1036
+      },
+      "tau_0.4": {
+        "AUROC": 77.01,
+        "Rej-F1@0.4": 61.73,
+        "mAP": 14.62,
+        "mR@1": 9.47,
+        "mR@5": 20.17,
+        "mR+@5": 7.43,
+        "G-mIoU@1": 36.51,
+        "G-mIoU@3": 31.47
+      },
+      "checks": {
+        "query_coverage": 1036,
+        "positive": 544,
+        "negative": 492,
+        "official_operating_points_verified": [
+          0,
+          0.4,
+          0.6,
+          0.8,
+          1
+        ]
+      },
+      "official_metrics_path": "/home/guoxiangyu/GMR_Unseen_s4_minus_fusion_baseline_20261019/backbonefolder/qd_detr/gmr/summary_table_metrics_tau_0.4.json"
+    },
+    {
+      "backbone": "qd_detr",
+      "variant": "s4",
+      "epoch": 4,
+      "name": "QD-DETR-GMR + S4_minus_Fusion (epoch 4)",
+      "source_predictions": "/home/guoxiangyu/GMR_Unseen_s4_minus_fusion_baseline_20261019/Phase2(addbackbone_with_S4_minusFusion)/qd_detr/epoch_004/test_results/test_predictions.jsonl",
+      "source_sha256": "5bb80a7962ed21248a6ba3d333139b2fe08b820d3423d43e8ebe6bc22e67ce72",
+      "source_metrics": "/home/guoxiangyu/GMR_Unseen_s4_minus_fusion_baseline_20261019/Phase2(addbackbone_with_S4_minusFusion)/qd_detr/epoch_004/test_results/test_metrics.json",
+      "source_metrics_sha256": "6fa4e223a3751f348ecc6705cabe8ea3db0a3d02b1def19bd344ede9b70b447d",
+      "checkpoint": "/home/guoxiangyu/GMR_Unseen_s4_minus_fusion_baseline_20261019/Phase2(addbackbone_with_S4_minusFusion)/qd_detr/epoch_004/checkpoint.ckpt",
+      "checkpoint_sha256": "ea33802dae4d08afd8f900127b5bb6ec78ef49d599770678a14f83d6d3e62046",
+      "initialization_baseline_sha256": "03011c48168532bc8a99cee669d0d0489d0919f8fb127474107ed705e88b43c0",
+      "tau_0.4": {
+        "AUROC": 76.21,
+        "Rej-F1@0.4": 71.54,
+        "mAP": 16.18,
+        "mR@1": 9.75,
+        "mR@5": 23.77,
+        "mR+@5": 12.26,
+        "G-mIoU@1": 47.35,
+        "G-mIoU@3": 42.37
+      },
+      "checks": {
+        "query_coverage": 1036,
+        "positive": 544,
+        "negative": 492,
+        "recomputed_metrics_match_archive": true,
+        "all_101_thresholds_match_archive": true,
+        "initialization_matches_displayed_gmr": true
+      },
+      "archive_index": {
+        "backbone": "qd_detr",
+        "epoch": 4,
+        "split": "test",
+        "queries": 1036,
+        "checkpoint": "epoch_004/checkpoint.ckpt",
+        "checkpoint_sha256": "ea33802dae4d08afd8f900127b5bb6ec78ef49d599770678a14f83d6d3e62046",
+        "baseline_snapshot": "snapshots/gmr-03011c48168532bc8a99cee669d0d0489d0919f8fb127474107ed705e88b43c0.ckpt",
+        "baseline_sha256": "03011c48168532bc8a99cee669d0d0489d0919f8fb127474107ed705e88b43c0",
+        "test_predictions": "epoch_004/test_results/test_predictions.jsonl",
+        "test_metrics": "epoch_004/test_results/test_metrics.json",
+        "figures": "epoch_004/figures",
+        "source_experiment": "/home/guoxiangyu/GMR_Unseen/experiments/s4_gmr_finetune6_20261022",
+        "no_best_checkpoint_selection": true
+      },
+      "flashvtg_reference_no_qcd": false
+    },
+    {
+      "backbone": "cg_detr",
+      "variant": "original",
+      "name": "CG-DETR",
+      "source_predictions": "/home/guoxiangyu/GMR_Unseen_s4_minus_fusion_baseline_20261019/backbonefolder/cg_detr/original/final_test_predictions.jsonl",
+      "source_sha256": "aa7abbe32e2b45dfdd05a4d568acd9b3e52116e90f666fe940a7d95a2cb2b3a2",
+      "score_sources": {
+        "window_score": 1036
+      },
+      "tau_0.4": {
+        "AUROC": 74.83,
+        "Rej-F1@0.4": 3.98,
+        "mAP": 18.32,
+        "mR@1": 12.09,
+        "mR@5": 25.59,
+        "mR+@5": 9.52,
+        "G-mIoU@1": 13.53,
+        "G-mIoU@3": 7.47
+      },
+      "checks": {
+        "query_coverage": 1036,
+        "positive": 544,
+        "negative": 492,
+        "official_operating_points_verified": [
+          0,
+          0.4,
+          0.6,
+          0.8,
+          1
+        ]
+      },
+      "official_metrics_path": "/home/guoxiangyu/GMR_Unseen_s4_minus_fusion_baseline_20261019/backbonefolder/cg_detr/original/summary_table_metrics_tau_0.4.json"
+    },
+    {
+      "backbone": "cg_detr",
+      "variant": "gmr",
+      "name": "CG-DETR-GMR",
+      "source_predictions": "/home/guoxiangyu/GMR_Unseen_s4_minus_fusion_baseline_20261019/backbonefolder/cg_detr/gmr/final_test_predictions.jsonl",
+      "source_sha256": "a4d84b50540902b87ac0769e0faa3088db701f6522c644cdf7c1ca7521544397",
+      "score_sources": {
+        "pred_exist_score": 1036
+      },
+      "tau_0.4": {
+        "AUROC": 76.4,
+        "Rej-F1@0.4": 35.46,
+        "mAP": 18.65,
+        "mR@1": 12.65,
+        "mR@5": 24.9,
+        "mR+@5": 11.98,
+        "G-mIoU@1": 22.84,
+        "G-mIoU@3": 17.07
+      },
+      "checks": {
+        "query_coverage": 1036,
+        "positive": 544,
+        "negative": 492,
+        "official_operating_points_verified": [
+          0,
+          0.4,
+          0.6,
+          0.8,
+          1
+        ]
+      },
+      "official_metrics_path": "/home/guoxiangyu/GMR_Unseen_s4_minus_fusion_baseline_20261019/backbonefolder/cg_detr/gmr/summary_table_metrics_tau_0.4.json"
+    },
+    {
+      "backbone": "cg_detr",
+      "variant": "s4",
+      "epoch": 4,
+      "name": "CG-DETR-GMR + S4_minus_Fusion (epoch 4)",
+      "source_predictions": "/home/guoxiangyu/GMR_Unseen_s4_minus_fusion_baseline_20261019/Phase2(addbackbone_with_S4_minusFusion)/cg_detr/epoch_004/test_results/test_predictions.jsonl",
+      "source_sha256": "5f8b16240f3ff2fd3bc1926a1592f6eab246fc18a7ecbadbfe9a88a21669a5b4",
+      "source_metrics": "/home/guoxiangyu/GMR_Unseen_s4_minus_fusion_baseline_20261019/Phase2(addbackbone_with_S4_minusFusion)/cg_detr/epoch_004/test_results/test_metrics.json",
+      "source_metrics_sha256": "18764fdbb098f2ea423293cb7cad03e14beed6f2271ed8cf30061b46a3b7018e",
+      "checkpoint": "/home/guoxiangyu/GMR_Unseen_s4_minus_fusion_baseline_20261019/Phase2(addbackbone_with_S4_minusFusion)/cg_detr/epoch_004/checkpoint.ckpt",
+      "checkpoint_sha256": "e833105aa0aba081d551f3d9db31ea9811d372648353239875a810bd9a8f79b2",
+      "initialization_baseline_sha256": "200f2f200bea257b1704f3bf285aecd50cf1722eb7fa7390e0763042f5a9b1d8",
+      "tau_0.4": {
+        "AUROC": 76.72,
+        "Rej-F1@0.4": 73.55,
+        "mAP": 19.33,
+        "mR@1": 13.08,
+        "mR@5": 25.77,
+        "mR+@5": 11.87,
+        "G-mIoU@1": 50.52,
+        "G-mIoU@3": 45.59
+      },
+      "checks": {
+        "query_coverage": 1036,
+        "positive": 544,
+        "negative": 492,
+        "recomputed_metrics_match_archive": true,
+        "all_101_thresholds_match_archive": true,
+        "initialization_matches_displayed_gmr": true
+      },
+      "archive_index": {
+        "backbone": "cg_detr",
+        "epoch": 4,
+        "split": "test",
+        "queries": 1036,
+        "checkpoint": "epoch_004/checkpoint.ckpt",
+        "checkpoint_sha256": "e833105aa0aba081d551f3d9db31ea9811d372648353239875a810bd9a8f79b2",
+        "baseline_snapshot": "snapshots/cg_gmr_best_200f2f200bea257b1704f3bf285aecd50cf1722eb7fa7390e0763042f5a9b1d8.pt",
+        "baseline_sha256": "200f2f200bea257b1704f3bf285aecd50cf1722eb7fa7390e0763042f5a9b1d8",
+        "test_predictions": "epoch_004/test_results/test_predictions.jsonl",
+        "test_metrics": "epoch_004/test_results/test_metrics.json",
+        "figures": "epoch_004/figures",
+        "source_experiment": "/home/guoxiangyu/GMR_Unseen/experiments/s4_gmr_finetune6_20261022",
+        "no_best_checkpoint_selection": true
+      },
+      "flashvtg_reference_no_qcd": false
+    },
+    {
+      "backbone": "eatr",
+      "variant": "original",
+      "name": "EaTR",
+      "source_predictions": "/home/guoxiangyu/GMR_Unseen_s4_minus_fusion_baseline_20261019/backbonefolder/eatr/original/test_predictions.jsonl",
+      "source_sha256": "ece11bb3ddffe618607c880ac96c1ff541f8bf23fd93f8600f1ac531190b68a3",
+      "score_sources": {
+        "window_score": 1036
+      },
+      "tau_0.4": {
+        "AUROC": 77.85,
+        "Rej-F1@0.4": 15.5,
+        "mAP": 16.82,
+        "mR@1": 10.83,
+        "mR@5": 23.42,
+        "mR+@5": 11.57,
+        "G-mIoU@1": 16.33,
+        "G-mIoU@3": 10.31
+      },
+      "checks": {
+        "query_coverage": 1036,
+        "positive": 544,
+        "negative": 492,
+        "official_operating_points_verified": [
+          0,
+          0.4,
+          0.6,
+          0.8,
+          1
+        ]
+      },
+      "official_metrics_path": "/home/guoxiangyu/GMR_Unseen_s4_minus_fusion_baseline_20261019/backbonefolder/eatr/original/summary_table_metrics_tau_0.4.json"
+    },
+    {
+      "backbone": "eatr",
+      "variant": "gmr",
+      "name": "EaTR-GMR",
+      "source_predictions": "/home/guoxiangyu/GMR_Unseen_s4_minus_fusion_baseline_20261019/backbonefolder/eatr/gmr/test_predictions.jsonl",
+      "source_sha256": "e412f5a529620f7db587bfa427120c711613b7ad1336bab9a90db29bf1816b00",
+      "score_sources": {
+        "pred_exist_score": 1036
+      },
+      "tau_0.4": {
+        "AUROC": 76.56,
+        "Rej-F1@0.4": 57.11,
+        "mAP": 16.2,
+        "mR@1": 10.64,
+        "mR@5": 21.38,
+        "mR+@5": 9.59,
+        "G-mIoU@1": 33.32,
+        "G-mIoU@3": 28.34
+      },
+      "checks": {
+        "query_coverage": 1036,
+        "positive": 544,
+        "negative": 492,
+        "official_operating_points_verified": [
+          0,
+          0.4,
+          0.6,
+          0.8,
+          1
+        ]
+      },
+      "official_metrics_path": "/home/guoxiangyu/GMR_Unseen_s4_minus_fusion_baseline_20261019/backbonefolder/eatr/gmr/summary_table_metrics_tau_0.4.json"
+    },
+    {
+      "backbone": "eatr",
+      "variant": "s4",
+      "epoch": 4,
+      "name": "EaTR-GMR + S4_minus_Fusion (epoch 4)",
+      "source_predictions": "/home/guoxiangyu/GMR_Unseen_s4_minus_fusion_baseline_20261019/Phase2(addbackbone_with_S4_minusFusion)/eatr/epoch_004/test_results/test_predictions.jsonl",
+      "source_sha256": "855be03b20115d0e12b39804dd85314412e8eb9a2a2adb8477575596a85a83d4",
+      "source_metrics": "/home/guoxiangyu/GMR_Unseen_s4_minus_fusion_baseline_20261019/Phase2(addbackbone_with_S4_minusFusion)/eatr/epoch_004/test_results/test_metrics.json",
+      "source_metrics_sha256": "95aeb3d997ca1d095db28f938258daaf7c6df472da21d6c590239999b6033979",
+      "checkpoint": "/home/guoxiangyu/GMR_Unseen_s4_minus_fusion_baseline_20261019/Phase2(addbackbone_with_S4_minusFusion)/eatr/epoch_004/checkpoint.ckpt",
+      "checkpoint_sha256": "190ed20416ae10758ce2f6426dcd611d9cb403218ec6930fb90e14f050122053",
+      "initialization_baseline_sha256": "3d7f6f6cb8c62cfee30db2d48fee5d1e62e5d69604cc7ab484075ab4979606c0",
+      "tau_0.4": {
+        "AUROC": 76.03,
+        "Rej-F1@0.4": 72.29,
+        "mAP": 17.01,
+        "mR@1": 11.44,
+        "mR@5": 22.48,
+        "mR+@5": 9.63,
+        "G-mIoU@1": 48.58,
+        "G-mIoU@3": 43.9
+      },
+      "checks": {
+        "query_coverage": 1036,
+        "positive": 544,
+        "negative": 492,
+        "recomputed_metrics_match_archive": true,
+        "all_101_thresholds_match_archive": true,
+        "initialization_matches_displayed_gmr": true
+      },
+      "archive_index": {
+        "backbone": "eatr",
+        "epoch": 4,
+        "split": "test",
+        "queries": 1036,
+        "checkpoint": "epoch_004/checkpoint.ckpt",
+        "checkpoint_sha256": "190ed20416ae10758ce2f6426dcd611d9cb403218ec6930fb90e14f050122053",
+        "baseline_snapshot": "snapshots/gmr-3d7f6f6cb8c62cfee30db2d48fee5d1e62e5d69604cc7ab484075ab4979606c0.ckpt",
+        "baseline_sha256": "3d7f6f6cb8c62cfee30db2d48fee5d1e62e5d69604cc7ab484075ab4979606c0",
+        "test_predictions": "epoch_004/test_results/test_predictions.jsonl",
+        "test_metrics": "epoch_004/test_results/test_metrics.json",
+        "figures": "epoch_004/figures",
+        "source_experiment": "/home/guoxiangyu/GMR_Unseen/experiments/s4_gmr_finetune6_20261022",
+        "no_best_checkpoint_selection": true
+      },
+      "flashvtg_reference_no_qcd": false
+    },
+    {
+      "backbone": "flashvtg",
+      "variant": "gmr",
+      "name": "FlashVTG-GMR",
+      "source_predictions": "/home/guoxiangyu/GMR_Unseen_s4_minus_fusion_baseline_20261019/backbonefolder/flashvtg/gmr/test_predictions.jsonl",
+      "source_sha256": "d318e6e80e8db82de330eb34aba64e0d3f8368c89be297ddb2576c0bfad8694a",
+      "score_sources": {
+        "pred_exist_score": 1036
+      },
+      "tau_0.4": {
+        "AUROC": 74.3,
+        "Rej-F1@0.4": 44.41,
+        "mAP": 25.43,
+        "mR@1": 15.17,
+        "mR@5": 34.94,
+        "mR+@5": 17.86,
+        "G-mIoU@1": 28.1,
+        "G-mIoU@3": 21.75
+      },
+      "checks": {
+        "query_coverage": 1036,
+        "positive": 544,
+        "negative": 492,
+        "official_operating_points_verified": [
+          0,
+          0.4,
+          0.6,
+          0.8,
+          1
+        ]
+      },
+      "official_metrics_path": "/home/guoxiangyu/GMR_Unseen_s4_minus_fusion_baseline_20261019/backbonefolder/flashvtg/gmr/summary_table_metrics_tau_0.4.json"
+    },
+    {
+      "backbone": "flashvtg",
+      "variant": "s4",
+      "epoch": 4,
+      "name": "FlashVTG-GMR + S4_minus_Fusion (epoch 4)",
+      "source_predictions": "/home/guoxiangyu/GMR_Unseen_s4_minus_fusion_baseline_20261019/Phase2(addbackbone_with_S4_minusFusion)/flashvtg/epoch_004/test_results/test_predictions.jsonl",
+      "source_sha256": "250b6daf09c3a79ffd37980b04ba49c079d6d2c4bfee794db3fd94483b7fa297",
+      "source_metrics": "/home/guoxiangyu/GMR_Unseen_s4_minus_fusion_baseline_20261019/Phase2(addbackbone_with_S4_minusFusion)/flashvtg/epoch_004/test_results/test_metrics.json",
+      "source_metrics_sha256": "21287fb8dddeead4a06b44c0878866667e6cce576231214dfe10fa6bbf8ba05f",
+      "checkpoint": "/home/guoxiangyu/GMR_Unseen_s4_minus_fusion_baseline_20261019/Phase2(addbackbone_with_S4_minusFusion)/flashvtg/epoch_004/checkpoint.ckpt",
+      "checkpoint_sha256": "2e2ff2a728012bad5965e51b13b4ee4452b9ade09df25a571e1ba34a72dd4301",
+      "initialization_baseline_sha256": "15f3054881d562801182efbc1b96b1f26de4c58d72466a8337022027b6485484",
+      "tau_0.4": {
+        "AUROC": 75.15,
+        "Rej-F1@0.4": 73.46,
+        "mAP": 25.84,
+        "mR@1": 15.98,
+        "mR@5": 35.86,
+        "mR+@5": 18.88,
+        "G-mIoU@1": 51.54,
+        "G-mIoU@3": 46.08
+      },
+      "checks": {
+        "query_coverage": 1036,
+        "positive": 544,
+        "negative": 492,
+        "recomputed_metrics_match_archive": true,
+        "all_101_thresholds_match_archive": true,
+        "initialization_matches_displayed_gmr": true
+      },
+      "archive_index": {
+        "backbone": "flashvtg",
+        "epoch": 4,
+        "split": "test",
+        "queries": 1036,
+        "checkpoint": "epoch_004/checkpoint.ckpt",
+        "checkpoint_sha256": "2e2ff2a728012bad5965e51b13b4ee4452b9ade09df25a571e1ba34a72dd4301",
+        "baseline_snapshot": "snapshots/best.ckpt",
+        "baseline_sha256": "15f3054881d562801182efbc1b96b1f26de4c58d72466a8337022027b6485484",
+        "test_predictions": "epoch_004/test_results/test_predictions.jsonl",
+        "test_metrics": "epoch_004/test_results/test_metrics.json",
+        "figures": "epoch_004/figures",
+        "source_experiment": "/home/guoxiangyu/GMR_Unseen/experiments/kim_gmr_autoresearch_20261019/runs/P1_A_S4_noFusion_correctinit_s2026",
+        "reference_experiment": true,
+        "no_qcd": true,
+        "note": "Existing FlashVTG S4 minus Fusion epoch4 reference, not a new run in the four-backbone six-epoch experiment. Original adapter-free FlashVTG baseline was not independently verified; only frozen E0 GMR baseline is included."
+      },
+      "flashvtg_reference_no_qcd": true
+    }
+  ]
+}

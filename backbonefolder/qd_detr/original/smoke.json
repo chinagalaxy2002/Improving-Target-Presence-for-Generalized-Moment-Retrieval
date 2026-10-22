@@ -1,0 +1,233 @@
+{
+  "status": "PASSED",
+  "strict_checkpoint_reload": "PASSED exact logits and spans",
+  "mixed_loss": 6.010913372039795,
+  "all_negative_loss": 0.43401190638542175,
+  "full_batch_loss": 5.245913505554199,
+  "losses": {
+    "loss_span": 0.09059341251850128,
+    "loss_giou": 1.1301913261413574,
+    "loss_label": 0.13642501831054688,
+    "class_error": 0.0,
+    "loss_saliency": 0.5143435001373291,
+    "loss_span_0": 0.13655835390090942,
+    "loss_giou_0": 0.8075903654098511,
+    "loss_label_0": 0.1853925734758377,
+    "class_error_0": 100.0
+  },
+  "negative_losses": {
+    "loss_span": 0.0,
+    "loss_giou": 0.0,
+    "loss_label": 0.09200352430343628,
+    "class_error": -0.0,
+    "loss_saliency": 0.0,
+    "loss_span_0": 0.0,
+    "loss_giou_0": 0.0,
+    "loss_label_0": 0.01649945043027401,
+    "class_error_0": -0.0
+  },
+  "parameters": 7585573,
+  "peak_vram_mib": 456.6669921875,
+  "reserved_vram_mib": 522.0,
+  "training_count": 4138,
+  "validation_count": 465,
+  "maximum_moments": 6,
+  "validation_metrics": {
+    "GMR-CLS": {
+      "AUROC": 100.0,
+      "per_threshold": {
+        "0.4": {
+          "Rej-F1": 66.67,
+          "Acc": 50.0,
+          "Rej-P": 50.0,
+          "Rej-R": 100.0,
+          "TP": 0,
+          "TN": 1,
+          "FP": 0,
+          "FN": 1
+        },
+        "0.6": {
+          "Rej-F1": 66.67,
+          "Acc": 50.0,
+          "Rej-P": 50.0,
+          "Rej-R": 100.0,
+          "TP": 0,
+          "TN": 1,
+          "FP": 0,
+          "FN": 1
+        }
+      },
+      "score_sources": {
+        "pred_exist_score": 2
+      }
+    },
+    "G-mIoU_gate": {
+      "cls_threshold": 0.4,
+      "decision_positive_if": "existence_score > cls_threshold",
+      "num_submission_samples": 2,
+      "num_predicted_positive": 0,
+      "num_predicted_negative": 2,
+      "num_non_empty_windows_before_gate": 2,
+      "num_non_empty_windows_after_gate": 0,
+      "score_sources": {
+        "pred_exist_score": 2
+      }
+    },
+    "G-mIoU_detail": {
+      "G-mIoU@1": 50.0,
+      "G-mIoU@3": 50.0,
+      "G-mIoU@5": 50.0
+    },
+    "brief": {
+      "AUROC": 100.0,
+      "Rej-F1@0.4": 66.67,
+      "Acc@0.4": 50.0,
+      "Rej-F1@0.6": 66.67,
+      "Acc@0.6": 50.0,
+      "G-mIoU@1": 50.0,
+      "G-mIoU@3": 50.0,
+      "G-mIoU@5": 50.0,
+      "mAP": 0.0,
+      "mR@1": 0.0,
+      "mR@3": 0.0,
+      "mR@5": 0.0,
+      "mR+@1": 0.0,
+      "mR+@3": 0.0,
+      "mR+@5": 0.0,
+      "mIoU@1": 0.0,
+      "mIoU@3": 0.0,
+      "mIoU@5": 0.0,
+      "mIoU+@1": 0.0,
+      "mIoU+@3": 0.0,
+      "mIoU+@5": 0.0
+    },
+    "mAP_detail": {
+      "mAP": 0.0,
+      "AP@IoU": {
+        "0.50": 0.0,
+        "0.55": 0.0,
+        "0.60": 0.0,
+        "0.65": 0.0,
+        "0.70": 0.0,
+        "0.75": 0.0,
+        "0.80": 0.0,
+        "0.85": 0.0,
+        "0.90": 0.0,
+        "0.95": 0.0
+      }
+    },
+    "mR_detail": {
+      "mR@1": 0.0,
+      "mR@1_per_IoU": {
+        "0.50": 0.0,
+        "0.55": 0.0,
+        "0.60": 0.0,
+        "0.65": 0.0,
+        "0.70": 0.0,
+        "0.75": 0.0,
+        "0.80": 0.0,
+        "0.85": 0.0,
+        "0.90": 0.0,
+        "0.95": 0.0
+      },
+      "mR@3": 0.0,
+      "mR@3_per_IoU": {
+        "0.50": 0.0,
+        "0.55": 0.0,
+        "0.60": 0.0,
+        "0.65": 0.0,
+        "0.70": 0.0,
+        "0.75": 0.0,
+        "0.80": 0.0,
+        "0.85": 0.0,
+        "0.90": 0.0,
+        "0.95": 0.0
+      },
+      "mR@5": 0.0,
+      "mR@5_per_IoU": {
+        "0.50": 0.0,
+        "0.55": 0.0,
+        "0.60": 0.0,
+        "0.65": 0.0,
+        "0.70": 0.0,
+        "0.75": 0.0,
+        "0.80": 0.0,
+        "0.85": 0.0,
+        "0.90": 0.0,
+        "0.95": 0.0
+      }
+    },
+    "mR+_detail": {
+      "num_multi_moment_queries": 0,
+      "mR+@1": 0.0,
+      "mR+@1_per_IoU": {
+        "0.50": 0.0,
+        "0.55": 0.0,
+        "0.60": 0.0,
+        "0.65": 0.0,
+        "0.70": 0.0,
+        "0.75": 0.0,
+        "0.80": 0.0,
+        "0.85": 0.0,
+        "0.90": 0.0,
+        "0.95": 0.0
+      },
+      "mR+@3": 0.0,
+      "mR+@3_per_IoU": {
+        "0.50": 0.0,
+        "0.55": 0.0,
+        "0.60": 0.0,
+        "0.65": 0.0,
+        "0.70": 0.0,
+        "0.75": 0.0,
+        "0.80": 0.0,
+        "0.85": 0.0,
+        "0.90": 0.0,
+        "0.95": 0.0
+      },
+      "mR+@5": 0.0,
+      "mR+@5_per_IoU": {
+        "0.50": 0.0,
+        "0.55": 0.0,
+        "0.60": 0.0,
+        "0.65": 0.0,
+        "0.70": 0.0,
+        "0.75": 0.0,
+        "0.80": 0.0,
+        "0.85": 0.0,
+        "0.90": 0.0,
+        "0.95": 0.0
+      }
+    },
+    "mIoU_detail": {
+      "mIoU@1": 0.0,
+      "mIoU@3": 0.0,
+      "mIoU@5": 0.0
+    },
+    "mIoU+_detail": {
+      "mIoU+@1": 0.0,
+      "mIoU+@3": 0.0,
+      "mIoU+@5": 0.0
+    },
+    "stats": {
+      "num_total": 2,
+      "num_positive": 1,
+      "num_negative": 1,
+      "num_multi_instance": 0,
+      "num_single_instance": 1,
+      "k_list": [
+        1,
+        3,
+        5
+      ],
+      "cls_thresholds": [
+        0.4,
+        0.6
+      ],
+      "gmiou_cls_threshold": 0.4,
+      "eval_time_sec": 0.0
+    }
+  },
+  "positive_qid": 580,
+  "negative_qid": 862
+}

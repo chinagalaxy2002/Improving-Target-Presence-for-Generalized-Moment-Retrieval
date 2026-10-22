@@ -1,0 +1,63 @@
+{
+  "model": "moment_detr",
+  "thresholds": [
+    0.4,
+    0.6,
+    0.8
+  ],
+  "analysis_type": "posthoc threshold sensitivity on frozen final test predictions; not validation calibration or a claim of matching the paper protocol",
+  "source_predictions": "/home/guoxiangyu/GMR_Unseen_s4_minus_fusion_baseline_20261019/backbonefolder/moment_detr/gmr/test_predictions.jsonl",
+  "rows": [
+    {
+      "model": "moment_detr",
+      "threshold": 0.4,
+      "split": "test",
+      "num_queries": 1036,
+      "rejected_queries": 0,
+      "metrics": {
+        "AUROC": 70.2,
+        "Rej-F1": 0.0,
+        "mAP": 6.68,
+        "mR@1": 4.64,
+        "mR@5": 9.44,
+        "mR+@5": 0.88,
+        "G-mIoU@1": 5.83,
+        "G-mIoU@3": 2.43
+      }
+    },
+    {
+      "model": "moment_detr",
+      "threshold": 0.6,
+      "split": "test",
+      "num_queries": 1036,
+      "rejected_queries": 821,
+      "metrics": {
+        "AUROC": 70.2,
+        "Rej-F1": 74.94,
+        "mAP": 6.68,
+        "mR@1": 4.64,
+        "mR@5": 9.44,
+        "mR+@5": 0.88,
+        "G-mIoU@1": 52.02,
+        "G-mIoU@3": 49.0
+      }
+    },
+    {
+      "model": "moment_detr",
+      "threshold": 0.8,
+      "split": "test",
+      "num_queries": 1036,
+      "rejected_queries": 823,
+      "metrics": {
+        "AUROC": 70.2,
+        "Rej-F1": 74.83,
+        "mAP": 6.68,
+        "mR@1": 4.64,
+        "mR@5": 9.44,
+        "mR+@5": 0.88,
+        "G-mIoU@1": 52.02,
+        "G-mIoU@3": 49.0
+      }
+    }
+  ]
+}

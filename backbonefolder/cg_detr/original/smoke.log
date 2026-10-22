@@ -1,0 +1,26 @@
+
+2026-10-22T08:14:39.450785+00:00 SCHEDULER {"id": "cg_detr_smoke_20261022", "model": "cg_detr", "gpu": 1, "command": "[\"/home/guoxiangyu/miniconda3/envs/gmr/bin/python\", \"-u\", \"train_soccer.py\", \"--smoke\"]", "cwd": "/home/guoxiangyu/GMR_Unseen_s4_minus_fusion_baseline_20261019/backbonefolder/cg_detr", "log": "/home/guoxiangyu/GMR_Unseen/experiments/table2_repro_20261022/cg_detr/original/smoke.log", "checkpoint_dir": "/home/guoxiangyu/GMR_Unseen/experiments/table2_repro_20261022/cg_detr/original", "memory_mib": 6000, "status": "QUEUED", "submitted": "2026-10-22T08:14:37.849475+00:00", "started": null, "finished": null, "pid": null, "pid_tick": null, "exit_code": null, "attempt": 1}
+Traceback (most recent call last):
+  File "/home/guoxiangyu/GMR_Unseen_s4_minus_fusion_baseline_20261019/backbonefolder/cg_detr/train_soccer.py", line 179, in <module>
+    smoke() if args.smoke else train()
+  File "/home/guoxiangyu/GMR_Unseen_s4_minus_fusion_baseline_20261019/backbonefolder/cg_detr/train_soccer.py", line 130, in smoke
+    loss,grad,losses=train_step(m,c,optimizer,collate([tr[i] for i in ids]));report[name]=dict(loss=loss,gradient_norm=grad,losses=losses)
+  File "/home/guoxiangyu/GMR_Unseen_s4_minus_fusion_baseline_20261019/backbonefolder/cg_detr/train_soccer.py", line 117, in train_step
+    o=model(**inputs,targets=t);losses=c(o,t);loss=sum(v*c.weight_dict[k] for k,v in losses.items() if k in c.weight_dict)
+  File "/home/guoxiangyu/miniconda3/envs/gmr/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1739, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/guoxiangyu/miniconda3/envs/gmr/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1750, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/guoxiangyu/GMR_Unseen_s4_minus_fusion_baseline_20261019/backbonefolder/cg_detr/source/cg_detr/model.py", line 917, in forward
+    losses.update(self.get_loss(loss, outputs, targets, indices))
+  File "/home/guoxiangyu/GMR_Unseen_s4_minus_fusion_baseline_20261019/backbonefolder/cg_detr/source/cg_detr/model.py", line 892, in get_loss
+    return loss_map[loss](outputs, targets, indices, **kwargs)
+  File "/home/guoxiangyu/GMR_Unseen_s4_minus_fusion_baseline_20261019/backbonefolder/cg_detr/train_soccer.py", line 84, in loss_saliency
+    loss=super().loss_saliency(o,t,None)['loss_saliency'] if idx.any() else outputs['saliency_scores'].sum()*0
+  File "/home/guoxiangyu/GMR_Unseen_s4_minus_fusion_baseline_20261019/backbonefolder/cg_detr/source/cg_detr/model.py", line 660, in loss_saliency
+    saliency_scores = vid_token_mask * saliency_scores + (1. - vid_token_mask) * -1e+3
+  File "/home/guoxiangyu/miniconda3/envs/gmr/lib/python3.10/site-packages/torch/_tensor.py", line 39, in wrapped
+    return f(*args, **kwargs)
+  File "/home/guoxiangyu/miniconda3/envs/gmr/lib/python3.10/site-packages/torch/_tensor.py", line 1073, in __rsub__
+    return _C._VariableFunctions.rsub(self, other)
+RuntimeError: Subtraction, the `-` operator, with a bool tensor is not supported. If you are trying to invert a mask, use the `~` or `logical_not()` operator instead.

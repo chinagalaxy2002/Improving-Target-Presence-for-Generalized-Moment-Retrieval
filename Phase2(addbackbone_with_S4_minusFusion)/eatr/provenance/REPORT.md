@@ -1,0 +1,13 @@
+EaTR adapter is ready for the coordinator's scheduled GPU fine-tuning. CPU integrity checks passed; GPU execution and full official validation are owned by the common trainer.
+
+Initialization uses the trained GMR checkpoint at `/home/guoxiangyu/GMR_Unseen_s4_minus_fusion_baseline_20261019/backbonefolder/eatr/gmr/best.ckpt`, epoch 125, saved baseline validation mAP 20.26. The immutable snapshot SHA256 is `3d7f6f6cb8c62cfee30db2d48fee5d1e62e5d69604cc7ab484075ab4979606c0`. The exact native two-layer MLP existence head is instantiated before strict checkpoint loading. All baseline tensors are checked for exact preservation when LoRA wrappers are inserted. The old existence head remains frozen and its prediction is overridden by the independent S4 global head. No optimizer or scheduler state is restored.
+
+The adapter retains the native EaTR source and feature order (SlowFast, CLIP, TEF), all ten native proposals, S4 rank-eight encoder FFN LoRA, contextual Global Event Query, Gaussian top-eight RoI extraction, and temporal/confidence refinement. The objective is exactly presence BCE plus 0.5 times the reference boundary/confidence loss. Native localization losses are excluded. Every augmentation flag is false. Full training is now explicitly authorized in this experiment's configuration.
+
+Parameters: 11,535,313 total; 2,496,452 trainable; 9,038,861 frozen; 61,440 LoRA. Only LoRA and the new global query, extractor, and refiner modules train.
+
+`backend.py` supplies `initialize(device, job, snapshot=None)`, `get_dataset(split)`, `collate(items, device)`, and `loss(output, metas, job)` for the common trainer. Initialization returns saved baseline and S4 configurations and provenance. Reload with the saved job/S4 configuration and snapshot restores model behavior independently of future configuration edits.
+
+`cpu_validate.py` passed three real mixed negative/single/multi-moment optimization steps with losses 1.100657, 0.934915, and 0.822323. A separate natural-negative batch produced finite loss 0.245208. LoRA A/B, global query, extractor, and refiner all received nonzero gradients and parameter updates. Frozen tensors remained bitwise unchanged. Candidate perturbation left global presence identical. Strict save/reload reproduced presence logits and all ten proposals exactly. Details are in `CPU_VALIDATION.json` and `cpu_validate.log`.
+
+Compatibility adaptation is limited to EaTR representation/proposal interfaces and slicing contextual video memory; no candidate-presence fusion or new architectural mechanism is added. The coordinator supplies the shared training/evaluation entry point and duration-safe official postprocessing. No GPU process was started by this adapter task, and Phase 1 / Phase 2 files were not modified.

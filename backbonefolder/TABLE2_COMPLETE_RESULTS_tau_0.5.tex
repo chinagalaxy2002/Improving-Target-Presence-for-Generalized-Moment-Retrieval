@@ -1,0 +1,54 @@
+\documentclass{article}
+\usepackage[paperwidth=297mm,paperheight=275.27mm,margin=12mm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{booktabs,graphicx}
+\pagestyle{empty}
+\begin{document}
+\setcounter{table}{1}
+\begin{table}[ht]
+\centering
+\caption{Complete results on the Soccer-GMR test set. Our 14 runs use all 1,036 queries (544 positive / 492 negative), $\tau=0.5$. Six published Table 4 rows retain $\tau=0.4$. All values are percentages.}
+\label{tab:complete-gmr}
+\renewcommand{\arraystretch}{1.25}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{lrrrrrrrr}
+\toprule
+& \multicolumn{2}{c}{\textit{Null-Set Rejection}} & \multicolumn{4}{c}{\textit{Temporal Localization}} & \multicolumn{2}{c}{\textit{Overall GMR}} \\
+\cmidrule(lr){2-3}\cmidrule(lr){4-7}\cmidrule(lr){8-9}
+Model & AUROC & Rej-F1 & mAP & mR@1 & mR@5 & mR$^+$@5 & G-mIoU@1 & G-mIoU@3 \\
+\midrule
+Moment-DETR & 71.51 & 1.21 & 7.69 & 4.48 & 10.87 & 1.14 & 6.45 & 3.05 \\
+QD-DETR & 74.84 & 19.71 & 16.26 & 10.80 & 22.01 & 11.55 & 17.52 & 11.56 \\
+CG-DETR & 74.83 & 6.65 & 18.32 & 12.09 & 25.59 & 9.52 & 14.13 & 8.12 \\
+EaTR & \textbf{77.85} & 24.48 & 16.82 & 10.83 & 23.42 & 11.57 & 18.92 & 12.99 \\
+\midrule
+Moment-DETR-GMR & 70.20 & 67.94 & 6.68 & 4.64 & 9.44 & 0.88 & 42.50 & 39.39 \\
+QD-DETR-GMR & \underline{77.01} & 71.48 & 14.62 & 9.47 & 20.17 & 7.43 & 46.49 & 41.47 \\
+CG-DETR-GMR & 76.40 & 57.47 & 18.65 & 12.65 & 24.90 & 11.98 & 34.35 & 29.14 \\
+EaTR-GMR & 76.56 & 65.60 & 16.20 & 10.64 & 21.38 & 9.59 & 40.85 & 36.00 \\
+FlashVTG-GMR & 74.30 & 66.35 & \underline{25.43} & \underline{15.17} & \underline{34.94} & \underline{17.86} & 43.57 & 38.27 \\
+\midrule
+Moment-DETR-GMR + S4\_minus\_Fusion & \shortstack{70.26 \\ {\scriptsize (+0.06)}} & \shortstack{75.00 \\ {\scriptsize (+7.06)}} & \shortstack{7.59 \\ {\scriptsize (+0.91)}} & \shortstack{3.46 \\ {\scriptsize (-1.18)}} & \shortstack{12.40 \\ {\scriptsize (+2.96)}} & \shortstack{0.98 \\ {\scriptsize (+0.10)}} & \shortstack{51.92 \\ {\scriptsize (+9.42)}} & \shortstack{\textbf{48.97} \\ {\scriptsize (+9.58)}} \\
+QD-DETR-GMR + S4\_minus\_Fusion & \shortstack{76.21 \\ {\scriptsize (-0.80)}} & \shortstack{74.21 \\ {\scriptsize (+2.73)}} & \shortstack{16.18 \\ {\scriptsize (+1.56)}} & \shortstack{9.75 \\ {\scriptsize (+0.28)}} & \shortstack{23.77 \\ {\scriptsize (+3.60)}} & \shortstack{12.26 \\ {\scriptsize (+4.83)}} & \shortstack{51.77 \\ {\scriptsize (+5.28)}} & \shortstack{47.02 \\ {\scriptsize (+5.55)}} \\
+CG-DETR-GMR + S4\_minus\_Fusion & \shortstack{76.72 \\ {\scriptsize (+0.32)}} & \shortstack{\underline{75.30} \\ {\scriptsize (+17.83)}} & \shortstack{19.33 \\ {\scriptsize (+0.68)}} & \shortstack{13.08 \\ {\scriptsize (+0.43)}} & \shortstack{25.77 \\ {\scriptsize (+0.87)}} & \shortstack{11.87 \\ {\scriptsize (-0.11)}} & \shortstack{\underline{53.60} \\ {\scriptsize (+19.25)}} & \shortstack{\underline{48.79} \\ {\scriptsize (+19.65)}} \\
+EaTR-GMR + S4\_minus\_Fusion & \shortstack{76.03 \\ {\scriptsize (-0.53)}} & \shortstack{\textbf{75.32} \\ {\scriptsize (+9.72)}} & \shortstack{17.01 \\ {\scriptsize (+0.81)}} & \shortstack{11.44 \\ {\scriptsize (+0.80)}} & \shortstack{22.48 \\ {\scriptsize (+1.10)}} & \shortstack{9.63 \\ {\scriptsize (+0.04)}} & \shortstack{53.12 \\ {\scriptsize (+12.27)}} & \shortstack{48.53 \\ {\scriptsize (+12.53)}} \\
+FlashVTG-GMR + S4\_minus\_Fusion & \shortstack{75.15 \\ {\scriptsize (+0.85)}} & \shortstack{74.80 \\ {\scriptsize (+8.45)}} & \shortstack{\textbf{25.84} \\ {\scriptsize (+0.41)}} & \shortstack{\textbf{15.98} \\ {\scriptsize (+0.81)}} & \shortstack{\textbf{35.86} \\ {\scriptsize (+0.92)}} & \shortstack{\textbf{18.88} \\ {\scriptsize (+1.02)}} & \shortstack{\textbf{53.94} \\ {\scriptsize (+10.37)}} & \shortstack{\underline{48.79} \\ {\scriptsize (+10.52)}} \\
+\midrule
+\multicolumn{9}{l}{\textit{MLLM references: paper Table 4 (reported at $\tau=0.4$)}} \\
+Qwen3-VL-4B [Table 4] & 47.66 & 11.54 & 2.15 & 1.65 &  & 0.12 &  &  \\
+Qwen3-VL-8B [Table 4] & 52.60 & 43.11 & 1.94 & 1.54 &  & 0.16 &  &  \\
+Qwen3-VL-32B [Table 4] & 57.75 & 54.26 & 2.76 & 2.42 &  & 0.06 &  &  \\
+TRACE [Table 4] & 50.00 & 0.00 & 1.40 & 1.39 &  & 0.00 &  &  \\
+TimeChat [Table 4] & 50.85 & 4.72 & 0.49 & 0.39 &  & 0.00 &  &  \\
+Qwen3-VL-4B (GRPO) [Table 4] & 53.21 & 13.83 & 2.91 & 1.97 &  & 1.18 &  &  \\
+\bottomrule
+\end{tabular}}
+\par\smallskip\begin{minipage}{\textwidth}\footnotesize
+First 14 rows: our baseline / GMR / GMR + S4\_minus\_Fusion runs. Bold: best; underline: second-best among reported values.\\
+All S4\_minus\_Fusion rows use epoch 4. FlashVTG-GMR uses the archived E0 run; its S4 variant uses the historical no-QCD epoch 4.\\
+No adapter-free FlashVTG result is available. Our Rej-F1 and G-mIoU use $\tau=0.5$; AUROC is threshold-free; localization uses positives.\\
+Parentheses: S4\_minus\_Fusion minus same-backbone GMR, in percentage points (pp); negative values indicate decreases.\\
+Last 6 rows: published Table 4 values at $\tau=0.4$, not our reruns. Unreported mR@5 and G-mIoU cells are blank.
+\end{minipage}
+\end{table}
+\end{document}

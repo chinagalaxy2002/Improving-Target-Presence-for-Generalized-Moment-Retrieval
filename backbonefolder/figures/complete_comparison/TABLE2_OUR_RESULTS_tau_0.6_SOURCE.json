@@ -1,0 +1,433 @@
+{
+  "threshold": 0.6,
+  "test_queries": 1036,
+  "method": "Extract the requested point from the saved, official-evaluator-checked 101-point threshold sweep; verify prediction hashes.",
+  "threshold_dependent": [
+    "Rej-F1",
+    "G-mIoU@1",
+    "G-mIoU@3"
+  ],
+  "threshold_independent": [
+    "AUROC",
+    "mAP",
+    "mR@1",
+    "mR@5",
+    "mR+@5"
+  ],
+  "runs": [
+    {
+      "model": "Moment-DETR",
+      "cached_sweep": "/home/guoxiangyu/Improving-Target-Presence-for-Generalized-Moment-Retrieval/Phase2(addbackbone_with_S4_minusFusion)/shared/plot_baselines/moment_detr_original.json",
+      "cached_sweep_sha256": "8b9300291b9842fded2edb881249e3ebb0954ecd40868c583aa6cb5d520362bc",
+      "predictions": "/home/guoxiangyu/Improving-Target-Presence-for-Generalized-Moment-Retrieval/backbonefolder/moment_detr/original/test_predictions.jsonl",
+      "predictions_sha256": "d4e5b5d39268b2d558d20dfeae75f2b297102833e993ae34cc8a9ddfa25cd0a6",
+      "threshold_point": {
+        "threshold": 0.6,
+        "G-mIoU@1": 12.98,
+        "G-mIoU@3": 9.62,
+        "N_acc": 14.83739837398374,
+        "positive_recall": 92.46323529411765,
+        "Rej-F1": 24.09,
+        "TP": 503,
+        "TN": 73,
+        "FP": 419,
+        "FN": 41
+      },
+      "prior_evaluation_checks": {
+        "query_coverage": 1036,
+        "positive": 544,
+        "negative": 492,
+        "official_operating_points_verified": [
+          0,
+          0.4,
+          0.6,
+          0.8,
+          1
+        ]
+      }
+    },
+    {
+      "model": "Moment-DETR-GMR",
+      "cached_sweep": "/home/guoxiangyu/Improving-Target-Presence-for-Generalized-Moment-Retrieval/Phase2(addbackbone_with_S4_minusFusion)/shared/plot_baselines/moment_detr_gmr.json",
+      "cached_sweep_sha256": "fc438856deb5196fd10d17c44deb6f938ca5a1231558ecf3c54a1375c218894a",
+      "predictions": "/home/guoxiangyu/Improving-Target-Presence-for-Generalized-Moment-Retrieval/backbonefolder/moment_detr/gmr/test_predictions.jsonl",
+      "predictions_sha256": "0f05b62748976b850caa94f770940db809d5bc9e1133208245d75aaa480b95f1",
+      "threshold_point": {
+        "threshold": 0.6,
+        "G-mIoU@1": 52.02,
+        "G-mIoU@3": 49.0,
+        "N_acc": 100.0,
+        "positive_recall": 39.52205882352941,
+        "Rej-F1": 74.94,
+        "TP": 215,
+        "TN": 492,
+        "FP": 0,
+        "FN": 329
+      },
+      "prior_evaluation_checks": {
+        "query_coverage": 1036,
+        "positive": 544,
+        "negative": 492,
+        "official_operating_points_verified": [
+          0,
+          0.4,
+          0.6,
+          0.8,
+          1
+        ]
+      }
+    },
+    {
+      "model": "Moment-DETR-GMR + S4_minus_Fusion (epoch 4)",
+      "cached_sweep": "/home/guoxiangyu/Improving-Target-Presence-for-Generalized-Moment-Retrieval/backbonefolder/figures/complete_comparison/data/moment_detr_s4_epoch4.json",
+      "cached_sweep_sha256": "adbf446231da9b16e9a157b3eb2b78b7eb8f919a5e800387ba78bd3ec5e7bdde",
+      "predictions": "/home/guoxiangyu/Improving-Target-Presence-for-Generalized-Moment-Retrieval/Phase2(addbackbone_with_S4_minusFusion)/moment_detr/epoch_004/test_results/test_predictions.jsonl",
+      "predictions_sha256": "c6d00ce9c30e78d73eacfe8731b880c7897b258a115a66cbbfe352fe84d1ffad",
+      "threshold_point": {
+        "threshold": 0.6,
+        "G-mIoU@1": 51.92,
+        "G-mIoU@3": 48.97,
+        "N_acc": 100.0,
+        "positive_recall": 39.705882352941174,
+        "Rej-F1": 75.0,
+        "TP": 216,
+        "TN": 492,
+        "FP": 0,
+        "FN": 328
+      },
+      "prior_evaluation_checks": {
+        "query_coverage": 1036,
+        "positive": 544,
+        "negative": 492,
+        "recomputed_metrics_match_archive": true,
+        "all_101_thresholds_match_archive": true,
+        "initialization_matches_displayed_gmr": true
+      }
+    },
+    {
+      "model": "QD-DETR",
+      "cached_sweep": "/home/guoxiangyu/Improving-Target-Presence-for-Generalized-Moment-Retrieval/Phase2(addbackbone_with_S4_minusFusion)/shared/plot_baselines/qd_detr_original.json",
+      "cached_sweep_sha256": "2a5013545fc6ef872f31a0a7e1dc95a716fe52153cc685cca6708ba61ea0e74a",
+      "predictions": "/home/guoxiangyu/Improving-Target-Presence-for-Generalized-Moment-Retrieval/backbonefolder/qd_detr/original/test_predictions.jsonl",
+      "predictions_sha256": "51dd559b452e27a28d6c37088e92aff0f94f0a342cf27a1bce84129dc4d7736a",
+      "threshold_point": {
+        "threshold": 0.6,
+        "G-mIoU@1": 20.26,
+        "G-mIoU@3": 14.4,
+        "N_acc": 17.479674796747968,
+        "positive_recall": 94.8529411764706,
+        "Rej-F1": 28.38,
+        "TP": 516,
+        "TN": 86,
+        "FP": 406,
+        "FN": 28
+      },
+      "prior_evaluation_checks": {
+        "query_coverage": 1036,
+        "positive": 544,
+        "negative": 492,
+        "official_operating_points_verified": [
+          0,
+          0.4,
+          0.6,
+          0.8,
+          1
+        ]
+      }
+    },
+    {
+      "model": "QD-DETR-GMR",
+      "cached_sweep": "/home/guoxiangyu/Improving-Target-Presence-for-Generalized-Moment-Retrieval/Phase2(addbackbone_with_S4_minusFusion)/shared/plot_baselines/qd_detr_gmr.json",
+      "cached_sweep_sha256": "30e396495d3ee67f8cf78b54a3077f827473d391881600fa1cea7d41d193e28c",
+      "predictions": "/home/guoxiangyu/Improving-Target-Presence-for-Generalized-Moment-Retrieval/backbonefolder/qd_detr/gmr/test_predictions.jsonl",
+      "predictions_sha256": "5edb192b5f270af5fbb76773dc58c5a9194742051427017a426e3ea325ecee01",
+      "threshold_point": {
+        "threshold": 0.6,
+        "G-mIoU@1": 50.68,
+        "G-mIoU@3": 46.04,
+        "N_acc": 90.65040650406505,
+        "positive_recall": 48.713235294117645,
+        "Rej-F1": 73.29,
+        "TP": 265,
+        "TN": 446,
+        "FP": 46,
+        "FN": 279
+      },
+      "prior_evaluation_checks": {
+        "query_coverage": 1036,
+        "positive": 544,
+        "negative": 492,
+        "official_operating_points_verified": [
+          0,
+          0.4,
+          0.6,
+          0.8,
+          1
+        ]
+      }
+    },
+    {
+      "model": "QD-DETR-GMR + S4_minus_Fusion (epoch 4)",
+      "cached_sweep": "/home/guoxiangyu/Improving-Target-Presence-for-Generalized-Moment-Retrieval/backbonefolder/figures/complete_comparison/data/qd_detr_s4_epoch4.json",
+      "cached_sweep_sha256": "28209e23068d1dd950ac941605a6a468e7b09193e8cfcdbedea1ed6b9dd90c79",
+      "predictions": "/home/guoxiangyu/Improving-Target-Presence-for-Generalized-Moment-Retrieval/Phase2(addbackbone_with_S4_minusFusion)/qd_detr/epoch_004/test_results/test_predictions.jsonl",
+      "predictions_sha256": "5bb80a7962ed21248a6ba3d333139b2fe08b820d3423d43e8ebe6bc22e67ce72",
+      "threshold_point": {
+        "threshold": 0.6,
+        "G-mIoU@1": 53.5,
+        "G-mIoU@3": 48.67,
+        "N_acc": 96.95121951219512,
+        "positive_recall": 44.85294117647059,
+        "Rej-F1": 75.18,
+        "TP": 244,
+        "TN": 477,
+        "FP": 15,
+        "FN": 300
+      },
+      "prior_evaluation_checks": {
+        "query_coverage": 1036,
+        "positive": 544,
+        "negative": 492,
+        "recomputed_metrics_match_archive": true,
+        "all_101_thresholds_match_archive": true,
+        "initialization_matches_displayed_gmr": true
+      }
+    },
+    {
+      "model": "CG-DETR",
+      "cached_sweep": "/home/guoxiangyu/Improving-Target-Presence-for-Generalized-Moment-Retrieval/Phase2(addbackbone_with_S4_minusFusion)/shared/plot_baselines/cg_detr_original.json",
+      "cached_sweep_sha256": "d4abda5eb2c2a0a1c128aa3c97a145adebdc314ab3611da72dc35f19d902d5d7",
+      "predictions": "/home/guoxiangyu/Improving-Target-Presence-for-Generalized-Moment-Retrieval/backbonefolder/cg_detr/original/final_test_predictions.jsonl",
+      "predictions_sha256": "aa7abbe32e2b45dfdd05a4d568acd9b3e52116e90f666fe940a7d95a2cb2b3a2",
+      "threshold_point": {
+        "threshold": 0.6,
+        "G-mIoU@1": 15.41,
+        "G-mIoU@3": 9.45,
+        "N_acc": 6.300813008130081,
+        "positive_recall": 99.44852941176471,
+        "Rej-F1": 11.79,
+        "TP": 541,
+        "TN": 31,
+        "FP": 461,
+        "FN": 3
+      },
+      "prior_evaluation_checks": {
+        "query_coverage": 1036,
+        "positive": 544,
+        "negative": 492,
+        "official_operating_points_verified": [
+          0,
+          0.4,
+          0.6,
+          0.8,
+          1
+        ]
+      }
+    },
+    {
+      "model": "CG-DETR-GMR",
+      "cached_sweep": "/home/guoxiangyu/Improving-Target-Presence-for-Generalized-Moment-Retrieval/Phase2(addbackbone_with_S4_minusFusion)/shared/plot_baselines/cg_detr_gmr.json",
+      "cached_sweep_sha256": "a14979056b9da7bae5de564b13698c736073774b23e12d22d4df8e5cf297d94d",
+      "predictions": "/home/guoxiangyu/Improving-Target-Presence-for-Generalized-Moment-Retrieval/backbonefolder/cg_detr/gmr/final_test_predictions.jsonl",
+      "predictions_sha256": "a4d84b50540902b87ac0769e0faa3088db701f6522c644cdf7c1ca7521544397",
+      "threshold_point": {
+        "threshold": 0.6,
+        "G-mIoU@1": 46.66,
+        "G-mIoU@3": 41.53,
+        "N_acc": 78.45528455284553,
+        "positive_recall": 61.76470588235294,
+        "Rej-F1": 71.09,
+        "TP": 336,
+        "TN": 386,
+        "FP": 106,
+        "FN": 208
+      },
+      "prior_evaluation_checks": {
+        "query_coverage": 1036,
+        "positive": 544,
+        "negative": 492,
+        "official_operating_points_verified": [
+          0,
+          0.4,
+          0.6,
+          0.8,
+          1
+        ]
+      }
+    },
+    {
+      "model": "CG-DETR-GMR + S4_minus_Fusion (epoch 4)",
+      "cached_sweep": "/home/guoxiangyu/Improving-Target-Presence-for-Generalized-Moment-Retrieval/backbonefolder/figures/complete_comparison/data/cg_detr_s4_epoch4.json",
+      "cached_sweep_sha256": "4eb787ccd71168bd9e9df31d79856e66cd826ac8c4ccf64473131c2d97aacc3d",
+      "predictions": "/home/guoxiangyu/Improving-Target-Presence-for-Generalized-Moment-Retrieval/Phase2(addbackbone_with_S4_minusFusion)/cg_detr/epoch_004/test_results/test_predictions.jsonl",
+      "predictions_sha256": "5f8b16240f3ff2fd3bc1926a1592f6eab246fc18a7ecbadbfe9a88a21669a5b4",
+      "threshold_point": {
+        "threshold": 0.6,
+        "G-mIoU@1": 54.49,
+        "G-mIoU@3": 49.71,
+        "N_acc": 99.1869918699187,
+        "positive_recall": 43.1985294117647,
+        "Rej-F1": 75.72,
+        "TP": 235,
+        "TN": 488,
+        "FP": 4,
+        "FN": 309
+      },
+      "prior_evaluation_checks": {
+        "query_coverage": 1036,
+        "positive": 544,
+        "negative": 492,
+        "recomputed_metrics_match_archive": true,
+        "all_101_thresholds_match_archive": true,
+        "initialization_matches_displayed_gmr": true
+      }
+    },
+    {
+      "model": "EaTR",
+      "cached_sweep": "/home/guoxiangyu/Improving-Target-Presence-for-Generalized-Moment-Retrieval/Phase2(addbackbone_with_S4_minusFusion)/shared/plot_baselines/eatr_original.json",
+      "cached_sweep_sha256": "a78484ab057f9e132fd84761b58c42125b64a39db514b832fa8b7c6bf7a86696",
+      "predictions": "/home/guoxiangyu/Improving-Target-Presence-for-Generalized-Moment-Retrieval/backbonefolder/eatr/original/test_predictions.jsonl",
+      "predictions_sha256": "ece11bb3ddffe618607c880ac96c1ff541f8bf23fd93f8600f1ac531190b68a3",
+      "threshold_point": {
+        "threshold": 0.6,
+        "G-mIoU@1": 23.7,
+        "G-mIoU@3": 17.81,
+        "N_acc": 24.796747967479675,
+        "positive_recall": 93.56617647058823,
+        "Rej-F1": 37.6,
+        "TP": 509,
+        "TN": 122,
+        "FP": 370,
+        "FN": 35
+      },
+      "prior_evaluation_checks": {
+        "query_coverage": 1036,
+        "positive": 544,
+        "negative": 492,
+        "official_operating_points_verified": [
+          0,
+          0.4,
+          0.6,
+          0.8,
+          1
+        ]
+      }
+    },
+    {
+      "model": "EaTR-GMR",
+      "cached_sweep": "/home/guoxiangyu/Improving-Target-Presence-for-Generalized-Moment-Retrieval/Phase2(addbackbone_with_S4_minusFusion)/shared/plot_baselines/eatr_gmr.json",
+      "cached_sweep_sha256": "b206ec3b31049e1d14ca5c346e2a070915906caf4a846b9ed4546eda77278031",
+      "predictions": "/home/guoxiangyu/Improving-Target-Presence-for-Generalized-Moment-Retrieval/backbonefolder/eatr/gmr/test_predictions.jsonl",
+      "predictions_sha256": "e412f5a529620f7db587bfa427120c711613b7ad1336bab9a90db29bf1816b00",
+      "threshold_point": {
+        "threshold": 0.6,
+        "G-mIoU@1": 49.56,
+        "G-mIoU@3": 44.86,
+        "N_acc": 87.1951219512195,
+        "positive_recall": 54.595588235294116,
+        "Rej-F1": 73.46,
+        "TP": 297,
+        "TN": 429,
+        "FP": 63,
+        "FN": 247
+      },
+      "prior_evaluation_checks": {
+        "query_coverage": 1036,
+        "positive": 544,
+        "negative": 492,
+        "official_operating_points_verified": [
+          0,
+          0.4,
+          0.6,
+          0.8,
+          1
+        ]
+      }
+    },
+    {
+      "model": "EaTR-GMR + S4_minus_Fusion (epoch 4)",
+      "cached_sweep": "/home/guoxiangyu/Improving-Target-Presence-for-Generalized-Moment-Retrieval/backbonefolder/figures/complete_comparison/data/eatr_s4_epoch4.json",
+      "cached_sweep_sha256": "54b17a9e858e011efe597561b038d697d21a8f7066bfc172bd1fba64b45ebdae",
+      "predictions": "/home/guoxiangyu/Improving-Target-Presence-for-Generalized-Moment-Retrieval/Phase2(addbackbone_with_S4_minusFusion)/eatr/epoch_004/test_results/test_predictions.jsonl",
+      "predictions_sha256": "855be03b20115d0e12b39804dd85314412e8eb9a2a2adb8477575596a85a83d4",
+      "threshold_point": {
+        "threshold": 0.6,
+        "G-mIoU@1": 54.26,
+        "G-mIoU@3": 49.69,
+        "N_acc": 99.1869918699187,
+        "positive_recall": 43.01470588235294,
+        "Rej-F1": 75.66,
+        "TP": 234,
+        "TN": 488,
+        "FP": 4,
+        "FN": 310
+      },
+      "prior_evaluation_checks": {
+        "query_coverage": 1036,
+        "positive": 544,
+        "negative": 492,
+        "recomputed_metrics_match_archive": true,
+        "all_101_thresholds_match_archive": true,
+        "initialization_matches_displayed_gmr": true
+      }
+    },
+    {
+      "model": "FlashVTG-GMR (E0)",
+      "cached_sweep": "/home/guoxiangyu/Improving-Target-Presence-for-Generalized-Moment-Retrieval/Phase2(addbackbone_with_S4_minusFusion)/shared/plot_baselines/flashvtg_gmr.json",
+      "cached_sweep_sha256": "f8c1b677f16e83296008c1fe1509c5265ebb07722dad0b23373fe8ca6697dcd2",
+      "predictions": "/home/guoxiangyu/Improving-Target-Presence-for-Generalized-Moment-Retrieval/backbonefolder/flashvtg/gmr/test_predictions.jsonl",
+      "predictions_sha256": "d318e6e80e8db82de330eb34aba64e0d3f8368c89be297ddb2576c0bfad8694a",
+      "threshold_point": {
+        "threshold": 0.6,
+        "G-mIoU@1": 49.41,
+        "G-mIoU@3": 44.3,
+        "N_acc": 85.16260162601625,
+        "positive_recall": 52.205882352941174,
+        "Rej-F1": 71.56,
+        "TP": 284,
+        "TN": 419,
+        "FP": 73,
+        "FN": 260
+      },
+      "prior_evaluation_checks": {
+        "query_coverage": 1036,
+        "positive": 544,
+        "negative": 492,
+        "official_operating_points_verified": [
+          0,
+          0.4,
+          0.6,
+          0.8,
+          1
+        ]
+      }
+    },
+    {
+      "model": "FlashVTG-GMR + S4_minus_Fusion (epoch 4)",
+      "cached_sweep": "/home/guoxiangyu/Improving-Target-Presence-for-Generalized-Moment-Retrieval/backbonefolder/figures/complete_comparison/data/flashvtg_s4_epoch4.json",
+      "cached_sweep_sha256": "fb5114248ac81a5cb4af671c1ff1c01e1d0624037807585409aa8e147f9f584d",
+      "predictions": "/home/guoxiangyu/Improving-Target-Presence-for-Generalized-Moment-Retrieval/Phase2(addbackbone_with_S4_minusFusion)/flashvtg/epoch_004/test_results/test_predictions.jsonl",
+      "predictions_sha256": "250b6daf09c3a79ffd37980b04ba49c079d6d2c4bfee794db3fd94483b7fa297",
+      "threshold_point": {
+        "threshold": 0.6,
+        "G-mIoU@1": 54.28,
+        "G-mIoU@3": 49.23,
+        "N_acc": 97.35772357723577,
+        "positive_recall": 42.64705882352941,
+        "Rej-F1": 74.67,
+        "TP": 232,
+        "TN": 479,
+        "FP": 13,
+        "FN": 312
+      },
+      "prior_evaluation_checks": {
+        "query_coverage": 1036,
+        "positive": 544,
+        "negative": 492,
+        "recomputed_metrics_match_archive": true,
+        "all_101_thresholds_match_archive": true,
+        "initialization_matches_displayed_gmr": true
+      }
+    }
+  ]
+}

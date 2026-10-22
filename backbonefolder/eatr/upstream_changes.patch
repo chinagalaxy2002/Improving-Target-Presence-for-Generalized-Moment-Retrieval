@@ -1,0 +1,33 @@
+--- upstream/models/model.py
++++ local/models/model.py
+@@ -181,6 +181,9 @@
+         outputs_class = self.class_embed(hs[-self.num_dec_layers:])  # (#layers, batch_size, #queries, #classes)
+ 
+         out = {'pred_logits': outputs_class[-1], 'pred_spans': outputs_coord[-1]}
++        # Local reconstruction of GMR paper Sec. 4.1; native model has no head.
++        if hasattr(self, 'exist_head'):
++            out['pred_exist_logits'] = self.exist_head(hs[-1].max(dim=1).values).squeeze(-1)
+ 
+         out['pseudo_event_spans'] = pseudo_event_spans  # comment the line for computational cost check
+         out['pred_event_spans'] = event_outputs_coord
+--- upstream/models/criterion.py
++++ local/models/criterion.py
+@@ -54,6 +54,9 @@
+         idx = self._get_src_permutation_idx(indices)
+         src_spans = outputs['pred_spans'][idx]  # (#spans, max_v_l * 2)
+         tgt_spans = torch.cat([t['spans'][i] for t, (_, i) in zip(targets, indices)], dim=0)  # (#spans, 2)
++        if not len(src_spans):
++            zero = outputs["pred_spans"].sum() * 0.0
++            return {"loss_span": zero, "loss_giou": zero}
+         if self.span_loss_type == "l1":
+             loss_span = F.l1_loss(src_spans, tgt_spans, reduction='none')
+             loss_giou = 1 - torch.diag(generalized_temporal_iou(span_cxw_to_xx(src_spans), span_cxw_to_xx(tgt_spans)))
+@@ -99,7 +102,7 @@
+ 
+         if log:
+             # TODO this should probably be a separate loss, not hacked in this one here
+-            losses['class_error'] = 100 - accuracy(src_logits[idx], self.foreground_label)[0]
++            losses['class_error'] = 100 - accuracy(src_logits[idx], self.foreground_label)[0] if len(src_logits[idx]) else src_logits.sum() * 0.0
+         return losses
+ 
+     def loss_saliency(self, outputs, targets, indices, log=True):

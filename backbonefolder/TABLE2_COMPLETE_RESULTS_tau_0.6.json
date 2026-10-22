@@ -1,0 +1,202 @@
+{
+  "source_csv": "/home/guoxiangyu/Improving-Target-Presence-for-Generalized-Moment-Retrieval/backbonefolder/figures/complete_comparison/TABLE2_OUR_RESULTS_tau_0.6.csv",
+  "threshold": 0.6,
+  "test_queries": 1036,
+  "reference_layout": "/home/guoxiangyu/VLMbasedIter_momentretrival/generalized-moment-retrieval/2605.02623v1.pdf, Table 2 (PDF page 8)",
+  "row_count": 20,
+  "our_row_count": 14,
+  "paper_row_count": 6,
+  "block_counts": [
+    4,
+    5,
+    5,
+    6
+  ],
+  "paper_table4": {
+    "source_pdf": "/home/guoxiangyu/VLMbasedIter_momentretrival/generalized-moment-retrieval/2605.02623v1.pdf",
+    "table": 4,
+    "pdf_page": 8,
+    "reported_threshold": 0.4,
+    "source_type": "Published reference results, transcribed from the PDF; not our reruns.",
+    "metric_order": [
+      "AUROC",
+      "Rej-F1",
+      "mAP",
+      "mR@1",
+      "mR@5",
+      "mR+@5",
+      "G-mIoU@1",
+      "G-mIoU@3"
+    ],
+    "missing_metrics": [
+      "mR@5",
+      "G-mIoU@1",
+      "G-mIoU@3"
+    ],
+    "rows": [
+      {
+        "model": "Qwen3-VL-4B",
+        "setting": "zero-shot",
+        "values": [
+          "47.66",
+          "11.54",
+          "2.15",
+          "1.65",
+          null,
+          "0.12",
+          null,
+          null
+        ]
+      },
+      {
+        "model": "Qwen3-VL-8B",
+        "setting": "zero-shot",
+        "values": [
+          "52.60",
+          "43.11",
+          "1.94",
+          "1.54",
+          null,
+          "0.16",
+          null,
+          null
+        ]
+      },
+      {
+        "model": "Qwen3-VL-32B",
+        "setting": "zero-shot",
+        "values": [
+          "57.75",
+          "54.26",
+          "2.76",
+          "2.42",
+          null,
+          "0.06",
+          null,
+          null
+        ]
+      },
+      {
+        "model": "TRACE",
+        "setting": "zero-shot",
+        "values": [
+          "50.00",
+          "0.00",
+          "1.40",
+          "1.39",
+          null,
+          "0.00",
+          null,
+          null
+        ]
+      },
+      {
+        "model": "TimeChat",
+        "setting": "zero-shot",
+        "values": [
+          "50.85",
+          "4.72",
+          "0.49",
+          "0.39",
+          null,
+          "0.00",
+          null,
+          null
+        ]
+      },
+      {
+        "model": "Qwen3-VL-4B (GRPO)",
+        "setting": "GRPO fine-tuned",
+        "values": [
+          "53.21",
+          "13.83",
+          "2.91",
+          "1.97",
+          null,
+          "1.18",
+          null,
+          null
+        ]
+      }
+    ],
+    "source_pdf_sha256": "d2b3d36dab9f0267dad056e699318c293d256ceda00f9108fa77327ddf1591b2",
+    "source_url": "https://arxiv.org/pdf/2605.02623v1",
+    "source_pdf_note": "Historical local path; the paper PDF is not required to regenerate the tables.",
+    "transcription_json": "/home/guoxiangyu/Improving-Target-Presence-for-Generalized-Moment-Retrieval/backbonefolder/figures/complete_comparison/PAPER_TABLE4_RESULTS.json"
+  },
+  "highlight": "Column maximum in bold; second distinct maximum underlined, among available reported values; paper Rej-F1 retains its original threshold.",
+  "gain_definition": "S4_minus_Fusion minus the same-backbone GMR at threshold 0.6, in percentage points; signed differences of the displayed two-decimal results.",
+  "gains": [
+    {
+      "model": "Moment-DETR-GMR + S4_minus_Fusion (epoch 4)",
+      "reference": "Moment-DETR-GMR",
+      "delta_pp": {
+        "AUROC": "+0.06",
+        "Rej-F1": "+0.06",
+        "mAP": "+0.91",
+        "mR@1": "-1.18",
+        "mR@5": "+2.96",
+        "mR+@5": "+0.10",
+        "G-mIoU@1": "-0.10",
+        "G-mIoU@3": "-0.03"
+      }
+    },
+    {
+      "model": "QD-DETR-GMR + S4_minus_Fusion (epoch 4)",
+      "reference": "QD-DETR-GMR",
+      "delta_pp": {
+        "AUROC": "-0.80",
+        "Rej-F1": "+1.89",
+        "mAP": "+1.56",
+        "mR@1": "+0.28",
+        "mR@5": "+3.60",
+        "mR+@5": "+4.83",
+        "G-mIoU@1": "+2.82",
+        "G-mIoU@3": "+2.63"
+      }
+    },
+    {
+      "model": "CG-DETR-GMR + S4_minus_Fusion (epoch 4)",
+      "reference": "CG-DETR-GMR",
+      "delta_pp": {
+        "AUROC": "+0.32",
+        "Rej-F1": "+4.63",
+        "mAP": "+0.68",
+        "mR@1": "+0.43",
+        "mR@5": "+0.87",
+        "mR+@5": "-0.11",
+        "G-mIoU@1": "+7.83",
+        "G-mIoU@3": "+8.18"
+      }
+    },
+    {
+      "model": "EaTR-GMR + S4_minus_Fusion (epoch 4)",
+      "reference": "EaTR-GMR",
+      "delta_pp": {
+        "AUROC": "-0.53",
+        "Rej-F1": "+2.20",
+        "mAP": "+0.81",
+        "mR@1": "+0.80",
+        "mR@5": "+1.10",
+        "mR+@5": "+0.04",
+        "G-mIoU@1": "+4.70",
+        "G-mIoU@3": "+4.83"
+      }
+    },
+    {
+      "model": "FlashVTG-GMR + S4_minus_Fusion (epoch 4)",
+      "reference": "FlashVTG-GMR (E0)",
+      "delta_pp": {
+        "AUROC": "+0.85",
+        "Rej-F1": "+3.11",
+        "mAP": "+0.41",
+        "mR@1": "+0.81",
+        "mR@5": "+0.92",
+        "mR+@5": "+1.02",
+        "G-mIoU@1": "+4.87",
+        "G-mIoU@3": "+4.93"
+      }
+    }
+  ],
+  "note": "14 of our experiment results, followed by 6 published Table 4 references. Paper Rej-F1 is reported at 0.4 in both tables, never relabeled as 0.6; missing paper metrics remain blank."
+}

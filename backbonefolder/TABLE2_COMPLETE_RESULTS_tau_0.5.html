@@ -1,0 +1,46 @@
+<!doctype html><html lang="en"><meta charset="utf-8">
+<title>Table 2 — Complete experimental results</title>
+<style>
+body{font-family:"Liberation Serif","Times New Roman",serif;margin:36px;color:#000;background:white}
+table{border-collapse:collapse;width:100%;max-width:1280px;margin:auto;border-top:2px solid;border-bottom:2px solid}
+caption{text-align:left;padding-bottom:14px;line-height:1.5;font-size:16px}
+th,td{padding:8px 10px;white-space:nowrap;font-weight:normal}
+td{text-align:center;font-variant-numeric:tabular-nums}
+.gain{font-size:85%}
+thead th{text-align:center}thead tr:first-child th:not(:first-child){font-style:italic;border-bottom:1px solid}
+thead{border-bottom:1px solid}thead th:first-child,tbody th{text-align:left}
+.block{border-top:1px solid}tfoot{border-top:2px solid;font-size:13px}tfoot td{text-align:left;white-space:normal;padding-left:0}
+@page{size:297mm 275.27mm;margin:12mm}@media print{body{margin:0}th,td{padding:5px 7px}}
+</style><table>
+<caption><strong>Table 2. Complete experimental results on the Soccer-GMR test set.</strong><br>
+Our 14 runs on all 1,036 test queries (544 positive / 492 negative); τ = 0.5. Six paper Table 4 rows retain τ = 0.4. All values are percentages.</caption>
+<thead><tr><th rowspan="2">Model</th><th colspan="2">Null-Set Rejection</th><th colspan="4">Temporal Localization</th><th colspan="2">Overall GMR</th></tr>
+<tr><th>AUROC</th><th>Rej-F1</th><th>mAP</th><th>mR@1</th><th>mR@5</th><th>mR+@5</th><th>G-mIoU@1</th><th>G-mIoU@3</th></tr></thead><tbody>
+<tr><th scope="row">Moment-DETR</th><td>71.51</td><td>1.21</td><td>7.69</td><td>4.48</td><td>10.87</td><td>1.14</td><td>6.45</td><td>3.05</td></tr>
+<tr><th scope="row">QD-DETR</th><td>74.84</td><td>19.71</td><td>16.26</td><td>10.80</td><td>22.01</td><td>11.55</td><td>17.52</td><td>11.56</td></tr>
+<tr><th scope="row">CG-DETR</th><td>74.83</td><td>6.65</td><td>18.32</td><td>12.09</td><td>25.59</td><td>9.52</td><td>14.13</td><td>8.12</td></tr>
+<tr><th scope="row">EaTR</th><td><strong>77.85</strong></td><td>24.48</td><td>16.82</td><td>10.83</td><td>23.42</td><td>11.57</td><td>18.92</td><td>12.99</td></tr>
+<tr class="block"><th scope="row">Moment-DETR-GMR</th><td>70.20</td><td>67.94</td><td>6.68</td><td>4.64</td><td>9.44</td><td>0.88</td><td>42.50</td><td>39.39</td></tr>
+<tr><th scope="row">QD-DETR-GMR</th><td><u>77.01</u></td><td>71.48</td><td>14.62</td><td>9.47</td><td>20.17</td><td>7.43</td><td>46.49</td><td>41.47</td></tr>
+<tr><th scope="row">CG-DETR-GMR</th><td>76.40</td><td>57.47</td><td>18.65</td><td>12.65</td><td>24.90</td><td>11.98</td><td>34.35</td><td>29.14</td></tr>
+<tr><th scope="row">EaTR-GMR</th><td>76.56</td><td>65.60</td><td>16.20</td><td>10.64</td><td>21.38</td><td>9.59</td><td>40.85</td><td>36.00</td></tr>
+<tr><th scope="row">FlashVTG-GMR</th><td>74.30</td><td>66.35</td><td><u>25.43</u></td><td><u>15.17</u></td><td><u>34.94</u></td><td><u>17.86</u></td><td>43.57</td><td>38.27</td></tr>
+<tr class="block"><th scope="row">Moment-DETR-GMR + S4_minus_Fusion</th><td>70.26<br><span class="gain">(+0.06)</span></td><td>75.00<br><span class="gain">(+7.06)</span></td><td>7.59<br><span class="gain">(+0.91)</span></td><td>3.46<br><span class="gain">(-1.18)</span></td><td>12.40<br><span class="gain">(+2.96)</span></td><td>0.98<br><span class="gain">(+0.10)</span></td><td>51.92<br><span class="gain">(+9.42)</span></td><td><strong>48.97</strong><br><span class="gain">(+9.58)</span></td></tr>
+<tr><th scope="row">QD-DETR-GMR + S4_minus_Fusion</th><td>76.21<br><span class="gain">(-0.80)</span></td><td>74.21<br><span class="gain">(+2.73)</span></td><td>16.18<br><span class="gain">(+1.56)</span></td><td>9.75<br><span class="gain">(+0.28)</span></td><td>23.77<br><span class="gain">(+3.60)</span></td><td>12.26<br><span class="gain">(+4.83)</span></td><td>51.77<br><span class="gain">(+5.28)</span></td><td>47.02<br><span class="gain">(+5.55)</span></td></tr>
+<tr><th scope="row">CG-DETR-GMR + S4_minus_Fusion</th><td>76.72<br><span class="gain">(+0.32)</span></td><td><u>75.30</u><br><span class="gain">(+17.83)</span></td><td>19.33<br><span class="gain">(+0.68)</span></td><td>13.08<br><span class="gain">(+0.43)</span></td><td>25.77<br><span class="gain">(+0.87)</span></td><td>11.87<br><span class="gain">(-0.11)</span></td><td><u>53.60</u><br><span class="gain">(+19.25)</span></td><td><u>48.79</u><br><span class="gain">(+19.65)</span></td></tr>
+<tr><th scope="row">EaTR-GMR + S4_minus_Fusion</th><td>76.03<br><span class="gain">(-0.53)</span></td><td><strong>75.32</strong><br><span class="gain">(+9.72)</span></td><td>17.01<br><span class="gain">(+0.81)</span></td><td>11.44<br><span class="gain">(+0.80)</span></td><td>22.48<br><span class="gain">(+1.10)</span></td><td>9.63<br><span class="gain">(+0.04)</span></td><td>53.12<br><span class="gain">(+12.27)</span></td><td>48.53<br><span class="gain">(+12.53)</span></td></tr>
+<tr><th scope="row">FlashVTG-GMR + S4_minus_Fusion</th><td>75.15<br><span class="gain">(+0.85)</span></td><td>74.80<br><span class="gain">(+8.45)</span></td><td><strong>25.84</strong><br><span class="gain">(+0.41)</span></td><td><strong>15.98</strong><br><span class="gain">(+0.81)</span></td><td><strong>35.86</strong><br><span class="gain">(+0.92)</span></td><td><strong>18.88</strong><br><span class="gain">(+1.02)</span></td><td><strong>53.94</strong><br><span class="gain">(+10.37)</span></td><td><u>48.79</u><br><span class="gain">(+10.52)</span></td></tr>
+<tr class="block"><th colspan="9"><em>MLLM references: paper Table 4 (reported at τ = 0.4)</em></th></tr>
+<tr class="block"><th scope="row">Qwen3-VL-4B [Table 4]</th><td>47.66</td><td>11.54</td><td>2.15</td><td>1.65</td><td></td><td>0.12</td><td></td><td></td></tr>
+<tr><th scope="row">Qwen3-VL-8B [Table 4]</th><td>52.60</td><td>43.11</td><td>1.94</td><td>1.54</td><td></td><td>0.16</td><td></td><td></td></tr>
+<tr><th scope="row">Qwen3-VL-32B [Table 4]</th><td>57.75</td><td>54.26</td><td>2.76</td><td>2.42</td><td></td><td>0.06</td><td></td><td></td></tr>
+<tr><th scope="row">TRACE [Table 4]</th><td>50.00</td><td>0.00</td><td>1.40</td><td>1.39</td><td></td><td>0.00</td><td></td><td></td></tr>
+<tr><th scope="row">TimeChat [Table 4]</th><td>50.85</td><td>4.72</td><td>0.49</td><td>0.39</td><td></td><td>0.00</td><td></td><td></td></tr>
+<tr><th scope="row">Qwen3-VL-4B (GRPO) [Table 4]</th><td>53.21</td><td>13.83</td><td>2.91</td><td>1.97</td><td></td><td>1.18</td><td></td><td></td></tr>
+</tbody><tfoot><tr><td colspan="9">
+First 14 rows: our baseline / GMR / GMR + S4_minus_Fusion runs. Bold: best; underline: second-best among reported values.<br>
+All S4_minus_Fusion rows use epoch 4. FlashVTG-GMR uses the archived E0 run; its S4 variant uses the historical no-QCD epoch 4.<br>
+No adapter-free FlashVTG result is available. Our Rej-F1 and G-mIoU use τ = 0.5; AUROC is threshold-free; localization uses positives.<br>
+Parentheses: S4_minus_Fusion minus same-backbone GMR, in percentage points (pp); negative values indicate decreases.<br>
+Last 6 rows: published Table 4 values at τ = 0.4, not our reruns. Unreported mR@5 and G-mIoU cells are blank.
+</td></tr></tfoot></table></html>

@@ -1,0 +1,57 @@
+{
+  "source_predictions": "/home/guoxiangyu/GMR_Unseen_s4_minus_fusion_baseline_20261019/backbonefolder/cg_detr/gmr/final_test_predictions.jsonl",
+  "analysis_type": "posthoc sensitivity on frozen test predictions",
+  "rows": [
+    {
+      "model": "cg_detr",
+      "threshold": 0.4,
+      "split": "test",
+      "num_queries": 1036,
+      "rejected_queries": 151,
+      "metrics": {
+        "AUROC": 76.4,
+        "Rej-F1": 35.46,
+        "mAP": 18.65,
+        "mR@1": 12.65,
+        "mR@5": 24.9,
+        "mR+@5": 11.98,
+        "G-mIoU@1": 22.84,
+        "G-mIoU@3": 17.07
+      }
+    },
+    {
+      "model": "cg_detr",
+      "threshold": 0.6,
+      "split": "test",
+      "num_queries": 1036,
+      "rejected_queries": 594,
+      "metrics": {
+        "AUROC": 76.4,
+        "Rej-F1": 71.09,
+        "mAP": 18.65,
+        "mR@1": 12.65,
+        "mR@5": 24.9,
+        "mR+@5": 11.98,
+        "G-mIoU@1": 46.66,
+        "G-mIoU@3": 41.53
+      }
+    },
+    {
+      "model": "cg_detr",
+      "threshold": 0.8,
+      "split": "test",
+      "num_queries": 1036,
+      "rejected_queries": 795,
+      "metrics": {
+        "AUROC": 76.4,
+        "Rej-F1": 75.52,
+        "mAP": 18.65,
+        "mR@1": 12.65,
+        "mR@5": 24.9,
+        "mR+@5": 11.98,
+        "G-mIoU@1": 54.19,
+        "G-mIoU@3": 49.51
+      }
+    }
+  ]
+}

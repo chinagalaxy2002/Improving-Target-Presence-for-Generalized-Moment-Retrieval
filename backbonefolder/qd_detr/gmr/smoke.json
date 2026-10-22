@@ -1,0 +1,237 @@
+{
+  "status": "PASSED",
+  "strict_checkpoint_reload": "PASSED exact logits, spans, existence logits",
+  "existence_head_gradient": "PASSED finite and nonzero",
+  "positive_only_vmr": "PASSED mixed and all-negative batches",
+  "paper_mask_invariant": "PASSED negative-prediction perturbation leaves VMR unchanged; BCE includes both queries",
+  "max_pool_invariant": "PASSED slot permutation",
+  "mixed_loss": 8.23778247833252,
+  "all_negative_loss": 0.7047916650772095,
+  "full_batch_loss": 7.063100814819336,
+  "losses": {
+    "loss_span": 0.08885739743709564,
+    "loss_giou": 1.0979211330413818,
+    "loss_label": 0.18637508153915405,
+    "class_error": 0.0,
+    "loss_saliency": 1.2485703229904175,
+    "loss_span_0": 0.13592460751533508,
+    "loss_giou_0": 0.8072205781936646,
+    "loss_label_0": 0.35893842577934265,
+    "class_error_0": 100.0,
+    "loss_exist": 0.6549960374832153
+  },
+  "negative_losses": {
+    "loss_span": 0.0,
+    "loss_giou": 0.0,
+    "loss_label": 0.0,
+    "loss_saliency": 0.0,
+    "loss_span_0": 0.0,
+    "loss_giou_0": 0.0,
+    "loss_label_0": 0.0,
+    "loss_exist": 0.7047916650772095
+  },
+  "parameters": 7651622,
+  "peak_vram_mib": 457.55029296875,
+  "reserved_vram_mib": 524.0,
+  "training_count": 4138,
+  "validation_count": 465,
+  "maximum_moments": 6,
+  "validation_metrics": {
+    "GMR-CLS": {
+      "AUROC": 100.0,
+      "per_threshold": {
+        "0.4": {
+          "Rej-F1": 0.0,
+          "Acc": 50.0,
+          "Rej-P": 0.0,
+          "Rej-R": 0.0,
+          "TP": 1,
+          "TN": 0,
+          "FP": 1,
+          "FN": 0
+        },
+        "0.6": {
+          "Rej-F1": 66.67,
+          "Acc": 50.0,
+          "Rej-P": 50.0,
+          "Rej-R": 100.0,
+          "TP": 0,
+          "TN": 1,
+          "FP": 0,
+          "FN": 1
+        }
+      },
+      "score_sources": {
+        "pred_exist_score": 2
+      }
+    },
+    "G-mIoU_gate": {
+      "cls_threshold": 0.4,
+      "decision_positive_if": "existence_score > cls_threshold",
+      "num_submission_samples": 2,
+      "num_predicted_positive": 2,
+      "num_predicted_negative": 0,
+      "num_non_empty_windows_before_gate": 2,
+      "num_non_empty_windows_after_gate": 2,
+      "score_sources": {
+        "pred_exist_score": 2
+      }
+    },
+    "G-mIoU_detail": {
+      "G-mIoU@1": 0.0,
+      "G-mIoU@3": 0.0,
+      "G-mIoU@5": 0.0
+    },
+    "brief": {
+      "AUROC": 100.0,
+      "Rej-F1@0.4": 0.0,
+      "Acc@0.4": 50.0,
+      "Rej-F1@0.6": 66.67,
+      "Acc@0.6": 50.0,
+      "G-mIoU@1": 0.0,
+      "G-mIoU@3": 0.0,
+      "G-mIoU@5": 0.0,
+      "mAP": 0.0,
+      "mR@1": 0.0,
+      "mR@3": 0.0,
+      "mR@5": 0.0,
+      "mR+@1": 0.0,
+      "mR+@3": 0.0,
+      "mR+@5": 0.0,
+      "mIoU@1": 0.0,
+      "mIoU@3": 0.0,
+      "mIoU@5": 0.0,
+      "mIoU+@1": 0.0,
+      "mIoU+@3": 0.0,
+      "mIoU+@5": 0.0
+    },
+    "mAP_detail": {
+      "mAP": 0.0,
+      "AP@IoU": {
+        "0.50": 0.0,
+        "0.55": 0.0,
+        "0.60": 0.0,
+        "0.65": 0.0,
+        "0.70": 0.0,
+        "0.75": 0.0,
+        "0.80": 0.0,
+        "0.85": 0.0,
+        "0.90": 0.0,
+        "0.95": 0.0
+      }
+    },
+    "mR_detail": {
+      "mR@1": 0.0,
+      "mR@1_per_IoU": {
+        "0.50": 0.0,
+        "0.55": 0.0,
+        "0.60": 0.0,
+        "0.65": 0.0,
+        "0.70": 0.0,
+        "0.75": 0.0,
+        "0.80": 0.0,
+        "0.85": 0.0,
+        "0.90": 0.0,
+        "0.95": 0.0
+      },
+      "mR@3": 0.0,
+      "mR@3_per_IoU": {
+        "0.50": 0.0,
+        "0.55": 0.0,
+        "0.60": 0.0,
+        "0.65": 0.0,
+        "0.70": 0.0,
+        "0.75": 0.0,
+        "0.80": 0.0,
+        "0.85": 0.0,
+        "0.90": 0.0,
+        "0.95": 0.0
+      },
+      "mR@5": 0.0,
+      "mR@5_per_IoU": {
+        "0.50": 0.0,
+        "0.55": 0.0,
+        "0.60": 0.0,
+        "0.65": 0.0,
+        "0.70": 0.0,
+        "0.75": 0.0,
+        "0.80": 0.0,
+        "0.85": 0.0,
+        "0.90": 0.0,
+        "0.95": 0.0
+      }
+    },
+    "mR+_detail": {
+      "num_multi_moment_queries": 0,
+      "mR+@1": 0.0,
+      "mR+@1_per_IoU": {
+        "0.50": 0.0,
+        "0.55": 0.0,
+        "0.60": 0.0,
+        "0.65": 0.0,
+        "0.70": 0.0,
+        "0.75": 0.0,
+        "0.80": 0.0,
+        "0.85": 0.0,
+        "0.90": 0.0,
+        "0.95": 0.0
+      },
+      "mR+@3": 0.0,
+      "mR+@3_per_IoU": {
+        "0.50": 0.0,
+        "0.55": 0.0,
+        "0.60": 0.0,
+        "0.65": 0.0,
+        "0.70": 0.0,
+        "0.75": 0.0,
+        "0.80": 0.0,
+        "0.85": 0.0,
+        "0.90": 0.0,
+        "0.95": 0.0
+      },
+      "mR+@5": 0.0,
+      "mR+@5_per_IoU": {
+        "0.50": 0.0,
+        "0.55": 0.0,
+        "0.60": 0.0,
+        "0.65": 0.0,
+        "0.70": 0.0,
+        "0.75": 0.0,
+        "0.80": 0.0,
+        "0.85": 0.0,
+        "0.90": 0.0,
+        "0.95": 0.0
+      }
+    },
+    "mIoU_detail": {
+      "mIoU@1": 0.0,
+      "mIoU@3": 0.0,
+      "mIoU@5": 0.0
+    },
+    "mIoU+_detail": {
+      "mIoU+@1": 0.0,
+      "mIoU+@3": 0.0,
+      "mIoU+@5": 0.0
+    },
+    "stats": {
+      "num_total": 2,
+      "num_positive": 1,
+      "num_negative": 1,
+      "num_multi_instance": 0,
+      "num_single_instance": 1,
+      "k_list": [
+        1,
+        3,
+        5
+      ],
+      "cls_thresholds": [
+        0.4,
+        0.6
+      ],
+      "gmiou_cls_threshold": 0.4,
+      "eval_time_sec": 0.0
+    }
+  },
+  "positive_qid": 580,
+  "negative_qid": 862
+}
