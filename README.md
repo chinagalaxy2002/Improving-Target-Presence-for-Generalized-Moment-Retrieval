@@ -6,6 +6,37 @@ Soccer-GMR 上五个主干的 **Baseline → GMR → GMR + S4_minus_Fusion** 实
 
 本仓库提供阈值 **0.4、0.5、0.6** 的三张完整结果表及图片，采用参考论文 Table 2 的指标分组与排版。每张表包含 **14 行本地实验 + 6 行论文 Table 4 的 MLLM 参考结果**。S4 行括号内标注相对**同一主干、同一阈值 GMR** 的变化值，单位为百分点（pp），负值表示下降。
 
+## 新增：正式组件消融（5主干 × 6配置 = 30组）
+
+新增完整组件阶梯：**GMR → +Global Event Query → +LoRA → +Hard-RoI → +Gaussian-RoI（无saliency）→ Full（含6D saliency）**。每一新增配置均标注相对**同主干、同split、同阈值GMR**的增益，单位 pp，按显示两位小数相减。**第七配置的5组融合实验仅为额外诊断，不进入正式消融表或30组计数。**
+
+与下方历史14行主结果对比表分开，本次新增正式消融采用同初始化、固定四轮、seed 2026；GMR基线冻结。[协议、全部Val表格与复现说明](ablations/component_ablation_20261023/README.md)。
+
+### 三阈值合并大表（Test，正式30组）
+
+[PDF](ablations/component_ablation_20261023/tables/ABLATION_TEST_ALL_THRESHOLDS.pdf) · [高清PNG](ablations/component_ablation_20261023/tables/ABLATION_TEST_ALL_THRESHOLDS.png) · [Markdown](ablations/component_ablation_20261023/tables/ABLATION_TEST_ALL_THRESHOLDS.md) · [数值CSV](ablations/component_ablation_20261023/tables/ABLATION_TEST_ALL_THRESHOLDS.csv) · [增益CSV](ablations/component_ablation_20261023/tables/ABLATION_TEST_ALL_THRESHOLDS_GAINS.csv) · [可编辑HTML](ablations/component_ablation_20261023/tables/ABLATION_TEST_ALL_THRESHOLDS.html) · [LaTeX](ablations/component_ablation_20261023/tables/ABLATION_TEST_ALL_THRESHOLDS.tex)
+
+![正式30组组件消融：阈值0.4、0.5、0.6合并大表](ablations/component_ablation_20261023/tables/ABLATION_TEST_ALL_THRESHOLDS.png)
+
+### 三个阈值的完整消融分表
+
+| 阈值 | Test PDF | Test PNG | Test Markdown | 数值CSV | 增益CSV | LaTeX | Val表格 |
+|---|---|---|---|---|---|---|---|
+| **0.4** | [PDF](ablations/component_ablation_20261023/tables/ABLATION_TEST_tau_0.4.pdf) | [PNG](ablations/component_ablation_20261023/tables/ABLATION_TEST_tau_0.4.png) | [Markdown](ablations/component_ablation_20261023/tables/ABLATION_TEST_tau_0.4.md) | [CSV](ablations/component_ablation_20261023/tables/ABLATION_TEST_tau_0.4.csv) | [Δ pp](ablations/component_ablation_20261023/tables/ABLATION_TEST_tau_0.4_GAINS.csv) | [TeX](ablations/component_ablation_20261023/tables/ABLATION_TEST_tau_0.4.tex) | [Val PDF](ablations/component_ablation_20261023/tables/ABLATION_VAL_tau_0.4.pdf) |
+| **0.5** | [PDF](ablations/component_ablation_20261023/tables/ABLATION_TEST_tau_0.5.pdf) | [PNG](ablations/component_ablation_20261023/tables/ABLATION_TEST_tau_0.5.png) | [Markdown](ablations/component_ablation_20261023/tables/ABLATION_TEST_tau_0.5.md) | [CSV](ablations/component_ablation_20261023/tables/ABLATION_TEST_tau_0.5.csv) | [Δ pp](ablations/component_ablation_20261023/tables/ABLATION_TEST_tau_0.5_GAINS.csv) | [TeX](ablations/component_ablation_20261023/tables/ABLATION_TEST_tau_0.5.tex) | [Val PDF](ablations/component_ablation_20261023/tables/ABLATION_VAL_tau_0.5.pdf) |
+| **0.6** | [PDF](ablations/component_ablation_20261023/tables/ABLATION_TEST_tau_0.6.pdf) | [PNG](ablations/component_ablation_20261023/tables/ABLATION_TEST_tau_0.6.png) | [Markdown](ablations/component_ablation_20261023/tables/ABLATION_TEST_tau_0.6.md) | [CSV](ablations/component_ablation_20261023/tables/ABLATION_TEST_tau_0.6.csv) | [Δ pp](ablations/component_ablation_20261023/tables/ABLATION_TEST_tau_0.6_GAINS.csv) | [TeX](ablations/component_ablation_20261023/tables/ABLATION_TEST_tau_0.6.tex) | [Val PDF](ablations/component_ablation_20261023/tables/ABLATION_VAL_tau_0.6.pdf) |
+
+指标分组沿用原表并增加 N-acc：**N-acc / AUROC / Rej-F1；mAP / mR@1 / mR@5 / mR+@5；G-mIoU@1 / G-mIoU@3**。每个主干内部最优加粗、次优下划线。CG/EaTR匹配GMR重导出mAP为18.66/16.22，历史表为18.65/16.20；新表增益以本次匹配基线为准。FlashVTG保留原生置信度校准与NMS。下降项完整保留。
+
+[额外融合诊断（单列5组）](ablations/component_ablation_20261023/extra_diagnostics/README.md) · [CPU数值复核](ablations/component_ablation_20261023/PUBLICATION_VERIFICATION.json) · [表格与增益核验](ablations/component_ablation_20261023/TABLE_VERIFICATION.json)
+
+```bash
+python tools/reproduce_ablation_tables.py
+python tools/reproduce_ablation_tables.py --recompute-metrics
+```
+
+以下三个完整表保留原来的历史主结果及MLLM参考行，不与本次正式30组组件消融混合统计。
+
 ## 1. 三个阈值的完整表格
 
 | 本地实验阈值 | PDF | PNG 图片 | Markdown | 原始数值 CSV | 增益 CSV | 可编辑 LaTeX |

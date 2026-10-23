@@ -1,0 +1,38 @@
+{
+  "passed": true,
+  "scope": "formal",
+  "row": 5,
+  "backbone": "eatr",
+  "effective": {
+    "global_event_query": true,
+    "lora": true,
+    "boundary_refiner": true,
+    "pooling": "gaussian",
+    "saliency_6d": false,
+    "candidate_presence_fusion": false,
+    "baseline_native_presence": false
+  },
+  "effective_training": {
+    "adaptation_epochs": 4,
+    "checkpoint_selection": "fixed epoch 4; frozen baseline row 1",
+    "evaluation": "Val and Test after training only",
+    "training_queries": 4138,
+    "validation_queries": 465,
+    "test_queries": 1036
+  },
+  "trainable_parameters_by_group": {
+    "lora": 61440,
+    "global_event_query": 2108929,
+    "extractor": 17984,
+    "refiner": 306307
+  },
+  "changed_parameters_by_group": {
+    "lora": 61440,
+    "global_event_query": 2108929,
+    "extractor": 17984,
+    "refiner": 306307
+  },
+  "frozen_parameters_exactly_preserved": 11612499,
+  "shared_initialization_equal": true,
+  "initialization_sha256": "3d7f6f6cb8c62cfee30db2d48fee5d1e62e5d69604cc7ab484075ab4979606c0"
+}

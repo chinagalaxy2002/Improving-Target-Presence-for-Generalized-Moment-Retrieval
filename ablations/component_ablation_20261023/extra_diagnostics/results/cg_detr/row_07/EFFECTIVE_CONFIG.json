@@ -1,0 +1,42 @@
+{
+  "passed": true,
+  "scope": "additional_diagnostic",
+  "row": 7,
+  "backbone": "cg_detr",
+  "effective": {
+    "global_event_query": true,
+    "lora": true,
+    "boundary_refiner": true,
+    "pooling": "gaussian",
+    "saliency_6d": true,
+    "candidate_presence_fusion": true,
+    "baseline_native_presence": false
+  },
+  "effective_training": {
+    "adaptation_epochs": 4,
+    "checkpoint_selection": "fixed epoch 4; frozen baseline row 1",
+    "evaluation": "Val and Test after training only",
+    "training_queries": 4138,
+    "validation_queries": 465,
+    "test_queries": 1036
+  },
+  "trainable_parameters_by_group": {
+    "lora": 61440,
+    "global_event_query": 2108929,
+    "extractor": 17984,
+    "refiner": 306307,
+    "saliency": 1792,
+    "fusion": 378627
+  },
+  "changed_parameters_by_group": {
+    "lora": 61440,
+    "global_event_query": 2108929,
+    "extractor": 17984,
+    "refiner": 306307,
+    "saliency": 1792,
+    "fusion": 378627
+  },
+  "frozen_parameters_exactly_preserved": 14874735,
+  "shared_initialization_equal": true,
+  "initialization_sha256": "200f2f200bea257b1704f3bf285aecd50cf1722eb7fa7390e0763042f5a9b1d8"
+}

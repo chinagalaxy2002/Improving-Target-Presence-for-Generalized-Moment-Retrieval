@@ -1,0 +1,985 @@
+{
+  "scope": "formal_component_ablation",
+  "formal_experiments": 30,
+  "backbones": 5,
+  "configurations": 6,
+  "split": "test",
+  "thresholds": [
+    "0.5"
+  ],
+  "metrics": [
+    "N-acc",
+    "AUROC",
+    "Rej-F1",
+    "mAP",
+    "mR@1",
+    "mR@5",
+    "mR+@5",
+    "G-mIoU@1",
+    "G-mIoU@3"
+  ],
+  "gain_definition": "Displayed two-decimal value minus displayed same-backbone configuration-1 GMR value, same split/threshold; percentage points.",
+  "ranking": "Within each backbone: maximum bold; second distinct maximum underlined, including ties.",
+  "records": [
+    {
+      "backbone": "moment_detr",
+      "configuration_id": 1,
+      "configuration": "GMR (coupled baseline)",
+      "reference": "Moment-DETR / GMR (configuration 1)",
+      "source": "ablations/component_ablation_20261023/results/formal/moment_detr/row_01/test_metrics.json",
+      "source_sha256": "b095057d93131f994fa1edf5adab625b8a27702fd73160891731ffef1e909c08",
+      "values": {
+        "0.5": {
+          "N-acc": "79.27",
+          "AUROC": "70.20",
+          "Rej-F1": "67.94",
+          "mAP": "6.68",
+          "mR@1": "4.64",
+          "mR@5": "9.44",
+          "mR+@5": "0.88",
+          "G-mIoU@1": "42.50",
+          "G-mIoU@3": "39.39"
+        }
+      },
+      "gains": null
+    },
+    {
+      "backbone": "moment_detr",
+      "configuration_id": 2,
+      "configuration": "+ Global Event Query",
+      "reference": "Moment-DETR / GMR (configuration 1)",
+      "source": "ablations/component_ablation_20261023/results/formal/moment_detr/row_02/test_metrics.json",
+      "source_sha256": "29c8e33cb5bf4964ceabbc83900e3e023e55e86b42fc7dff3f47ea37728d535a",
+      "values": {
+        "0.5": {
+          "N-acc": "100.00",
+          "AUROC": "70.33",
+          "Rej-F1": "75.00",
+          "mAP": "6.68",
+          "mR@1": "4.64",
+          "mR@5": "9.44",
+          "mR+@5": "0.88",
+          "G-mIoU@1": "52.02",
+          "G-mIoU@3": "49.00"
+        }
+      },
+      "gains": {
+        "0.5": {
+          "N-acc": "+20.73",
+          "AUROC": "+0.13",
+          "Rej-F1": "+7.06",
+          "mAP": "+0.00",
+          "mR@1": "+0.00",
+          "mR@5": "+0.00",
+          "mR+@5": "+0.00",
+          "G-mIoU@1": "+9.52",
+          "G-mIoU@3": "+9.61"
+        }
+      }
+    },
+    {
+      "backbone": "moment_detr",
+      "configuration_id": 3,
+      "configuration": "+ LoRA",
+      "reference": "Moment-DETR / GMR (configuration 1)",
+      "source": "ablations/component_ablation_20261023/results/formal/moment_detr/row_03/test_metrics.json",
+      "source_sha256": "8f9090bb08141db50c9d43b1e773bbd44c73fca1dbcdbac0b9e00a2fd36dd627",
+      "values": {
+        "0.5": {
+          "N-acc": "100.00",
+          "AUROC": "70.32",
+          "Rej-F1": "75.00",
+          "mAP": "5.87",
+          "mR@1": "4.01",
+          "mR@5": "8.17",
+          "mR+@5": "0.91",
+          "G-mIoU@1": "51.78",
+          "G-mIoU@3": "48.92"
+        }
+      },
+      "gains": {
+        "0.5": {
+          "N-acc": "+20.73",
+          "AUROC": "+0.12",
+          "Rej-F1": "+7.06",
+          "mAP": "-0.81",
+          "mR@1": "-0.63",
+          "mR@5": "-1.27",
+          "mR+@5": "+0.03",
+          "G-mIoU@1": "+9.28",
+          "G-mIoU@3": "+9.53"
+        }
+      }
+    },
+    {
+      "backbone": "moment_detr",
+      "configuration_id": 4,
+      "configuration": "+ Hard-RoI (no saliency)",
+      "reference": "Moment-DETR / GMR (configuration 1)",
+      "source": "ablations/component_ablation_20261023/results/formal/moment_detr/row_04/test_metrics.json",
+      "source_sha256": "c948d98552a245b90bf453d0d38e083c6d95b02e7b75207ee648597d9d423ac9",
+      "values": {
+        "0.5": {
+          "N-acc": "100.00",
+          "AUROC": "70.10",
+          "Rej-F1": "75.00",
+          "mAP": "7.35",
+          "mR@1": "3.48",
+          "mR@5": "11.13",
+          "mR+@5": "0.76",
+          "G-mIoU@1": "52.34",
+          "G-mIoU@3": "49.11"
+        }
+      },
+      "gains": {
+        "0.5": {
+          "N-acc": "+20.73",
+          "AUROC": "-0.10",
+          "Rej-F1": "+7.06",
+          "mAP": "+0.67",
+          "mR@1": "-1.16",
+          "mR@5": "+1.69",
+          "mR+@5": "-0.12",
+          "G-mIoU@1": "+9.84",
+          "G-mIoU@3": "+9.72"
+        }
+      }
+    },
+    {
+      "backbone": "moment_detr",
+      "configuration_id": 5,
+      "configuration": "+ Gaussian-RoI (no saliency)",
+      "reference": "Moment-DETR / GMR (configuration 1)",
+      "source": "ablations/component_ablation_20261023/results/formal/moment_detr/row_05/test_metrics.json",
+      "source_sha256": "22189e7200a00d86a1cf887143ca0a16ef085e59c296854d9f82ad94700de7c2",
+      "values": {
+        "0.5": {
+          "N-acc": "100.00",
+          "AUROC": "70.32",
+          "Rej-F1": "75.00",
+          "mAP": "7.98",
+          "mR@1": "3.88",
+          "mR@5": "13.26",
+          "mR+@5": "0.79",
+          "G-mIoU@1": "52.32",
+          "G-mIoU@3": "49.10"
+        }
+      },
+      "gains": {
+        "0.5": {
+          "N-acc": "+20.73",
+          "AUROC": "+0.12",
+          "Rej-F1": "+7.06",
+          "mAP": "+1.30",
+          "mR@1": "-0.76",
+          "mR@5": "+3.82",
+          "mR+@5": "-0.09",
+          "G-mIoU@1": "+9.82",
+          "G-mIoU@3": "+9.71"
+        }
+      }
+    },
+    {
+      "backbone": "moment_detr",
+      "configuration_id": 6,
+      "configuration": "Full DeRoI-GMR (+6D saliency)",
+      "reference": "Moment-DETR / GMR (configuration 1)",
+      "source": "ablations/component_ablation_20261023/results/formal/moment_detr/row_06/test_metrics.json",
+      "source_sha256": "361ce1ef37e94e3af93e73ab0c544d99b32db1d487482c0057b3d65cf3c27cda",
+      "values": {
+        "0.5": {
+          "N-acc": "100.00",
+          "AUROC": "70.26",
+          "Rej-F1": "75.00",
+          "mAP": "7.59",
+          "mR@1": "3.46",
+          "mR@5": "12.40",
+          "mR+@5": "0.98",
+          "G-mIoU@1": "51.92",
+          "G-mIoU@3": "48.97"
+        }
+      },
+      "gains": {
+        "0.5": {
+          "N-acc": "+20.73",
+          "AUROC": "+0.06",
+          "Rej-F1": "+7.06",
+          "mAP": "+0.91",
+          "mR@1": "-1.18",
+          "mR@5": "+2.96",
+          "mR+@5": "+0.10",
+          "G-mIoU@1": "+9.42",
+          "G-mIoU@3": "+9.58"
+        }
+      }
+    },
+    {
+      "backbone": "qd_detr",
+      "configuration_id": 1,
+      "configuration": "GMR (coupled baseline)",
+      "reference": "QD-DETR / GMR (configuration 1)",
+      "source": "ablations/component_ablation_20261023/results/formal/qd_detr/row_01/test_metrics.json",
+      "source_sha256": "cdb730a3d2b651ca6035b6633797b0fe4c0bed140dc9c7ae2b85eff908cb8881",
+      "values": {
+        "0.5": {
+          "N-acc": "79.47",
+          "AUROC": "77.01",
+          "Rej-F1": "71.48",
+          "mAP": "14.62",
+          "mR@1": "9.47",
+          "mR@5": "20.17",
+          "mR+@5": "7.43",
+          "G-mIoU@1": "46.49",
+          "G-mIoU@3": "41.47"
+        }
+      },
+      "gains": null
+    },
+    {
+      "backbone": "qd_detr",
+      "configuration_id": 2,
+      "configuration": "+ Global Event Query",
+      "reference": "QD-DETR / GMR (configuration 1)",
+      "source": "ablations/component_ablation_20261023/results/formal/qd_detr/row_02/test_metrics.json",
+      "source_sha256": "1dd0963754929fa43ec1202d6502c8d9f176c55526aafc69316bd152d9214b27",
+      "values": {
+        "0.5": {
+          "N-acc": "92.48",
+          "AUROC": "76.44",
+          "Rej-F1": "74.29",
+          "mAP": "14.62",
+          "mR@1": "9.47",
+          "mR@5": "20.17",
+          "mR+@5": "7.43",
+          "G-mIoU@1": "51.54",
+          "G-mIoU@3": "46.91"
+        }
+      },
+      "gains": {
+        "0.5": {
+          "N-acc": "+13.01",
+          "AUROC": "-0.57",
+          "Rej-F1": "+2.81",
+          "mAP": "+0.00",
+          "mR@1": "+0.00",
+          "mR@5": "+0.00",
+          "mR+@5": "+0.00",
+          "G-mIoU@1": "+5.05",
+          "G-mIoU@3": "+5.44"
+        }
+      }
+    },
+    {
+      "backbone": "qd_detr",
+      "configuration_id": 3,
+      "configuration": "+ LoRA",
+      "reference": "QD-DETR / GMR (configuration 1)",
+      "source": "ablations/component_ablation_20261023/results/formal/qd_detr/row_03/test_metrics.json",
+      "source_sha256": "7341eacd37db6972bf54aab51e4bbff81a081203d4d2e4b405ed10675ec14607",
+      "values": {
+        "0.5": {
+          "N-acc": "92.48",
+          "AUROC": "76.48",
+          "Rej-F1": "74.41",
+          "mAP": "13.71",
+          "mR@1": "8.56",
+          "mR@5": "19.67",
+          "mR+@5": "6.54",
+          "G-mIoU@1": "51.00",
+          "G-mIoU@3": "46.73"
+        }
+      },
+      "gains": {
+        "0.5": {
+          "N-acc": "+13.01",
+          "AUROC": "-0.53",
+          "Rej-F1": "+2.93",
+          "mAP": "-0.91",
+          "mR@1": "-0.91",
+          "mR@5": "-0.50",
+          "mR+@5": "-0.89",
+          "G-mIoU@1": "+4.51",
+          "G-mIoU@3": "+5.26"
+        }
+      }
+    },
+    {
+      "backbone": "qd_detr",
+      "configuration_id": 4,
+      "configuration": "+ Hard-RoI (no saliency)",
+      "reference": "QD-DETR / GMR (configuration 1)",
+      "source": "ablations/component_ablation_20261023/results/formal/qd_detr/row_04/test_metrics.json",
+      "source_sha256": "8d8dc5e7979b8598fe92e6a097ddec32b25ced7b9174f959639292e05656bd77",
+      "values": {
+        "0.5": {
+          "N-acc": "93.90",
+          "AUROC": "76.21",
+          "Rej-F1": "74.58",
+          "mAP": "16.49",
+          "mR@1": "10.04",
+          "mR@5": "23.92",
+          "mR+@5": "11.11",
+          "G-mIoU@1": "52.16",
+          "G-mIoU@3": "47.48"
+        }
+      },
+      "gains": {
+        "0.5": {
+          "N-acc": "+14.43",
+          "AUROC": "-0.80",
+          "Rej-F1": "+3.10",
+          "mAP": "+1.87",
+          "mR@1": "+0.57",
+          "mR@5": "+3.75",
+          "mR+@5": "+3.68",
+          "G-mIoU@1": "+5.67",
+          "G-mIoU@3": "+6.01"
+        }
+      }
+    },
+    {
+      "backbone": "qd_detr",
+      "configuration_id": 5,
+      "configuration": "+ Gaussian-RoI (no saliency)",
+      "reference": "QD-DETR / GMR (configuration 1)",
+      "source": "ablations/component_ablation_20261023/results/formal/qd_detr/row_05/test_metrics.json",
+      "source_sha256": "5d9b883d3e4fc6b9992428731afe5d91f18e7a4fe781d8bec836feac8276f1f5",
+      "values": {
+        "0.5": {
+          "N-acc": "93.70",
+          "AUROC": "76.18",
+          "Rej-F1": "74.47",
+          "mAP": "15.83",
+          "mR@1": "9.33",
+          "mR@5": "23.87",
+          "mR+@5": "11.82",
+          "G-mIoU@1": "52.03",
+          "G-mIoU@3": "47.38"
+        }
+      },
+      "gains": {
+        "0.5": {
+          "N-acc": "+14.23",
+          "AUROC": "-0.83",
+          "Rej-F1": "+2.99",
+          "mAP": "+1.21",
+          "mR@1": "-0.14",
+          "mR@5": "+3.70",
+          "mR+@5": "+4.39",
+          "G-mIoU@1": "+5.54",
+          "G-mIoU@3": "+5.91"
+        }
+      }
+    },
+    {
+      "backbone": "qd_detr",
+      "configuration_id": 6,
+      "configuration": "Full DeRoI-GMR (+6D saliency)",
+      "reference": "QD-DETR / GMR (configuration 1)",
+      "source": "ablations/component_ablation_20261023/results/formal/qd_detr/row_06/test_metrics.json",
+      "source_sha256": "f7b1b861801563b109234e620070b4dd577d6ac46eb300cea08cef877069254b",
+      "values": {
+        "0.5": {
+          "N-acc": "92.68",
+          "AUROC": "76.21",
+          "Rej-F1": "74.21",
+          "mAP": "16.18",
+          "mR@1": "9.75",
+          "mR@5": "23.77",
+          "mR+@5": "12.26",
+          "G-mIoU@1": "51.77",
+          "G-mIoU@3": "47.02"
+        }
+      },
+      "gains": {
+        "0.5": {
+          "N-acc": "+13.21",
+          "AUROC": "-0.80",
+          "Rej-F1": "+2.73",
+          "mAP": "+1.56",
+          "mR@1": "+0.28",
+          "mR@5": "+3.60",
+          "mR+@5": "+4.83",
+          "G-mIoU@1": "+5.28",
+          "G-mIoU@3": "+5.55"
+        }
+      }
+    },
+    {
+      "backbone": "cg_detr",
+      "configuration_id": 1,
+      "configuration": "GMR (coupled baseline)",
+      "reference": "CG-DETR / GMR (configuration 1)",
+      "source": "ablations/component_ablation_20261023/results/formal/cg_detr/row_01/test_metrics.json",
+      "source_sha256": "f8b33a5635121fc7dafca924d5901cebe56e80d97a4f4d3962eba8a7147fb66b",
+      "values": {
+        "0.5": {
+          "N-acc": "50.41",
+          "AUROC": "76.40",
+          "Rej-F1": "57.47",
+          "mAP": "18.66",
+          "mR@1": "12.65",
+          "mR@5": "24.90",
+          "mR+@5": "11.98",
+          "G-mIoU@1": "34.35",
+          "G-mIoU@3": "29.14"
+        }
+      },
+      "gains": null
+    },
+    {
+      "backbone": "cg_detr",
+      "configuration_id": 2,
+      "configuration": "+ Global Event Query",
+      "reference": "CG-DETR / GMR (configuration 1)",
+      "source": "ablations/component_ablation_20261023/results/formal/cg_detr/row_02/test_metrics.json",
+      "source_sha256": "e94e8e0599168b150ae203a3eb40e50961895527b1bf95b75fbbb21708c6ec31",
+      "values": {
+        "0.5": {
+          "N-acc": "96.95",
+          "AUROC": "76.70",
+          "Rej-F1": "75.36",
+          "mAP": "18.66",
+          "mR@1": "12.65",
+          "mR@5": "24.90",
+          "mR+@5": "11.98",
+          "G-mIoU@1": "53.49",
+          "G-mIoU@3": "48.76"
+        }
+      },
+      "gains": {
+        "0.5": {
+          "N-acc": "+46.54",
+          "AUROC": "+0.30",
+          "Rej-F1": "+17.89",
+          "mAP": "+0.00",
+          "mR@1": "+0.00",
+          "mR@5": "+0.00",
+          "mR+@5": "+0.00",
+          "G-mIoU@1": "+19.14",
+          "G-mIoU@3": "+19.62"
+        }
+      }
+    },
+    {
+      "backbone": "cg_detr",
+      "configuration_id": 3,
+      "configuration": "+ LoRA",
+      "reference": "CG-DETR / GMR (configuration 1)",
+      "source": "ablations/component_ablation_20261023/results/formal/cg_detr/row_03/test_metrics.json",
+      "source_sha256": "59440fa19a8fd7019290af4ffd647e8a203aa349a74f756c7503259fc613463d",
+      "values": {
+        "0.5": {
+          "N-acc": "96.95",
+          "AUROC": "76.73",
+          "Rej-F1": "75.42",
+          "mAP": "18.34",
+          "mR@1": "12.17",
+          "mR@5": "24.72",
+          "mR+@5": "11.88",
+          "G-mIoU@1": "53.41",
+          "G-mIoU@3": "48.74"
+        }
+      },
+      "gains": {
+        "0.5": {
+          "N-acc": "+46.54",
+          "AUROC": "+0.33",
+          "Rej-F1": "+17.95",
+          "mAP": "-0.32",
+          "mR@1": "-0.48",
+          "mR@5": "-0.18",
+          "mR+@5": "-0.10",
+          "G-mIoU@1": "+19.06",
+          "G-mIoU@3": "+19.60"
+        }
+      }
+    },
+    {
+      "backbone": "cg_detr",
+      "configuration_id": 4,
+      "configuration": "+ Hard-RoI (no saliency)",
+      "reference": "CG-DETR / GMR (configuration 1)",
+      "source": "ablations/component_ablation_20261023/results/formal/cg_detr/row_04/test_metrics.json",
+      "source_sha256": "27286269aaf6afa4682daf9f4db7ae06034482a999355621b68a729b16446de6",
+      "values": {
+        "0.5": {
+          "N-acc": "96.95",
+          "AUROC": "76.64",
+          "Rej-F1": "75.36",
+          "mAP": "18.93",
+          "mR@1": "13.19",
+          "mR@5": "25.09",
+          "mR+@5": "13.10",
+          "G-mIoU@1": "53.67",
+          "G-mIoU@3": "48.80"
+        }
+      },
+      "gains": {
+        "0.5": {
+          "N-acc": "+46.54",
+          "AUROC": "+0.24",
+          "Rej-F1": "+17.89",
+          "mAP": "+0.27",
+          "mR@1": "+0.54",
+          "mR@5": "+0.19",
+          "mR+@5": "+1.12",
+          "G-mIoU@1": "+19.32",
+          "G-mIoU@3": "+19.66"
+        }
+      }
+    },
+    {
+      "backbone": "cg_detr",
+      "configuration_id": 5,
+      "configuration": "+ Gaussian-RoI (no saliency)",
+      "reference": "CG-DETR / GMR (configuration 1)",
+      "source": "ablations/component_ablation_20261023/results/formal/cg_detr/row_05/test_metrics.json",
+      "source_sha256": "df9c2644cc3ea4c37ee5bbe0626a6399af445286f93ee4c5b69a2bb02be7c8c8",
+      "values": {
+        "0.5": {
+          "N-acc": "95.73",
+          "AUROC": "76.57",
+          "Rej-F1": "75.24",
+          "mAP": "20.36",
+          "mR@1": "13.28",
+          "mR@5": "28.10",
+          "mR+@5": "12.36",
+          "G-mIoU@1": "53.37",
+          "G-mIoU@3": "48.43"
+        }
+      },
+      "gains": {
+        "0.5": {
+          "N-acc": "+45.32",
+          "AUROC": "+0.17",
+          "Rej-F1": "+17.77",
+          "mAP": "+1.70",
+          "mR@1": "+0.63",
+          "mR@5": "+3.20",
+          "mR+@5": "+0.38",
+          "G-mIoU@1": "+19.02",
+          "G-mIoU@3": "+19.29"
+        }
+      }
+    },
+    {
+      "backbone": "cg_detr",
+      "configuration_id": 6,
+      "configuration": "Full DeRoI-GMR (+6D saliency)",
+      "reference": "CG-DETR / GMR (configuration 1)",
+      "source": "ablations/component_ablation_20261023/results/formal/cg_detr/row_06/test_metrics.json",
+      "source_sha256": "ae48e891de8d8babe1cba1e709a683ff2372edbc0d389d82bfb3b1a0fa9bcfb7",
+      "values": {
+        "0.5": {
+          "N-acc": "96.95",
+          "AUROC": "76.72",
+          "Rej-F1": "75.30",
+          "mAP": "19.33",
+          "mR@1": "13.08",
+          "mR@5": "25.77",
+          "mR+@5": "11.87",
+          "G-mIoU@1": "53.60",
+          "G-mIoU@3": "48.79"
+        }
+      },
+      "gains": {
+        "0.5": {
+          "N-acc": "+46.54",
+          "AUROC": "+0.32",
+          "Rej-F1": "+17.83",
+          "mAP": "+0.67",
+          "mR@1": "+0.43",
+          "mR@5": "+0.87",
+          "mR+@5": "-0.11",
+          "G-mIoU@1": "+19.25",
+          "G-mIoU@3": "+19.65"
+        }
+      }
+    },
+    {
+      "backbone": "eatr",
+      "configuration_id": 1,
+      "configuration": "GMR (coupled baseline)",
+      "reference": "EaTR / GMR (configuration 1)",
+      "source": "ablations/component_ablation_20261023/results/formal/eatr/row_01/test_metrics.json",
+      "source_sha256": "5db7813b995dfc4d45e639b92c3d4d470d2c20ea904910689e2dcd1d3214b9da",
+      "values": {
+        "0.5": {
+          "N-acc": "66.67",
+          "AUROC": "76.56",
+          "Rej-F1": "65.60",
+          "mAP": "16.22",
+          "mR@1": "10.64",
+          "mR@5": "21.42",
+          "mR+@5": "9.59",
+          "G-mIoU@1": "40.85",
+          "G-mIoU@3": "36.00"
+        }
+      },
+      "gains": null
+    },
+    {
+      "backbone": "eatr",
+      "configuration_id": 2,
+      "configuration": "+ Global Event Query",
+      "reference": "EaTR / GMR (configuration 1)",
+      "source": "ablations/component_ablation_20261023/results/formal/eatr/row_02/test_metrics.json",
+      "source_sha256": "ad488647702547d1fba538ef68fbd48a61ce55e4c3c000fcc19e4e24a65db10a",
+      "values": {
+        "0.5": {
+          "N-acc": "95.53",
+          "AUROC": "75.73",
+          "Rej-F1": "75.26",
+          "mAP": "16.22",
+          "mR@1": "10.64",
+          "mR@5": "21.42",
+          "mR+@5": "9.59",
+          "G-mIoU@1": "52.83",
+          "G-mIoU@3": "48.29"
+        }
+      },
+      "gains": {
+        "0.5": {
+          "N-acc": "+28.86",
+          "AUROC": "-0.83",
+          "Rej-F1": "+9.66",
+          "mAP": "+0.00",
+          "mR@1": "+0.00",
+          "mR@5": "+0.00",
+          "mR+@5": "+0.00",
+          "G-mIoU@1": "+11.98",
+          "G-mIoU@3": "+12.29"
+        }
+      }
+    },
+    {
+      "backbone": "eatr",
+      "configuration_id": 3,
+      "configuration": "+ LoRA",
+      "reference": "EaTR / GMR (configuration 1)",
+      "source": "ablations/component_ablation_20261023/results/formal/eatr/row_03/test_metrics.json",
+      "source_sha256": "a1644ae0cb60b93e31b5ced2d8327abc505515f9cd09912be678bddc37ea149f",
+      "values": {
+        "0.5": {
+          "N-acc": "95.53",
+          "AUROC": "75.76",
+          "Rej-F1": "74.96",
+          "mAP": "16.45",
+          "mR@1": "10.96",
+          "mR@5": "21.55",
+          "mR+@5": "9.37",
+          "G-mIoU@1": "52.81",
+          "G-mIoU@3": "48.22"
+        }
+      },
+      "gains": {
+        "0.5": {
+          "N-acc": "+28.86",
+          "AUROC": "-0.80",
+          "Rej-F1": "+9.36",
+          "mAP": "+0.23",
+          "mR@1": "+0.32",
+          "mR@5": "+0.13",
+          "mR+@5": "-0.22",
+          "G-mIoU@1": "+11.96",
+          "G-mIoU@3": "+12.22"
+        }
+      }
+    },
+    {
+      "backbone": "eatr",
+      "configuration_id": 4,
+      "configuration": "+ Hard-RoI (no saliency)",
+      "reference": "EaTR / GMR (configuration 1)",
+      "source": "ablations/component_ablation_20261023/results/formal/eatr/row_04/test_metrics.json",
+      "source_sha256": "148c06c5ea388a839ad738437e324dd843946cfc21fedbc29b6cc631f46db6b2",
+      "values": {
+        "0.5": {
+          "N-acc": "95.93",
+          "AUROC": "76.02",
+          "Rej-F1": "74.98",
+          "mAP": "17.16",
+          "mR@1": "11.43",
+          "mR@5": "23.19",
+          "mR+@5": "9.55",
+          "G-mIoU@1": "52.95",
+          "G-mIoU@3": "48.34"
+        }
+      },
+      "gains": {
+        "0.5": {
+          "N-acc": "+29.26",
+          "AUROC": "-0.54",
+          "Rej-F1": "+9.38",
+          "mAP": "+0.94",
+          "mR@1": "+0.79",
+          "mR@5": "+1.77",
+          "mR+@5": "-0.04",
+          "G-mIoU@1": "+12.10",
+          "G-mIoU@3": "+12.34"
+        }
+      }
+    },
+    {
+      "backbone": "eatr",
+      "configuration_id": 5,
+      "configuration": "+ Gaussian-RoI (no saliency)",
+      "reference": "EaTR / GMR (configuration 1)",
+      "source": "ablations/component_ablation_20261023/results/formal/eatr/row_05/test_metrics.json",
+      "source_sha256": "68a07f85e17d61f54fb48157c31da8abeb63f1432803b7c800d8d77303170016",
+      "values": {
+        "0.5": {
+          "N-acc": "96.54",
+          "AUROC": "75.99",
+          "Rej-F1": "75.40",
+          "mAP": "16.25",
+          "mR@1": "10.51",
+          "mR@5": "22.19",
+          "mR+@5": "10.21",
+          "G-mIoU@1": "52.92",
+          "G-mIoU@3": "48.56"
+        }
+      },
+      "gains": {
+        "0.5": {
+          "N-acc": "+29.87",
+          "AUROC": "-0.57",
+          "Rej-F1": "+9.80",
+          "mAP": "+0.03",
+          "mR@1": "-0.13",
+          "mR@5": "+0.77",
+          "mR+@5": "+0.62",
+          "G-mIoU@1": "+12.07",
+          "G-mIoU@3": "+12.56"
+        }
+      }
+    },
+    {
+      "backbone": "eatr",
+      "configuration_id": 6,
+      "configuration": "Full DeRoI-GMR (+6D saliency)",
+      "reference": "EaTR / GMR (configuration 1)",
+      "source": "ablations/component_ablation_20261023/results/formal/eatr/row_06/test_metrics.json",
+      "source_sha256": "00697c63a4109bfa2b4f422117500e85cdc90ac8bb570fe6cdb4e139e9167ceb",
+      "values": {
+        "0.5": {
+          "N-acc": "96.14",
+          "AUROC": "76.03",
+          "Rej-F1": "75.32",
+          "mAP": "17.01",
+          "mR@1": "11.44",
+          "mR@5": "22.48",
+          "mR+@5": "9.63",
+          "G-mIoU@1": "53.12",
+          "G-mIoU@3": "48.53"
+        }
+      },
+      "gains": {
+        "0.5": {
+          "N-acc": "+29.47",
+          "AUROC": "-0.53",
+          "Rej-F1": "+9.72",
+          "mAP": "+0.79",
+          "mR@1": "+0.80",
+          "mR@5": "+1.06",
+          "mR+@5": "+0.04",
+          "G-mIoU@1": "+12.27",
+          "G-mIoU@3": "+12.53"
+        }
+      }
+    },
+    {
+      "backbone": "flashvtg",
+      "configuration_id": 1,
+      "configuration": "GMR (coupled baseline)",
+      "reference": "FlashVTG / GMR (configuration 1)",
+      "source": "ablations/component_ablation_20261023/results/formal/flashvtg/row_01/test_metrics.json",
+      "source_sha256": "ea815e5439e9379843743b9ab6cbf2e30928dc605dc3de81bf1c52ecfc9049f0",
+      "values": {
+        "0.5": {
+          "N-acc": "70.93",
+          "AUROC": "74.30",
+          "Rej-F1": "66.35",
+          "mAP": "25.43",
+          "mR@1": "15.17",
+          "mR@5": "34.94",
+          "mR+@5": "17.86",
+          "G-mIoU@1": "43.57",
+          "G-mIoU@3": "38.27"
+        }
+      },
+      "gains": null
+    },
+    {
+      "backbone": "flashvtg",
+      "configuration_id": 2,
+      "configuration": "+ Global Event Query",
+      "reference": "FlashVTG / GMR (configuration 1)",
+      "source": "ablations/component_ablation_20261023/results/formal/flashvtg/row_02/test_metrics.json",
+      "source_sha256": "567f55ecc48368d6bfe11ac9f61b1b40360c09cdc0b6902ab805def9299f498f",
+      "values": {
+        "0.5": {
+          "N-acc": "94.72",
+          "AUROC": "75.26",
+          "Rej-F1": "74.38",
+          "mAP": "25.40",
+          "mR@1": "15.11",
+          "mR@5": "34.94",
+          "mR+@5": "17.86",
+          "G-mIoU@1": "53.01",
+          "G-mIoU@3": "48.11"
+        }
+      },
+      "gains": {
+        "0.5": {
+          "N-acc": "+23.79",
+          "AUROC": "+0.96",
+          "Rej-F1": "+8.03",
+          "mAP": "-0.03",
+          "mR@1": "-0.06",
+          "mR@5": "+0.00",
+          "mR+@5": "+0.00",
+          "G-mIoU@1": "+9.44",
+          "G-mIoU@3": "+9.84"
+        }
+      }
+    },
+    {
+      "backbone": "flashvtg",
+      "configuration_id": 3,
+      "configuration": "+ LoRA",
+      "reference": "FlashVTG / GMR (configuration 1)",
+      "source": "ablations/component_ablation_20261023/results/formal/flashvtg/row_03/test_metrics.json",
+      "source_sha256": "6c586aa6d31d7ca155b9ece7713e7d0604c00fe171ed55cfdbbf2bfaa9d866df",
+      "values": {
+        "0.5": {
+          "N-acc": "94.31",
+          "AUROC": "75.32",
+          "Rej-F1": "74.18",
+          "mAP": "25.42",
+          "mR@1": "15.27",
+          "mR@5": "35.45",
+          "mR+@5": "17.54",
+          "G-mIoU@1": "52.78",
+          "G-mIoU@3": "47.90"
+        }
+      },
+      "gains": {
+        "0.5": {
+          "N-acc": "+23.38",
+          "AUROC": "+1.02",
+          "Rej-F1": "+7.83",
+          "mAP": "-0.01",
+          "mR@1": "+0.10",
+          "mR@5": "+0.51",
+          "mR+@5": "-0.32",
+          "G-mIoU@1": "+9.21",
+          "G-mIoU@3": "+9.63"
+        }
+      }
+    },
+    {
+      "backbone": "flashvtg",
+      "configuration_id": 4,
+      "configuration": "+ Hard-RoI (no saliency)",
+      "reference": "FlashVTG / GMR (configuration 1)",
+      "source": "ablations/component_ablation_20261023/results/formal/flashvtg/row_04/test_metrics.json",
+      "source_sha256": "f34681cc1943cbb48c950e4a9fecf9e8d9e979412827979b0634d0c88d97be7c",
+      "values": {
+        "0.5": {
+          "N-acc": "95.73",
+          "AUROC": "75.25",
+          "Rej-F1": "74.64",
+          "mAP": "26.24",
+          "mR@1": "16.23",
+          "mR@5": "36.27",
+          "mR+@5": "18.27",
+          "G-mIoU@1": "53.68",
+          "G-mIoU@3": "48.62"
+        }
+      },
+      "gains": {
+        "0.5": {
+          "N-acc": "+24.80",
+          "AUROC": "+0.95",
+          "Rej-F1": "+8.29",
+          "mAP": "+0.81",
+          "mR@1": "+1.06",
+          "mR@5": "+1.33",
+          "mR+@5": "+0.41",
+          "G-mIoU@1": "+10.11",
+          "G-mIoU@3": "+10.35"
+        }
+      }
+    },
+    {
+      "backbone": "flashvtg",
+      "configuration_id": 5,
+      "configuration": "+ Gaussian-RoI (no saliency)",
+      "reference": "FlashVTG / GMR (configuration 1)",
+      "source": "ablations/component_ablation_20261023/results/formal/flashvtg/row_05/test_metrics.json",
+      "source_sha256": "ba76048376e4a5983f219eb644917e8291e3a1813b495a48d1608f693f2bd6b3",
+      "values": {
+        "0.5": {
+          "N-acc": "95.73",
+          "AUROC": "75.31",
+          "Rej-F1": "74.70",
+          "mAP": "26.29",
+          "mR@1": "16.10",
+          "mR@5": "36.21",
+          "mR+@5": "19.05",
+          "G-mIoU@1": "53.88",
+          "G-mIoU@3": "48.73"
+        }
+      },
+      "gains": {
+        "0.5": {
+          "N-acc": "+24.80",
+          "AUROC": "+1.01",
+          "Rej-F1": "+8.35",
+          "mAP": "+0.86",
+          "mR@1": "+0.93",
+          "mR@5": "+1.27",
+          "mR+@5": "+1.19",
+          "G-mIoU@1": "+10.31",
+          "G-mIoU@3": "+10.46"
+        }
+      }
+    },
+    {
+      "backbone": "flashvtg",
+      "configuration_id": 6,
+      "configuration": "Full DeRoI-GMR (+6D saliency)",
+      "reference": "FlashVTG / GMR (configuration 1)",
+      "source": "ablations/component_ablation_20261023/results/formal/flashvtg/row_06/test_metrics.json",
+      "source_sha256": "6a6d591c8e7b16ef0da0c85dd6fb9218c910cc196e29018bc552fa19bc3c6261",
+      "values": {
+        "0.5": {
+          "N-acc": "95.73",
+          "AUROC": "75.29",
+          "Rej-F1": "74.64",
+          "mAP": "26.13",
+          "mR@1": "15.83",
+          "mR@5": "35.68",
+          "mR+@5": "18.46",
+          "G-mIoU@1": "53.72",
+          "G-mIoU@3": "48.63"
+        }
+      },
+      "gains": {
+        "0.5": {
+          "N-acc": "+24.80",
+          "AUROC": "+0.99",
+          "Rej-F1": "+8.29",
+          "mAP": "+0.70",
+          "mR@1": "+0.66",
+          "mR@5": "+0.74",
+          "mR+@5": "+0.60",
+          "G-mIoU@1": "+10.15",
+          "G-mIoU@3": "+10.36"
+        }
+      }
+    }
+  ]
+}

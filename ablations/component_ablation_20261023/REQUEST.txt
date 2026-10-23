@@ -1,0 +1,11 @@
+It is highly recommended to immediately incorporate the following four sets of key experiments—leveraging existing logs or low-cost inference/fine-tuning runs—to replace the redundant Fig. 3 and the space-consuming Fig. 4 in the main text:
+Component-wise Ablation (most critical; analogous to Table 2 in Kim et al.)
+Approach: For each backbone, demonstrate the performance evolution on the validation and test sets as modules are added incrementally (report metrics: N-acc, Rej-F1, mAP, mR+@5, and G-mIoU@1):
+Row 1: Coupled GMR Adapter (Baseline)
+Row 2: + Decoupled Global Event Query (replace the relevant branch only; this demonstrates how decoupling directly boosts N-acc and Rej-F1)
+Row 3: + LoRA (demonstrates the synergistic effect of low-rank adaptation on intermediate-layer feature extraction and the preservation of positive-sample features)
+Row 4: + Hard-RoI Refiner (traditional hard-truncated rectangular RoI window; serves as a stepping stone for comparison with Row 5)
+Row 5: + Gaussian-RoI Refiner (w/o 6D Saliency $u_k$)
+Row 6: Full DeRoI-GMR (with 6D Saliency $u_k$)
+Note: Fill in the missing entries (marked as "--") at the top of Table 4 to address potential reviewer skepticism—specifically, the concern that the performance gains from the Gaussian-RoI Refiner might actually be attributable solely to Post-NMS or LoRA.
+"Minus Fusion" negative-control experiment (utilize the `minusFusion` configuration already available in your repository).

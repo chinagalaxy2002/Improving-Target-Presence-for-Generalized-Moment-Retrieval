@@ -1,0 +1,78 @@
+{
+  "complete": true,
+  "formal": {
+    "experiments": 30,
+    "backbones": 5,
+    "configurations": 6,
+    "split_evaluations": 60,
+    "threshold_evaluations": 180,
+    "seventh_configuration_excluded": true
+  },
+  "additional_diagnostics": {
+    "experiments": 5,
+    "separate_directory": "reports/extra_diagnostics"
+  },
+  "requirements": [
+    {
+      "requirement": "New isolated folder and supplied repository provenance",
+      "evidence": [
+        "README.md",
+        "SOURCE.json",
+        "REQUEST.txt",
+        "PROTOCOL.json"
+      ],
+      "passed": true
+    },
+    {
+      "requirement": "All six configurations on five backbones, Val and Test, five requested metrics",
+      "evidence": [
+        "reports/component_ablation.csv",
+        "reports/AUDIT.json",
+        "reports/*_COMPONENT_CHECK.json"
+      ],
+      "passed": true
+    },
+    {
+      "requirement": "Additional fusion diagnostic excluded from formal tables and deltas",
+      "evidence": [
+        "EXPERIMENT_SCOPE.json",
+        "reports/extra_diagnostics/README.md",
+        "reports/extra_diagnostics/minusFusion_control_pp.csv"
+      ],
+      "passed": true
+    },
+    {
+      "requirement": "Fill defined Table 4 entries from matching historical predictions",
+      "evidence": [
+        "table4/EVIDENCE.json",
+        "table4/validation.csv",
+        "../../write/DeRoI_GMR_Paper.tex"
+      ],
+      "passed": true
+    },
+    {
+      "requirement": "Revised manuscript replaces Figures 3 and 4, compiles, and has complete readable tables",
+      "evidence": [
+        "paper/DeRoI_GMR_Paper_with_ablations.tex",
+        "paper/DeRoI_GMR_Paper_with_ablations.pdf",
+        "paper_compile.log"
+      ],
+      "passed": true
+    },
+    {
+      "requirement": "Paper package matches current source and PDF",
+      "evidence": [
+        "paper/DeRoI_GMR_with_ablations.zip",
+        "FINALIZATION.json"
+      ],
+      "passed": true
+    }
+  ],
+  "limitations": [
+    "Single seed and four-epoch exploratory adaptation; component benefits are not uniform.",
+    "Original FlashVTG native soft confidence calibration, rounding/NMS, and degenerate candidate semantics are retained and documented.",
+    "Undefined single-only mR+ and negative-only localization cells remain dashes.",
+    "Existing historical main-result claims and bibliography were not independently re-reviewed."
+  ],
+  "pdf_sha256": "51fbd28f0b2121dee9848b4c74b4134e5ab82a5e38b514b6e964bdf76ee88d05"
+}

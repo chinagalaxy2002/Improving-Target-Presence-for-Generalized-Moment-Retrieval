@@ -1,0 +1,2197 @@
+{
+  "scope": "formal_component_ablation",
+  "formal_experiments": 30,
+  "backbones": 5,
+  "configurations": 6,
+  "split": "val",
+  "thresholds": [
+    "0.4",
+    "0.5",
+    "0.6"
+  ],
+  "metrics": [
+    "N-acc",
+    "AUROC",
+    "Rej-F1",
+    "mAP",
+    "mR@1",
+    "mR@5",
+    "mR+@5",
+    "G-mIoU@1",
+    "G-mIoU@3"
+  ],
+  "gain_definition": "Displayed two-decimal value minus displayed same-backbone configuration-1 GMR value, same split/threshold; percentage points.",
+  "ranking": "Within each backbone: maximum bold; second distinct maximum underlined, including ties.",
+  "records": [
+    {
+      "backbone": "moment_detr",
+      "configuration_id": 1,
+      "configuration": "GMR (coupled baseline)",
+      "reference": "Moment-DETR / GMR (configuration 1)",
+      "source": "ablations/component_ablation_20261023/results/formal/moment_detr/row_01/val_metrics.json",
+      "source_sha256": "502e6cfbd869dce6f99c8806dc651fc031bbb0516748efa7ce1df04502c120bb",
+      "values": {
+        "0.4": {
+          "N-acc": "0.00",
+          "AUROC": "69.21",
+          "Rej-F1": "0.00",
+          "mAP": "7.35",
+          "mR@1": "4.65",
+          "mR@5": "10.86",
+          "mR+@5": "2.17",
+          "G-mIoU@1": "6.08",
+          "G-mIoU@3": "2.60"
+        },
+        "0.5": {
+          "N-acc": "88.57",
+          "AUROC": "69.21",
+          "Rej-F1": "69.40",
+          "mAP": "7.35",
+          "mR@1": "4.65",
+          "mR@5": "10.86",
+          "mR+@5": "2.17",
+          "G-mIoU@1": "44.00",
+          "G-mIoU@3": "41.56"
+        },
+        "0.6": {
+          "N-acc": "100.00",
+          "AUROC": "69.21",
+          "Rej-F1": "70.71",
+          "mAP": "7.35",
+          "mR@1": "4.65",
+          "mR@5": "10.86",
+          "mR+@5": "2.17",
+          "G-mIoU@1": "48.68",
+          "G-mIoU@3": "46.33"
+        }
+      },
+      "gains": null
+    },
+    {
+      "backbone": "moment_detr",
+      "configuration_id": 2,
+      "configuration": "+ Global Event Query",
+      "reference": "Moment-DETR / GMR (configuration 1)",
+      "source": "ablations/component_ablation_20261023/results/formal/moment_detr/row_02/val_metrics.json",
+      "source_sha256": "735787f1bfe161b6791f5c309ae70991dd7e50fc5c8e0142339a8fa1f8f92153",
+      "values": {
+        "0.4": {
+          "N-acc": "100.00",
+          "AUROC": "70.59",
+          "Rej-F1": "70.71",
+          "mAP": "7.35",
+          "mR@1": "4.65",
+          "mR@5": "10.86",
+          "mR+@5": "2.17",
+          "G-mIoU@1": "48.68",
+          "G-mIoU@3": "46.33"
+        },
+        "0.5": {
+          "N-acc": "100.00",
+          "AUROC": "70.59",
+          "Rej-F1": "70.71",
+          "mAP": "7.35",
+          "mR@1": "4.65",
+          "mR@5": "10.86",
+          "mR+@5": "2.17",
+          "G-mIoU@1": "48.68",
+          "G-mIoU@3": "46.33"
+        },
+        "0.6": {
+          "N-acc": "100.00",
+          "AUROC": "70.59",
+          "Rej-F1": "70.71",
+          "mAP": "7.35",
+          "mR@1": "4.65",
+          "mR@5": "10.86",
+          "mR+@5": "2.17",
+          "G-mIoU@1": "48.68",
+          "G-mIoU@3": "46.33"
+        }
+      },
+      "gains": {
+        "0.4": {
+          "N-acc": "+100.00",
+          "AUROC": "+1.38",
+          "Rej-F1": "+70.71",
+          "mAP": "+0.00",
+          "mR@1": "+0.00",
+          "mR@5": "+0.00",
+          "mR+@5": "+0.00",
+          "G-mIoU@1": "+42.60",
+          "G-mIoU@3": "+43.73"
+        },
+        "0.5": {
+          "N-acc": "+11.43",
+          "AUROC": "+1.38",
+          "Rej-F1": "+1.31",
+          "mAP": "+0.00",
+          "mR@1": "+0.00",
+          "mR@5": "+0.00",
+          "mR+@5": "+0.00",
+          "G-mIoU@1": "+4.68",
+          "G-mIoU@3": "+4.77"
+        },
+        "0.6": {
+          "N-acc": "+0.00",
+          "AUROC": "+1.38",
+          "Rej-F1": "+0.00",
+          "mAP": "+0.00",
+          "mR@1": "+0.00",
+          "mR@5": "+0.00",
+          "mR+@5": "+0.00",
+          "G-mIoU@1": "+0.00",
+          "G-mIoU@3": "+0.00"
+        }
+      }
+    },
+    {
+      "backbone": "moment_detr",
+      "configuration_id": 3,
+      "configuration": "+ LoRA",
+      "reference": "Moment-DETR / GMR (configuration 1)",
+      "source": "ablations/component_ablation_20261023/results/formal/moment_detr/row_03/val_metrics.json",
+      "source_sha256": "d7dbc77cff43da70158b1755e0bf4b71971bd9fa8b0ae93c7537a76da7a52955",
+      "values": {
+        "0.4": {
+          "N-acc": "100.00",
+          "AUROC": "70.75",
+          "Rej-F1": "70.71",
+          "mAP": "7.94",
+          "mR@1": "5.20",
+          "mR@5": "11.56",
+          "mR+@5": "2.17",
+          "G-mIoU@1": "48.91",
+          "G-mIoU@3": "46.41"
+        },
+        "0.5": {
+          "N-acc": "100.00",
+          "AUROC": "70.75",
+          "Rej-F1": "70.71",
+          "mAP": "7.94",
+          "mR@1": "5.20",
+          "mR@5": "11.56",
+          "mR+@5": "2.17",
+          "G-mIoU@1": "48.91",
+          "G-mIoU@3": "46.41"
+        },
+        "0.6": {
+          "N-acc": "100.00",
+          "AUROC": "70.75",
+          "Rej-F1": "70.71",
+          "mAP": "7.94",
+          "mR@1": "5.20",
+          "mR@5": "11.56",
+          "mR+@5": "2.17",
+          "G-mIoU@1": "48.91",
+          "G-mIoU@3": "46.41"
+        }
+      },
+      "gains": {
+        "0.4": {
+          "N-acc": "+100.00",
+          "AUROC": "+1.54",
+          "Rej-F1": "+70.71",
+          "mAP": "+0.59",
+          "mR@1": "+0.55",
+          "mR@5": "+0.70",
+          "mR+@5": "+0.00",
+          "G-mIoU@1": "+42.83",
+          "G-mIoU@3": "+43.81"
+        },
+        "0.5": {
+          "N-acc": "+11.43",
+          "AUROC": "+1.54",
+          "Rej-F1": "+1.31",
+          "mAP": "+0.59",
+          "mR@1": "+0.55",
+          "mR@5": "+0.70",
+          "mR+@5": "+0.00",
+          "G-mIoU@1": "+4.91",
+          "G-mIoU@3": "+4.85"
+        },
+        "0.6": {
+          "N-acc": "+0.00",
+          "AUROC": "+1.54",
+          "Rej-F1": "+0.00",
+          "mAP": "+0.59",
+          "mR@1": "+0.55",
+          "mR@5": "+0.70",
+          "mR+@5": "+0.00",
+          "G-mIoU@1": "+0.23",
+          "G-mIoU@3": "+0.08"
+        }
+      }
+    },
+    {
+      "backbone": "moment_detr",
+      "configuration_id": 4,
+      "configuration": "+ Hard-RoI (no saliency)",
+      "reference": "Moment-DETR / GMR (configuration 1)",
+      "source": "ablations/component_ablation_20261023/results/formal/moment_detr/row_04/val_metrics.json",
+      "source_sha256": "65d24e656c9f4dbe49b3789b0831274668713c1e59757ae70332878a7088ad15",
+      "values": {
+        "0.4": {
+          "N-acc": "100.00",
+          "AUROC": "70.71",
+          "Rej-F1": "70.71",
+          "mAP": "6.41",
+          "mR@1": "2.95",
+          "mR@5": "10.69",
+          "mR+@5": "0.44",
+          "G-mIoU@1": "48.76",
+          "G-mIoU@3": "46.36"
+        },
+        "0.5": {
+          "N-acc": "100.00",
+          "AUROC": "70.71",
+          "Rej-F1": "70.71",
+          "mAP": "6.41",
+          "mR@1": "2.95",
+          "mR@5": "10.69",
+          "mR+@5": "0.44",
+          "G-mIoU@1": "48.76",
+          "G-mIoU@3": "46.36"
+        },
+        "0.6": {
+          "N-acc": "100.00",
+          "AUROC": "70.71",
+          "Rej-F1": "70.71",
+          "mAP": "6.41",
+          "mR@1": "2.95",
+          "mR@5": "10.69",
+          "mR+@5": "0.44",
+          "G-mIoU@1": "48.76",
+          "G-mIoU@3": "46.36"
+        }
+      },
+      "gains": {
+        "0.4": {
+          "N-acc": "+100.00",
+          "AUROC": "+1.50",
+          "Rej-F1": "+70.71",
+          "mAP": "-0.94",
+          "mR@1": "-1.70",
+          "mR@5": "-0.17",
+          "mR+@5": "-1.73",
+          "G-mIoU@1": "+42.68",
+          "G-mIoU@3": "+43.76"
+        },
+        "0.5": {
+          "N-acc": "+11.43",
+          "AUROC": "+1.50",
+          "Rej-F1": "+1.31",
+          "mAP": "-0.94",
+          "mR@1": "-1.70",
+          "mR@5": "-0.17",
+          "mR+@5": "-1.73",
+          "G-mIoU@1": "+4.76",
+          "G-mIoU@3": "+4.80"
+        },
+        "0.6": {
+          "N-acc": "+0.00",
+          "AUROC": "+1.50",
+          "Rej-F1": "+0.00",
+          "mAP": "-0.94",
+          "mR@1": "-1.70",
+          "mR@5": "-0.17",
+          "mR+@5": "-1.73",
+          "G-mIoU@1": "+0.08",
+          "G-mIoU@3": "+0.03"
+        }
+      }
+    },
+    {
+      "backbone": "moment_detr",
+      "configuration_id": 5,
+      "configuration": "+ Gaussian-RoI (no saliency)",
+      "reference": "Moment-DETR / GMR (configuration 1)",
+      "source": "ablations/component_ablation_20261023/results/formal/moment_detr/row_05/val_metrics.json",
+      "source_sha256": "a5984c19c643954661a812a2d07946e3ee97e877befef8ca3a91810d367d43fa",
+      "values": {
+        "0.4": {
+          "N-acc": "100.00",
+          "AUROC": "71.05",
+          "Rej-F1": "70.71",
+          "mAP": "7.41",
+          "mR@1": "3.52",
+          "mR@5": "11.17",
+          "mR+@5": "0.28",
+          "G-mIoU@1": "48.61",
+          "G-mIoU@3": "46.31"
+        },
+        "0.5": {
+          "N-acc": "100.00",
+          "AUROC": "71.05",
+          "Rej-F1": "70.71",
+          "mAP": "7.41",
+          "mR@1": "3.52",
+          "mR@5": "11.17",
+          "mR+@5": "0.28",
+          "G-mIoU@1": "48.61",
+          "G-mIoU@3": "46.31"
+        },
+        "0.6": {
+          "N-acc": "100.00",
+          "AUROC": "71.05",
+          "Rej-F1": "70.71",
+          "mAP": "7.41",
+          "mR@1": "3.52",
+          "mR@5": "11.17",
+          "mR+@5": "0.28",
+          "G-mIoU@1": "48.61",
+          "G-mIoU@3": "46.31"
+        }
+      },
+      "gains": {
+        "0.4": {
+          "N-acc": "+100.00",
+          "AUROC": "+1.84",
+          "Rej-F1": "+70.71",
+          "mAP": "+0.06",
+          "mR@1": "-1.13",
+          "mR@5": "+0.31",
+          "mR+@5": "-1.89",
+          "G-mIoU@1": "+42.53",
+          "G-mIoU@3": "+43.71"
+        },
+        "0.5": {
+          "N-acc": "+11.43",
+          "AUROC": "+1.84",
+          "Rej-F1": "+1.31",
+          "mAP": "+0.06",
+          "mR@1": "-1.13",
+          "mR@5": "+0.31",
+          "mR+@5": "-1.89",
+          "G-mIoU@1": "+4.61",
+          "G-mIoU@3": "+4.75"
+        },
+        "0.6": {
+          "N-acc": "+0.00",
+          "AUROC": "+1.84",
+          "Rej-F1": "+0.00",
+          "mAP": "+0.06",
+          "mR@1": "-1.13",
+          "mR@5": "+0.31",
+          "mR+@5": "-1.89",
+          "G-mIoU@1": "-0.07",
+          "G-mIoU@3": "-0.02"
+        }
+      }
+    },
+    {
+      "backbone": "moment_detr",
+      "configuration_id": 6,
+      "configuration": "Full DeRoI-GMR (+6D saliency)",
+      "reference": "Moment-DETR / GMR (configuration 1)",
+      "source": "ablations/component_ablation_20261023/results/formal/moment_detr/row_06/val_metrics.json",
+      "source_sha256": "3414c52ef48ba600805a059997eff7c2452e6712342d6b963124a5e32b932d28",
+      "values": {
+        "0.4": {
+          "N-acc": "100.00",
+          "AUROC": "71.07",
+          "Rej-F1": "70.71",
+          "mAP": "7.01",
+          "mR@1": "3.60",
+          "mR@5": "10.23",
+          "mR+@5": "0.28",
+          "G-mIoU@1": "48.70",
+          "G-mIoU@3": "46.34"
+        },
+        "0.5": {
+          "N-acc": "100.00",
+          "AUROC": "71.07",
+          "Rej-F1": "70.71",
+          "mAP": "7.01",
+          "mR@1": "3.60",
+          "mR@5": "10.23",
+          "mR+@5": "0.28",
+          "G-mIoU@1": "48.70",
+          "G-mIoU@3": "46.34"
+        },
+        "0.6": {
+          "N-acc": "100.00",
+          "AUROC": "71.07",
+          "Rej-F1": "70.71",
+          "mAP": "7.01",
+          "mR@1": "3.60",
+          "mR@5": "10.23",
+          "mR+@5": "0.28",
+          "G-mIoU@1": "48.70",
+          "G-mIoU@3": "46.34"
+        }
+      },
+      "gains": {
+        "0.4": {
+          "N-acc": "+100.00",
+          "AUROC": "+1.86",
+          "Rej-F1": "+70.71",
+          "mAP": "-0.34",
+          "mR@1": "-1.05",
+          "mR@5": "-0.63",
+          "mR+@5": "-1.89",
+          "G-mIoU@1": "+42.62",
+          "G-mIoU@3": "+43.74"
+        },
+        "0.5": {
+          "N-acc": "+11.43",
+          "AUROC": "+1.86",
+          "Rej-F1": "+1.31",
+          "mAP": "-0.34",
+          "mR@1": "-1.05",
+          "mR@5": "-0.63",
+          "mR+@5": "-1.89",
+          "G-mIoU@1": "+4.70",
+          "G-mIoU@3": "+4.78"
+        },
+        "0.6": {
+          "N-acc": "+0.00",
+          "AUROC": "+1.86",
+          "Rej-F1": "+0.00",
+          "mAP": "-0.34",
+          "mR@1": "-1.05",
+          "mR@5": "-0.63",
+          "mR+@5": "-1.89",
+          "G-mIoU@1": "+0.02",
+          "G-mIoU@3": "+0.01"
+        }
+      }
+    },
+    {
+      "backbone": "qd_detr",
+      "configuration_id": 1,
+      "configuration": "GMR (coupled baseline)",
+      "reference": "QD-DETR / GMR (configuration 1)",
+      "source": "ablations/component_ablation_20261023/results/formal/qd_detr/row_01/val_metrics.json",
+      "source_sha256": "6c5107a0dad9f2eb60363f3aad8e1b09d5aee3fd477bde797adbf2af5afa74cd",
+      "values": {
+        "0.4": {
+          "N-acc": "56.19",
+          "AUROC": "74.15",
+          "Rej-F1": "59.60",
+          "mAP": "19.60",
+          "mR@1": "13.30",
+          "mR@5": "26.09",
+          "mR+@5": "10.22",
+          "G-mIoU@1": "36.21",
+          "G-mIoU@3": "30.79"
+        },
+        "0.5": {
+          "N-acc": "80.95",
+          "AUROC": "74.15",
+          "Rej-F1": "69.11",
+          "mAP": "19.60",
+          "mR@1": "13.30",
+          "mR@5": "26.09",
+          "mR+@5": "10.22",
+          "G-mIoU@1": "45.16",
+          "G-mIoU@3": "40.78"
+        },
+        "0.6": {
+          "N-acc": "92.38",
+          "AUROC": "74.15",
+          "Rej-F1": "70.67",
+          "mAP": "19.60",
+          "mR@1": "13.30",
+          "mR@5": "26.09",
+          "mR+@5": "10.22",
+          "G-mIoU@1": "49.52",
+          "G-mIoU@3": "44.73"
+        }
+      },
+      "gains": null
+    },
+    {
+      "backbone": "qd_detr",
+      "configuration_id": 2,
+      "configuration": "+ Global Event Query",
+      "reference": "QD-DETR / GMR (configuration 1)",
+      "source": "ablations/component_ablation_20261023/results/formal/qd_detr/row_02/val_metrics.json",
+      "source_sha256": "28e94097bcdb7326a189de4d19eca14f8263a50553619eb823f910d858de843d",
+      "values": {
+        "0.4": {
+          "N-acc": "81.90",
+          "AUROC": "73.81",
+          "Rej-F1": "68.39",
+          "mAP": "19.60",
+          "mR@1": "13.30",
+          "mR@5": "26.09",
+          "mR+@5": "10.22",
+          "G-mIoU@1": "45.99",
+          "G-mIoU@3": "40.98"
+        },
+        "0.5": {
+          "N-acc": "92.38",
+          "AUROC": "73.81",
+          "Rej-F1": "70.16",
+          "mAP": "19.60",
+          "mR@1": "13.30",
+          "mR@5": "26.09",
+          "mR+@5": "10.22",
+          "G-mIoU@1": "49.44",
+          "G-mIoU@3": "44.73"
+        },
+        "0.6": {
+          "N-acc": "96.19",
+          "AUROC": "73.81",
+          "Rej-F1": "70.63",
+          "mAP": "19.60",
+          "mR@1": "13.30",
+          "mR@5": "26.09",
+          "mR+@5": "10.22",
+          "G-mIoU@1": "50.74",
+          "G-mIoU@3": "46.14"
+        }
+      },
+      "gains": {
+        "0.4": {
+          "N-acc": "+25.71",
+          "AUROC": "-0.34",
+          "Rej-F1": "+8.79",
+          "mAP": "+0.00",
+          "mR@1": "+0.00",
+          "mR@5": "+0.00",
+          "mR+@5": "+0.00",
+          "G-mIoU@1": "+9.78",
+          "G-mIoU@3": "+10.19"
+        },
+        "0.5": {
+          "N-acc": "+11.43",
+          "AUROC": "-0.34",
+          "Rej-F1": "+1.05",
+          "mAP": "+0.00",
+          "mR@1": "+0.00",
+          "mR@5": "+0.00",
+          "mR+@5": "+0.00",
+          "G-mIoU@1": "+4.28",
+          "G-mIoU@3": "+3.95"
+        },
+        "0.6": {
+          "N-acc": "+3.81",
+          "AUROC": "-0.34",
+          "Rej-F1": "-0.04",
+          "mAP": "+0.00",
+          "mR@1": "+0.00",
+          "mR@5": "+0.00",
+          "mR+@5": "+0.00",
+          "G-mIoU@1": "+1.22",
+          "G-mIoU@3": "+1.41"
+        }
+      }
+    },
+    {
+      "backbone": "qd_detr",
+      "configuration_id": 3,
+      "configuration": "+ LoRA",
+      "reference": "QD-DETR / GMR (configuration 1)",
+      "source": "ablations/component_ablation_20261023/results/formal/qd_detr/row_03/val_metrics.json",
+      "source_sha256": "db044fb93aaf550e8c13a9dc7f7b8c35d8e17afda0dc5bdf426d5bf5988b537d",
+      "values": {
+        "0.4": {
+          "N-acc": "81.43",
+          "AUROC": "73.73",
+          "Rej-F1": "68.40",
+          "mAP": "17.79",
+          "mR@1": "11.48",
+          "mR@5": "23.77",
+          "mR+@5": "11.48",
+          "G-mIoU@1": "45.11",
+          "G-mIoU@3": "40.67"
+        },
+        "0.5": {
+          "N-acc": "92.38",
+          "AUROC": "73.73",
+          "Rej-F1": "70.29",
+          "mAP": "17.79",
+          "mR@1": "11.48",
+          "mR@5": "23.77",
+          "mR+@5": "11.48",
+          "G-mIoU@1": "48.83",
+          "G-mIoU@3": "44.50"
+        },
+        "0.6": {
+          "N-acc": "95.24",
+          "AUROC": "73.73",
+          "Rej-F1": "70.18",
+          "mAP": "17.79",
+          "mR@1": "11.48",
+          "mR@5": "23.77",
+          "mR+@5": "11.48",
+          "G-mIoU@1": "49.79",
+          "G-mIoU@3": "45.50"
+        }
+      },
+      "gains": {
+        "0.4": {
+          "N-acc": "+25.24",
+          "AUROC": "-0.42",
+          "Rej-F1": "+8.80",
+          "mAP": "-1.81",
+          "mR@1": "-1.82",
+          "mR@5": "-2.32",
+          "mR+@5": "+1.26",
+          "G-mIoU@1": "+8.90",
+          "G-mIoU@3": "+9.88"
+        },
+        "0.5": {
+          "N-acc": "+11.43",
+          "AUROC": "-0.42",
+          "Rej-F1": "+1.18",
+          "mAP": "-1.81",
+          "mR@1": "-1.82",
+          "mR@5": "-2.32",
+          "mR+@5": "+1.26",
+          "G-mIoU@1": "+3.67",
+          "G-mIoU@3": "+3.72"
+        },
+        "0.6": {
+          "N-acc": "+2.86",
+          "AUROC": "-0.42",
+          "Rej-F1": "-0.49",
+          "mAP": "-1.81",
+          "mR@1": "-1.82",
+          "mR@5": "-2.32",
+          "mR+@5": "+1.26",
+          "G-mIoU@1": "+0.27",
+          "G-mIoU@3": "+0.77"
+        }
+      }
+    },
+    {
+      "backbone": "qd_detr",
+      "configuration_id": 4,
+      "configuration": "+ Hard-RoI (no saliency)",
+      "reference": "QD-DETR / GMR (configuration 1)",
+      "source": "ablations/component_ablation_20261023/results/formal/qd_detr/row_04/val_metrics.json",
+      "source_sha256": "d5b5b032f68fe9f7f595388a884c0667242ba1e873148d911fef1beb8692f793",
+      "values": {
+        "0.4": {
+          "N-acc": "85.71",
+          "AUROC": "73.44",
+          "Rej-F1": "69.36",
+          "mAP": "18.31",
+          "mR@1": "11.90",
+          "mR@5": "25.28",
+          "mR+@5": "9.78",
+          "G-mIoU@1": "47.37",
+          "G-mIoU@3": "42.52"
+        },
+        "0.5": {
+          "N-acc": "93.81",
+          "AUROC": "73.44",
+          "Rej-F1": "70.23",
+          "mAP": "18.31",
+          "mR@1": "11.90",
+          "mR@5": "25.28",
+          "mR+@5": "9.78",
+          "G-mIoU@1": "50.05",
+          "G-mIoU@3": "45.34"
+        },
+        "0.6": {
+          "N-acc": "96.19",
+          "AUROC": "73.44",
+          "Rej-F1": "70.26",
+          "mAP": "18.31",
+          "mR@1": "11.90",
+          "mR@5": "25.28",
+          "mR+@5": "9.78",
+          "G-mIoU@1": "50.53",
+          "G-mIoU@3": "46.05"
+        }
+      },
+      "gains": {
+        "0.4": {
+          "N-acc": "+29.52",
+          "AUROC": "-0.71",
+          "Rej-F1": "+9.76",
+          "mAP": "-1.29",
+          "mR@1": "-1.40",
+          "mR@5": "-0.81",
+          "mR+@5": "-0.44",
+          "G-mIoU@1": "+11.16",
+          "G-mIoU@3": "+11.73"
+        },
+        "0.5": {
+          "N-acc": "+12.86",
+          "AUROC": "-0.71",
+          "Rej-F1": "+1.12",
+          "mAP": "-1.29",
+          "mR@1": "-1.40",
+          "mR@5": "-0.81",
+          "mR+@5": "-0.44",
+          "G-mIoU@1": "+4.89",
+          "G-mIoU@3": "+4.56"
+        },
+        "0.6": {
+          "N-acc": "+3.81",
+          "AUROC": "-0.71",
+          "Rej-F1": "-0.41",
+          "mAP": "-1.29",
+          "mR@1": "-1.40",
+          "mR@5": "-0.81",
+          "mR+@5": "-0.44",
+          "G-mIoU@1": "+1.01",
+          "G-mIoU@3": "+1.32"
+        }
+      }
+    },
+    {
+      "backbone": "qd_detr",
+      "configuration_id": 5,
+      "configuration": "+ Gaussian-RoI (no saliency)",
+      "reference": "QD-DETR / GMR (configuration 1)",
+      "source": "ablations/component_ablation_20261023/results/formal/qd_detr/row_05/val_metrics.json",
+      "source_sha256": "ab436a72950036dd8afdea3e97cfe4f694b19e7d6a3f2a78b1cc9f6d11624403",
+      "values": {
+        "0.4": {
+          "N-acc": "85.71",
+          "AUROC": "73.51",
+          "Rej-F1": "69.50",
+          "mAP": "17.89",
+          "mR@1": "12.11",
+          "mR@5": "24.72",
+          "mR+@5": "6.93",
+          "G-mIoU@1": "47.01",
+          "G-mIoU@3": "42.32"
+        },
+        "0.5": {
+          "N-acc": "93.81",
+          "AUROC": "73.51",
+          "Rej-F1": "70.23",
+          "mAP": "17.89",
+          "mR@1": "12.11",
+          "mR@5": "24.72",
+          "mR+@5": "6.93",
+          "G-mIoU@1": "50.06",
+          "G-mIoU@3": "45.21"
+        },
+        "0.6": {
+          "N-acc": "96.19",
+          "AUROC": "73.51",
+          "Rej-F1": "70.26",
+          "mAP": "17.89",
+          "mR@1": "12.11",
+          "mR@5": "24.72",
+          "mR+@5": "6.93",
+          "G-mIoU@1": "50.58",
+          "G-mIoU@3": "46.01"
+        }
+      },
+      "gains": {
+        "0.4": {
+          "N-acc": "+29.52",
+          "AUROC": "-0.64",
+          "Rej-F1": "+9.90",
+          "mAP": "-1.71",
+          "mR@1": "-1.19",
+          "mR@5": "-1.37",
+          "mR+@5": "-3.29",
+          "G-mIoU@1": "+10.80",
+          "G-mIoU@3": "+11.53"
+        },
+        "0.5": {
+          "N-acc": "+12.86",
+          "AUROC": "-0.64",
+          "Rej-F1": "+1.12",
+          "mAP": "-1.71",
+          "mR@1": "-1.19",
+          "mR@5": "-1.37",
+          "mR+@5": "-3.29",
+          "G-mIoU@1": "+4.90",
+          "G-mIoU@3": "+4.43"
+        },
+        "0.6": {
+          "N-acc": "+3.81",
+          "AUROC": "-0.64",
+          "Rej-F1": "-0.41",
+          "mAP": "-1.71",
+          "mR@1": "-1.19",
+          "mR@5": "-1.37",
+          "mR+@5": "-3.29",
+          "G-mIoU@1": "+1.06",
+          "G-mIoU@3": "+1.28"
+        }
+      }
+    },
+    {
+      "backbone": "qd_detr",
+      "configuration_id": 6,
+      "configuration": "Full DeRoI-GMR (+6D saliency)",
+      "reference": "QD-DETR / GMR (configuration 1)",
+      "source": "ablations/component_ablation_20261023/results/formal/qd_detr/row_06/val_metrics.json",
+      "source_sha256": "2b69dbf5500616ba157bfe613a308d5971abebc884abe210e1eaba690f297ad7",
+      "values": {
+        "0.4": {
+          "N-acc": "83.81",
+          "AUROC": "73.82",
+          "Rej-F1": "69.02",
+          "mAP": "18.02",
+          "mR@1": "11.05",
+          "mR@5": "25.84",
+          "mR+@5": "7.54",
+          "G-mIoU@1": "45.83",
+          "G-mIoU@3": "41.34"
+        },
+        "0.5": {
+          "N-acc": "93.33",
+          "AUROC": "73.82",
+          "Rej-F1": "70.63",
+          "mAP": "18.02",
+          "mR@1": "11.05",
+          "mR@5": "25.84",
+          "mR+@5": "7.54",
+          "G-mIoU@1": "49.64",
+          "G-mIoU@3": "45.06"
+        },
+        "0.6": {
+          "N-acc": "95.71",
+          "AUROC": "73.82",
+          "Rej-F1": "70.28",
+          "mAP": "18.02",
+          "mR@1": "11.05",
+          "mR@5": "25.84",
+          "mR+@5": "7.54",
+          "G-mIoU@1": "50.20",
+          "G-mIoU@3": "45.82"
+        }
+      },
+      "gains": {
+        "0.4": {
+          "N-acc": "+27.62",
+          "AUROC": "-0.33",
+          "Rej-F1": "+9.42",
+          "mAP": "-1.58",
+          "mR@1": "-2.25",
+          "mR@5": "-0.25",
+          "mR+@5": "-2.68",
+          "G-mIoU@1": "+9.62",
+          "G-mIoU@3": "+10.55"
+        },
+        "0.5": {
+          "N-acc": "+12.38",
+          "AUROC": "-0.33",
+          "Rej-F1": "+1.52",
+          "mAP": "-1.58",
+          "mR@1": "-2.25",
+          "mR@5": "-0.25",
+          "mR+@5": "-2.68",
+          "G-mIoU@1": "+4.48",
+          "G-mIoU@3": "+4.28"
+        },
+        "0.6": {
+          "N-acc": "+3.33",
+          "AUROC": "-0.33",
+          "Rej-F1": "-0.39",
+          "mAP": "-1.58",
+          "mR@1": "-2.25",
+          "mR@5": "-0.25",
+          "mR+@5": "-2.68",
+          "G-mIoU@1": "+0.68",
+          "G-mIoU@3": "+1.09"
+        }
+      }
+    },
+    {
+      "backbone": "cg_detr",
+      "configuration_id": 1,
+      "configuration": "GMR (coupled baseline)",
+      "reference": "CG-DETR / GMR (configuration 1)",
+      "source": "ablations/component_ablation_20261023/results/formal/cg_detr/row_01/val_metrics.json",
+      "source_sha256": "0242943a432f2236a42ee8e515701361a943faf130f9acf8fca2832cc116bc64",
+      "values": {
+        "0.4": {
+          "N-acc": "19.52",
+          "AUROC": "74.74",
+          "Rej-F1": "30.71",
+          "mAP": "20.98",
+          "mR@1": "14.08",
+          "mR@5": "28.47",
+          "mR+@5": "11.76",
+          "G-mIoU@1": "22.34",
+          "G-mIoU@3": "15.85"
+        },
+        "0.5": {
+          "N-acc": "50.48",
+          "AUROC": "74.74",
+          "Rej-F1": "56.84",
+          "mAP": "20.98",
+          "mR@1": "14.08",
+          "mR@5": "28.47",
+          "mR+@5": "11.76",
+          "G-mIoU@1": "34.44",
+          "G-mIoU@3": "28.71"
+        },
+        "0.6": {
+          "N-acc": "80.48",
+          "AUROC": "74.74",
+          "Rej-F1": "69.12",
+          "mAP": "20.98",
+          "mR@1": "14.08",
+          "mR@5": "28.47",
+          "mR+@5": "11.76",
+          "G-mIoU@1": "46.35",
+          "G-mIoU@3": "40.72"
+        }
+      },
+      "gains": null
+    },
+    {
+      "backbone": "cg_detr",
+      "configuration_id": 2,
+      "configuration": "+ Global Event Query",
+      "reference": "CG-DETR / GMR (configuration 1)",
+      "source": "ablations/component_ablation_20261023/results/formal/cg_detr/row_02/val_metrics.json",
+      "source_sha256": "242a5011da4cc23ee9e1d3d8ebffdf5f86326175182511bb6c95b7c1c48e0c87",
+      "values": {
+        "0.4": {
+          "N-acc": "89.52",
+          "AUROC": "73.79",
+          "Rej-F1": "70.54",
+          "mAP": "20.98",
+          "mR@1": "14.08",
+          "mR@5": "28.47",
+          "mR+@5": "11.76",
+          "G-mIoU@1": "48.46",
+          "G-mIoU@3": "43.92"
+        },
+        "0.5": {
+          "N-acc": "97.14",
+          "AUROC": "73.79",
+          "Rej-F1": "71.33",
+          "mAP": "20.98",
+          "mR@1": "14.08",
+          "mR@5": "28.47",
+          "mR+@5": "11.76",
+          "G-mIoU@1": "51.40",
+          "G-mIoU@3": "46.64"
+        },
+        "0.6": {
+          "N-acc": "99.52",
+          "AUROC": "73.79",
+          "Rej-F1": "71.45",
+          "mAP": "20.98",
+          "mR@1": "14.08",
+          "mR@5": "28.47",
+          "mR+@5": "11.76",
+          "G-mIoU@1": "51.90",
+          "G-mIoU@3": "47.40"
+        }
+      },
+      "gains": {
+        "0.4": {
+          "N-acc": "+70.00",
+          "AUROC": "-0.95",
+          "Rej-F1": "+39.83",
+          "mAP": "+0.00",
+          "mR@1": "+0.00",
+          "mR@5": "+0.00",
+          "mR+@5": "+0.00",
+          "G-mIoU@1": "+26.12",
+          "G-mIoU@3": "+28.07"
+        },
+        "0.5": {
+          "N-acc": "+46.66",
+          "AUROC": "-0.95",
+          "Rej-F1": "+14.49",
+          "mAP": "+0.00",
+          "mR@1": "+0.00",
+          "mR@5": "+0.00",
+          "mR+@5": "+0.00",
+          "G-mIoU@1": "+16.96",
+          "G-mIoU@3": "+17.93"
+        },
+        "0.6": {
+          "N-acc": "+19.04",
+          "AUROC": "-0.95",
+          "Rej-F1": "+2.33",
+          "mAP": "+0.00",
+          "mR@1": "+0.00",
+          "mR@5": "+0.00",
+          "mR+@5": "+0.00",
+          "G-mIoU@1": "+5.55",
+          "G-mIoU@3": "+6.68"
+        }
+      }
+    },
+    {
+      "backbone": "cg_detr",
+      "configuration_id": 3,
+      "configuration": "+ LoRA",
+      "reference": "CG-DETR / GMR (configuration 1)",
+      "source": "ablations/component_ablation_20261023/results/formal/cg_detr/row_03/val_metrics.json",
+      "source_sha256": "41d0956255379c93462e998a9ae3d64689caeb75bdf29eb164e8a110d36c876e",
+      "values": {
+        "0.4": {
+          "N-acc": "89.52",
+          "AUROC": "73.87",
+          "Rej-F1": "70.54",
+          "mAP": "20.65",
+          "mR@1": "13.65",
+          "mR@5": "28.20",
+          "mR+@5": "12.31",
+          "G-mIoU@1": "48.39",
+          "G-mIoU@3": "43.87"
+        },
+        "0.5": {
+          "N-acc": "97.62",
+          "AUROC": "73.87",
+          "Rej-F1": "71.93",
+          "mAP": "20.65",
+          "mR@1": "13.65",
+          "mR@5": "28.20",
+          "mR+@5": "12.31",
+          "G-mIoU@1": "51.51",
+          "G-mIoU@3": "46.86"
+        },
+        "0.6": {
+          "N-acc": "99.52",
+          "AUROC": "73.87",
+          "Rej-F1": "71.45",
+          "mAP": "20.65",
+          "mR@1": "13.65",
+          "mR@5": "28.20",
+          "mR+@5": "12.31",
+          "G-mIoU@1": "51.80",
+          "G-mIoU@3": "47.36"
+        }
+      },
+      "gains": {
+        "0.4": {
+          "N-acc": "+70.00",
+          "AUROC": "-0.87",
+          "Rej-F1": "+39.83",
+          "mAP": "-0.33",
+          "mR@1": "-0.43",
+          "mR@5": "-0.27",
+          "mR+@5": "+0.55",
+          "G-mIoU@1": "+26.05",
+          "G-mIoU@3": "+28.02"
+        },
+        "0.5": {
+          "N-acc": "+47.14",
+          "AUROC": "-0.87",
+          "Rej-F1": "+15.09",
+          "mAP": "-0.33",
+          "mR@1": "-0.43",
+          "mR@5": "-0.27",
+          "mR+@5": "+0.55",
+          "G-mIoU@1": "+17.07",
+          "G-mIoU@3": "+18.15"
+        },
+        "0.6": {
+          "N-acc": "+19.04",
+          "AUROC": "-0.87",
+          "Rej-F1": "+2.33",
+          "mAP": "-0.33",
+          "mR@1": "-0.43",
+          "mR@5": "-0.27",
+          "mR+@5": "+0.55",
+          "G-mIoU@1": "+5.45",
+          "G-mIoU@3": "+6.64"
+        }
+      }
+    },
+    {
+      "backbone": "cg_detr",
+      "configuration_id": 4,
+      "configuration": "+ Hard-RoI (no saliency)",
+      "reference": "CG-DETR / GMR (configuration 1)",
+      "source": "ablations/component_ablation_20261023/results/formal/cg_detr/row_04/val_metrics.json",
+      "source_sha256": "41ae380574d50de9d1de4875fcee1f503ad7602207716c505e68b24531c321ba",
+      "values": {
+        "0.4": {
+          "N-acc": "89.52",
+          "AUROC": "73.90",
+          "Rej-F1": "70.54",
+          "mAP": "21.91",
+          "mR@1": "14.82",
+          "mR@5": "29.65",
+          "mR+@5": "14.15",
+          "G-mIoU@1": "48.68",
+          "G-mIoU@3": "43.98"
+        },
+        "0.5": {
+          "N-acc": "97.62",
+          "AUROC": "73.90",
+          "Rej-F1": "71.80",
+          "mAP": "21.91",
+          "mR@1": "14.82",
+          "mR@5": "29.65",
+          "mR+@5": "14.15",
+          "G-mIoU@1": "51.59",
+          "G-mIoU@3": "46.84"
+        },
+        "0.6": {
+          "N-acc": "99.52",
+          "AUROC": "73.90",
+          "Rej-F1": "71.45",
+          "mAP": "21.91",
+          "mR@1": "14.82",
+          "mR@5": "29.65",
+          "mR+@5": "14.15",
+          "G-mIoU@1": "52.07",
+          "G-mIoU@3": "47.50"
+        }
+      },
+      "gains": {
+        "0.4": {
+          "N-acc": "+70.00",
+          "AUROC": "-0.84",
+          "Rej-F1": "+39.83",
+          "mAP": "+0.93",
+          "mR@1": "+0.74",
+          "mR@5": "+1.18",
+          "mR+@5": "+2.39",
+          "G-mIoU@1": "+26.34",
+          "G-mIoU@3": "+28.13"
+        },
+        "0.5": {
+          "N-acc": "+47.14",
+          "AUROC": "-0.84",
+          "Rej-F1": "+14.96",
+          "mAP": "+0.93",
+          "mR@1": "+0.74",
+          "mR@5": "+1.18",
+          "mR+@5": "+2.39",
+          "G-mIoU@1": "+17.15",
+          "G-mIoU@3": "+18.13"
+        },
+        "0.6": {
+          "N-acc": "+19.04",
+          "AUROC": "-0.84",
+          "Rej-F1": "+2.33",
+          "mAP": "+0.93",
+          "mR@1": "+0.74",
+          "mR@5": "+1.18",
+          "mR+@5": "+2.39",
+          "G-mIoU@1": "+5.72",
+          "G-mIoU@3": "+6.78"
+        }
+      }
+    },
+    {
+      "backbone": "cg_detr",
+      "configuration_id": 5,
+      "configuration": "+ Gaussian-RoI (no saliency)",
+      "reference": "CG-DETR / GMR (configuration 1)",
+      "source": "ablations/component_ablation_20261023/results/formal/cg_detr/row_05/val_metrics.json",
+      "source_sha256": "8ba63b520765026bc7dc4e5022fb6bfc74d6d8cf8f34ff7359a7a9ded0a152dd",
+      "values": {
+        "0.4": {
+          "N-acc": "84.29",
+          "AUROC": "73.83",
+          "Rej-F1": "69.01",
+          "mAP": "18.61",
+          "mR@1": "11.38",
+          "mR@5": "26.35",
+          "mR+@5": "10.39",
+          "G-mIoU@1": "45.87",
+          "G-mIoU@3": "41.60"
+        },
+        "0.5": {
+          "N-acc": "96.19",
+          "AUROC": "73.83",
+          "Rej-F1": "71.50",
+          "mAP": "18.61",
+          "mR@1": "11.38",
+          "mR@5": "26.35",
+          "mR+@5": "10.39",
+          "G-mIoU@1": "50.33",
+          "G-mIoU@3": "46.07"
+        },
+        "0.6": {
+          "N-acc": "99.52",
+          "AUROC": "73.83",
+          "Rej-F1": "71.58",
+          "mAP": "18.61",
+          "mR@1": "11.38",
+          "mR@5": "26.35",
+          "mR+@5": "10.39",
+          "G-mIoU@1": "51.69",
+          "G-mIoU@3": "47.36"
+        }
+      },
+      "gains": {
+        "0.4": {
+          "N-acc": "+64.77",
+          "AUROC": "-0.91",
+          "Rej-F1": "+38.30",
+          "mAP": "-2.37",
+          "mR@1": "-2.70",
+          "mR@5": "-2.12",
+          "mR+@5": "-1.37",
+          "G-mIoU@1": "+23.53",
+          "G-mIoU@3": "+25.75"
+        },
+        "0.5": {
+          "N-acc": "+45.71",
+          "AUROC": "-0.91",
+          "Rej-F1": "+14.66",
+          "mAP": "-2.37",
+          "mR@1": "-2.70",
+          "mR@5": "-2.12",
+          "mR+@5": "-1.37",
+          "G-mIoU@1": "+15.89",
+          "G-mIoU@3": "+17.36"
+        },
+        "0.6": {
+          "N-acc": "+19.04",
+          "AUROC": "-0.91",
+          "Rej-F1": "+2.46",
+          "mAP": "-2.37",
+          "mR@1": "-2.70",
+          "mR@5": "-2.12",
+          "mR+@5": "-1.37",
+          "G-mIoU@1": "+5.34",
+          "G-mIoU@3": "+6.64"
+        }
+      }
+    },
+    {
+      "backbone": "cg_detr",
+      "configuration_id": 6,
+      "configuration": "Full DeRoI-GMR (+6D saliency)",
+      "reference": "CG-DETR / GMR (configuration 1)",
+      "source": "ablations/component_ablation_20261023/results/formal/cg_detr/row_06/val_metrics.json",
+      "source_sha256": "3b874815c39be561f2d22c9315f1b8bad5b138f6fb4a18d13ef44165de49205f",
+      "values": {
+        "0.4": {
+          "N-acc": "90.95",
+          "AUROC": "73.89",
+          "Rej-F1": "71.27",
+          "mAP": "21.16",
+          "mR@1": "14.47",
+          "mR@5": "28.61",
+          "mR+@5": "12.98",
+          "G-mIoU@1": "49.28",
+          "G-mIoU@3": "44.45"
+        },
+        "0.5": {
+          "N-acc": "97.14",
+          "AUROC": "73.89",
+          "Rej-F1": "71.08",
+          "mAP": "21.16",
+          "mR@1": "14.47",
+          "mR@5": "28.61",
+          "mR+@5": "12.98",
+          "G-mIoU@1": "51.07",
+          "G-mIoU@3": "46.45"
+        },
+        "0.6": {
+          "N-acc": "99.52",
+          "AUROC": "73.89",
+          "Rej-F1": "71.45",
+          "mAP": "21.16",
+          "mR@1": "14.47",
+          "mR@5": "28.61",
+          "mR+@5": "12.98",
+          "G-mIoU@1": "51.81",
+          "G-mIoU@3": "47.41"
+        }
+      },
+      "gains": {
+        "0.4": {
+          "N-acc": "+71.43",
+          "AUROC": "-0.85",
+          "Rej-F1": "+40.56",
+          "mAP": "+0.18",
+          "mR@1": "+0.39",
+          "mR@5": "+0.14",
+          "mR+@5": "+1.22",
+          "G-mIoU@1": "+26.94",
+          "G-mIoU@3": "+28.60"
+        },
+        "0.5": {
+          "N-acc": "+46.66",
+          "AUROC": "-0.85",
+          "Rej-F1": "+14.24",
+          "mAP": "+0.18",
+          "mR@1": "+0.39",
+          "mR@5": "+0.14",
+          "mR+@5": "+1.22",
+          "G-mIoU@1": "+16.63",
+          "G-mIoU@3": "+17.74"
+        },
+        "0.6": {
+          "N-acc": "+19.04",
+          "AUROC": "-0.85",
+          "Rej-F1": "+2.33",
+          "mAP": "+0.18",
+          "mR@1": "+0.39",
+          "mR@5": "+0.14",
+          "mR+@5": "+1.22",
+          "G-mIoU@1": "+5.46",
+          "G-mIoU@3": "+6.69"
+        }
+      }
+    },
+    {
+      "backbone": "eatr",
+      "configuration_id": 1,
+      "configuration": "GMR (coupled baseline)",
+      "reference": "EaTR / GMR (configuration 1)",
+      "source": "ablations/component_ablation_20261023/results/formal/eatr/row_01/val_metrics.json",
+      "source_sha256": "f5b6faa01d0c2cac8a436ba6f4c32f25d6f967f35ef3f5fc1ff2ba7227fb4d1c",
+      "values": {
+        "0.4": {
+          "N-acc": "50.95",
+          "AUROC": "75.63",
+          "Rej-F1": "57.84",
+          "mAP": "20.26",
+          "mR@1": "13.78",
+          "mR@5": "26.75",
+          "mR+@5": "12.44",
+          "G-mIoU@1": "34.76",
+          "G-mIoU@3": "28.83"
+        },
+        "0.5": {
+          "N-acc": "69.05",
+          "AUROC": "75.63",
+          "Rej-F1": "65.02",
+          "mAP": "20.26",
+          "mR@1": "13.78",
+          "mR@5": "26.75",
+          "mR+@5": "12.44",
+          "G-mIoU@1": "41.62",
+          "G-mIoU@3": "36.00"
+        },
+        "0.6": {
+          "N-acc": "87.62",
+          "AUROC": "75.63",
+          "Rej-F1": "69.96",
+          "mAP": "20.26",
+          "mR@1": "13.78",
+          "mR@5": "26.75",
+          "mR+@5": "12.44",
+          "G-mIoU@1": "48.47",
+          "G-mIoU@3": "43.35"
+        }
+      },
+      "gains": null
+    },
+    {
+      "backbone": "eatr",
+      "configuration_id": 2,
+      "configuration": "+ Global Event Query",
+      "reference": "EaTR / GMR (configuration 1)",
+      "source": "ablations/component_ablation_20261023/results/formal/eatr/row_02/val_metrics.json",
+      "source_sha256": "6f574fd2e56d66f6ff4aa842e4843b25021211cc2498b674656ae441c572ade5",
+      "values": {
+        "0.4": {
+          "N-acc": "85.24",
+          "AUROC": "72.46",
+          "Rej-F1": "68.45",
+          "mAP": "20.26",
+          "mR@1": "13.78",
+          "mR@5": "26.75",
+          "mR+@5": "12.44",
+          "G-mIoU@1": "47.11",
+          "G-mIoU@3": "42.38"
+        },
+        "0.5": {
+          "N-acc": "96.19",
+          "AUROC": "72.46",
+          "Rej-F1": "71.00",
+          "mAP": "20.26",
+          "mR@1": "13.78",
+          "mR@5": "26.75",
+          "mR+@5": "12.44",
+          "G-mIoU@1": "51.17",
+          "G-mIoU@3": "46.23"
+        },
+        "0.6": {
+          "N-acc": "99.05",
+          "AUROC": "72.46",
+          "Rej-F1": "71.11",
+          "mAP": "20.26",
+          "mR@1": "13.78",
+          "mR@5": "26.75",
+          "mR+@5": "12.44",
+          "G-mIoU@1": "51.71",
+          "G-mIoU@3": "47.23"
+        }
+      },
+      "gains": {
+        "0.4": {
+          "N-acc": "+34.29",
+          "AUROC": "-3.17",
+          "Rej-F1": "+10.61",
+          "mAP": "+0.00",
+          "mR@1": "+0.00",
+          "mR@5": "+0.00",
+          "mR+@5": "+0.00",
+          "G-mIoU@1": "+12.35",
+          "G-mIoU@3": "+13.55"
+        },
+        "0.5": {
+          "N-acc": "+27.14",
+          "AUROC": "-3.17",
+          "Rej-F1": "+5.98",
+          "mAP": "+0.00",
+          "mR@1": "+0.00",
+          "mR@5": "+0.00",
+          "mR+@5": "+0.00",
+          "G-mIoU@1": "+9.55",
+          "G-mIoU@3": "+10.23"
+        },
+        "0.6": {
+          "N-acc": "+11.43",
+          "AUROC": "-3.17",
+          "Rej-F1": "+1.15",
+          "mAP": "+0.00",
+          "mR@1": "+0.00",
+          "mR@5": "+0.00",
+          "mR+@5": "+0.00",
+          "G-mIoU@1": "+3.24",
+          "G-mIoU@3": "+3.88"
+        }
+      }
+    },
+    {
+      "backbone": "eatr",
+      "configuration_id": 3,
+      "configuration": "+ LoRA",
+      "reference": "EaTR / GMR (configuration 1)",
+      "source": "ablations/component_ablation_20261023/results/formal/eatr/row_03/val_metrics.json",
+      "source_sha256": "7b49f6498076f3f4be4ca6ed9392824a8430400bcf1b9f011cb2ad1813be62c2",
+      "values": {
+        "0.4": {
+          "N-acc": "86.67",
+          "AUROC": "72.76",
+          "Rej-F1": "68.94",
+          "mAP": "20.66",
+          "mR@1": "14.27",
+          "mR@5": "27.25",
+          "mR+@5": "12.89",
+          "G-mIoU@1": "48.07",
+          "G-mIoU@3": "43.14"
+        },
+        "0.5": {
+          "N-acc": "96.19",
+          "AUROC": "72.76",
+          "Rej-F1": "70.88",
+          "mAP": "20.66",
+          "mR@1": "14.27",
+          "mR@5": "27.25",
+          "mR+@5": "12.89",
+          "G-mIoU@1": "51.17",
+          "G-mIoU@3": "46.23"
+        },
+        "0.6": {
+          "N-acc": "99.05",
+          "AUROC": "72.76",
+          "Rej-F1": "71.23",
+          "mAP": "20.66",
+          "mR@1": "14.27",
+          "mR@5": "27.25",
+          "mR+@5": "12.89",
+          "G-mIoU@1": "51.75",
+          "G-mIoU@3": "47.24"
+        }
+      },
+      "gains": {
+        "0.4": {
+          "N-acc": "+35.72",
+          "AUROC": "-2.87",
+          "Rej-F1": "+11.10",
+          "mAP": "+0.40",
+          "mR@1": "+0.49",
+          "mR@5": "+0.50",
+          "mR+@5": "+0.45",
+          "G-mIoU@1": "+13.31",
+          "G-mIoU@3": "+14.31"
+        },
+        "0.5": {
+          "N-acc": "+27.14",
+          "AUROC": "-2.87",
+          "Rej-F1": "+5.86",
+          "mAP": "+0.40",
+          "mR@1": "+0.49",
+          "mR@5": "+0.50",
+          "mR+@5": "+0.45",
+          "G-mIoU@1": "+9.55",
+          "G-mIoU@3": "+10.23"
+        },
+        "0.6": {
+          "N-acc": "+11.43",
+          "AUROC": "-2.87",
+          "Rej-F1": "+1.27",
+          "mAP": "+0.40",
+          "mR@1": "+0.49",
+          "mR@5": "+0.50",
+          "mR+@5": "+0.45",
+          "G-mIoU@1": "+3.28",
+          "G-mIoU@3": "+3.89"
+        }
+      }
+    },
+    {
+      "backbone": "eatr",
+      "configuration_id": 4,
+      "configuration": "+ Hard-RoI (no saliency)",
+      "reference": "EaTR / GMR (configuration 1)",
+      "source": "ablations/component_ablation_20261023/results/formal/eatr/row_04/val_metrics.json",
+      "source_sha256": "416e3c54623a5c68d424ce83012954c0d5dc441549b92b3c5eb763748925a873",
+      "values": {
+        "0.4": {
+          "N-acc": "87.14",
+          "AUROC": "72.89",
+          "Rej-F1": "68.93",
+          "mAP": "19.32",
+          "mR@1": "13.79",
+          "mR@5": "25.65",
+          "mR+@5": "10.44",
+          "G-mIoU@1": "48.05",
+          "G-mIoU@3": "42.94"
+        },
+        "0.5": {
+          "N-acc": "97.14",
+          "AUROC": "72.89",
+          "Rej-F1": "71.20",
+          "mAP": "19.32",
+          "mR@1": "13.79",
+          "mR@5": "25.65",
+          "mR+@5": "10.44",
+          "G-mIoU@1": "51.53",
+          "G-mIoU@3": "46.60"
+        },
+        "0.6": {
+          "N-acc": "99.05",
+          "AUROC": "72.89",
+          "Rej-F1": "71.11",
+          "mAP": "19.32",
+          "mR@1": "13.79",
+          "mR@5": "25.65",
+          "mR+@5": "10.44",
+          "G-mIoU@1": "51.91",
+          "G-mIoU@3": "47.28"
+        }
+      },
+      "gains": {
+        "0.4": {
+          "N-acc": "+36.19",
+          "AUROC": "-2.74",
+          "Rej-F1": "+11.09",
+          "mAP": "-0.94",
+          "mR@1": "+0.01",
+          "mR@5": "-1.10",
+          "mR+@5": "-2.00",
+          "G-mIoU@1": "+13.29",
+          "G-mIoU@3": "+14.11"
+        },
+        "0.5": {
+          "N-acc": "+28.09",
+          "AUROC": "-2.74",
+          "Rej-F1": "+6.18",
+          "mAP": "-0.94",
+          "mR@1": "+0.01",
+          "mR@5": "-1.10",
+          "mR+@5": "-2.00",
+          "G-mIoU@1": "+9.91",
+          "G-mIoU@3": "+10.60"
+        },
+        "0.6": {
+          "N-acc": "+11.43",
+          "AUROC": "-2.74",
+          "Rej-F1": "+1.15",
+          "mAP": "-0.94",
+          "mR@1": "+0.01",
+          "mR@5": "-1.10",
+          "mR+@5": "-2.00",
+          "G-mIoU@1": "+3.44",
+          "G-mIoU@3": "+3.93"
+        }
+      }
+    },
+    {
+      "backbone": "eatr",
+      "configuration_id": 5,
+      "configuration": "+ Gaussian-RoI (no saliency)",
+      "reference": "EaTR / GMR (configuration 1)",
+      "source": "ablations/component_ablation_20261023/results/formal/eatr/row_05/val_metrics.json",
+      "source_sha256": "e3cdf6a6beedc3ef31ec52c98d7e01653496bd1caec4fb100da53a53f6cedc69",
+      "values": {
+        "0.4": {
+          "N-acc": "86.19",
+          "AUROC": "72.77",
+          "Rej-F1": "68.56",
+          "mAP": "19.41",
+          "mR@1": "13.00",
+          "mR@5": "27.42",
+          "mR+@5": "10.89",
+          "G-mIoU@1": "47.57",
+          "G-mIoU@3": "42.47"
+        },
+        "0.5": {
+          "N-acc": "96.67",
+          "AUROC": "72.77",
+          "Rej-F1": "70.98",
+          "mAP": "19.41",
+          "mR@1": "13.00",
+          "mR@5": "27.42",
+          "mR+@5": "10.89",
+          "G-mIoU@1": "51.33",
+          "G-mIoU@3": "46.36"
+        },
+        "0.6": {
+          "N-acc": "99.05",
+          "AUROC": "72.77",
+          "Rej-F1": "71.11",
+          "mAP": "19.41",
+          "mR@1": "13.00",
+          "mR@5": "27.42",
+          "mR+@5": "10.89",
+          "G-mIoU@1": "51.82",
+          "G-mIoU@3": "47.24"
+        }
+      },
+      "gains": {
+        "0.4": {
+          "N-acc": "+35.24",
+          "AUROC": "-2.86",
+          "Rej-F1": "+10.72",
+          "mAP": "-0.85",
+          "mR@1": "-0.78",
+          "mR@5": "+0.67",
+          "mR+@5": "-1.55",
+          "G-mIoU@1": "+12.81",
+          "G-mIoU@3": "+13.64"
+        },
+        "0.5": {
+          "N-acc": "+27.62",
+          "AUROC": "-2.86",
+          "Rej-F1": "+5.96",
+          "mAP": "-0.85",
+          "mR@1": "-0.78",
+          "mR@5": "+0.67",
+          "mR+@5": "-1.55",
+          "G-mIoU@1": "+9.71",
+          "G-mIoU@3": "+10.36"
+        },
+        "0.6": {
+          "N-acc": "+11.43",
+          "AUROC": "-2.86",
+          "Rej-F1": "+1.15",
+          "mAP": "-0.85",
+          "mR@1": "-0.78",
+          "mR@5": "+0.67",
+          "mR+@5": "-1.55",
+          "G-mIoU@1": "+3.35",
+          "G-mIoU@3": "+3.89"
+        }
+      }
+    },
+    {
+      "backbone": "eatr",
+      "configuration_id": 6,
+      "configuration": "Full DeRoI-GMR (+6D saliency)",
+      "reference": "EaTR / GMR (configuration 1)",
+      "source": "ablations/component_ablation_20261023/results/formal/eatr/row_06/val_metrics.json",
+      "source_sha256": "74490185be414b8deb34fa979d20f0f44cf751f711dbb031254bd87901cf0751",
+      "values": {
+        "0.4": {
+          "N-acc": "85.71",
+          "AUROC": "72.74",
+          "Rej-F1": "68.44",
+          "mAP": "19.54",
+          "mR@1": "13.39",
+          "mR@5": "26.54",
+          "mR+@5": "11.44",
+          "G-mIoU@1": "47.22",
+          "G-mIoU@3": "42.23"
+        },
+        "0.5": {
+          "N-acc": "96.67",
+          "AUROC": "72.74",
+          "Rej-F1": "71.10",
+          "mAP": "19.54",
+          "mR@1": "13.39",
+          "mR@5": "26.54",
+          "mR+@5": "11.44",
+          "G-mIoU@1": "51.32",
+          "G-mIoU@3": "46.39"
+        },
+        "0.6": {
+          "N-acc": "99.05",
+          "AUROC": "72.74",
+          "Rej-F1": "71.11",
+          "mAP": "19.54",
+          "mR@1": "13.39",
+          "mR@5": "26.54",
+          "mR+@5": "11.44",
+          "G-mIoU@1": "51.94",
+          "G-mIoU@3": "47.29"
+        }
+      },
+      "gains": {
+        "0.4": {
+          "N-acc": "+34.76",
+          "AUROC": "-2.89",
+          "Rej-F1": "+10.60",
+          "mAP": "-0.72",
+          "mR@1": "-0.39",
+          "mR@5": "-0.21",
+          "mR+@5": "-1.00",
+          "G-mIoU@1": "+12.46",
+          "G-mIoU@3": "+13.40"
+        },
+        "0.5": {
+          "N-acc": "+27.62",
+          "AUROC": "-2.89",
+          "Rej-F1": "+6.08",
+          "mAP": "-0.72",
+          "mR@1": "-0.39",
+          "mR@5": "-0.21",
+          "mR+@5": "-1.00",
+          "G-mIoU@1": "+9.70",
+          "G-mIoU@3": "+10.39"
+        },
+        "0.6": {
+          "N-acc": "+11.43",
+          "AUROC": "-2.89",
+          "Rej-F1": "+1.15",
+          "mAP": "-0.72",
+          "mR@1": "-0.39",
+          "mR@5": "-0.21",
+          "mR+@5": "-1.00",
+          "G-mIoU@1": "+3.47",
+          "G-mIoU@3": "+3.94"
+        }
+      }
+    },
+    {
+      "backbone": "flashvtg",
+      "configuration_id": 1,
+      "configuration": "GMR (coupled baseline)",
+      "reference": "FlashVTG / GMR (configuration 1)",
+      "source": "ablations/component_ablation_20261023/results/formal/flashvtg/row_01/val_metrics.json",
+      "source_sha256": "8623412d2261dfedfc6b748bed61aae1eb5ea3d2eae85226aba6a0be273bfe3b",
+      "values": {
+        "0.4": {
+          "N-acc": "36.67",
+          "AUROC": "74.89",
+          "Rej-F1": "48.12",
+          "mAP": "29.16",
+          "mR@1": "18.77",
+          "mR@5": "38.28",
+          "mR+@5": "14.74",
+          "G-mIoU@1": "31.02",
+          "G-mIoU@3": "23.61"
+        },
+        "0.5": {
+          "N-acc": "72.38",
+          "AUROC": "74.89",
+          "Rej-F1": "66.38",
+          "mAP": "29.16",
+          "mR@1": "18.77",
+          "mR@5": "38.28",
+          "mR+@5": "14.74",
+          "G-mIoU@1": "44.61",
+          "G-mIoU@3": "38.32"
+        },
+        "0.6": {
+          "N-acc": "87.62",
+          "AUROC": "74.89",
+          "Rej-F1": "69.96",
+          "mAP": "29.16",
+          "mR@1": "18.77",
+          "mR@5": "38.28",
+          "mR+@5": "14.74",
+          "G-mIoU@1": "49.66",
+          "G-mIoU@3": "44.15"
+        }
+      },
+      "gains": null
+    },
+    {
+      "backbone": "flashvtg",
+      "configuration_id": 2,
+      "configuration": "+ Global Event Query",
+      "reference": "FlashVTG / GMR (configuration 1)",
+      "source": "ablations/component_ablation_20261023/results/formal/flashvtg/row_02/val_metrics.json",
+      "source_sha256": "fa47955ad5295a41bae6602eb6d0deaa71c0c4a0c1bce5344f8aa47969d64cfa",
+      "values": {
+        "0.4": {
+          "N-acc": "88.10",
+          "AUROC": "72.23",
+          "Rej-F1": "69.68",
+          "mAP": "28.96",
+          "mR@1": "18.46",
+          "mR@5": "38.28",
+          "mR+@5": "14.74",
+          "G-mIoU@1": "49.56",
+          "G-mIoU@3": "43.86"
+        },
+        "0.5": {
+          "N-acc": "94.76",
+          "AUROC": "72.23",
+          "Rej-F1": "70.69",
+          "mAP": "28.96",
+          "mR@1": "18.46",
+          "mR@5": "38.28",
+          "mR+@5": "14.74",
+          "G-mIoU@1": "51.50",
+          "G-mIoU@3": "46.25"
+        },
+        "0.6": {
+          "N-acc": "97.14",
+          "AUROC": "72.23",
+          "Rej-F1": "70.96",
+          "mAP": "28.96",
+          "mR@1": "18.46",
+          "mR@5": "38.28",
+          "mR+@5": "14.74",
+          "G-mIoU@1": "52.18",
+          "G-mIoU@3": "46.90"
+        }
+      },
+      "gains": {
+        "0.4": {
+          "N-acc": "+51.43",
+          "AUROC": "-2.66",
+          "Rej-F1": "+21.56",
+          "mAP": "-0.20",
+          "mR@1": "-0.31",
+          "mR@5": "+0.00",
+          "mR+@5": "+0.00",
+          "G-mIoU@1": "+18.54",
+          "G-mIoU@3": "+20.25"
+        },
+        "0.5": {
+          "N-acc": "+22.38",
+          "AUROC": "-2.66",
+          "Rej-F1": "+4.31",
+          "mAP": "-0.20",
+          "mR@1": "-0.31",
+          "mR@5": "+0.00",
+          "mR+@5": "+0.00",
+          "G-mIoU@1": "+6.89",
+          "G-mIoU@3": "+7.93"
+        },
+        "0.6": {
+          "N-acc": "+9.52",
+          "AUROC": "-2.66",
+          "Rej-F1": "+1.00",
+          "mAP": "-0.20",
+          "mR@1": "-0.31",
+          "mR@5": "+0.00",
+          "mR+@5": "+0.00",
+          "G-mIoU@1": "+2.52",
+          "G-mIoU@3": "+2.75"
+        }
+      }
+    },
+    {
+      "backbone": "flashvtg",
+      "configuration_id": 3,
+      "configuration": "+ LoRA",
+      "reference": "FlashVTG / GMR (configuration 1)",
+      "source": "ablations/component_ablation_20261023/results/formal/flashvtg/row_03/val_metrics.json",
+      "source_sha256": "356ab1a4bf7e7a1ccba116996b26ab872ee1af4f1a50599ada885118e18731f9",
+      "values": {
+        "0.4": {
+          "N-acc": "88.10",
+          "AUROC": "72.66",
+          "Rej-F1": "69.42",
+          "mAP": "28.59",
+          "mR@1": "18.21",
+          "mR@5": "38.44",
+          "mR+@5": "14.59",
+          "G-mIoU@1": "49.36",
+          "G-mIoU@3": "43.67"
+        },
+        "0.5": {
+          "N-acc": "94.29",
+          "AUROC": "72.66",
+          "Rej-F1": "70.46",
+          "mAP": "28.59",
+          "mR@1": "18.21",
+          "mR@5": "38.44",
+          "mR+@5": "14.59",
+          "G-mIoU@1": "51.25",
+          "G-mIoU@3": "45.96"
+        },
+        "0.6": {
+          "N-acc": "97.14",
+          "AUROC": "72.66",
+          "Rej-F1": "71.20",
+          "mAP": "28.59",
+          "mR@1": "18.21",
+          "mR@5": "38.44",
+          "mR+@5": "14.59",
+          "G-mIoU@1": "52.31",
+          "G-mIoU@3": "47.06"
+        }
+      },
+      "gains": {
+        "0.4": {
+          "N-acc": "+51.43",
+          "AUROC": "-2.23",
+          "Rej-F1": "+21.30",
+          "mAP": "-0.57",
+          "mR@1": "-0.56",
+          "mR@5": "+0.16",
+          "mR+@5": "-0.15",
+          "G-mIoU@1": "+18.34",
+          "G-mIoU@3": "+20.06"
+        },
+        "0.5": {
+          "N-acc": "+21.91",
+          "AUROC": "-2.23",
+          "Rej-F1": "+4.08",
+          "mAP": "-0.57",
+          "mR@1": "-0.56",
+          "mR@5": "+0.16",
+          "mR+@5": "-0.15",
+          "G-mIoU@1": "+6.64",
+          "G-mIoU@3": "+7.64"
+        },
+        "0.6": {
+          "N-acc": "+9.52",
+          "AUROC": "-2.23",
+          "Rej-F1": "+1.24",
+          "mAP": "-0.57",
+          "mR@1": "-0.56",
+          "mR@5": "+0.16",
+          "mR+@5": "-0.15",
+          "G-mIoU@1": "+2.65",
+          "G-mIoU@3": "+2.91"
+        }
+      }
+    },
+    {
+      "backbone": "flashvtg",
+      "configuration_id": 4,
+      "configuration": "+ Hard-RoI (no saliency)",
+      "reference": "FlashVTG / GMR (configuration 1)",
+      "source": "ablations/component_ablation_20261023/results/formal/flashvtg/row_04/val_metrics.json",
+      "source_sha256": "34652a735c923eaa333a058119966c3310c8ed94acd3b62e7d48caf74b7c5e70",
+      "values": {
+        "0.4": {
+          "N-acc": "89.05",
+          "AUROC": "72.18",
+          "Rej-F1": "69.39",
+          "mAP": "27.79",
+          "mR@1": "16.83",
+          "mR@5": "38.37",
+          "mR+@5": "13.70",
+          "G-mIoU@1": "49.49",
+          "G-mIoU@3": "43.95"
+        },
+        "0.5": {
+          "N-acc": "95.24",
+          "AUROC": "72.18",
+          "Rej-F1": "70.92",
+          "mAP": "27.79",
+          "mR@1": "16.83",
+          "mR@5": "38.37",
+          "mR+@5": "13.70",
+          "G-mIoU@1": "51.50",
+          "G-mIoU@3": "46.33"
+        },
+        "0.6": {
+          "N-acc": "98.57",
+          "AUROC": "72.18",
+          "Rej-F1": "71.26",
+          "mAP": "27.79",
+          "mR@1": "16.83",
+          "mR@5": "38.37",
+          "mR+@5": "13.70",
+          "G-mIoU@1": "52.27",
+          "G-mIoU@3": "47.36"
+        }
+      },
+      "gains": {
+        "0.4": {
+          "N-acc": "+52.38",
+          "AUROC": "-2.71",
+          "Rej-F1": "+21.27",
+          "mAP": "-1.37",
+          "mR@1": "-1.94",
+          "mR@5": "+0.09",
+          "mR+@5": "-1.04",
+          "G-mIoU@1": "+18.47",
+          "G-mIoU@3": "+20.34"
+        },
+        "0.5": {
+          "N-acc": "+22.86",
+          "AUROC": "-2.71",
+          "Rej-F1": "+4.54",
+          "mAP": "-1.37",
+          "mR@1": "-1.94",
+          "mR@5": "+0.09",
+          "mR+@5": "-1.04",
+          "G-mIoU@1": "+6.89",
+          "G-mIoU@3": "+8.01"
+        },
+        "0.6": {
+          "N-acc": "+10.95",
+          "AUROC": "-2.71",
+          "Rej-F1": "+1.30",
+          "mAP": "-1.37",
+          "mR@1": "-1.94",
+          "mR@5": "+0.09",
+          "mR+@5": "-1.04",
+          "G-mIoU@1": "+2.61",
+          "G-mIoU@3": "+3.21"
+        }
+      }
+    },
+    {
+      "backbone": "flashvtg",
+      "configuration_id": 5,
+      "configuration": "+ Gaussian-RoI (no saliency)",
+      "reference": "FlashVTG / GMR (configuration 1)",
+      "source": "ablations/component_ablation_20261023/results/formal/flashvtg/row_05/val_metrics.json",
+      "source_sha256": "469fddf399e2d9141e69e88e4eb95d6505bf492739862150dc18d6f5e33402a8",
+      "values": {
+        "0.4": {
+          "N-acc": "89.05",
+          "AUROC": "72.15",
+          "Rej-F1": "69.39",
+          "mAP": "27.98",
+          "mR@1": "16.40",
+          "mR@5": "39.35",
+          "mR+@5": "15.96",
+          "G-mIoU@1": "49.59",
+          "G-mIoU@3": "43.98"
+        },
+        "0.5": {
+          "N-acc": "95.24",
+          "AUROC": "72.15",
+          "Rej-F1": "70.92",
+          "mAP": "27.98",
+          "mR@1": "16.40",
+          "mR@5": "39.35",
+          "mR+@5": "15.96",
+          "G-mIoU@1": "51.50",
+          "G-mIoU@3": "46.33"
+        },
+        "0.6": {
+          "N-acc": "99.05",
+          "AUROC": "72.15",
+          "Rej-F1": "71.48",
+          "mAP": "27.98",
+          "mR@1": "16.40",
+          "mR@5": "39.35",
+          "mR+@5": "15.96",
+          "G-mIoU@1": "52.49",
+          "G-mIoU@3": "47.58"
+        }
+      },
+      "gains": {
+        "0.4": {
+          "N-acc": "+52.38",
+          "AUROC": "-2.74",
+          "Rej-F1": "+21.27",
+          "mAP": "-1.18",
+          "mR@1": "-2.37",
+          "mR@5": "+1.07",
+          "mR+@5": "+1.22",
+          "G-mIoU@1": "+18.57",
+          "G-mIoU@3": "+20.37"
+        },
+        "0.5": {
+          "N-acc": "+22.86",
+          "AUROC": "-2.74",
+          "Rej-F1": "+4.54",
+          "mAP": "-1.18",
+          "mR@1": "-2.37",
+          "mR@5": "+1.07",
+          "mR+@5": "+1.22",
+          "G-mIoU@1": "+6.89",
+          "G-mIoU@3": "+8.01"
+        },
+        "0.6": {
+          "N-acc": "+11.43",
+          "AUROC": "-2.74",
+          "Rej-F1": "+1.52",
+          "mAP": "-1.18",
+          "mR@1": "-2.37",
+          "mR@5": "+1.07",
+          "mR+@5": "+1.22",
+          "G-mIoU@1": "+2.83",
+          "G-mIoU@3": "+3.43"
+        }
+      }
+    },
+    {
+      "backbone": "flashvtg",
+      "configuration_id": 6,
+      "configuration": "Full DeRoI-GMR (+6D saliency)",
+      "reference": "FlashVTG / GMR (configuration 1)",
+      "source": "ablations/component_ablation_20261023/results/formal/flashvtg/row_06/val_metrics.json",
+      "source_sha256": "a8ad3e7824abcb3e1b58403f5770a9d2794721e27d4d73b971b75e8446bac2e4",
+      "values": {
+        "0.4": {
+          "N-acc": "89.05",
+          "AUROC": "72.30",
+          "Rej-F1": "69.39",
+          "mAP": "28.07",
+          "mR@1": "16.67",
+          "mR@5": "38.62",
+          "mR+@5": "15.43",
+          "G-mIoU@1": "49.69",
+          "G-mIoU@3": "44.02"
+        },
+        "0.5": {
+          "N-acc": "95.24",
+          "AUROC": "72.30",
+          "Rej-F1": "70.92",
+          "mAP": "28.07",
+          "mR@1": "16.67",
+          "mR@5": "38.62",
+          "mR+@5": "15.43",
+          "G-mIoU@1": "51.66",
+          "G-mIoU@3": "46.39"
+        },
+        "0.6": {
+          "N-acc": "98.57",
+          "AUROC": "72.30",
+          "Rej-F1": "71.26",
+          "mAP": "28.07",
+          "mR@1": "16.67",
+          "mR@5": "38.62",
+          "mR+@5": "15.43",
+          "G-mIoU@1": "52.44",
+          "G-mIoU@3": "47.42"
+        }
+      },
+      "gains": {
+        "0.4": {
+          "N-acc": "+52.38",
+          "AUROC": "-2.59",
+          "Rej-F1": "+21.27",
+          "mAP": "-1.09",
+          "mR@1": "-2.10",
+          "mR@5": "+0.34",
+          "mR+@5": "+0.69",
+          "G-mIoU@1": "+18.67",
+          "G-mIoU@3": "+20.41"
+        },
+        "0.5": {
+          "N-acc": "+22.86",
+          "AUROC": "-2.59",
+          "Rej-F1": "+4.54",
+          "mAP": "-1.09",
+          "mR@1": "-2.10",
+          "mR@5": "+0.34",
+          "mR+@5": "+0.69",
+          "G-mIoU@1": "+7.05",
+          "G-mIoU@3": "+8.07"
+        },
+        "0.6": {
+          "N-acc": "+10.95",
+          "AUROC": "-2.59",
+          "Rej-F1": "+1.30",
+          "mAP": "-1.09",
+          "mR@1": "-2.10",
+          "mR@5": "+0.34",
+          "mR+@5": "+0.69",
+          "G-mIoU@1": "+2.78",
+          "G-mIoU@3": "+3.27"
+        }
+      }
+    }
+  ]
+}

@@ -1,5 +1,7 @@
 # 仓库研究文档
 
+新增正式30组组件消融及独立额外融合诊断，见 [新增消融实验](../ablations/component_ablation_20261023/README.md)；本页原有主结果数值保持历史口径。
+
 本文档仅依据本 GitHub 仓库已经发布的代码、配置、Standard 标签、冻结预测和结果表撰写。研究范围为五个主干的 Baseline、GMR 和 GMR + S4_minus_Fusion 对比；使用原始数据，不包含数据增强实验。
 
 | 文档 | 内容 |

@@ -1,0 +1,1 @@
+Table 4 validation values recomputed with the official evaluator from the selected FlashVTG epoch-4 archives. See EVIDENCE.json for hashes and all metric details. Same checkpoint and LoRA for all inference stages. Dashes on negative-only localization remain because those metrics have no positive ground truth. Native noPH uses no gate; refined pre-NMS and post-NMS use tau=0.5.

@@ -1,5 +1,7 @@
 # 实验范围与结果解释
 
+新增正式30组组件消融及独立额外融合诊断，见 [新增消融实验](../ablations/component_ablation_20261023/README.md)；本页原有主结果数值保持历史口径。
+
 ## 本仓库实际包含的实验
 
 研究仅使用原始 Standard 数据。Moment-DETR、QD-DETR、CG-DETR、EaTR 各包含 Baseline、GMR、GMR + S4_minus_Fusion 三种设置；FlashVTG 包含已经验证的 E0/GMR 和 GMR + S4_minus_Fusion 两种设置，共 **14 组本地实验**。

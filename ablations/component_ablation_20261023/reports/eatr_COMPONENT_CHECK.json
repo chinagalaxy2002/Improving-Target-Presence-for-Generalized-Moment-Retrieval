@@ -1,0 +1,258 @@
+{
+  "checked_formal_rows": 6,
+  "checked_additional_diagnostic_rows": 1,
+  "checks": [
+    {
+      "passed": true,
+      "scope": "formal",
+      "row": 1,
+      "backbone": "eatr",
+      "effective": {
+        "global_event_query": false,
+        "lora": false,
+        "boundary_refiner": false,
+        "pooling": null,
+        "saliency_6d": false,
+        "candidate_presence_fusion": false,
+        "baseline_native_presence": true
+      },
+      "effective_training": {
+        "adaptation_epochs": 0,
+        "checkpoint_selection": "fixed epoch 4; frozen baseline row 1",
+        "evaluation": "Val and Test after training only",
+        "training_queries": 4138,
+        "validation_queries": 465,
+        "test_queries": 1036
+      },
+      "trainable_parameters_by_group": {},
+      "changed_parameters_by_group": {},
+      "frozen_parameters_exactly_preserved": 13799060,
+      "shared_initialization_equal": true,
+      "initialization_sha256": "3d7f6f6cb8c62cfee30db2d48fee5d1e62e5d69604cc7ab484075ab4979606c0"
+    },
+    {
+      "passed": true,
+      "scope": "formal",
+      "row": 2,
+      "backbone": "eatr",
+      "effective": {
+        "global_event_query": true,
+        "lora": false,
+        "boundary_refiner": false,
+        "pooling": null,
+        "saliency_6d": false,
+        "candidate_presence_fusion": false,
+        "baseline_native_presence": false
+      },
+      "effective_training": {
+        "adaptation_epochs": 4,
+        "checkpoint_selection": "fixed epoch 4; frozen baseline row 1",
+        "evaluation": "Val and Test after training only",
+        "training_queries": 4138,
+        "validation_queries": 465,
+        "test_queries": 1036
+      },
+      "trainable_parameters_by_group": {
+        "global_event_query": 2108929
+      },
+      "changed_parameters_by_group": {
+        "global_event_query": 2108929
+      },
+      "frozen_parameters_exactly_preserved": 11690131,
+      "shared_initialization_equal": true,
+      "initialization_sha256": "3d7f6f6cb8c62cfee30db2d48fee5d1e62e5d69604cc7ab484075ab4979606c0"
+    },
+    {
+      "passed": true,
+      "scope": "formal",
+      "row": 3,
+      "backbone": "eatr",
+      "effective": {
+        "global_event_query": true,
+        "lora": true,
+        "boundary_refiner": false,
+        "pooling": null,
+        "saliency_6d": false,
+        "candidate_presence_fusion": false,
+        "baseline_native_presence": false
+      },
+      "effective_training": {
+        "adaptation_epochs": 4,
+        "checkpoint_selection": "fixed epoch 4; frozen baseline row 1",
+        "evaluation": "Val and Test after training only",
+        "training_queries": 4138,
+        "validation_queries": 465,
+        "test_queries": 1036
+      },
+      "trainable_parameters_by_group": {
+        "lora": 61440,
+        "global_event_query": 2108929
+      },
+      "changed_parameters_by_group": {
+        "lora": 61440,
+        "global_event_query": 2108929
+      },
+      "frozen_parameters_exactly_preserved": 11628691,
+      "shared_initialization_equal": true,
+      "initialization_sha256": "3d7f6f6cb8c62cfee30db2d48fee5d1e62e5d69604cc7ab484075ab4979606c0"
+    },
+    {
+      "passed": true,
+      "scope": "formal",
+      "row": 4,
+      "backbone": "eatr",
+      "effective": {
+        "global_event_query": true,
+        "lora": true,
+        "boundary_refiner": true,
+        "pooling": "hard_rectangle",
+        "saliency_6d": false,
+        "candidate_presence_fusion": false,
+        "baseline_native_presence": false
+      },
+      "effective_training": {
+        "adaptation_epochs": 4,
+        "checkpoint_selection": "fixed epoch 4; frozen baseline row 1",
+        "evaluation": "Val and Test after training only",
+        "training_queries": 4138,
+        "validation_queries": 465,
+        "test_queries": 1036
+      },
+      "trainable_parameters_by_group": {
+        "lora": 61440,
+        "global_event_query": 2108929,
+        "extractor": 17984,
+        "refiner": 306307
+      },
+      "changed_parameters_by_group": {
+        "lora": 61440,
+        "global_event_query": 2108929,
+        "extractor": 17984,
+        "refiner": 306307
+      },
+      "frozen_parameters_exactly_preserved": 11612499,
+      "shared_initialization_equal": true,
+      "initialization_sha256": "3d7f6f6cb8c62cfee30db2d48fee5d1e62e5d69604cc7ab484075ab4979606c0"
+    },
+    {
+      "passed": true,
+      "scope": "formal",
+      "row": 5,
+      "backbone": "eatr",
+      "effective": {
+        "global_event_query": true,
+        "lora": true,
+        "boundary_refiner": true,
+        "pooling": "gaussian",
+        "saliency_6d": false,
+        "candidate_presence_fusion": false,
+        "baseline_native_presence": false
+      },
+      "effective_training": {
+        "adaptation_epochs": 4,
+        "checkpoint_selection": "fixed epoch 4; frozen baseline row 1",
+        "evaluation": "Val and Test after training only",
+        "training_queries": 4138,
+        "validation_queries": 465,
+        "test_queries": 1036
+      },
+      "trainable_parameters_by_group": {
+        "lora": 61440,
+        "global_event_query": 2108929,
+        "extractor": 17984,
+        "refiner": 306307
+      },
+      "changed_parameters_by_group": {
+        "lora": 61440,
+        "global_event_query": 2108929,
+        "extractor": 17984,
+        "refiner": 306307
+      },
+      "frozen_parameters_exactly_preserved": 11612499,
+      "shared_initialization_equal": true,
+      "initialization_sha256": "3d7f6f6cb8c62cfee30db2d48fee5d1e62e5d69604cc7ab484075ab4979606c0"
+    },
+    {
+      "passed": true,
+      "scope": "formal",
+      "row": 6,
+      "backbone": "eatr",
+      "effective": {
+        "global_event_query": true,
+        "lora": true,
+        "boundary_refiner": true,
+        "pooling": "gaussian",
+        "saliency_6d": true,
+        "candidate_presence_fusion": false,
+        "baseline_native_presence": false
+      },
+      "effective_training": {
+        "adaptation_epochs": 4,
+        "checkpoint_selection": "fixed epoch 4; frozen baseline row 1",
+        "evaluation": "Val and Test after training only",
+        "training_queries": 4138,
+        "validation_queries": 465,
+        "test_queries": 1036
+      },
+      "trainable_parameters_by_group": {
+        "lora": 61440,
+        "global_event_query": 2108929,
+        "extractor": 17984,
+        "refiner": 306307,
+        "saliency": 1792
+      },
+      "changed_parameters_by_group": {
+        "lora": 61440,
+        "global_event_query": 2108929,
+        "extractor": 17984,
+        "refiner": 306307,
+        "saliency": 1792
+      },
+      "frozen_parameters_exactly_preserved": 11610707,
+      "shared_initialization_equal": true,
+      "initialization_sha256": "3d7f6f6cb8c62cfee30db2d48fee5d1e62e5d69604cc7ab484075ab4979606c0"
+    },
+    {
+      "passed": true,
+      "scope": "additional_diagnostic",
+      "row": 7,
+      "backbone": "eatr",
+      "effective": {
+        "global_event_query": true,
+        "lora": true,
+        "boundary_refiner": true,
+        "pooling": "gaussian",
+        "saliency_6d": true,
+        "candidate_presence_fusion": true,
+        "baseline_native_presence": false
+      },
+      "effective_training": {
+        "adaptation_epochs": 4,
+        "checkpoint_selection": "fixed epoch 4; frozen baseline row 1",
+        "evaluation": "Val and Test after training only",
+        "training_queries": 4138,
+        "validation_queries": 465,
+        "test_queries": 1036
+      },
+      "trainable_parameters_by_group": {
+        "lora": 61440,
+        "global_event_query": 2108929,
+        "extractor": 17984,
+        "refiner": 306307,
+        "saliency": 1792,
+        "fusion": 378627
+      },
+      "changed_parameters_by_group": {
+        "lora": 61440,
+        "global_event_query": 2108929,
+        "extractor": 17984,
+        "refiner": 306307,
+        "saliency": 1792,
+        "fusion": 378627
+      },
+      "frozen_parameters_exactly_preserved": 11232080,
+      "shared_initialization_equal": true,
+      "initialization_sha256": "3d7f6f6cb8c62cfee30db2d48fee5d1e62e5d69604cc7ab484075ab4979606c0"
+    }
+  ]
+}

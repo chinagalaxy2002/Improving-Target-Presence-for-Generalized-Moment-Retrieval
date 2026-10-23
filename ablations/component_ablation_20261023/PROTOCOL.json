@@ -1,0 +1,49 @@
+{
+  "backbones": [
+    "moment_detr",
+    "qd_detr",
+    "cg_detr",
+    "eatr",
+    "flashvtg"
+  ],
+  "adaptation_epochs": 4,
+  "seed": 2026,
+  "primary_threshold": 0.4,
+  "sensitivity_thresholds": [
+    0.5,
+    0.6
+  ],
+  "checkpoint_selection": "fixed epoch; no selection",
+  "baseline": "frozen pretrained coupled GMR Adapter",
+  "test_used_for_selection": false,
+  "source_sha256": {
+    "config.json": "91058465958c711158c8d6f2cf10a0b0b021c77e8f56435b4d9db9b5ca8cc64a",
+    "variants.py": "3c67fba1a24e6c4db00f6a025b16775c1b0eb5f3cb79b14902aecc57a1512ec4",
+    "run.py": "ac6772f1cba80c073fc528dd5cfb09ed7fa7cb6e146d5986215a7c77de7f4fe5",
+    "flash_backend.py": "23bd85cba8514533fc830c50493a5f2317be1dcad6c752850f6c1282d4309569",
+    "REQUEST.txt": "eaa679ddf6b462211cfd2ae765f7cf874170dd71e4788c9ef6ce0f944b8c6a13"
+  },
+  "execution_rows": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+  ],
+  "formal_rows": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+  ],
+  "additional_diagnostic_rows": [
+    7
+  ],
+  "formal_experiments": 30,
+  "additional_diagnostic_experiments": 5,
+  "scope_clarification": "User: formal experiments are five backbones x six configurations; row 7 is an additional diagnostic and must not enter formal component tables or counts."
+}

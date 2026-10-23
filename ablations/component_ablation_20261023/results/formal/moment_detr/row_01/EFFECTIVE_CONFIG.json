@@ -1,0 +1,28 @@
+{
+  "passed": true,
+  "scope": "formal",
+  "row": 1,
+  "backbone": "moment_detr",
+  "effective": {
+    "global_event_query": false,
+    "lora": false,
+    "boundary_refiner": false,
+    "pooling": null,
+    "saliency_6d": false,
+    "candidate_presence_fusion": false,
+    "baseline_native_presence": true
+  },
+  "effective_training": {
+    "adaptation_epochs": 0,
+    "checkpoint_selection": "fixed epoch 4; frozen baseline row 1",
+    "evaluation": "Val and Test after training only",
+    "training_queries": 4138,
+    "validation_queries": 465,
+    "test_queries": 1036
+  },
+  "trainable_parameters_by_group": {},
+  "changed_parameters_by_group": {},
+  "frozen_parameters_exactly_preserved": 8574865,
+  "shared_initialization_equal": true,
+  "initialization_sha256": "c69fc1bdc6b7187c471bb0272cca5e7bb1087c175f10c646dad30fca1295ca1f"
+}

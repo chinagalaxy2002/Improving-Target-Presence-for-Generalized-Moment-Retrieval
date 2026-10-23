@@ -1,0 +1,41 @@
+\begin{table*}[t]
+\centering
+\small
+\caption{Formal component-wise val results at $\tau=0.4$ (seed 2026, fixed epoch 4). 30/30 measured formal experiments available: five backbones and six configurations. Additional fusion diagnostics are reported separately.}
+\begin{tabular}{llrrrrr}
+\hline
+Backbone & Configuration & N-acc & Rej-F1 & mAP & mR$^+$@5 & G-mIoU@1 \\
+\hline
+cg\_detr & 1: Coupled GMR Adapter & 19.52 & 30.71 & 20.98 & 11.76 & 22.34 \\
+cg\_detr & 2: + Decoupled Global Event Query & 89.52 & 70.54 & 20.98 & 11.76 & 48.46 \\
+cg\_detr & 3: + LoRA & 89.52 & 70.54 & 20.65 & 12.31 & 48.39 \\
+cg\_detr & 4: + Hard-RoI Refiner (without saliency) & 89.52 & 70.54 & 21.91 & 14.15 & 48.68 \\
+cg\_detr & 5: + Gaussian-RoI Refiner (without saliency) & 84.29 & 69.01 & 18.61 & 10.39 & 45.87 \\
+cg\_detr & 6: Full DeRoI-GMR (minusFusion) & 90.95 & 71.27 & 21.16 & 12.98 & 49.28 \\
+eatr & 1: Coupled GMR Adapter & 50.95 & 57.84 & 20.26 & 12.44 & 34.76 \\
+eatr & 2: + Decoupled Global Event Query & 85.24 & 68.45 & 20.26 & 12.44 & 47.11 \\
+eatr & 3: + LoRA & 86.67 & 68.94 & 20.66 & 12.89 & 48.07 \\
+eatr & 4: + Hard-RoI Refiner (without saliency) & 87.14 & 68.93 & 19.32 & 10.44 & 48.05 \\
+eatr & 5: + Gaussian-RoI Refiner (without saliency) & 86.19 & 68.56 & 19.41 & 10.89 & 47.57 \\
+eatr & 6: Full DeRoI-GMR (minusFusion) & 85.71 & 68.44 & 19.54 & 11.44 & 47.22 \\
+flashvtg & 1: Coupled GMR Adapter & 36.67 & 48.12 & 29.16 & 14.74 & 31.02 \\
+flashvtg & 2: + Decoupled Global Event Query & 88.10 & 69.68 & 28.96 & 14.74 & 49.56 \\
+flashvtg & 3: + LoRA & 88.10 & 69.42 & 28.59 & 14.59 & 49.36 \\
+flashvtg & 4: + Hard-RoI Refiner (without saliency) & 89.05 & 69.39 & 27.79 & 13.70 & 49.49 \\
+flashvtg & 5: + Gaussian-RoI Refiner (without saliency) & 89.05 & 69.39 & 27.98 & 15.96 & 49.59 \\
+flashvtg & 6: Full DeRoI-GMR (minusFusion) & 89.05 & 69.39 & 28.07 & 15.43 & 49.69 \\
+moment\_detr & 1: Coupled GMR Adapter & 0.00 & 0.00 & 7.35 & 2.17 & 6.08 \\
+moment\_detr & 2: + Decoupled Global Event Query & 100.00 & 70.71 & 7.35 & 2.17 & 48.68 \\
+moment\_detr & 3: + LoRA & 100.00 & 70.71 & 7.94 & 2.17 & 48.91 \\
+moment\_detr & 4: + Hard-RoI Refiner (without saliency) & 100.00 & 70.71 & 6.41 & 0.44 & 48.76 \\
+moment\_detr & 5: + Gaussian-RoI Refiner (without saliency) & 100.00 & 70.71 & 7.41 & 0.28 & 48.61 \\
+moment\_detr & 6: Full DeRoI-GMR (minusFusion) & 100.00 & 70.71 & 7.01 & 0.28 & 48.70 \\
+qd\_detr & 1: Coupled GMR Adapter & 56.19 & 59.60 & 19.60 & 10.22 & 36.21 \\
+qd\_detr & 2: + Decoupled Global Event Query & 81.90 & 68.39 & 19.60 & 10.22 & 45.99 \\
+qd\_detr & 3: + LoRA & 81.43 & 68.40 & 17.79 & 11.48 & 45.11 \\
+qd\_detr & 4: + Hard-RoI Refiner (without saliency) & 85.71 & 69.36 & 18.31 & 9.78 & 47.37 \\
+qd\_detr & 5: + Gaussian-RoI Refiner (without saliency) & 85.71 & 69.50 & 17.89 & 6.93 & 47.01 \\
+qd\_detr & 6: Full DeRoI-GMR (minusFusion) & 83.81 & 69.02 & 18.02 & 7.54 & 45.83 \\
+\hline
+\end{tabular}
+\end{table*}
