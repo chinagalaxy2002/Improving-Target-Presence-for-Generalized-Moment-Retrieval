@@ -1,0 +1,368 @@
+{
+  "verification_date": "2026-10-23",
+  "scope": "Independent citation-only pass based exclusively on supplied claims and primary-source retrieval; no other project files inspected.",
+  "evidence_policy": "Primary paper text and publisher/author metadata; Crossref API checked for the AAAI DOI. Secondary search hits were not relied upon.",
+  "overall_verdict": "Proposed literature descriptions are supportable with qualifications; add Qin et al. (ICLR 2025) and avoid broad task-level novelty.",
+  "key_corrections": [
+    "Qin et al. 2025 precedes Ding et al. on no-target/one-to-many temporal retrieval.",
+    "Ding presence branch pools cross-modal embeddings, not explicit temporal coordinates.",
+    "Kim presence reads intermediate pixel-decoder features; plurality uses text features.",
+    "QD-DETR already trains on negative video-query pairs, though its original evaluation does not establish GMR rejection.",
+    "QVHighlights already supports multiple disjoint moments.",
+    "FlashVTG conference year is 2025; its preprint is 2024.",
+    "All supplied arXiv DOIs are DataCite DOIs, not Crossref registrations.",
+    "Repository module inclusion and runtime savings require implementation or experimental evidence outside this pass.",
+    "OpenVMR is ACM MM 2024 despite its arXiv upload in 2026.",
+    "Negative-aware retrieval and explicit rejection were studied before the current work by OpenVMR and Moment of Untruth."
+  ],
+  "references": [
+    {
+      "title": "Retrieving Any Relevant Moments: Benchmark and Models for Generalized Moment Retrieval",
+      "url": "https://arxiv.org/abs/2605.02623",
+      "authors": [
+        "Yiming Ding",
+        "Siyu Cao",
+        "Luyuan Jiao",
+        "Yixuan Li",
+        "Zitong Wang",
+        "Zhiyong Liu",
+        "Lu Zhang"
+      ],
+      "year": 2026,
+      "year_type": "arXiv first submission",
+      "doi": "10.48550/arXiv.2605.02623",
+      "doi_registry": "DataCite (arXiv-issued; not Crossref)",
+      "claim_match": "Supported with novelty qualification",
+      "evidence_level": "Primary full text and arXiv metadata",
+      "evidence_locations": "Abstract; §2.2; §4.1, equations 6–7; https://arxiv.org/html/2605.02623v1",
+      "issues": [
+        "Do not imply first introduction of no-target/multiple-target temporal retrieval; Qin et al. precedes this work.",
+        "Presence consumes cross-modal embeddings, not explicitly predicted temporal coordinates."
+      ],
+      "resolved_wording": "Ding et al. study retrieval of all relevant intervals or an empty set, introduce Soccer-GMR, and attach an existence branch using max-pooling and a two-layer MLP over cross-modal localization representations."
+    },
+    {
+      "title": "Improving Target Presence and Plurality Recognition for Generalized Referring Image Segmentation",
+      "url": "https://ojs.aaai.org/index.php/AAAI/article/view/37490",
+      "authors": [
+        "Namyup Kim",
+        "Jinsung Lee",
+        "Suha Kwak"
+      ],
+      "year": 2026,
+      "year_type": "AAAI publication",
+      "venue": "Proceedings of the AAAI Conference on Artificial Intelligence 40(7)",
+      "pages": "5700–5708",
+      "doi": "10.1609/aaai.v40i7.37490",
+      "doi_registry": "Crossref, independently retrieved via https://api.crossref.org/works/10.1609/aaai.v40i7.37490",
+      "claim_match": "Supported",
+      "evidence_level": "Primary publisher full text, publisher metadata, and Crossref API",
+      "evidence_locations": [
+        "§3.2, equations 3–4",
+        "§3.3 synthetic no-target and multi-target generation",
+        "https://ojs.aaai.org/index.php/AAAI/article/view/37490/41452"
+      ],
+      "issues": [
+        "Specify intermediate pixel-decoder features for presence; plurality is supervised from text-conditioned query features.",
+        "Evidence concerns image segmentation, not temporal retrieval."
+      ],
+      "resolved_wording": "Kim, Lee, and Kwak introduce a target query that reads intermediate pixel-decoder features for presence recognition, a plurality classification objective, and synthetic no- and multi-target training examples in generalized referring image segmentation."
+    },
+    {
+      "title": "QVHighlights: Detecting Moments and Highlights in Videos via Natural Language Queries",
+      "url": "https://arxiv.org/abs/2107.09609",
+      "authors": [
+        "Jie Lei",
+        "Tamara L. Berg",
+        "Mohit Bansal"
+      ],
+      "year": 2021,
+      "year_type": "arXiv first submission",
+      "doi": "10.48550/arXiv.2107.09609",
+      "doi_registry": "DataCite (arXiv-issued; not Crossref)",
+      "claim_match": "Supported",
+      "evidence_level": "Primary full text and arXiv metadata",
+      "evidence_locations": "§§3–5; https://arxiv.org/html/2107.09609v2",
+      "issues": [
+        "QVHighlights already includes multiple disjoint moments per query; do not characterize every earlier benchmark as strictly single-moment.",
+        "Its evaluation does not establish empty-set rejection."
+      ],
+      "resolved_wording": "QVHighlights introduces Moment-DETR for query-conditioned moment localization and highlight detection, including retrieval of multiple disjoint moments.",
+      "venue": "NeurIPS 2021 (arXiv author comments)"
+    },
+    {
+      "title": "Query-Dependent Video Representation for Moment Retrieval and Highlight Detection",
+      "url": "https://arxiv.org/abs/2303.13874",
+      "authors": [
+        "WonJun Moon",
+        "Sangeek Hyun",
+        "SangUk Park",
+        "Dongchan Park",
+        "Jae-Pil Heo"
+      ],
+      "year": 2023,
+      "year_type": "arXiv first submission",
+      "doi": "10.48550/arXiv.2303.13874",
+      "doi_registry": "DataCite (arXiv-issued; not Crossref)",
+      "claim_match": "Supported with training caveat",
+      "evidence_level": "Primary full text, arXiv metadata, and CVF proceedings",
+      "evidence_locations": "§§3.1–3.2 and 4.1; https://arxiv.org/html/2303.13874v1",
+      "issues": [
+        "QD-DETR explicitly uses irrelevant video-query pairs with low-saliency supervision; avoid saying it has no negative-query training.",
+        "Original evaluation uses retrieval/highlight metrics, not a GMR empty-set rejection protocol."
+      ],
+      "resolved_wording": "QD-DETR builds query-dependent video representations with cross-attention and negative-pair saliency training. These evaluations do not by themselves establish no-target GMR rejection.",
+      "venue": "CVPR 2023",
+      "pages": "23023–23033",
+      "proceedings_url": "https://openaccess.thecvf.com/content/CVPR2023/html/Moon_Query-Dependent_Video_Representation_for_Moment_Retrieval_and_Highlight_Detection_CVPR_2023_paper.html"
+    },
+    {
+      "title": "Correlation-Guided Query-Dependency Calibration for Video Temporal Grounding",
+      "url": "https://arxiv.org/abs/2311.08835",
+      "authors": [
+        "WonJun Moon",
+        "Sangeek Hyun",
+        "SuBeen Lee",
+        "Jae-Pil Heo"
+      ],
+      "year": 2023,
+      "year_type": "arXiv first submission",
+      "doi": "10.48550/arXiv.2311.08835",
+      "doi_registry": "DataCite (arXiv-issued; not Crossref)",
+      "claim_match": "Supported",
+      "evidence_level": "Primary full text and arXiv metadata",
+      "evidence_locations": "§§3–4, Appendix A.4; https://arxiv.org/html/2311.08835v4",
+      "issues": [
+        "Latest retrieved version is v4, July 2024; 2023 denotes first preprint.",
+        "No publication venue was verified; do not invent one."
+      ],
+      "resolved_wording": "CG-DETR calibrates cross-modal query dependence using adaptive attention with dummy tokens and clip-word correlation guidance. Its reported grounding/highlight evaluations do not establish GMR empty-set rejection."
+    },
+    {
+      "title": "Knowing Where to Focus: Event-aware Transformer for Video Grounding",
+      "url": "https://arxiv.org/abs/2308.06947",
+      "authors": [
+        "Jinhyun Jang",
+        "Jungin Park",
+        "Jin Kim",
+        "Hyeongjun Kwon",
+        "Kwanghoon Sohn"
+      ],
+      "year": 2023,
+      "year_type": "arXiv first submission",
+      "doi": "10.48550/arXiv.2308.06947",
+      "doi_registry": "DataCite (arXiv-issued; not Crossref)",
+      "claim_match": "Supported",
+      "evidence_level": "Primary full text and arXiv metadata",
+      "evidence_locations": "Abstract; §4.1; https://arxiv.org/html/2308.06947v1",
+      "issues": [
+        "Evaluation uses standard grounding datasets and recall/mAP; no-target rejection cannot be inferred from these results."
+      ],
+      "resolved_wording": "EaTR uses event-aware dynamic moment queries informed by input-specific content and position.",
+      "venue": "ICCV 2023 (arXiv author comments)"
+    },
+    {
+      "title": "FlashVTG: Feature Layering and Adaptive Score Handling Network for Video Temporal Grounding",
+      "url": "https://arxiv.org/abs/2412.13441",
+      "authors": [
+        "Zhuo Cao",
+        "Bingqing Zhang",
+        "Heming Du",
+        "Xin Yu",
+        "Xue Li",
+        "Sen Wang"
+      ],
+      "year": 2024,
+      "year_type": "arXiv first submission",
+      "doi": "10.48550/arXiv.2412.13441",
+      "doi_registry": "DataCite (arXiv-issued; not Crossref)",
+      "claim_match": "Supported; publication year differs from preprint",
+      "evidence_level": "Primary full text, arXiv metadata, and CVF proceedings",
+      "evidence_locations": "§§3–4.2; https://arxiv.org/html/2412.13441v1",
+      "issues": [
+        "Use 2025 when citing the WACV conference version; 2024 is the preprint year.",
+        "Its TFL replaces the traditional decoder; original metrics do not establish no-target rejection."
+      ],
+      "resolved_wording": "FlashVTG uses temporal feature layering across multiple scales and adaptive score refinement for grounding and highlight detection.",
+      "publication_year": 2025,
+      "venue": "WACV 2025",
+      "pages": "9208–9218",
+      "proceedings_url": "https://openaccess.thecvf.com/content/WACV2025/html/Cao_FlashVTG_Feature_Layering_and_Adaptive_Score_Handling_Network_for_Video_WACV_2025_paper.html"
+    },
+    {
+      "title": "LoRA: Low-Rank Adaptation of Large Language Models",
+      "url": "https://arxiv.org/abs/2106.09685",
+      "authors": [
+        "Edward J. Hu",
+        "Yelong Shen",
+        "Phillip Wallis",
+        "Zeyuan Allen-Zhu",
+        "Yuanzhi Li",
+        "Shean Wang",
+        "Lu Wang",
+        "Weizhu Chen"
+      ],
+      "year": 2021,
+      "year_type": "arXiv first submission",
+      "doi": "10.48550/arXiv.2106.09685",
+      "doi_registry": "DataCite (arXiv-issued; not Crossref)",
+      "claim_match": "Supported; repository efficiency claims unverified",
+      "evidence_level": "Primary full text and arXiv metadata",
+      "evidence_locations": "Abstract; https://arxiv.org/html/2106.09685v2",
+      "issues": [
+        "Original language-model efficiency findings are not measurements of this repository.",
+        "No repository runtime or memory result was inspected in this independent pass."
+      ],
+      "resolved_wording": "LoRA freezes pretrained weights and learns low-rank update matrices. Actual runtime, memory, and inference savings for this implementation require direct measurement."
+    },
+    {
+      "title": "CVA: Context-aware Video-text Alignment for Video Temporal Grounding",
+      "url": "https://arxiv.org/abs/2603.24934",
+      "authors": [
+        "Sungho Moon",
+        "Seunghun Lee",
+        "Jiwan Seo",
+        "Sunghoon Im"
+      ],
+      "year": 2026,
+      "year_type": "arXiv first submission",
+      "doi": "10.48550/arXiv.2603.24934",
+      "doi_registry": "DataCite (arXiv-issued; not Crossref)",
+      "claim_match": "Literature claim supported; repository attribution requires implementation check",
+      "evidence_level": "Primary full text and arXiv metadata",
+      "evidence_locations": "§3.1; https://arxiv.org/html/2603.24934v1",
+      "issues": [
+        "QCD selects background replacements using query relevance and preserves the ground-truth moment with adjacent context.",
+        "Whether this repository implements only the inspired replacement and excludes CBD/CTE was not inspected."
+      ],
+      "resolved_wording": "CVA introduces Query-aware Context Diversification, motivating query-conditioned background replacement. Attribute only this augmentation inspiration unless the implementation also adopts CVA’s encoder or boundary loss.",
+      "venue": "CVPR 2026 (arXiv author comments)"
+    },
+    {
+      "title": "Generalized Video Moment Retrieval",
+      "url": "https://openreview.net/pdf?id=qdOIkeZ5e4",
+      "retrieved_primary_url": "https://proceedings.iclr.cc/paper_files/paper/2025/file/7ac19fdcdf4f311f3e3ef2e7ef4784d7-Paper-Conference.pdf",
+      "authors": [
+        "You Qin",
+        "Qilong Wu",
+        "Yicong Li",
+        "Wei Ji",
+        "Shawn Li",
+        "Pengcheng Cai",
+        "Lina Wei",
+        "Roger Zimmermann"
+      ],
+      "year": 2025,
+      "year_type": "Conference publication",
+      "venue": "ICLR 2025",
+      "doi": null,
+      "doi_registry": null,
+      "claim_match": "Strong prior art; limits task-level novelty",
+      "evidence_level": "Primary conference full text",
+      "evidence_locations": [
+        "Title page",
+        "Abstract",
+        "§3.1 task definition",
+        "§4 model",
+        "Appendix A.2 no-target threshold"
+      ],
+      "issues": [
+        "OpenReview direct access triggered browser verification; official ICLR PDF retrieved successfully.",
+        "Official PDF names the fifth author Shawn Li; secondary indexing may show Li Li.",
+        "No DOI was found in retrieved primary material.",
+        "No-target and one-to-many temporal retrieval, a corresponding dataset (NExT-VMR), and BCANet predate Ding et al. 2026."
+      ],
+      "resolved_wording": "Qin et al. previously formulate Generalized Video Moment Retrieval with no-target and one-to-many queries, introduce NExT-VMR, and propose BCANet. Any present novelty must concern the specific method, benchmark, protocol, or measured behavior rather than first enabling these query types."
+    },
+    {
+      "title": "Moment of Untruth: Dealing with Negative Queries in Video Moment Retrieval",
+      "url": "https://arxiv.org/abs/2502.08544",
+      "authors": [
+        "Kevin Flanagan",
+        "Dima Damen",
+        "Michael Wray"
+      ],
+      "year": 2025,
+      "venue": "WACV 2025",
+      "pages": "5336–5345",
+      "doi": "10.48550/arXiv.2502.08544",
+      "doi_registry": "DataCite (arXiv-issued; not Crossref)",
+      "proceedings_url": "https://openaccess.thecvf.com/content/WACV2025/html/Flanagan_Moment_of_Untruth_Dealing_with_Negative_Queries_in_Video_Moment_WACV_2025_paper.html",
+      "claim_match": "Supported",
+      "evidence_level": "Primary arXiv abstract and CVF publisher abstract/metadata",
+      "evidence_locations": [
+        "Abstract; official CVF citation metadata"
+      ],
+      "issues": [
+        "Negative queries mean video-irrelevant queries, not necessarily linguistic negation.",
+        "This prior limits claims that negative-query rejection itself is novel."
+      ],
+      "resolved_wording": "Flanagan, Damen, and Wray introduce Negative-Aware Video Moment Retrieval, distinguishing in-domain and out-of-domain negatives, and evaluate retrieval and rejection on augmented QVHighlights and Charades-STA benchmarks."
+    },
+    {
+      "title": "Not All Inputs Are Valid: Towards Open-Set Video Moment Retrieval using Language",
+      "url": "https://dl.acm.org/doi/10.1145/3664647.3680947",
+      "arxiv_url": "https://arxiv.org/abs/2605.29812",
+      "authors": [
+        "Xiang Fang",
+        "Wanlong Fang",
+        "Daizong Liu",
+        "Xiaoye Qu",
+        "Jianfeng Dong",
+        "Pan Zhou",
+        "Renfu Li",
+        "Zichuan Xu",
+        "Lixing Chen",
+        "Panpan Zheng",
+        "Yu Cheng"
+      ],
+      "year": 2024,
+      "year_type": "ACM publication; Crossref publication date 2024-10-28",
+      "arxiv_year": 2026,
+      "venue": "Proceedings of the 32nd ACM International Conference on Multimedia",
+      "pages": "28–37",
+      "doi": "10.1145/3664647.3680947",
+      "doi_registry": "Crossref; verified via https://api.crossref.org/works/10.1145/3664647.3680947",
+      "arxiv_doi": "10.48550/arXiv.2605.29812",
+      "arxiv_doi_registry": "DataCite, not Crossref",
+      "claim_match": "Supported",
+      "evidence_level": "Primary arXiv abstract and publisher-deposited Crossref metadata",
+      "evidence_locations": [
+        "arXiv abstract and author publication comment",
+        "Crossref metadata"
+      ],
+      "issues": [
+        "ACM page returned HTTP 403; Crossref confirms publisher bibliographic metadata.",
+        "Cite ACM MM 2024, not 2026, when discussing chronology.",
+        "Paper defines OOD as video-irrelevant queries; do not equate this automatically with Flanagan’s out-of-domain-negative category."
+      ],
+      "resolved_wording": "Fang et al. study Open-Set Video Moment Retrieval and propose OpenVMR to reject video-irrelevant queries before localizing moments for relevant queries."
+    },
+    {
+      "title": "When One Moment Isn't Enough: Multi-Moment Retrieval with Cross-Moment Interactions",
+      "url": "https://arxiv.org/abs/2510.17218",
+      "authors": [
+        "Zhuo Cao",
+        "Heming Du",
+        "Bingqing Zhang",
+        "Xin Yu",
+        "Xue Li",
+        "Sen Wang"
+      ],
+      "year": 2025,
+      "venue": "NeurIPS 2025 (arXiv author comments)",
+      "doi": "10.48550/arXiv.2510.17218",
+      "doi_registry": "DataCite (arXiv-issued; not Crossref)",
+      "claim_match": "Supported",
+      "evidence_level": "Primary arXiv abstract and author metadata",
+      "evidence_locations": [
+        "Abstract"
+      ],
+      "issues": [
+        "The named module is Multi-moment Post-verification; generic cross-moment verification is acceptable but less precise.",
+        "Abstract supports multiple-moment retrieval, not an empty-set rejection claim."
+      ],
+      "resolved_wording": "Cao et al. introduce QV-M² and FlashMMR for multi-moment retrieval; its Multi-moment Post-verification module adjusts boundaries, re-evaluates candidates, and prunes low-confidence proposals."
+    }
+  ]
+}

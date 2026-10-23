@@ -1,0 +1,76 @@
+{
+  "intent": "Research lifecycle evidence and repository data/algorithm documentation",
+  "tiers_used": [
+    "Tier 1 public APIs",
+    "Local paper-text explanation",
+    "Local evidence-grounded drafting"
+  ],
+  "pipeline_executed": [
+    {
+      "skill": "thesis-research-router",
+      "status": "completed"
+    },
+    {
+      "skill": "thesis-openalex-search",
+      "status": "completed with relevance screening",
+      "broad_queries": 4,
+      "focused_queries": 3,
+      "off_topic_broad_records_excluded": 32
+    },
+    {
+      "skill": "thesis-crossref-validate",
+      "status": "partial API success; HTTP429 failures retained; primary-source independent review used for final bibliography",
+      "direct_validations": [
+        {
+          "file": "crossref_validate_na_vmr.json",
+          "status": "completed"
+        },
+        {
+          "file": "crossref_validate_qd_detr.json",
+          "status": "completed"
+        },
+        {
+          "file": "crossref_validate_flashvtg.json",
+          "status": "failed"
+        },
+        {
+          "file": "crossref_validate_eatr.json",
+          "status": "completed"
+        },
+        {
+          "file": "crossref_validate_kim.json",
+          "status": "completed"
+        }
+      ]
+    },
+    {
+      "skill": "thesis-openalex-expand",
+      "status": "graph attempted; zero usable links; expanded from verified GMR reference list instead"
+    },
+    {
+      "skill": "thesis-scispace-explain",
+      "status": "local full-text fallback; SciSpace not used"
+    },
+    {
+      "skill": "thesis-jenni-draft",
+      "status": "local evidence-card drafting fallback; Jenni not used"
+    },
+    {
+      "skill": "paper-writer",
+      "status": "completed for documentation and partial manuscript scope; independent citation review complete"
+    }
+  ],
+  "papers_accepted": 13,
+  "papers_maybe": 8,
+  "papers_rejected": 32,
+  "gaps": [
+    "No systematic novelty proof for Gaussian temporal refinement",
+    "No new component ablations, multiple-seed study, feature preflight or compute measurements",
+    "Repeated historical Test diagnostics preclude a fresh untouched-holdout claim"
+  ],
+  "verification": {
+    "offline_repository_audit": "passed",
+    "archived_epoch4_full_brief_comparison": "passed for all five backbones",
+    "independent_citation_review": "13 references checked and wording qualified"
+  }
+}

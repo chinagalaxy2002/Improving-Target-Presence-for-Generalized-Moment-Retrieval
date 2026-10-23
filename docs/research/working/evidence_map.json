@@ -1,0 +1,116 @@
+{
+  "local_claims": [
+    {
+      "id": "C01",
+      "claim": "The local task includes no/single/multiple intervals.",
+      "sources": [
+        "data/train.jsonl",
+        "data/val.jsonl",
+        "data/test.jsonl"
+      ],
+      "status": "verified"
+    },
+    {
+      "id": "C02",
+      "claim": "Presence reads text and intermediate video memories without direct proposal evidence.",
+      "sources": [
+        "code/model.py",
+        "code/runtime.py",
+        "configs/s4_fusion.json"
+      ],
+      "status": "verified implementation; causal benefit not isolated"
+    },
+    {
+      "id": "C03",
+      "claim": "The active objective is BCE existence plus 0.5 positive-only refinement; no plurality objective.",
+      "sources": [
+        "code/model.py",
+        "code/train.py",
+        "configs/s4_fusion.json"
+      ],
+      "status": "verified"
+    },
+    {
+      "id": "C04",
+      "claim": "Five implementations improve G1 and ungated mAP at fixed .4 relative to archived local GMR baselines.",
+      "sources": [
+        "docs/research/generated/cross_backbone_results.csv"
+      ],
+      "status": "single-seed complete-system comparisons; S4 recomputed; baseline curve summaries"
+    },
+    {
+      "id": "C05",
+      "claim": "Positive recall falls for all five backbones; AUROC falls for QD-DETR and EaTR.",
+      "sources": [
+        "docs/research/generated/cross_backbone_results.csv"
+      ],
+      "status": "verified"
+    },
+    {
+      "id": "C06",
+      "claim": "All SportsMoments examples are positive; exact match metadata overlaps splits.",
+      "sources": [
+        "docs/research/generated/dataset_statistics.json"
+      ],
+      "status": "verified association; not proof of model shortcut"
+    },
+    {
+      "id": "C07",
+      "claim": "A3 .4 and .5 differences must be labeled separately.",
+      "sources": [
+        "docs/research/generated/fixed_threshold_results.csv",
+        "provenance/QCD_A3.md"
+      ],
+      "status": "verified"
+    },
+    {
+      "id": "C08",
+      "claim": "Root FlashVTG exporter retains uniform existence-based proposal-score scaling.",
+      "sources": [
+        "baseline_source/training/flash_vtg_gmr/inference.py"
+      ],
+      "status": "verified; removed fusion concerns candidate-to-presence path"
+    },
+    {
+      "id": "C09",
+      "claim": "Root raw mAP is after refinement and before export score scaling/NMS.",
+      "sources": [
+        "code/model.py",
+        "baseline_source/training/flash_vtg_gmr/inference.py"
+      ],
+      "status": "verified; not a component ablation"
+    },
+    {
+      "id": "C10",
+      "claim": "The supplied image-segmentation paper motivates but does not prove the GMR mechanism.",
+      "sources": [
+        "L02"
+      ],
+      "status": "supported limited cross-task inference"
+    }
+  ],
+  "literature_evidence": [
+    "L01",
+    "L02",
+    "L03",
+    "L04",
+    "L05",
+    "L06",
+    "L07",
+    "L08",
+    "L09",
+    "L10",
+    "L11",
+    "L12",
+    "L13"
+  ],
+  "unresolved_evidence": [
+    "Does dedicated global querying improve rejection at matched positive recall and matched negative recall?",
+    "Which gains remain under matched optimization budgets, Val selectors and multiple seeds?",
+    "Does Gaussian pooling outperform uniform pooling in this same active configuration?",
+    "How much full-Test discrimination reflects source association versus within-WorldCup event verification?",
+    "Can positive/multi-target end-to-end recall improve without sacrificing rejection?",
+    "How do this operation and its full design differ from previous Gaussian temporal weighting/refinement methods?",
+    "What are measured adaptation cost, inference latency, memory and FLOPs?"
+  ]
+}
