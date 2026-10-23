@@ -4,11 +4,35 @@
 
 六个面板为：(a) 阈值与 G-mIoU@1；(b) 阈值与 G-mIoU@3；(c) 同阈值下相对 GMR 的 G-mIoU@1 变化；(d) N-acc 与 Positive recall；(e) 阈值与 Rej-F1；(f) 0.4 / 0.5 / 0.6 固定工作点。
 
-- [moment_detr](moment_detr_fig7_test_threshold_sweep.png)：[PDF](moment_detr_fig7_test_threshold_sweep.pdf)、[SVG](moment_detr_fig7_test_threshold_sweep.svg)。
-- [qd_detr](qd_detr_fig7_test_threshold_sweep.png)：[PDF](qd_detr_fig7_test_threshold_sweep.pdf)、[SVG](qd_detr_fig7_test_threshold_sweep.svg)。
-- [cg_detr](cg_detr_fig7_test_threshold_sweep.png)：[PDF](cg_detr_fig7_test_threshold_sweep.pdf)、[SVG](cg_detr_fig7_test_threshold_sweep.svg)。
-- [eatr](eatr_fig7_test_threshold_sweep.png)：[PDF](eatr_fig7_test_threshold_sweep.pdf)、[SVG](eatr_fig7_test_threshold_sweep.svg)。
-- [flashvtg](flashvtg_fig7_test_threshold_sweep.png)：[PDF](flashvtg_fig7_test_threshold_sweep.pdf)、[SVG](flashvtg_fig7_test_threshold_sweep.svg)。
+## Moment-DETR
+
+![Moment-DETR 的阈值敏感性与拒识曲线](moment_detr_fig7_test_threshold_sweep.png)
+
+[PDF 下载](moment_detr_fig7_test_threshold_sweep.pdf) · [SVG 下载](moment_detr_fig7_test_threshold_sweep.svg)
+
+## QD-DETR
+
+![QD-DETR 的阈值敏感性与拒识曲线](qd_detr_fig7_test_threshold_sweep.png)
+
+[PDF 下载](qd_detr_fig7_test_threshold_sweep.pdf) · [SVG 下载](qd_detr_fig7_test_threshold_sweep.svg)
+
+## CG-DETR
+
+![CG-DETR 的阈值敏感性与拒识曲线](cg_detr_fig7_test_threshold_sweep.png)
+
+[PDF 下载](cg_detr_fig7_test_threshold_sweep.pdf) · [SVG 下载](cg_detr_fig7_test_threshold_sweep.svg)
+
+## EaTR
+
+![EaTR 的阈值敏感性与拒识曲线](eatr_fig7_test_threshold_sweep.png)
+
+[PDF 下载](eatr_fig7_test_threshold_sweep.pdf) · [SVG 下载](eatr_fig7_test_threshold_sweep.svg)
+
+## FlashVTG
+
+![FlashVTG 的阈值敏感性与拒识曲线](flashvtg_fig7_test_threshold_sweep.png)
+
+[PDF 下载](flashvtg_fig7_test_threshold_sweep.pdf) · [SVG 下载](flashvtg_fig7_test_threshold_sweep.svg)
 
 完整结果表有三个阈值版本，每表 14 行本地实验 + 6 行论文 MLLM 参考数据；见 [结果导航](../../README.md)。
 

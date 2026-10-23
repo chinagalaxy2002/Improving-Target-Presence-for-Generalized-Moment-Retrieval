@@ -54,13 +54,35 @@ S4_minus_Fusion 使用独立全局事件查询产生存在性分数，保留候�
 
 每张图均按六面板样式展示：阈值与 G-mIoU@1、阈值与 G-mIoU@3、相对同阈值 GMR 的 G-mIoU@1 差值、Positive recall 与 N-acc、阈值与 Rej-F1，以及固定 0.4/0.5/0.6 工作点。前四个主干有三条方法曲线；FlashVTG 有两条。
 
-| 主干 | PNG | PDF |
-|---|---|---|
-| Moment-DETR | [图](backbonefolder/figures/complete_comparison/moment_detr_fig7_test_threshold_sweep.png) | [PDF](backbonefolder/figures/complete_comparison/moment_detr_fig7_test_threshold_sweep.pdf) |
-| QD-DETR | [图](backbonefolder/figures/complete_comparison/qd_detr_fig7_test_threshold_sweep.png) | [PDF](backbonefolder/figures/complete_comparison/qd_detr_fig7_test_threshold_sweep.pdf) |
-| CG-DETR | [图](backbonefolder/figures/complete_comparison/cg_detr_fig7_test_threshold_sweep.png) | [PDF](backbonefolder/figures/complete_comparison/cg_detr_fig7_test_threshold_sweep.pdf) |
-| EaTR | [图](backbonefolder/figures/complete_comparison/eatr_fig7_test_threshold_sweep.png) | [PDF](backbonefolder/figures/complete_comparison/eatr_fig7_test_threshold_sweep.pdf) |
-| FlashVTG | [图](backbonefolder/figures/complete_comparison/flashvtg_fig7_test_threshold_sweep.png) | [PDF](backbonefolder/figures/complete_comparison/flashvtg_fig7_test_threshold_sweep.pdf) |
+### Moment-DETR
+
+![Moment-DETR 的阈值敏感性与拒识曲线](backbonefolder/figures/complete_comparison/moment_detr_fig7_test_threshold_sweep.png)
+
+[PDF 下载](backbonefolder/figures/complete_comparison/moment_detr_fig7_test_threshold_sweep.pdf) · [SVG 下载](backbonefolder/figures/complete_comparison/moment_detr_fig7_test_threshold_sweep.svg)
+
+### QD-DETR
+
+![QD-DETR 的阈值敏感性与拒识曲线](backbonefolder/figures/complete_comparison/qd_detr_fig7_test_threshold_sweep.png)
+
+[PDF 下载](backbonefolder/figures/complete_comparison/qd_detr_fig7_test_threshold_sweep.pdf) · [SVG 下载](backbonefolder/figures/complete_comparison/qd_detr_fig7_test_threshold_sweep.svg)
+
+### CG-DETR
+
+![CG-DETR 的阈值敏感性与拒识曲线](backbonefolder/figures/complete_comparison/cg_detr_fig7_test_threshold_sweep.png)
+
+[PDF 下载](backbonefolder/figures/complete_comparison/cg_detr_fig7_test_threshold_sweep.pdf) · [SVG 下载](backbonefolder/figures/complete_comparison/cg_detr_fig7_test_threshold_sweep.svg)
+
+### EaTR
+
+![EaTR 的阈值敏感性与拒识曲线](backbonefolder/figures/complete_comparison/eatr_fig7_test_threshold_sweep.png)
+
+[PDF 下载](backbonefolder/figures/complete_comparison/eatr_fig7_test_threshold_sweep.pdf) · [SVG 下载](backbonefolder/figures/complete_comparison/eatr_fig7_test_threshold_sweep.svg)
+
+### FlashVTG
+
+![FlashVTG 的阈值敏感性与拒识曲线](backbonefolder/figures/complete_comparison/flashvtg_fig7_test_threshold_sweep.png)
+
+[PDF 下载](backbonefolder/figures/complete_comparison/flashvtg_fig7_test_threshold_sweep.pdf) · [SVG 下载](backbonefolder/figures/complete_comparison/flashvtg_fig7_test_threshold_sweep.svg)
 
 ## 4. 目录与代码入口
 
