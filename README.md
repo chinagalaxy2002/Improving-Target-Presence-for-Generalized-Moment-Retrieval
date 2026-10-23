@@ -1,11 +1,5 @@
 # Improving Target Presence for Generalized Moment Retrieval
 
-## 研究与论文文档
-
-[文档总览](docs/README.md) · [数据说明](docs/DATA.md) · [算法说明](docs/ALGORITHM.md) · [实验审计](docs/EXPERIMENTS.md) · [研究空白与文献](docs/RESEARCH_GAP.md) · [修订摘要及论文段落](docs/PAPER_SECTIONS.md) · [复现方法](docs/REPRODUCIBILITY.md)
-
-文档记录研究依据、数据流程、算法公式、冻结结果与结论边界；附有 13 篇文献的独立核验记录，以及数据和指标审计表。主实验仍以本页既有五主干结果为准；文档中的 A3/QCD 是另行标注的历史探索性分析。
-
 Soccer-GMR 上五个主干的 **Baseline → GMR → GMR + S4_minus_Fusion** 实验代码、冻结预测和结果汇总。主干包括 **Moment-DETR、QD-DETR、CG-DETR、EaTR、FlashVTG**。
 
 本仓库提供阈值 **0.4、0.5、0.6** 的三张完整结果表及图片，采用参考论文 Table 2 的指标分组与排版。每张表包含 **14 行本地实验 + 6 行论文 Table 4 的 MLLM 参考结果**。S4 行括号内标注相对**同一主干、同一阈值 GMR** 的变化值，单位为百分点（pp），负值表示下降。
