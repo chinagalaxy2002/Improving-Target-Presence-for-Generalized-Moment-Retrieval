@@ -28,6 +28,21 @@ Soccer-GMR 上五个主干的 **Baseline → GMR → GMR + S4_minus_Fusion** 实
 
 ![正式30组组件消融：阈值0.4、0.5、0.6合并大表](ablations/component_ablation_20261023/tables/ABLATION_TEST_ALL_THRESHOLDS.png)
 
+### Global Event Query、LoRA 与 Hard-RoI 四配置消融（Test，三阈值）
+
+在五个主干上对照以下四组，按 **τ=0.4、0.5、0.6** 合并为一张 **20行 × 27指标列** 大表。各组独立从同一主干的GMR初始化，统一seed 2026、第4个微调epoch；本次仅整理已有结果。表结构、指标分组、相对同主干GMR的增益（pp）、最优加粗与次优下划线均沿用上方正式30组大表。
+
+1. **GMR → +Global Event Query**
+2. **GMR → +Global Event Query → +LoRA**
+3. **GMR → +Global Event Query + Hard-RoI**
+4. **GMR → +Global Event Query → +LoRA → +Hard-RoI**
+
+[PDF](ablations/component_ablation_20261023/tables/ABLATION_GLOBAL_LORA_HARD_TEST_ALL_THRESHOLDS.pdf) · [高清PNG](ablations/component_ablation_20261023/tables/ABLATION_GLOBAL_LORA_HARD_TEST_ALL_THRESHOLDS.png) · [Markdown](ablations/component_ablation_20261023/tables/ABLATION_GLOBAL_LORA_HARD_TEST_ALL_THRESHOLDS.md) · [数值CSV](ablations/component_ablation_20261023/tables/ABLATION_GLOBAL_LORA_HARD_TEST_ALL_THRESHOLDS.csv) · [增益CSV](ablations/component_ablation_20261023/tables/ABLATION_GLOBAL_LORA_HARD_TEST_ALL_THRESHOLDS_GAINS.csv) · [可编辑HTML](ablations/component_ablation_20261023/tables/ABLATION_GLOBAL_LORA_HARD_TEST_ALL_THRESHOLDS.html) · [LaTeX](ablations/component_ablation_20261023/tables/ABLATION_GLOBAL_LORA_HARD_TEST_ALL_THRESHOLDS.tex) · [数值核验](ablations/component_ablation_20261023/tables/ABLATION_GLOBAL_LORA_HARD_TEST_ALL_THRESHOLDS_VERIFICATION.json)
+
+![Global Event Query、LoRA与Hard-RoI四配置消融：Test，三阈值合并大表](ablations/component_ablation_20261023/tables/ABLATION_GLOBAL_LORA_HARD_TEST_ALL_THRESHOLDS.png)
+
+四组配置均关闭Gaussian-RoI、6D Saliency与候选存在性融合。各阈值使用同一份Test冻结预测；本表作为组件对照补充，不改变上方正式30组的计数。复现：`python tools/reproduce_lora_hard_ablation.py`。
+
 ### 三个阈值的完整消融分表
 
 | 阈值 | Test PDF | Test PNG | Test Markdown | 数值CSV | 增益CSV | LaTeX | Val表格 |

@@ -1,0 +1,48 @@
+{
+  "passed": true,
+  "displayed_configurations": 20,
+  "backbones": 5,
+  "configurations_per_backbone": 4,
+  "new_training_runs": 0,
+  "split": "test",
+  "queries": 1036,
+  "seed": 2026,
+  "adaptation_epoch": 4,
+  "thresholds": [
+    "0.4",
+    "0.5",
+    "0.6"
+  ],
+  "metric_columns": 27,
+  "values_and_gains_verified": 1080,
+  "configuration_order": {
+    "1": "+ Global Event Query",
+    "2": "+ Global Event Query + LoRA",
+    "3": "+ Global Event Query + Hard-RoI",
+    "4": "+ Global Event Query + LoRA + Hard-RoI"
+  },
+  "source_metric_hashes_verified": true,
+  "gain_reference": "same-backbone frozen GMR, not displayed as a separate row",
+  "baseline_sources": {
+    "moment_detr": {
+      "path": "ablations/component_ablation_20261023/results/formal/moment_detr/row_01/test_metrics.json",
+      "sha256": "b095057d93131f994fa1edf5adab625b8a27702fd73160891731ffef1e909c08"
+    },
+    "qd_detr": {
+      "path": "ablations/component_ablation_20261023/results/formal/qd_detr/row_01/test_metrics.json",
+      "sha256": "cdb730a3d2b651ca6035b6633797b0fe4c0bed140dc9c7ae2b85eff908cb8881"
+    },
+    "cg_detr": {
+      "path": "ablations/component_ablation_20261023/results/formal/cg_detr/row_01/test_metrics.json",
+      "sha256": "f8b33a5635121fc7dafca924d5901cebe56e80d97a4f4d3962eba8a7147fb66b"
+    },
+    "eatr": {
+      "path": "ablations/component_ablation_20261023/results/formal/eatr/row_01/test_metrics.json",
+      "sha256": "5db7813b995dfc4d45e639b92c3d4d470d2c20ea904910689e2dcd1d3214b9da"
+    },
+    "flashvtg": {
+      "path": "ablations/component_ablation_20261023/results/formal/flashvtg/row_01/test_metrics.json",
+      "sha256": "ea815e5439e9379843743b9ab6cbf2e30928dc605dc3de81bf1c52ecfc9049f0"
+    }
+  }
+}

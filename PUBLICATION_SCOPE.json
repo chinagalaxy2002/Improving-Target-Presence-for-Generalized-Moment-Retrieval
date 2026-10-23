@@ -31,9 +31,31 @@
     ],
     "checkpoints_uploaded": false,
     "predictions_uploaded": true,
-    "path": "ablations/component_ablation_20261023"
+    "path": "ablations/component_ablation_20261023",
+    "four_configuration_comparison": {
+      "table": "ablations/component_ablation_20261023/tables/ABLATION_GLOBAL_LORA_HARD_TEST_ALL_THRESHOLDS",
+      "configurations": [
+        "GMR + Global Event Query",
+        "GMR + Global Event Query + LoRA",
+        "GMR + Global Event Query + Hard-RoI",
+        "GMR + Global Event Query + LoRA + Hard-RoI"
+      ],
+      "backbones": 5,
+      "displayed_rows": 20,
+      "new_training_runs": 0,
+      "split": "test",
+      "thresholds": [
+        0.4,
+        0.5,
+        0.6
+      ],
+      "adaptation_epoch": 4,
+      "seed": 2026,
+      "values_and_gains_checked": 1080,
+      "formal_30_count_unchanged": true
+    }
   },
-  "updated_utc": "2026-10-23T13:32:17.268914+00:00",
+  "updated_utc": "2026-10-23T14:15:34.952460+00:00",
   "global_hard_roi_20261023": {
     "path": "ablations/global_hard_roi_20261023",
     "backbones": 5,

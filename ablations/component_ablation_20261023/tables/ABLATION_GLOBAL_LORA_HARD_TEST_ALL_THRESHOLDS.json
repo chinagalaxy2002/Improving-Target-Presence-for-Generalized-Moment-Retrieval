@@ -1,0 +1,1588 @@
+{
+  "scope": "global_lora_hard_comparison",
+  "displayed_configurations": 20,
+  "new_training_runs": 0,
+  "backbones": 5,
+  "configurations": 4,
+  "split": "test",
+  "thresholds": [
+    "0.4",
+    "0.5",
+    "0.6"
+  ],
+  "metrics": [
+    "N-acc",
+    "AUROC",
+    "Rej-F1",
+    "mAP",
+    "mR@1",
+    "mR@5",
+    "mR+@5",
+    "G-mIoU@1",
+    "G-mIoU@3"
+  ],
+  "gain_definition": "Displayed two-decimal value minus displayed same-backbone frozen GMR value, same split/threshold; percentage points.",
+  "ranking": "Within each backbone: maximum bold; second distinct maximum underlined, including ties.",
+  "records": [
+    {
+      "backbone": "moment_detr",
+      "configuration_id": 1,
+      "configuration": "+ Global Event Query",
+      "reference": "Moment-DETR / frozen GMR",
+      "source": "ablations/component_ablation_20261023/results/formal/moment_detr/row_02/test_metrics.json",
+      "source_sha256": "29c8e33cb5bf4964ceabbc83900e3e023e55e86b42fc7dff3f47ea37728d535a",
+      "values": {
+        "0.4": {
+          "N-acc": "100.00",
+          "AUROC": "70.33",
+          "Rej-F1": "75.00",
+          "mAP": "6.68",
+          "mR@1": "4.64",
+          "mR@5": "9.44",
+          "mR+@5": "0.88",
+          "G-mIoU@1": "52.02",
+          "G-mIoU@3": "49.00"
+        },
+        "0.5": {
+          "N-acc": "100.00",
+          "AUROC": "70.33",
+          "Rej-F1": "75.00",
+          "mAP": "6.68",
+          "mR@1": "4.64",
+          "mR@5": "9.44",
+          "mR+@5": "0.88",
+          "G-mIoU@1": "52.02",
+          "G-mIoU@3": "49.00"
+        },
+        "0.6": {
+          "N-acc": "100.00",
+          "AUROC": "70.33",
+          "Rej-F1": "75.00",
+          "mAP": "6.68",
+          "mR@1": "4.64",
+          "mR@5": "9.44",
+          "mR+@5": "0.88",
+          "G-mIoU@1": "52.02",
+          "G-mIoU@3": "49.00"
+        }
+      },
+      "gains": {
+        "0.4": {
+          "N-acc": "+100.00",
+          "AUROC": "+0.13",
+          "Rej-F1": "+75.00",
+          "mAP": "+0.00",
+          "mR@1": "+0.00",
+          "mR@5": "+0.00",
+          "mR+@5": "+0.00",
+          "G-mIoU@1": "+46.19",
+          "G-mIoU@3": "+46.57"
+        },
+        "0.5": {
+          "N-acc": "+20.73",
+          "AUROC": "+0.13",
+          "Rej-F1": "+7.06",
+          "mAP": "+0.00",
+          "mR@1": "+0.00",
+          "mR@5": "+0.00",
+          "mR+@5": "+0.00",
+          "G-mIoU@1": "+9.52",
+          "G-mIoU@3": "+9.61"
+        },
+        "0.6": {
+          "N-acc": "+0.00",
+          "AUROC": "+0.13",
+          "Rej-F1": "+0.06",
+          "mAP": "+0.00",
+          "mR@1": "+0.00",
+          "mR@5": "+0.00",
+          "mR+@5": "+0.00",
+          "G-mIoU@1": "+0.00",
+          "G-mIoU@3": "+0.00"
+        }
+      }
+    },
+    {
+      "backbone": "moment_detr",
+      "configuration_id": 2,
+      "configuration": "+ Global Event Query + LoRA",
+      "reference": "Moment-DETR / frozen GMR",
+      "source": "ablations/component_ablation_20261023/results/formal/moment_detr/row_03/test_metrics.json",
+      "source_sha256": "8f9090bb08141db50c9d43b1e773bbd44c73fca1dbcdbac0b9e00a2fd36dd627",
+      "values": {
+        "0.4": {
+          "N-acc": "100.00",
+          "AUROC": "70.32",
+          "Rej-F1": "75.00",
+          "mAP": "5.87",
+          "mR@1": "4.01",
+          "mR@5": "8.17",
+          "mR+@5": "0.91",
+          "G-mIoU@1": "51.78",
+          "G-mIoU@3": "48.92"
+        },
+        "0.5": {
+          "N-acc": "100.00",
+          "AUROC": "70.32",
+          "Rej-F1": "75.00",
+          "mAP": "5.87",
+          "mR@1": "4.01",
+          "mR@5": "8.17",
+          "mR+@5": "0.91",
+          "G-mIoU@1": "51.78",
+          "G-mIoU@3": "48.92"
+        },
+        "0.6": {
+          "N-acc": "100.00",
+          "AUROC": "70.32",
+          "Rej-F1": "75.00",
+          "mAP": "5.87",
+          "mR@1": "4.01",
+          "mR@5": "8.17",
+          "mR+@5": "0.91",
+          "G-mIoU@1": "51.78",
+          "G-mIoU@3": "48.92"
+        }
+      },
+      "gains": {
+        "0.4": {
+          "N-acc": "+100.00",
+          "AUROC": "+0.12",
+          "Rej-F1": "+75.00",
+          "mAP": "-0.81",
+          "mR@1": "-0.63",
+          "mR@5": "-1.27",
+          "mR+@5": "+0.03",
+          "G-mIoU@1": "+45.95",
+          "G-mIoU@3": "+46.49"
+        },
+        "0.5": {
+          "N-acc": "+20.73",
+          "AUROC": "+0.12",
+          "Rej-F1": "+7.06",
+          "mAP": "-0.81",
+          "mR@1": "-0.63",
+          "mR@5": "-1.27",
+          "mR+@5": "+0.03",
+          "G-mIoU@1": "+9.28",
+          "G-mIoU@3": "+9.53"
+        },
+        "0.6": {
+          "N-acc": "+0.00",
+          "AUROC": "+0.12",
+          "Rej-F1": "+0.06",
+          "mAP": "-0.81",
+          "mR@1": "-0.63",
+          "mR@5": "-1.27",
+          "mR+@5": "+0.03",
+          "G-mIoU@1": "-0.24",
+          "G-mIoU@3": "-0.08"
+        }
+      }
+    },
+    {
+      "backbone": "moment_detr",
+      "configuration_id": 3,
+      "configuration": "+ Global Event Query + Hard-RoI",
+      "reference": "Moment-DETR / frozen GMR",
+      "source": "ablations/global_hard_roi_20261023/results/moment_detr/global_hard/test_metrics.json",
+      "source_sha256": "29fa5277937ecf85327e3954fc8a03f3b1c1f321c560f8eb75dd9dcb272bbf88",
+      "values": {
+        "0.4": {
+          "N-acc": "100.00",
+          "AUROC": "70.22",
+          "Rej-F1": "75.00",
+          "mAP": "5.38",
+          "mR@1": "3.18",
+          "mR@5": "7.54",
+          "mR+@5": "1.30",
+          "G-mIoU@1": "52.22",
+          "G-mIoU@3": "49.07"
+        },
+        "0.5": {
+          "N-acc": "100.00",
+          "AUROC": "70.22",
+          "Rej-F1": "75.00",
+          "mAP": "5.38",
+          "mR@1": "3.18",
+          "mR@5": "7.54",
+          "mR+@5": "1.30",
+          "G-mIoU@1": "52.22",
+          "G-mIoU@3": "49.07"
+        },
+        "0.6": {
+          "N-acc": "100.00",
+          "AUROC": "70.22",
+          "Rej-F1": "75.00",
+          "mAP": "5.38",
+          "mR@1": "3.18",
+          "mR@5": "7.54",
+          "mR+@5": "1.30",
+          "G-mIoU@1": "52.22",
+          "G-mIoU@3": "49.07"
+        }
+      },
+      "gains": {
+        "0.4": {
+          "N-acc": "+100.00",
+          "AUROC": "+0.02",
+          "Rej-F1": "+75.00",
+          "mAP": "-1.30",
+          "mR@1": "-1.46",
+          "mR@5": "-1.90",
+          "mR+@5": "+0.42",
+          "G-mIoU@1": "+46.39",
+          "G-mIoU@3": "+46.64"
+        },
+        "0.5": {
+          "N-acc": "+20.73",
+          "AUROC": "+0.02",
+          "Rej-F1": "+7.06",
+          "mAP": "-1.30",
+          "mR@1": "-1.46",
+          "mR@5": "-1.90",
+          "mR+@5": "+0.42",
+          "G-mIoU@1": "+9.72",
+          "G-mIoU@3": "+9.68"
+        },
+        "0.6": {
+          "N-acc": "+0.00",
+          "AUROC": "+0.02",
+          "Rej-F1": "+0.06",
+          "mAP": "-1.30",
+          "mR@1": "-1.46",
+          "mR@5": "-1.90",
+          "mR+@5": "+0.42",
+          "G-mIoU@1": "+0.20",
+          "G-mIoU@3": "+0.07"
+        }
+      }
+    },
+    {
+      "backbone": "moment_detr",
+      "configuration_id": 4,
+      "configuration": "+ Global Event Query + LoRA + Hard-RoI",
+      "reference": "Moment-DETR / frozen GMR",
+      "source": "ablations/component_ablation_20261023/results/formal/moment_detr/row_04/test_metrics.json",
+      "source_sha256": "c948d98552a245b90bf453d0d38e083c6d95b02e7b75207ee648597d9d423ac9",
+      "values": {
+        "0.4": {
+          "N-acc": "100.00",
+          "AUROC": "70.10",
+          "Rej-F1": "75.00",
+          "mAP": "7.35",
+          "mR@1": "3.48",
+          "mR@5": "11.13",
+          "mR+@5": "0.76",
+          "G-mIoU@1": "52.34",
+          "G-mIoU@3": "49.11"
+        },
+        "0.5": {
+          "N-acc": "100.00",
+          "AUROC": "70.10",
+          "Rej-F1": "75.00",
+          "mAP": "7.35",
+          "mR@1": "3.48",
+          "mR@5": "11.13",
+          "mR+@5": "0.76",
+          "G-mIoU@1": "52.34",
+          "G-mIoU@3": "49.11"
+        },
+        "0.6": {
+          "N-acc": "100.00",
+          "AUROC": "70.10",
+          "Rej-F1": "75.00",
+          "mAP": "7.35",
+          "mR@1": "3.48",
+          "mR@5": "11.13",
+          "mR+@5": "0.76",
+          "G-mIoU@1": "52.34",
+          "G-mIoU@3": "49.11"
+        }
+      },
+      "gains": {
+        "0.4": {
+          "N-acc": "+100.00",
+          "AUROC": "-0.10",
+          "Rej-F1": "+75.00",
+          "mAP": "+0.67",
+          "mR@1": "-1.16",
+          "mR@5": "+1.69",
+          "mR+@5": "-0.12",
+          "G-mIoU@1": "+46.51",
+          "G-mIoU@3": "+46.68"
+        },
+        "0.5": {
+          "N-acc": "+20.73",
+          "AUROC": "-0.10",
+          "Rej-F1": "+7.06",
+          "mAP": "+0.67",
+          "mR@1": "-1.16",
+          "mR@5": "+1.69",
+          "mR+@5": "-0.12",
+          "G-mIoU@1": "+9.84",
+          "G-mIoU@3": "+9.72"
+        },
+        "0.6": {
+          "N-acc": "+0.00",
+          "AUROC": "-0.10",
+          "Rej-F1": "+0.06",
+          "mAP": "+0.67",
+          "mR@1": "-1.16",
+          "mR@5": "+1.69",
+          "mR+@5": "-0.12",
+          "G-mIoU@1": "+0.32",
+          "G-mIoU@3": "+0.11"
+        }
+      }
+    },
+    {
+      "backbone": "qd_detr",
+      "configuration_id": 1,
+      "configuration": "+ Global Event Query",
+      "reference": "QD-DETR / frozen GMR",
+      "source": "ablations/component_ablation_20261023/results/formal/qd_detr/row_02/test_metrics.json",
+      "source_sha256": "1dd0963754929fa43ec1202d6502c8d9f176c55526aafc69316bd152d9214b27",
+      "values": {
+        "0.4": {
+          "N-acc": "80.28",
+          "AUROC": "76.44",
+          "Rej-F1": "71.11",
+          "mAP": "14.62",
+          "mR@1": "9.47",
+          "mR@5": "20.17",
+          "mR+@5": "7.43",
+          "G-mIoU@1": "46.60",
+          "G-mIoU@3": "41.78"
+        },
+        "0.5": {
+          "N-acc": "92.48",
+          "AUROC": "76.44",
+          "Rej-F1": "74.29",
+          "mAP": "14.62",
+          "mR@1": "9.47",
+          "mR@5": "20.17",
+          "mR+@5": "7.43",
+          "G-mIoU@1": "51.54",
+          "G-mIoU@3": "46.91"
+        },
+        "0.6": {
+          "N-acc": "96.54",
+          "AUROC": "76.44",
+          "Rej-F1": "75.04",
+          "mAP": "14.62",
+          "mR@1": "9.47",
+          "mR@5": "20.17",
+          "mR+@5": "7.43",
+          "G-mIoU@1": "53.09",
+          "G-mIoU@3": "48.44"
+        }
+      },
+      "gains": {
+        "0.4": {
+          "N-acc": "+23.57",
+          "AUROC": "-0.57",
+          "Rej-F1": "+9.38",
+          "mAP": "+0.00",
+          "mR@1": "+0.00",
+          "mR@5": "+0.00",
+          "mR+@5": "+0.00",
+          "G-mIoU@1": "+10.09",
+          "G-mIoU@3": "+10.31"
+        },
+        "0.5": {
+          "N-acc": "+13.01",
+          "AUROC": "-0.57",
+          "Rej-F1": "+2.81",
+          "mAP": "+0.00",
+          "mR@1": "+0.00",
+          "mR@5": "+0.00",
+          "mR+@5": "+0.00",
+          "G-mIoU@1": "+5.05",
+          "G-mIoU@3": "+5.44"
+        },
+        "0.6": {
+          "N-acc": "+5.89",
+          "AUROC": "-0.57",
+          "Rej-F1": "+1.75",
+          "mAP": "+0.00",
+          "mR@1": "+0.00",
+          "mR@5": "+0.00",
+          "mR+@5": "+0.00",
+          "G-mIoU@1": "+2.41",
+          "G-mIoU@3": "+2.40"
+        }
+      }
+    },
+    {
+      "backbone": "qd_detr",
+      "configuration_id": 2,
+      "configuration": "+ Global Event Query + LoRA",
+      "reference": "QD-DETR / frozen GMR",
+      "source": "ablations/component_ablation_20261023/results/formal/qd_detr/row_03/test_metrics.json",
+      "source_sha256": "7341eacd37db6972bf54aab51e4bbff81a081203d4d2e4b405ed10675ec14607",
+      "values": {
+        "0.4": {
+          "N-acc": "80.49",
+          "AUROC": "76.48",
+          "Rej-F1": "71.22",
+          "mAP": "13.71",
+          "mR@1": "8.56",
+          "mR@5": "19.67",
+          "mR+@5": "6.54",
+          "G-mIoU@1": "46.00",
+          "G-mIoU@3": "41.58"
+        },
+        "0.5": {
+          "N-acc": "92.48",
+          "AUROC": "76.48",
+          "Rej-F1": "74.41",
+          "mAP": "13.71",
+          "mR@1": "8.56",
+          "mR@5": "19.67",
+          "mR+@5": "6.54",
+          "G-mIoU@1": "51.00",
+          "G-mIoU@3": "46.73"
+        },
+        "0.6": {
+          "N-acc": "96.54",
+          "AUROC": "76.48",
+          "Rej-F1": "75.16",
+          "mAP": "13.71",
+          "mR@1": "8.56",
+          "mR@5": "19.67",
+          "mR+@5": "6.54",
+          "G-mIoU@1": "52.54",
+          "G-mIoU@3": "48.26"
+        }
+      },
+      "gains": {
+        "0.4": {
+          "N-acc": "+23.78",
+          "AUROC": "-0.53",
+          "Rej-F1": "+9.49",
+          "mAP": "-0.91",
+          "mR@1": "-0.91",
+          "mR@5": "-0.50",
+          "mR+@5": "-0.89",
+          "G-mIoU@1": "+9.49",
+          "G-mIoU@3": "+10.11"
+        },
+        "0.5": {
+          "N-acc": "+13.01",
+          "AUROC": "-0.53",
+          "Rej-F1": "+2.93",
+          "mAP": "-0.91",
+          "mR@1": "-0.91",
+          "mR@5": "-0.50",
+          "mR+@5": "-0.89",
+          "G-mIoU@1": "+4.51",
+          "G-mIoU@3": "+5.26"
+        },
+        "0.6": {
+          "N-acc": "+5.89",
+          "AUROC": "-0.53",
+          "Rej-F1": "+1.87",
+          "mAP": "-0.91",
+          "mR@1": "-0.91",
+          "mR@5": "-0.50",
+          "mR+@5": "-0.89",
+          "G-mIoU@1": "+1.86",
+          "G-mIoU@3": "+2.22"
+        }
+      }
+    },
+    {
+      "backbone": "qd_detr",
+      "configuration_id": 3,
+      "configuration": "+ Global Event Query + Hard-RoI",
+      "reference": "QD-DETR / frozen GMR",
+      "source": "ablations/global_hard_roi_20261023/results/qd_detr/global_hard/test_metrics.json",
+      "source_sha256": "c6c78e3797685c1635854dd21436d8625f5c56134031d33b68b9cd716996d4b5",
+      "values": {
+        "0.4": {
+          "N-acc": "81.91",
+          "AUROC": "76.26",
+          "Rej-F1": "71.84",
+          "mAP": "14.99",
+          "mR@1": "9.18",
+          "mR@5": "21.73",
+          "mR+@5": "7.60",
+          "G-mIoU@1": "47.32",
+          "G-mIoU@3": "42.52"
+        },
+        "0.5": {
+          "N-acc": "92.68",
+          "AUROC": "76.26",
+          "Rej-F1": "74.45",
+          "mAP": "14.99",
+          "mR@1": "9.18",
+          "mR@5": "21.73",
+          "mR+@5": "7.60",
+          "G-mIoU@1": "51.67",
+          "G-mIoU@3": "46.96"
+        },
+        "0.6": {
+          "N-acc": "96.75",
+          "AUROC": "76.26",
+          "Rej-F1": "75.14",
+          "mAP": "14.99",
+          "mR@1": "9.18",
+          "mR@5": "21.73",
+          "mR+@5": "7.60",
+          "G-mIoU@1": "53.20",
+          "G-mIoU@3": "48.54"
+        }
+      },
+      "gains": {
+        "0.4": {
+          "N-acc": "+25.20",
+          "AUROC": "-0.75",
+          "Rej-F1": "+10.11",
+          "mAP": "+0.37",
+          "mR@1": "-0.29",
+          "mR@5": "+1.56",
+          "mR+@5": "+0.17",
+          "G-mIoU@1": "+10.81",
+          "G-mIoU@3": "+11.05"
+        },
+        "0.5": {
+          "N-acc": "+13.21",
+          "AUROC": "-0.75",
+          "Rej-F1": "+2.97",
+          "mAP": "+0.37",
+          "mR@1": "-0.29",
+          "mR@5": "+1.56",
+          "mR+@5": "+0.17",
+          "G-mIoU@1": "+5.18",
+          "G-mIoU@3": "+5.49"
+        },
+        "0.6": {
+          "N-acc": "+6.10",
+          "AUROC": "-0.75",
+          "Rej-F1": "+1.85",
+          "mAP": "+0.37",
+          "mR@1": "-0.29",
+          "mR@5": "+1.56",
+          "mR+@5": "+0.17",
+          "G-mIoU@1": "+2.52",
+          "G-mIoU@3": "+2.50"
+        }
+      }
+    },
+    {
+      "backbone": "qd_detr",
+      "configuration_id": 4,
+      "configuration": "+ Global Event Query + LoRA + Hard-RoI",
+      "reference": "QD-DETR / frozen GMR",
+      "source": "ablations/component_ablation_20261023/results/formal/qd_detr/row_04/test_metrics.json",
+      "source_sha256": "8d8dc5e7979b8598fe92e6a097ddec32b25ced7b9174f959639292e05656bd77",
+      "values": {
+        "0.4": {
+          "N-acc": "84.35",
+          "AUROC": "76.21",
+          "Rej-F1": "72.43",
+          "mAP": "16.49",
+          "mR@1": "10.04",
+          "mR@5": "23.92",
+          "mR+@5": "11.11",
+          "G-mIoU@1": "48.38",
+          "G-mIoU@3": "43.64"
+        },
+        "0.5": {
+          "N-acc": "93.90",
+          "AUROC": "76.21",
+          "Rej-F1": "74.58",
+          "mAP": "16.49",
+          "mR@1": "10.04",
+          "mR@5": "23.92",
+          "mR+@5": "11.11",
+          "G-mIoU@1": "52.16",
+          "G-mIoU@3": "47.48"
+        },
+        "0.6": {
+          "N-acc": "97.56",
+          "AUROC": "76.21",
+          "Rej-F1": "75.47",
+          "mAP": "16.49",
+          "mR@1": "10.04",
+          "mR@5": "23.92",
+          "mR+@5": "11.11",
+          "G-mIoU@1": "53.70",
+          "G-mIoU@3": "48.96"
+        }
+      },
+      "gains": {
+        "0.4": {
+          "N-acc": "+27.64",
+          "AUROC": "-0.80",
+          "Rej-F1": "+10.70",
+          "mAP": "+1.87",
+          "mR@1": "+0.57",
+          "mR@5": "+3.75",
+          "mR+@5": "+3.68",
+          "G-mIoU@1": "+11.87",
+          "G-mIoU@3": "+12.17"
+        },
+        "0.5": {
+          "N-acc": "+14.43",
+          "AUROC": "-0.80",
+          "Rej-F1": "+3.10",
+          "mAP": "+1.87",
+          "mR@1": "+0.57",
+          "mR@5": "+3.75",
+          "mR+@5": "+3.68",
+          "G-mIoU@1": "+5.67",
+          "G-mIoU@3": "+6.01"
+        },
+        "0.6": {
+          "N-acc": "+6.91",
+          "AUROC": "-0.80",
+          "Rej-F1": "+2.18",
+          "mAP": "+1.87",
+          "mR@1": "+0.57",
+          "mR@5": "+3.75",
+          "mR+@5": "+3.68",
+          "G-mIoU@1": "+3.02",
+          "G-mIoU@3": "+2.92"
+        }
+      }
+    },
+    {
+      "backbone": "cg_detr",
+      "configuration_id": 1,
+      "configuration": "+ Global Event Query",
+      "reference": "CG-DETR / frozen GMR",
+      "source": "ablations/component_ablation_20261023/results/formal/cg_detr/row_02/test_metrics.json",
+      "source_sha256": "e94e8e0599168b150ae203a3eb40e50961895527b1bf95b75fbbb21708c6ec31",
+      "values": {
+        "0.4": {
+          "N-acc": "89.23",
+          "AUROC": "76.70",
+          "Rej-F1": "73.78",
+          "mAP": "18.66",
+          "mR@1": "12.65",
+          "mR@5": "24.90",
+          "mR+@5": "11.98",
+          "G-mIoU@1": "50.55",
+          "G-mIoU@3": "45.67"
+        },
+        "0.5": {
+          "N-acc": "96.95",
+          "AUROC": "76.70",
+          "Rej-F1": "75.36",
+          "mAP": "18.66",
+          "mR@1": "12.65",
+          "mR@5": "24.90",
+          "mR+@5": "11.98",
+          "G-mIoU@1": "53.49",
+          "G-mIoU@3": "48.76"
+        },
+        "0.6": {
+          "N-acc": "98.98",
+          "AUROC": "76.70",
+          "Rej-F1": "75.68",
+          "mAP": "18.66",
+          "mR@1": "12.65",
+          "mR@5": "24.90",
+          "mR+@5": "11.98",
+          "G-mIoU@1": "54.34",
+          "G-mIoU@3": "49.62"
+        }
+      },
+      "gains": {
+        "0.4": {
+          "N-acc": "+66.06",
+          "AUROC": "+0.30",
+          "Rej-F1": "+38.32",
+          "mAP": "+0.00",
+          "mR@1": "+0.00",
+          "mR@5": "+0.00",
+          "mR+@5": "+0.00",
+          "G-mIoU@1": "+27.71",
+          "G-mIoU@3": "+28.60"
+        },
+        "0.5": {
+          "N-acc": "+46.54",
+          "AUROC": "+0.30",
+          "Rej-F1": "+17.89",
+          "mAP": "+0.00",
+          "mR@1": "+0.00",
+          "mR@5": "+0.00",
+          "mR+@5": "+0.00",
+          "G-mIoU@1": "+19.14",
+          "G-mIoU@3": "+19.62"
+        },
+        "0.6": {
+          "N-acc": "+20.52",
+          "AUROC": "+0.30",
+          "Rej-F1": "+4.59",
+          "mAP": "+0.00",
+          "mR@1": "+0.00",
+          "mR@5": "+0.00",
+          "mR+@5": "+0.00",
+          "G-mIoU@1": "+7.68",
+          "G-mIoU@3": "+8.09"
+        }
+      }
+    },
+    {
+      "backbone": "cg_detr",
+      "configuration_id": 2,
+      "configuration": "+ Global Event Query + LoRA",
+      "reference": "CG-DETR / frozen GMR",
+      "source": "ablations/component_ablation_20261023/results/formal/cg_detr/row_03/test_metrics.json",
+      "source_sha256": "59440fa19a8fd7019290af4ffd647e8a203aa349a74f756c7503259fc613463d",
+      "values": {
+        "0.4": {
+          "N-acc": "87.80",
+          "AUROC": "76.73",
+          "Rej-F1": "72.97",
+          "mAP": "18.34",
+          "mR@1": "12.17",
+          "mR@5": "24.72",
+          "mR+@5": "11.88",
+          "G-mIoU@1": "49.69",
+          "G-mIoU@3": "44.96"
+        },
+        "0.5": {
+          "N-acc": "96.95",
+          "AUROC": "76.73",
+          "Rej-F1": "75.42",
+          "mAP": "18.34",
+          "mR@1": "12.17",
+          "mR@5": "24.72",
+          "mR+@5": "11.88",
+          "G-mIoU@1": "53.41",
+          "G-mIoU@3": "48.74"
+        },
+        "0.6": {
+          "N-acc": "98.98",
+          "AUROC": "76.73",
+          "Rej-F1": "75.68",
+          "mAP": "18.34",
+          "mR@1": "12.17",
+          "mR@5": "24.72",
+          "mR+@5": "11.88",
+          "G-mIoU@1": "54.25",
+          "G-mIoU@3": "49.59"
+        }
+      },
+      "gains": {
+        "0.4": {
+          "N-acc": "+64.63",
+          "AUROC": "+0.33",
+          "Rej-F1": "+37.51",
+          "mAP": "-0.32",
+          "mR@1": "-0.48",
+          "mR@5": "-0.18",
+          "mR+@5": "-0.10",
+          "G-mIoU@1": "+26.85",
+          "G-mIoU@3": "+27.89"
+        },
+        "0.5": {
+          "N-acc": "+46.54",
+          "AUROC": "+0.33",
+          "Rej-F1": "+17.95",
+          "mAP": "-0.32",
+          "mR@1": "-0.48",
+          "mR@5": "-0.18",
+          "mR+@5": "-0.10",
+          "G-mIoU@1": "+19.06",
+          "G-mIoU@3": "+19.60"
+        },
+        "0.6": {
+          "N-acc": "+20.52",
+          "AUROC": "+0.33",
+          "Rej-F1": "+4.59",
+          "mAP": "-0.32",
+          "mR@1": "-0.48",
+          "mR@5": "-0.18",
+          "mR+@5": "-0.10",
+          "G-mIoU@1": "+7.59",
+          "G-mIoU@3": "+8.06"
+        }
+      }
+    },
+    {
+      "backbone": "cg_detr",
+      "configuration_id": 3,
+      "configuration": "+ Global Event Query + Hard-RoI",
+      "reference": "CG-DETR / frozen GMR",
+      "source": "ablations/global_hard_roi_20261023/results/cg_detr/global_hard/test_metrics.json",
+      "source_sha256": "61d03ed2e85b51a5f32844fc1ea0bd83a668659a90024a5e9ed1b838fb5a4820",
+      "values": {
+        "0.4": {
+          "N-acc": "86.18",
+          "AUROC": "76.73",
+          "Rej-F1": "72.60",
+          "mAP": "19.05",
+          "mR@1": "12.66",
+          "mR@5": "25.49",
+          "mR+@5": "12.88",
+          "G-mIoU@1": "49.25",
+          "G-mIoU@3": "44.38"
+        },
+        "0.5": {
+          "N-acc": "96.95",
+          "AUROC": "76.73",
+          "Rej-F1": "75.53",
+          "mAP": "19.05",
+          "mR@1": "12.66",
+          "mR@5": "25.49",
+          "mR+@5": "12.88",
+          "G-mIoU@1": "53.65",
+          "G-mIoU@3": "48.86"
+        },
+        "0.6": {
+          "N-acc": "99.19",
+          "AUROC": "76.73",
+          "Rej-F1": "75.78",
+          "mAP": "19.05",
+          "mR@1": "12.66",
+          "mR@5": "25.49",
+          "mR+@5": "12.88",
+          "G-mIoU@1": "54.58",
+          "G-mIoU@3": "49.79"
+        }
+      },
+      "gains": {
+        "0.4": {
+          "N-acc": "+63.01",
+          "AUROC": "+0.33",
+          "Rej-F1": "+37.14",
+          "mAP": "+0.39",
+          "mR@1": "+0.01",
+          "mR@5": "+0.59",
+          "mR+@5": "+0.90",
+          "G-mIoU@1": "+26.41",
+          "G-mIoU@3": "+27.31"
+        },
+        "0.5": {
+          "N-acc": "+46.54",
+          "AUROC": "+0.33",
+          "Rej-F1": "+18.06",
+          "mAP": "+0.39",
+          "mR@1": "+0.01",
+          "mR@5": "+0.59",
+          "mR+@5": "+0.90",
+          "G-mIoU@1": "+19.30",
+          "G-mIoU@3": "+19.72"
+        },
+        "0.6": {
+          "N-acc": "+20.73",
+          "AUROC": "+0.33",
+          "Rej-F1": "+4.69",
+          "mAP": "+0.39",
+          "mR@1": "+0.01",
+          "mR@5": "+0.59",
+          "mR+@5": "+0.90",
+          "G-mIoU@1": "+7.92",
+          "G-mIoU@3": "+8.26"
+        }
+      }
+    },
+    {
+      "backbone": "cg_detr",
+      "configuration_id": 4,
+      "configuration": "+ Global Event Query + LoRA + Hard-RoI",
+      "reference": "CG-DETR / frozen GMR",
+      "source": "ablations/component_ablation_20261023/results/formal/cg_detr/row_04/test_metrics.json",
+      "source_sha256": "27286269aaf6afa4682daf9f4db7ae06034482a999355621b68a729b16446de6",
+      "values": {
+        "0.4": {
+          "N-acc": "87.80",
+          "AUROC": "76.64",
+          "Rej-F1": "73.03",
+          "mAP": "18.93",
+          "mR@1": "13.19",
+          "mR@5": "25.09",
+          "mR+@5": "13.10",
+          "G-mIoU@1": "50.02",
+          "G-mIoU@3": "45.00"
+        },
+        "0.5": {
+          "N-acc": "96.95",
+          "AUROC": "76.64",
+          "Rej-F1": "75.36",
+          "mAP": "18.93",
+          "mR@1": "13.19",
+          "mR@5": "25.09",
+          "mR+@5": "13.10",
+          "G-mIoU@1": "53.67",
+          "G-mIoU@3": "48.80"
+        },
+        "0.6": {
+          "N-acc": "99.19",
+          "AUROC": "76.64",
+          "Rej-F1": "75.66",
+          "mAP": "18.93",
+          "mR@1": "13.19",
+          "mR@5": "25.09",
+          "mR+@5": "13.10",
+          "G-mIoU@1": "54.54",
+          "G-mIoU@3": "49.73"
+        }
+      },
+      "gains": {
+        "0.4": {
+          "N-acc": "+64.63",
+          "AUROC": "+0.24",
+          "Rej-F1": "+37.57",
+          "mAP": "+0.27",
+          "mR@1": "+0.54",
+          "mR@5": "+0.19",
+          "mR+@5": "+1.12",
+          "G-mIoU@1": "+27.18",
+          "G-mIoU@3": "+27.93"
+        },
+        "0.5": {
+          "N-acc": "+46.54",
+          "AUROC": "+0.24",
+          "Rej-F1": "+17.89",
+          "mAP": "+0.27",
+          "mR@1": "+0.54",
+          "mR@5": "+0.19",
+          "mR+@5": "+1.12",
+          "G-mIoU@1": "+19.32",
+          "G-mIoU@3": "+19.66"
+        },
+        "0.6": {
+          "N-acc": "+20.73",
+          "AUROC": "+0.24",
+          "Rej-F1": "+4.57",
+          "mAP": "+0.27",
+          "mR@1": "+0.54",
+          "mR@5": "+0.19",
+          "mR+@5": "+1.12",
+          "G-mIoU@1": "+7.88",
+          "G-mIoU@3": "+8.20"
+        }
+      }
+    },
+    {
+      "backbone": "eatr",
+      "configuration_id": 1,
+      "configuration": "+ Global Event Query",
+      "reference": "EaTR / frozen GMR",
+      "source": "ablations/component_ablation_20261023/results/formal/eatr/row_02/test_metrics.json",
+      "source_sha256": "ad488647702547d1fba538ef68fbd48a61ce55e4c3c000fcc19e4e24a65db10a",
+      "values": {
+        "0.4": {
+          "N-acc": "82.52",
+          "AUROC": "75.73",
+          "Rej-F1": "71.35",
+          "mAP": "16.22",
+          "mR@1": "10.64",
+          "mR@5": "21.42",
+          "mR+@5": "9.59",
+          "G-mIoU@1": "47.14",
+          "G-mIoU@3": "42.52"
+        },
+        "0.5": {
+          "N-acc": "95.53",
+          "AUROC": "75.73",
+          "Rej-F1": "75.26",
+          "mAP": "16.22",
+          "mR@1": "10.64",
+          "mR@5": "21.42",
+          "mR+@5": "9.59",
+          "G-mIoU@1": "52.83",
+          "G-mIoU@3": "48.29"
+        },
+        "0.6": {
+          "N-acc": "98.98",
+          "AUROC": "75.73",
+          "Rej-F1": "75.68",
+          "mAP": "16.22",
+          "mR@1": "10.64",
+          "mR@5": "21.42",
+          "mR+@5": "9.59",
+          "G-mIoU@1": "54.22",
+          "G-mIoU@3": "49.56"
+        }
+      },
+      "gains": {
+        "0.4": {
+          "N-acc": "+33.94",
+          "AUROC": "-0.83",
+          "Rej-F1": "+14.24",
+          "mAP": "+0.00",
+          "mR@1": "+0.00",
+          "mR@5": "+0.00",
+          "mR+@5": "+0.00",
+          "G-mIoU@1": "+13.82",
+          "G-mIoU@3": "+14.18"
+        },
+        "0.5": {
+          "N-acc": "+28.86",
+          "AUROC": "-0.83",
+          "Rej-F1": "+9.66",
+          "mAP": "+0.00",
+          "mR@1": "+0.00",
+          "mR@5": "+0.00",
+          "mR+@5": "+0.00",
+          "G-mIoU@1": "+11.98",
+          "G-mIoU@3": "+12.29"
+        },
+        "0.6": {
+          "N-acc": "+11.78",
+          "AUROC": "-0.83",
+          "Rej-F1": "+2.22",
+          "mAP": "+0.00",
+          "mR@1": "+0.00",
+          "mR@5": "+0.00",
+          "mR+@5": "+0.00",
+          "G-mIoU@1": "+4.66",
+          "G-mIoU@3": "+4.70"
+        }
+      }
+    },
+    {
+      "backbone": "eatr",
+      "configuration_id": 2,
+      "configuration": "+ Global Event Query + LoRA",
+      "reference": "EaTR / frozen GMR",
+      "source": "ablations/component_ablation_20261023/results/formal/eatr/row_03/test_metrics.json",
+      "source_sha256": "a1644ae0cb60b93e31b5ced2d8327abc505515f9cd09912be678bddc37ea149f",
+      "values": {
+        "0.4": {
+          "N-acc": "83.94",
+          "AUROC": "75.76",
+          "Rej-F1": "71.76",
+          "mAP": "16.45",
+          "mR@1": "10.96",
+          "mR@5": "21.55",
+          "mR+@5": "9.37",
+          "G-mIoU@1": "47.78",
+          "G-mIoU@3": "43.18"
+        },
+        "0.5": {
+          "N-acc": "95.53",
+          "AUROC": "75.76",
+          "Rej-F1": "74.96",
+          "mAP": "16.45",
+          "mR@1": "10.96",
+          "mR@5": "21.55",
+          "mR+@5": "9.37",
+          "G-mIoU@1": "52.81",
+          "G-mIoU@3": "48.22"
+        },
+        "0.6": {
+          "N-acc": "98.98",
+          "AUROC": "75.76",
+          "Rej-F1": "75.56",
+          "mAP": "16.45",
+          "mR@1": "10.96",
+          "mR@5": "21.55",
+          "mR+@5": "9.37",
+          "G-mIoU@1": "54.24",
+          "G-mIoU@3": "49.57"
+        }
+      },
+      "gains": {
+        "0.4": {
+          "N-acc": "+35.36",
+          "AUROC": "-0.80",
+          "Rej-F1": "+14.65",
+          "mAP": "+0.23",
+          "mR@1": "+0.32",
+          "mR@5": "+0.13",
+          "mR+@5": "-0.22",
+          "G-mIoU@1": "+14.46",
+          "G-mIoU@3": "+14.84"
+        },
+        "0.5": {
+          "N-acc": "+28.86",
+          "AUROC": "-0.80",
+          "Rej-F1": "+9.36",
+          "mAP": "+0.23",
+          "mR@1": "+0.32",
+          "mR@5": "+0.13",
+          "mR+@5": "-0.22",
+          "G-mIoU@1": "+11.96",
+          "G-mIoU@3": "+12.22"
+        },
+        "0.6": {
+          "N-acc": "+11.78",
+          "AUROC": "-0.80",
+          "Rej-F1": "+2.10",
+          "mAP": "+0.23",
+          "mR@1": "+0.32",
+          "mR@5": "+0.13",
+          "mR+@5": "-0.22",
+          "G-mIoU@1": "+4.68",
+          "G-mIoU@3": "+4.71"
+        }
+      }
+    },
+    {
+      "backbone": "eatr",
+      "configuration_id": 3,
+      "configuration": "+ Global Event Query + Hard-RoI",
+      "reference": "EaTR / frozen GMR",
+      "source": "ablations/global_hard_roi_20261023/results/eatr/global_hard/test_metrics.json",
+      "source_sha256": "34d5d74aefa11ced0608a3f8bf3d200078ae6abad8e886533451296feb255ebd",
+      "values": {
+        "0.4": {
+          "N-acc": "82.32",
+          "AUROC": "75.91",
+          "Rej-F1": "71.55",
+          "mAP": "16.06",
+          "mR@1": "10.47",
+          "mR@5": "21.46",
+          "mR+@5": "10.92",
+          "G-mIoU@1": "47.09",
+          "G-mIoU@3": "42.48"
+        },
+        "0.5": {
+          "N-acc": "95.53",
+          "AUROC": "75.91",
+          "Rej-F1": "75.20",
+          "mAP": "16.06",
+          "mR@1": "10.47",
+          "mR@5": "21.46",
+          "mR+@5": "10.92",
+          "G-mIoU@1": "52.69",
+          "G-mIoU@3": "48.23"
+        },
+        "0.6": {
+          "N-acc": "99.19",
+          "AUROC": "75.91",
+          "Rej-F1": "75.72",
+          "mAP": "16.06",
+          "mR@1": "10.47",
+          "mR@5": "21.46",
+          "mR+@5": "10.92",
+          "G-mIoU@1": "54.16",
+          "G-mIoU@3": "49.65"
+        }
+      },
+      "gains": {
+        "0.4": {
+          "N-acc": "+33.74",
+          "AUROC": "-0.65",
+          "Rej-F1": "+14.44",
+          "mAP": "-0.16",
+          "mR@1": "-0.17",
+          "mR@5": "+0.04",
+          "mR+@5": "+1.33",
+          "G-mIoU@1": "+13.77",
+          "G-mIoU@3": "+14.14"
+        },
+        "0.5": {
+          "N-acc": "+28.86",
+          "AUROC": "-0.65",
+          "Rej-F1": "+9.60",
+          "mAP": "-0.16",
+          "mR@1": "-0.17",
+          "mR@5": "+0.04",
+          "mR+@5": "+1.33",
+          "G-mIoU@1": "+11.84",
+          "G-mIoU@3": "+12.23"
+        },
+        "0.6": {
+          "N-acc": "+11.99",
+          "AUROC": "-0.65",
+          "Rej-F1": "+2.26",
+          "mAP": "-0.16",
+          "mR@1": "-0.17",
+          "mR@5": "+0.04",
+          "mR+@5": "+1.33",
+          "G-mIoU@1": "+4.60",
+          "G-mIoU@3": "+4.79"
+        }
+      }
+    },
+    {
+      "backbone": "eatr",
+      "configuration_id": 4,
+      "configuration": "+ Global Event Query + LoRA + Hard-RoI",
+      "reference": "EaTR / frozen GMR",
+      "source": "ablations/component_ablation_20261023/results/formal/eatr/row_04/test_metrics.json",
+      "source_sha256": "148c06c5ea388a839ad738437e324dd843946cfc21fedbc29b6cc631f46db6b2",
+      "values": {
+        "0.4": {
+          "N-acc": "85.98",
+          "AUROC": "76.02",
+          "Rej-F1": "72.12",
+          "mAP": "17.16",
+          "mR@1": "11.43",
+          "mR@5": "23.19",
+          "mR+@5": "9.55",
+          "G-mIoU@1": "48.71",
+          "G-mIoU@3": "44.08"
+        },
+        "0.5": {
+          "N-acc": "95.93",
+          "AUROC": "76.02",
+          "Rej-F1": "74.98",
+          "mAP": "17.16",
+          "mR@1": "11.43",
+          "mR@5": "23.19",
+          "mR+@5": "9.55",
+          "G-mIoU@1": "52.95",
+          "G-mIoU@3": "48.34"
+        },
+        "0.6": {
+          "N-acc": "99.19",
+          "AUROC": "76.02",
+          "Rej-F1": "75.60",
+          "mAP": "17.16",
+          "mR@1": "11.43",
+          "mR@5": "23.19",
+          "mR+@5": "9.55",
+          "G-mIoU@1": "54.25",
+          "G-mIoU@3": "49.65"
+        }
+      },
+      "gains": {
+        "0.4": {
+          "N-acc": "+37.40",
+          "AUROC": "-0.54",
+          "Rej-F1": "+15.01",
+          "mAP": "+0.94",
+          "mR@1": "+0.79",
+          "mR@5": "+1.77",
+          "mR+@5": "-0.04",
+          "G-mIoU@1": "+15.39",
+          "G-mIoU@3": "+15.74"
+        },
+        "0.5": {
+          "N-acc": "+29.26",
+          "AUROC": "-0.54",
+          "Rej-F1": "+9.38",
+          "mAP": "+0.94",
+          "mR@1": "+0.79",
+          "mR@5": "+1.77",
+          "mR+@5": "-0.04",
+          "G-mIoU@1": "+12.10",
+          "G-mIoU@3": "+12.34"
+        },
+        "0.6": {
+          "N-acc": "+11.99",
+          "AUROC": "-0.54",
+          "Rej-F1": "+2.14",
+          "mAP": "+0.94",
+          "mR@1": "+0.79",
+          "mR@5": "+1.77",
+          "mR+@5": "-0.04",
+          "G-mIoU@1": "+4.69",
+          "G-mIoU@3": "+4.79"
+        }
+      }
+    },
+    {
+      "backbone": "flashvtg",
+      "configuration_id": 1,
+      "configuration": "+ Global Event Query",
+      "reference": "FlashVTG / frozen GMR",
+      "source": "ablations/component_ablation_20261023/results/formal/flashvtg/row_02/test_metrics.json",
+      "source_sha256": "567f55ecc48368d6bfe11ac9f61b1b40360c09cdc0b6902ab805def9299f498f",
+      "values": {
+        "0.4": {
+          "N-acc": "88.01",
+          "AUROC": "75.26",
+          "Rej-F1": "73.08",
+          "mAP": "25.40",
+          "mR@1": "15.11",
+          "mR@5": "34.94",
+          "mR+@5": "17.86",
+          "G-mIoU@1": "50.48",
+          "G-mIoU@3": "45.43"
+        },
+        "0.5": {
+          "N-acc": "94.72",
+          "AUROC": "75.26",
+          "Rej-F1": "74.38",
+          "mAP": "25.40",
+          "mR@1": "15.11",
+          "mR@5": "34.94",
+          "mR+@5": "17.86",
+          "G-mIoU@1": "53.01",
+          "G-mIoU@3": "48.11"
+        },
+        "0.6": {
+          "N-acc": "96.95",
+          "AUROC": "75.26",
+          "Rej-F1": "74.59",
+          "mAP": "25.40",
+          "mR@1": "15.11",
+          "mR@5": "34.94",
+          "mR+@5": "17.86",
+          "G-mIoU@1": "53.71",
+          "G-mIoU@3": "48.90"
+        }
+      },
+      "gains": {
+        "0.4": {
+          "N-acc": "+55.29",
+          "AUROC": "+0.96",
+          "Rej-F1": "+28.67",
+          "mAP": "-0.03",
+          "mR@1": "-0.06",
+          "mR@5": "+0.00",
+          "mR+@5": "+0.00",
+          "G-mIoU@1": "+22.38",
+          "G-mIoU@3": "+23.68"
+        },
+        "0.5": {
+          "N-acc": "+23.79",
+          "AUROC": "+0.96",
+          "Rej-F1": "+8.03",
+          "mAP": "-0.03",
+          "mR@1": "-0.06",
+          "mR@5": "+0.00",
+          "mR+@5": "+0.00",
+          "G-mIoU@1": "+9.44",
+          "G-mIoU@3": "+9.84"
+        },
+        "0.6": {
+          "N-acc": "+11.79",
+          "AUROC": "+0.96",
+          "Rej-F1": "+3.03",
+          "mAP": "-0.03",
+          "mR@1": "-0.06",
+          "mR@5": "+0.00",
+          "mR+@5": "+0.00",
+          "G-mIoU@1": "+4.30",
+          "G-mIoU@3": "+4.60"
+        }
+      }
+    },
+    {
+      "backbone": "flashvtg",
+      "configuration_id": 2,
+      "configuration": "+ Global Event Query + LoRA",
+      "reference": "FlashVTG / frozen GMR",
+      "source": "ablations/component_ablation_20261023/results/formal/flashvtg/row_03/test_metrics.json",
+      "source_sha256": "6c586aa6d31d7ca155b9ece7713e7d0604c00fe171ed55cfdbbf2bfaa9d866df",
+      "values": {
+        "0.4": {
+          "N-acc": "88.82",
+          "AUROC": "75.32",
+          "Rej-F1": "73.45",
+          "mAP": "25.42",
+          "mR@1": "15.27",
+          "mR@5": "35.45",
+          "mR+@5": "17.54",
+          "G-mIoU@1": "50.80",
+          "G-mIoU@3": "45.74"
+        },
+        "0.5": {
+          "N-acc": "94.31",
+          "AUROC": "75.32",
+          "Rej-F1": "74.18",
+          "mAP": "25.42",
+          "mR@1": "15.27",
+          "mR@5": "35.45",
+          "mR+@5": "17.54",
+          "G-mIoU@1": "52.78",
+          "G-mIoU@3": "47.90"
+        },
+        "0.6": {
+          "N-acc": "96.75",
+          "AUROC": "75.32",
+          "Rej-F1": "74.67",
+          "mAP": "25.42",
+          "mR@1": "15.27",
+          "mR@5": "35.45",
+          "mR+@5": "17.54",
+          "G-mIoU@1": "53.68",
+          "G-mIoU@3": "48.83"
+        }
+      },
+      "gains": {
+        "0.4": {
+          "N-acc": "+56.10",
+          "AUROC": "+1.02",
+          "Rej-F1": "+29.04",
+          "mAP": "-0.01",
+          "mR@1": "+0.10",
+          "mR@5": "+0.51",
+          "mR+@5": "-0.32",
+          "G-mIoU@1": "+22.70",
+          "G-mIoU@3": "+23.99"
+        },
+        "0.5": {
+          "N-acc": "+23.38",
+          "AUROC": "+1.02",
+          "Rej-F1": "+7.83",
+          "mAP": "-0.01",
+          "mR@1": "+0.10",
+          "mR@5": "+0.51",
+          "mR+@5": "-0.32",
+          "G-mIoU@1": "+9.21",
+          "G-mIoU@3": "+9.63"
+        },
+        "0.6": {
+          "N-acc": "+11.59",
+          "AUROC": "+1.02",
+          "Rej-F1": "+3.11",
+          "mAP": "-0.01",
+          "mR@1": "+0.10",
+          "mR@5": "+0.51",
+          "mR+@5": "-0.32",
+          "G-mIoU@1": "+4.27",
+          "G-mIoU@3": "+4.53"
+        }
+      }
+    },
+    {
+      "backbone": "flashvtg",
+      "configuration_id": 3,
+      "configuration": "+ Global Event Query + Hard-RoI",
+      "reference": "FlashVTG / frozen GMR",
+      "source": "ablations/global_hard_roi_20261023/results/flashvtg/global_hard/test_metrics.json",
+      "source_sha256": "9cab79f4822816a511d5a7d67ea66b3e593ec28e53a7df435b9898734f6dce6d",
+      "values": {
+        "0.4": {
+          "N-acc": "90.65",
+          "AUROC": "75.29",
+          "Rej-F1": "73.72",
+          "mAP": "24.20",
+          "mR@1": "14.01",
+          "mR@5": "33.62",
+          "mR+@5": "17.08",
+          "G-mIoU@1": "51.60",
+          "G-mIoU@3": "46.57"
+        },
+        "0.5": {
+          "N-acc": "95.93",
+          "AUROC": "75.29",
+          "Rej-F1": "74.80",
+          "mAP": "24.20",
+          "mR@1": "14.01",
+          "mR@5": "33.62",
+          "mR+@5": "17.08",
+          "G-mIoU@1": "53.51",
+          "G-mIoU@3": "48.61"
+        },
+        "0.6": {
+          "N-acc": "97.36",
+          "AUROC": "75.29",
+          "Rej-F1": "74.61",
+          "mAP": "24.20",
+          "mR@1": "14.01",
+          "mR@5": "33.62",
+          "mR+@5": "17.08",
+          "G-mIoU@1": "53.93",
+          "G-mIoU@3": "49.09"
+        }
+      },
+      "gains": {
+        "0.4": {
+          "N-acc": "+57.93",
+          "AUROC": "+0.99",
+          "Rej-F1": "+29.31",
+          "mAP": "-1.23",
+          "mR@1": "-1.16",
+          "mR@5": "-1.32",
+          "mR+@5": "-0.78",
+          "G-mIoU@1": "+23.50",
+          "G-mIoU@3": "+24.82"
+        },
+        "0.5": {
+          "N-acc": "+25.00",
+          "AUROC": "+0.99",
+          "Rej-F1": "+8.45",
+          "mAP": "-1.23",
+          "mR@1": "-1.16",
+          "mR@5": "-1.32",
+          "mR+@5": "-0.78",
+          "G-mIoU@1": "+9.94",
+          "G-mIoU@3": "+10.34"
+        },
+        "0.6": {
+          "N-acc": "+12.20",
+          "AUROC": "+0.99",
+          "Rej-F1": "+3.05",
+          "mAP": "-1.23",
+          "mR@1": "-1.16",
+          "mR@5": "-1.32",
+          "mR+@5": "-0.78",
+          "G-mIoU@1": "+4.52",
+          "G-mIoU@3": "+4.79"
+        }
+      }
+    },
+    {
+      "backbone": "flashvtg",
+      "configuration_id": 4,
+      "configuration": "+ Global Event Query + LoRA + Hard-RoI",
+      "reference": "FlashVTG / frozen GMR",
+      "source": "ablations/component_ablation_20261023/results/formal/flashvtg/row_04/test_metrics.json",
+      "source_sha256": "f34681cc1943cbb48c950e4a9fecf9e8d9e979412827979b0634d0c88d97be7c",
+      "values": {
+        "0.4": {
+          "N-acc": "90.04",
+          "AUROC": "75.25",
+          "Rej-F1": "73.34",
+          "mAP": "26.24",
+          "mR@1": "16.23",
+          "mR@5": "36.27",
+          "mR+@5": "18.27",
+          "G-mIoU@1": "51.67",
+          "G-mIoU@3": "46.41"
+        },
+        "0.5": {
+          "N-acc": "95.73",
+          "AUROC": "75.25",
+          "Rej-F1": "74.64",
+          "mAP": "26.24",
+          "mR@1": "16.23",
+          "mR@5": "36.27",
+          "mR+@5": "18.27",
+          "G-mIoU@1": "53.68",
+          "G-mIoU@3": "48.62"
+        },
+        "0.6": {
+          "N-acc": "97.36",
+          "AUROC": "75.25",
+          "Rej-F1": "74.61",
+          "mAP": "26.24",
+          "mR@1": "16.23",
+          "mR@5": "36.27",
+          "mR+@5": "18.27",
+          "G-mIoU@1": "54.19",
+          "G-mIoU@3": "49.20"
+        }
+      },
+      "gains": {
+        "0.4": {
+          "N-acc": "+57.32",
+          "AUROC": "+0.95",
+          "Rej-F1": "+28.93",
+          "mAP": "+0.81",
+          "mR@1": "+1.06",
+          "mR@5": "+1.33",
+          "mR+@5": "+0.41",
+          "G-mIoU@1": "+23.57",
+          "G-mIoU@3": "+24.66"
+        },
+        "0.5": {
+          "N-acc": "+24.80",
+          "AUROC": "+0.95",
+          "Rej-F1": "+8.29",
+          "mAP": "+0.81",
+          "mR@1": "+1.06",
+          "mR@5": "+1.33",
+          "mR+@5": "+0.41",
+          "G-mIoU@1": "+10.11",
+          "G-mIoU@3": "+10.35"
+        },
+        "0.6": {
+          "N-acc": "+12.20",
+          "AUROC": "+0.95",
+          "Rej-F1": "+3.05",
+          "mAP": "+0.81",
+          "mR@1": "+1.06",
+          "mR@5": "+1.33",
+          "mR+@5": "+0.41",
+          "G-mIoU@1": "+4.78",
+          "G-mIoU@3": "+4.90"
+        }
+      }
+    }
+  ]
+}
