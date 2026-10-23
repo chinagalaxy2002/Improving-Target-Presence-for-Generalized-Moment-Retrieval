@@ -1,0 +1,30 @@
+{
+  "passed": true,
+  "backbone": "qd_detr",
+  "setting": "hard_only",
+  "epoch": 4,
+  "checkpoint_sha256": "56783b4a9d9d725e266dc9f092f2e8ec8e35b9be039f63766907cdf47f311e24",
+  "same_gmr_checkpoint": true,
+  "identical_initial_tensors_between_new_cells": true,
+  "frozen_parameters_and_buffers_exactly_preserved": true,
+  "changed_parameters_by_group": {
+    "hard_roi_extractor": 17984,
+    "boundary_refiner": 306307
+  },
+  "lora_modules_absent": true,
+  "saliency_bypassed_even_with_nonzero_projection": true,
+  "candidate_perturbation_presence_invariant": true,
+  "prediction_checks": [
+    {
+      "split": "val",
+      "native_presence_max_error": 0.0
+    },
+    {
+      "split": "test",
+      "native_presence_max_error": 0.0
+    }
+  ],
+  "hard_roi_outside_invariant": true,
+  "padding_invariant": true,
+  "saliency_perturbation_invariant": true
+}

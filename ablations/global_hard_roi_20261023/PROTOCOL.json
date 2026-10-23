@@ -1,0 +1,61 @@
+{
+  "backbones": [
+    "moment_detr",
+    "qd_detr",
+    "cg_detr",
+    "eatr",
+    "flashvtg"
+  ],
+  "configurations": {
+    "gmr": [
+      false,
+      false
+    ],
+    "global_only": [
+      true,
+      false
+    ],
+    "hard_only": [
+      false,
+      true
+    ],
+    "global_hard": [
+      true,
+      true
+    ]
+  },
+  "factor_order": [
+    "global_event_query",
+    "hard_roi"
+  ],
+  "seed": 2026,
+  "adaptation_epochs": 4,
+  "frozen_baseline_epochs": 0,
+  "primary_tau": 0.4,
+  "sensitivity_taus": [
+    0.5,
+    0.6
+  ],
+  "initialization": "Independent same backbone-specific pretrained GMR checkpoint; fresh AdamW and scheduler",
+  "frozen": "All original GMR parameters; train only enabled added modules",
+  "excluded": [
+    "LoRA",
+    "Gaussian-RoI",
+    "6D Saliency",
+    "candidate presence fusion",
+    "QCD",
+    "synthetic negatives"
+  ],
+  "splits": {
+    "train": 4138,
+    "val": 465,
+    "test": 1036
+  },
+  "postprocessing": "Same native backbone exporter across four cells; FlashVTG presence confidence calibration retained",
+  "existing_reuse": {
+    "gmr": "component_ablation_20261023 row_01",
+    "global_only": "component_ablation_20261023 row_02"
+  },
+  "exploratory": true,
+  "limitation": "Single seed; Standard labels/results already observed during prior ablations; no confirmatory or significance claim"
+}

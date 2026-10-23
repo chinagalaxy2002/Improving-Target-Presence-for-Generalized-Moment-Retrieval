@@ -1,0 +1,66 @@
+{
+  "passed": true,
+  "checks": [
+    {
+      "passed": true,
+      "backbone": "moment_detr",
+      "setting": "hard_only",
+      "epoch": 4,
+      "checkpoint_sha256": "c36afa183aea89ba184a0caf17d4caf88eeb2ca0cb405c64053c1e40b3fc239d",
+      "same_gmr_checkpoint": true,
+      "identical_initial_tensors_between_new_cells": true,
+      "frozen_parameters_and_buffers_exactly_preserved": true,
+      "changed_parameters_by_group": {
+        "hard_roi_extractor": 17984,
+        "boundary_refiner": 306307
+      },
+      "lora_modules_absent": true,
+      "saliency_bypassed_even_with_nonzero_projection": true,
+      "candidate_perturbation_presence_invariant": true,
+      "prediction_checks": [
+        {
+          "split": "val",
+          "native_presence_max_error": 0.0
+        },
+        {
+          "split": "test",
+          "native_presence_max_error": 0.0
+        }
+      ],
+      "hard_roi_outside_invariant": true,
+      "padding_invariant": true,
+      "saliency_perturbation_invariant": true
+    },
+    {
+      "passed": true,
+      "backbone": "moment_detr",
+      "setting": "global_hard",
+      "epoch": 4,
+      "checkpoint_sha256": "2eff95e9ed2c068a2a73f2ab1f30ec580391bb5fd7c8640a0d4bf6658d12a019",
+      "same_gmr_checkpoint": true,
+      "identical_initial_tensors_between_new_cells": true,
+      "frozen_parameters_and_buffers_exactly_preserved": true,
+      "changed_parameters_by_group": {
+        "global_event_query": 1581825,
+        "hard_roi_extractor": 17984,
+        "boundary_refiner": 306307
+      },
+      "lora_modules_absent": true,
+      "saliency_bypassed_even_with_nonzero_projection": true,
+      "candidate_perturbation_presence_invariant": true,
+      "prediction_checks": [
+        {
+          "split": "val",
+          "native_presence_max_error": null
+        },
+        {
+          "split": "test",
+          "native_presence_max_error": null
+        }
+      ],
+      "hard_roi_outside_invariant": true,
+      "padding_invariant": true,
+      "saliency_perturbation_invariant": true
+    }
+  ]
+}

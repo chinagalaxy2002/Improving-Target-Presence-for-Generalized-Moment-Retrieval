@@ -1,5 +1,15 @@
 # Improving Target Presence for Generalized Moment Retrieval
 
+## 最新：仅 Global Event Query + Hard-RoI（固定 epoch 4）
+
+精简方案关闭 **LoRA、Gaussian-RoI、6D Saliency 与候选存在性融合**。在同一预训练 GMR 上冻结原参数，仅微调开启的新增模块，采用 **GMR / +Global / +Hard / +Global+Hard** 的完整 2×2 对照，五个 backbone 共 **20 个单元**：10 组新训练、10 组核验复用；全部微调固定第 4 个 epoch、seed 2026。下降项完整保留，结果为单种子探索性比较。
+
+[实验设计与复现](ablations/global_hard_roi_20261023/README.md) · [完整 Val/Test 结果](ablations/global_hard_roi_20261023/reports/RESULTS.md) · [九指标 CSV](ablations/global_hard_roi_20261023/reports/all_metrics.csv) · [相对 GMR 增益](ablations/global_hard_roi_20261023/reports/gains_vs_gmr_pp.csv) · [独立数值复核](ablations/global_hard_roi_20261023/reports/METRIC_VERIFICATION.json)
+
+![仅 Global Event Query + Hard-RoI，Test，阈值0.4](ablations/global_hard_roi_20261023/tables/ABLATION_TEST_tau_0.4.png)
+
+[τ=0.4 PDF](ablations/global_hard_roi_20261023/tables/ABLATION_TEST_tau_0.4.pdf) · [τ=0.5 PDF](ablations/global_hard_roi_20261023/tables/ABLATION_TEST_tau_0.5.pdf) · [τ=0.6 PDF](ablations/global_hard_roi_20261023/tables/ABLATION_TEST_tau_0.6.pdf) · [四个条件效应及交互](ablations/global_hard_roi_20261023/reports/factorial_effects_pp.csv)
+
 [研究文档总览](docs/README.md) · [数据](docs/DATA.md) · [算法](docs/ALGORITHM.md) · [实验](docs/EXPERIMENTS.md) · [复现](docs/REPRODUCIBILITY.md) · [论文段落](docs/PAPER_NOTES.md)
 
 Soccer-GMR 上五个主干的 **Baseline → GMR → GMR + S4_minus_Fusion** 实验代码、冻结预测和结果汇总。主干包括 **Moment-DETR、QD-DETR、CG-DETR、EaTR、FlashVTG**。
