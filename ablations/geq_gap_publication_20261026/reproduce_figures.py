@@ -91,7 +91,7 @@ def overview():
     arrow((2.45,6.2),(2.85,6.2));arrow((6.2,6.55),(6.85,6.6));arrow((6.2,5.9),(6.85,5.55));arrow((9.75,5.55),(10.55,5.55))
     box(.3,3.15,4.4,1.3,'Retain E1 supervision\nNative localization + native presence BCE\n+ GEQ per-query BCE','#e2e8f0',10)
     box(5.15,3.05,8.35,1.5,'Added GAP supervision (mixed batches only)\n'+r'$\mu_+=\mathrm{mean}(s\mid y=1),\quad\mu_-=\mathrm{mean}(s\mid y=0)$'+'\n'+r'$L_{\mathrm{GAP}}=[\max(0,\,m-(\mu_+-\mu_-))]^2$'+'\n'+r'$L=L_{\mathrm{native}}+L_{\mathrm{GEQ}}+\lambda L_{\mathrm{GAP}}$'+'     '+r'$m=0.6,\ \lambda=2$','#ffedd5',12)
-    arrow((12.15,5.0),(12.15,4.7));arrow((4.4,5.5),(2.5,4.6));arrow((6.7,3.0),(4.5,5.45),style='--');ax.text(.3,4.83,'Joint end-to-end backpropagation',fontsize=10,color='#475569')
+    arrow((12.15,5.0),(12.15,4.7));arrow((4.4,5.5),(2.5,4.6));arrow((6.7,3.0),(4.5,5.45),style='--');ax.text(.3,2.55,'Joint end-to-end backpropagation',fontsize=10,color='#475569')
     box(.3,.55,6.25,1.65,'Inference\nGEQ alone supplies video-level presence score.\nKeep native localization, soft calibration and NMS.\nNo added gate, PV, boundary refiner or candidate fusion.','#eff6ff',10)
     box(7,.55,6.5,1.65,'Evaluation (positive / negative classes weighted equally)\n'+r'$D_+=\mathbb{E}[1-s\mid y=1],\quad D_-=\mathbb{E}[s\mid y=0]$'+'\n'+r'$D=(D_++D_-)/2,\quad S=100(1-D)$'+'\n'+r'$S=50(1+\mu_+-\mu_-)$'+'; also AUROC, AUPRC and localization','#ecfdf5',11)
     ax.text(.3,.12,'Single-class batches: graph-connected zero GAP; native + GEQ losses remain active. Selection: epoch4 Val AUROC; threshold fixed at 0.4.',fontsize=9,color='#475569')

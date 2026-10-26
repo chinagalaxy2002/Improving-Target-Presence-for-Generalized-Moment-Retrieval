@@ -1,12 +1,26 @@
 # FlashVTG：GEQ 均分间隔监督（GAP）与存在性评估
 
-本报告比较 **GMR（E0）**、**GMR＋GEQ（E1）** 和 **GMR＋GEQ＋GAP**。发布模型固定为六组搜索中按 **Val AUROC** 选择的 `margin=0.6、λ=2、第4轮`，没有根据 Test 更换配置或 checkpoint。这里的“best”指该验证选择规则下的最优模型，不代表所有 Test 指标最优。
+本报告比较 **GMR（E0）**、**GMR＋GEQ（E1）** 和 **GMR＋GEQ＋GAP**。报告采用的模型固定为六组搜索中按 **Val AUROC** 选择的 `margin=0.6、λ=2、第4轮`，没有根据 Test 更换配置或 checkpoint。这里的“best”指该验证选择规则下的最优模型，不代表所有 Test 指标最优。
+
+## 三组方法的存在性均分对比
+
+**Standard Test：1,036条查询（544正、492负）**；每类分别在全 split 内平均，使用原始存在性概率，不做阈值筛选；均分差距 = μ₊ − μ₋。
+
+| 方法 | 正样本均分 μ₊ | 负样本均分 μ₋ | 均分差距 ↑ |
+|---|---:|---:|---:|
+| GMR（E0） | 0.6972 | 0.4632 | 0.2340 |
+| GMR＋GEQ（E1，微调4轮） | 0.5796 | 0.2707 | 0.3088 |
+| GMR＋GEQ＋GAP（m=0.6，λ=2，微调4轮） | 0.5605 | 0.2282 | 0.3323 |
+
+GAP 相比 GMR 的均分差距增加 **0.0984**，相比 GEQ 增加 **0.0235**。改善主要来自负均分下降，正均分也下降；均分差距不能代替 AUROC/AUPRC。
+
+[下载精确数值 CSV](tables/existence_score_means.csv) · [Val 与 Test 完整均分报告](tables/EXISTENCE_SCORE_SUMMARY.md)
 
 ## 一张图与一段话
 
 ![GAP supervision and evaluation](figures/gap_supervision_and_evaluation.png)
 
-**方法与评估概述：** 从原始预训练 FlashVTG GMR checkpoint 初始化，在保留原生定位、候选分类及原生存在性 BCE 的基础上，接入随机初始化的 GEQ，并全量联合微调 GMR 与 GEQ。GEQ 产生存在性概率 (s=\sigma(z))；对同时包含正负查询的 batch，分别计算正均分 (\mu_+\) 与负均分 (\mu_-\)，加入 (L_{GAP}=[\max(0,m-(\mu_+-\mu_-))]^2\)，使总损失为 (L=L_{native}+L_{GEQ}+\lambda L_{GAP}\)。本发布模型使用 (m=0.6,\lambda=2\)；单类 batch 的 GAP 项为可反传的零，原生损失与 GEQ BCE 继续训练。推理仍只采用 GEQ 作为存在性预测器，并保留 FlashVTG 原生定位输出、soft calibration 和 NMS。评估中对正负类别等权，报告 (D_+=\mathbb E[1-s\mid y=1]\)、(D_-=\mathbb E[s\mid y=0]\)、(D=(D_++D_-)/2\) 与 (S=100(1-D)=50(1+\mu_+-\mu_-)\)，同时报告 AUROC、AUPRC、正负召回及独立于存在性 hard gating 的定位指标；S 仅反映端点距离/均分间隔，不能替代全局排序、完整分布重叠或概率校准的评价。
+**方法与评估概述：** 从原始预训练 FlashVTG GMR checkpoint 初始化，在保留原生定位、候选分类及原生存在性 BCE 的基础上，接入随机初始化的 GEQ，并全量联合微调 GMR 与 GEQ。GEQ 产生存在性概率 $s=\sigma(z)$；对同时包含正负查询的 batch，分别计算正均分 $\mu_+$ 与负均分 $\mu_-$，加入 $L_{GAP}=[\max(0,m-(\mu_+-\mu_-))]^2$，使总损失为 $L=L_{native}+L_{GEQ}+\lambda L_{GAP}$。本发布模型使用 $m=0.6,\lambda=2$；单类 batch 的 GAP 项为可反传的零，原生损失与 GEQ BCE 继续训练。推理仍只采用 GEQ 作为存在性预测器，并保留 FlashVTG 原生定位输出、soft calibration 和 NMS。评估中对正负类别等权，报告 $D_+=\mathbb{E}[1-s\mid y=1]$、$D_-=\mathbb{E}[s\mid y=0]$、$D=(D_++D_-)/2$ 与 $S=100(1-D)=50(1+\mu_+-\mu_-)$，同时报告 AUROC、AUPRC、正负召回及独立于存在性 hard gating 的定位指标；S 仅反映端点距离/均分间隔，不能替代全局排序、完整分布重叠或概率校准的评价。
 
 [可编辑 SVG](figures/gap_supervision_and_evaluation.svg) · [矢量 PDF](figures/gap_supervision_and_evaluation.pdf)
 
@@ -40,13 +54,11 @@ GEQ/GAP 相对 GMR 的 G-mIoU 增益随阈值变化；GAP没有在所有阈值�
 
 [PDF](figures/three_methods_fig7_threshold_sweep.pdf) · [SVG](figures/three_methods_fig7_threshold_sweep.svg) · [303行阈值数据 CSV](tables/threshold_sweep_101.csv) · [核验记录](FIGURE_AUDIT.json)
 
-## Checkpoint 与复现
+## 模型记录与复现
 
-- [GitHub Release：模型与初始化权重](https://github.com/chinagalaxy2002/Improving-Target-Presence-for-Generalized-Moment-Retrieval/releases/tag/geq-gap-flashvtg-20261026)
-- [完整第4轮训练 checkpoint](https://github.com/chinagalaxy2002/Improving-Target-Presence-for-Generalized-Moment-Retrieval/releases/download/geq-gap-flashvtg-20261026/flashvtg_geq_gap_m060_w200_epoch004_full.ckpt)：包含模型、optimizer、scheduler。
-- [精简推理权重](https://github.com/chinagalaxy2002/Improving-Target-Presence-for-Generalized-Moment-Retrieval/releases/download/geq-gap-flashvtg-20261026/flashvtg_geq_gap_m060_w200_epoch004_weights.pt)：仅保留模型及配置元信息，所有 state_dict 张量与完整 checkpoint 逐一相等。
-- [原始 GMR 初始化 checkpoint](https://github.com/chinagalaxy2002/Improving-Target-Presence-for-Generalized-Moment-Retrieval/releases/download/geq-gap-flashvtg-20261026/flashvtg_gmr_original_initialization.ckpt)：用于独立重新微调，SHA256与E0/E1初始化记录一致。
-- [SHA256与来源清单](CHECKPOINT_MANIFEST.json) · [Val选择记录](tables/SELECTION.json) · [固定配置](selected_config.json)
+**按用户后续要求，不发布 checkpoint。** 代码、评估证据、报告和图表已上传；训练权重保留在本地。原 Release 草稿及其附件将清理，以下仅记录所选 checkpoint 的配置和 SHA256，不能作为下载链接。
+
+[模型配置与 SHA256 记录](CHECKPOINT_MANIFEST.json) · [Val选择记录](tables/SELECTION.json) · [固定配置](selected_config.json)
 
 在仓库根目录执行（CPU足以重画全部图）：
 

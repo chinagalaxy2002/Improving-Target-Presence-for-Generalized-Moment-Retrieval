@@ -1,7 +1,3 @@
-# Checkpoint downloads
+# Checkpoint status
 
-Large checkpoint binaries are published as GitHub Release assets, not Git blobs:
-
-https://github.com/chinagalaxy2002/Improving-Target-Presence-for-Generalized-Moment-Retrieval/releases/tag/geq-gap-flashvtg-20261026
-
-Use ../CHECKPOINT_MANIFEST.json for direct links, byte counts and SHA256. The fine-tuned checkpoint is margin0.6/weight2/epoch4, selected by Val AUROC. Compact inference weights contain the same model tensors as the full optimizer checkpoint. The original GMR initialization is also supplied for fresh independent fine tuning. Offline feature tensors are not included.
+按用户要求，checkpoint 不再上传或发布。完整训练权重、精简推理权重和原始初始化保留在本地。配置和 SHA256 记录于 ../CHECKPOINT_MANIFEST.json；本目录不提供下载链接。报告、代码、三组预测证据和图表已上传。
