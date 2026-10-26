@@ -59,3 +59,18 @@
 ## 结果解释
 
 Test 上，GAP相对E1在五个backbone均扩大正负均分差距，增加约0.0235–0.0417。五个backbone的正均分均降低，但负均分下降更多。因此结论是均分间隔扩大，不能声称同时抬高正分、压低负分。新增四个backbone的AUROC相对E1均下降（约0.07–0.26个百分点），AUPRC也均略降；FlashVTG的AUROC几乎不变。纯定位mAP在Moment-DETR/QD-DETR小幅提高，在CG-DETR/EaTR/FlashVTG下降；mR+@5仅FlashVTG提高。故当前单seed固定4轮结果不支持GAP稳定改善全局排序或多时刻定位。
+
+## Test threshold-sweep figures
+
+Five six-panel figures compare E0 GMR, E1 GMR + GEQ, and GMR + GEQ + GAP on the same Standard Test queries. Each curve evaluates 101 fixed thresholds from 0 to 1 using the official strict rule `pred_exist_score > threshold`. The panels show G-mIoU@1, G-mIoU@3, delta G-mIoU@1 versus E0, positive recall versus negative accuracy (TNR), rejection F1, and G-mIoU@1 at fixed thresholds 0.4/0.5/0.6. Dotted lines identify the protocol threshold 0.4; no threshold or checkpoint is selected on Test. The legend's mAP is localization without a presence hard gate.
+
+| Backbone | PNG | PDF | SVG |
+|---|---|---|---|
+| Moment-DETR | [PNG](../figures/moment_detr_fig7_test_threshold_sweep.png) | [PDF](../figures/moment_detr_fig7_test_threshold_sweep.pdf) | [SVG](../figures/moment_detr_fig7_test_threshold_sweep.svg) |
+| QD-DETR | [PNG](../figures/qd_detr_fig7_test_threshold_sweep.png) | [PDF](../figures/qd_detr_fig7_test_threshold_sweep.pdf) | [SVG](../figures/qd_detr_fig7_test_threshold_sweep.svg) |
+| CG-DETR | [PNG](../figures/cg_detr_fig7_test_threshold_sweep.png) | [PDF](../figures/cg_detr_fig7_test_threshold_sweep.pdf) | [SVG](../figures/cg_detr_fig7_test_threshold_sweep.svg) |
+| EaTR | [PNG](../figures/eatr_fig7_test_threshold_sweep.png) | [PDF](../figures/eatr_fig7_test_threshold_sweep.pdf) | [SVG](../figures/eatr_fig7_test_threshold_sweep.svg) |
+| FlashVTG | [PNG](../figures/flashvtg_fig7_test_threshold_sweep.png) | [PDF](../figures/flashvtg_fig7_test_threshold_sweep.pdf) | [SVG](../figures/flashvtg_fig7_test_threshold_sweep.svg) |
+
+
+The full 1,515-row curve is in [threshold_sweep_101.csv](threshold_sweep_101.csv); official-evaluator cross-checks and source hashes are in [THRESHOLD_SWEEP_AUDIT.json](THRESHOLD_SWEEP_AUDIT.json). Re-render from this CSV with `python ablations/geq_gap_all_backbones_20261026/plot_threshold_sweeps.py`; recompute against the frozen predictions and official evaluator with `python ablations/geq_gap_all_backbones_20261026/plot_threshold_sweeps.py --recompute` (local predictions required for recomputation).

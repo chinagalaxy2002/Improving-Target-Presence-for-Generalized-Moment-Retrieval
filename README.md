@@ -287,3 +287,48 @@ GAP 相对仅加 GEQ，在五个 backbone 上都扩大了均分差距，增量�
 ```bash
 python ablations/geq_gap_all_backbones_20261026/reproduce_figures.py
 ```
+
+<!-- GAP_THRESHOLD_SWEEPS_TEST_20261026 -->
+
+
+## 9. 五个 Backbone 的 Test 存在性阈值扫描
+
+下图沿用参考 Figure 7 的六面板布局，对比 GMR（E0）、GMR＋GEQ（E1）和 GMR＋GEQ＋GAP。使用 Standard Test 的 1,036 条查询（544 正、492 负），对每种方法固定扫描 101 个阈值（0 至 1，步长 0.01），并严格按 `pred_exist_score > threshold` 判为存在。图中虚线和大标记表示原协议阈值 0.4；另列 0.5、0.6 固定点作敏感性参考，不据 Test 选择阈值或检查点。
+
+面板依次为 G-mIoU@1、G-mIoU@3、相对 E0 的 G-mIoU@1 差值、正例召回与负例正确拒识率（N-acc/TNR）、拒识 F1，以及 0.4/0.5/0.6 下的 G-mIoU@1。G-mIoU 随存在性门控变化，不能单独解释为纯定位质量；图例 mAP 是不经过存在性硬门控的定位指标。GAP 使用从 Val 固定的 margin=0.6、λ=2、第4轮配置。
+
+1,515 个方法—阈值点、3,030 个官方 G-mIoU@1/@3 值以及原始固定阈值指标均已交叉核验。完整曲线数据见 [threshold_sweep_101.csv](ablations/geq_gap_all_backbones_20261026/reports/threshold_sweep_101.csv)，核验和输入文件 SHA256 见 [THRESHOLD_SWEEP_AUDIT.json](ablations/geq_gap_all_backbones_20261026/reports/THRESHOLD_SWEEP_AUDIT.json)。使用已保存 CSV 重画图无需模型或 GPU；从本地冻结预测重算全部曲线可执行：
+
+```bash
+python ablations/geq_gap_all_backbones_20261026/plot_threshold_sweeps.py --recompute
+```
+
+### Moment-DETR
+
+![Moment-DETR 三种方法的测试集存在性阈值扫描](ablations/geq_gap_all_backbones_20261026/figures/moment_detr_fig7_test_threshold_sweep.png)
+
+[PDF](ablations/geq_gap_all_backbones_20261026/figures/moment_detr_fig7_test_threshold_sweep.pdf) · [SVG](ablations/geq_gap_all_backbones_20261026/figures/moment_detr_fig7_test_threshold_sweep.svg)
+
+### QD-DETR
+
+![QD-DETR 三种方法的测试集存在性阈值扫描](ablations/geq_gap_all_backbones_20261026/figures/qd_detr_fig7_test_threshold_sweep.png)
+
+[PDF](ablations/geq_gap_all_backbones_20261026/figures/qd_detr_fig7_test_threshold_sweep.pdf) · [SVG](ablations/geq_gap_all_backbones_20261026/figures/qd_detr_fig7_test_threshold_sweep.svg)
+
+### CG-DETR
+
+![CG-DETR 三种方法的测试集存在性阈值扫描](ablations/geq_gap_all_backbones_20261026/figures/cg_detr_fig7_test_threshold_sweep.png)
+
+[PDF](ablations/geq_gap_all_backbones_20261026/figures/cg_detr_fig7_test_threshold_sweep.pdf) · [SVG](ablations/geq_gap_all_backbones_20261026/figures/cg_detr_fig7_test_threshold_sweep.svg)
+
+### EaTR
+
+![EaTR 三种方法的测试集存在性阈值扫描](ablations/geq_gap_all_backbones_20261026/figures/eatr_fig7_test_threshold_sweep.png)
+
+[PDF](ablations/geq_gap_all_backbones_20261026/figures/eatr_fig7_test_threshold_sweep.pdf) · [SVG](ablations/geq_gap_all_backbones_20261026/figures/eatr_fig7_test_threshold_sweep.svg)
+
+### FlashVTG
+
+![FlashVTG 三种方法的测试集存在性阈值扫描](ablations/geq_gap_all_backbones_20261026/figures/flashvtg_fig7_test_threshold_sweep.png)
+
+[PDF](ablations/geq_gap_all_backbones_20261026/figures/flashvtg_fig7_test_threshold_sweep.pdf) · [SVG](ablations/geq_gap_all_backbones_20261026/figures/flashvtg_fig7_test_threshold_sweep.svg)
