@@ -67,3 +67,10 @@ python ablations/geq_gap_publication_20261026/reproduce_figures.py
 ```
 
 依赖 numpy、scikit-learn、matplotlib。压缩的 GT、三组 Val/Test 预测及官方指标已收录于 evidence/；official_eval/为未改动的官方评估快照，可独立复算图表而不访问本机绝对路径。复现训练另需 PyTorch/native依赖、离线特征；见 [REPRODUCE.md](REPRODUCE.md)。发布包不含视频/特征文件。
+
+
+## 扩展：固定 GAP 迁移至全部五个 backbone
+
+另外四个backbone均已独立微调4轮并完成Val/Test。均分差距在五个backbone上相对GEQ均增大，但其他四个backbone的AUROC略降，定位效果混合。完整15行均分表和对应图见 [五backbone迁移报告](../geq_gap_all_backbones_20261026/reports/RESULTS.md)。
+
+![Five-backbone mean gaps](../geq_gap_all_backbones_20261026/figures/test_mean_gap_comparison.png)
