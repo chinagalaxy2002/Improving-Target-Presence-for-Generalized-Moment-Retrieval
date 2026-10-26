@@ -1,0 +1,26 @@
+{
+  "trials": [
+    "GAP_m40_w050",
+    "GAP_m40_w100",
+    "GAP_m40_w200",
+    "GAP_m60_w050",
+    "GAP_m60_w100",
+    "GAP_m60_w200"
+  ],
+  "margin_values": [
+    0.4,
+    0.6
+  ],
+  "weight_values": [
+    0.5,
+    1.0,
+    2.0
+  ],
+  "epochs": 4,
+  "seed": 2026,
+  "max_concurrent_per_gpu": 3,
+  "reused_control": "original GAP m=0.5 weight=1",
+  "selection": "maximum exact epoch4 Val AUROC; ties: AUPRC, S, mAP, lexical trial id; candidates six new trials plus reused original GAP",
+  "test_policy": "evaluate selected new trial only after selection JSON locked; reuse original controls",
+  "no_extra_search": true
+}

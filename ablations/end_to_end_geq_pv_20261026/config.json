@@ -1,0 +1,10 @@
+{
+  "seed": 2026, "epochs": 4, "optimizer": "AdamW",
+  "backbone_lr": 0.00001, "new_lr": 0.00003, "weight_decay": 0.0001,
+  "gradient_clip": 0.1, "top_k": 8, "quality_weight": 1.0,
+  "representation_weight": 0.2, "thresholds": [0.4, 0.5, 0.6],
+  "scheduler": "constant LambdaLR (fresh; no metric-dependent changes)",
+  "amp": false, "batch_size": "native checkpoint bsz", "drop_last": false,
+  "selection": "epoch 4, no early stopping", "max_tasks_per_gpu": 2,
+  "stage_barrier": "all E1 complete before E2 starts"
+}
