@@ -332,3 +332,74 @@ python ablations/geq_gap_all_backbones_20261026/plot_threshold_sweeps.py --recom
 ![FlashVTG 三种方法的测试集存在性阈值扫描](ablations/geq_gap_all_backbones_20261026/figures/flashvtg_fig7_test_threshold_sweep.png)
 
 [PDF](ablations/geq_gap_all_backbones_20261026/figures/flashvtg_fig7_test_threshold_sweep.pdf) · [SVG](ablations/geq_gap_all_backbones_20261026/figures/flashvtg_fig7_test_threshold_sweep.svg)
+
+<!-- D_GMR_RELEASE_20261027 -->
+
+## 10. D-GMR：方法、复现脚本与五个 Backbone 的 Test 结果
+
+D-GMR 在原生 GMR 上联合训练 GEQ、TEM 与 TECR，使用簇内冗余排序和跨实例正例对背景排序，导出时执行 PAT-Select 高斯重叠分数衰减。五个 Backbone 均严格加载原生 GMR 权重，新增模块使用 seed 2026 随机初始化，训练4轮；原生 GMR、GEQ、TEM/TECR 的学习率分别为 `1e-5`、`3e-5`、`1e-4`。
+
+训练、测试、配置及结果统一收录于独立目录 [experiments/d_gmr_20261027](experiments/d_gmr_20261027/README.md)。正式 Test 使用 Val 选中的 checkpoint，Standard Test 为1,036条查询（544正、492负）；正查询定位不加存在性硬门控，拒识及G-mIoU采用0.4阈值。指标单位为百分数，差值为百分点。
+
+| Backbone | Val选中epoch | 原始GMR mAP | D-GMR mAP | ΔmAP | mR@5 | mR+@5 | G-mIoU@1 |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| Moment-DETR | 4 | 6.68 | 9.29 | +2.61 | 15.40 | 1.42 | 5.71 |
+| QD-DETR | 4 | 14.62 | 15.21 | +0.59 | 21.59 | 6.40 | 39.37 |
+| CG-DETR | 3 | 18.66 | 18.88 | +0.22 | 26.62 | 14.41 | 27.54 |
+| EaTR | 3 | 16.49 | 18.30 | +1.81 | 26.39 | 10.64 | 32.49 |
+| FlashVTG | 1 | 25.34 | 25.73 | +0.39 | 35.51 | 20.03 | 33.22 |
+
+[完整九项指标](experiments/d_gmr_20261027/reports/RESULTS.md) · [逐轮 Val/Test CSV](experiments/d_gmr_20261027/results/all_metrics.csv) · [训练配置](experiments/d_gmr_20261027/code/d_gmr/configs/d_gmr.json)
+
+### 复现脚本
+
+```bash
+# CPU：复算 Val/Test 指标、结果表及五个 Backbone 的 PNG/PDF/SVG 图
+python experiments/d_gmr_20261027/reproduce.py
+
+# 训练所需资产路径
+export GMR_ASSETS_DIR=/absolute/path/to/Soccergmr
+export GMR_PRETRAINED_ROOT=/absolute/path/to/backbonefolder
+export DGMR_FLASHVTG_CHECKPOINT=/absolute/path/to/flashvtg_gmr_snapshot.pth
+
+# 五个 Backbone：训练4轮、Val选模、正式Test；输出目录须为新的绝对路径
+bash experiments/d_gmr_20261027/train_all.sh /absolute/path/to/new_d_gmr_run cuda:0
+```
+
+[训练入口](experiments/d_gmr_20261027/code/d_gmr/engine/train.py) · [测试入口](experiments/d_gmr_20261027/code/d_gmr/scripts/evaluate_checkpoint.py) · [CPU复算](experiments/d_gmr_20261027/reproduce.py) · [绘图脚本](experiments/d_gmr_20261027/plot_threshold_sweeps.py)
+
+### 五个 Backbone 的 Test 存在性阈值扫描图
+
+沿用第9节的六面板布局，比较原始GMR、联合训练后未重排序的GMR＋GEQ和最终D-GMR。每种输出扫描101个阈值（0至1、步长0.01），按 `pred_exist_score > threshold` 判为存在；竖直点线和大标记表示0.4。GMR＋GEQ与D-GMR共享存在性分数，图例mAP为无存在性硬门控的正查询定位指标。
+
+[101点曲线CSV](experiments/d_gmr_20261027/reports/test_threshold_sweep_101.csv) · [阈值扫描核验](experiments/d_gmr_20261027/reports/TEST_THRESHOLD_SWEEP_AUDIT.json)
+
+#### Moment-DETR
+
+![Moment-DETR 的 D-GMR Test 存在性阈值扫描](experiments/d_gmr_20261027/figures/moment_detr_d_gmr_test_threshold_sweep.png)
+
+[PDF](experiments/d_gmr_20261027/figures/moment_detr_d_gmr_test_threshold_sweep.pdf) · [SVG](experiments/d_gmr_20261027/figures/moment_detr_d_gmr_test_threshold_sweep.svg)
+
+#### QD-DETR
+
+![QD-DETR 的 D-GMR Test 存在性阈值扫描](experiments/d_gmr_20261027/figures/qd_detr_d_gmr_test_threshold_sweep.png)
+
+[PDF](experiments/d_gmr_20261027/figures/qd_detr_d_gmr_test_threshold_sweep.pdf) · [SVG](experiments/d_gmr_20261027/figures/qd_detr_d_gmr_test_threshold_sweep.svg)
+
+#### CG-DETR
+
+![CG-DETR 的 D-GMR Test 存在性阈值扫描](experiments/d_gmr_20261027/figures/cg_detr_d_gmr_test_threshold_sweep.png)
+
+[PDF](experiments/d_gmr_20261027/figures/cg_detr_d_gmr_test_threshold_sweep.pdf) · [SVG](experiments/d_gmr_20261027/figures/cg_detr_d_gmr_test_threshold_sweep.svg)
+
+#### EaTR
+
+![EaTR 的 D-GMR Test 存在性阈值扫描](experiments/d_gmr_20261027/figures/eatr_d_gmr_test_threshold_sweep.png)
+
+[PDF](experiments/d_gmr_20261027/figures/eatr_d_gmr_test_threshold_sweep.pdf) · [SVG](experiments/d_gmr_20261027/figures/eatr_d_gmr_test_threshold_sweep.svg)
+
+#### FlashVTG
+
+![FlashVTG 的 D-GMR Test 存在性阈值扫描](experiments/d_gmr_20261027/figures/flashvtg_d_gmr_test_threshold_sweep.png)
+
+[PDF](experiments/d_gmr_20261027/figures/flashvtg_d_gmr_test_threshold_sweep.pdf) · [SVG](experiments/d_gmr_20261027/figures/flashvtg_d_gmr_test_threshold_sweep.svg)
