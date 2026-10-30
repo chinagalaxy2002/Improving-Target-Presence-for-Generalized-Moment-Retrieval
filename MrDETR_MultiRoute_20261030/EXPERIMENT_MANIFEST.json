@@ -1,0 +1,33 @@
+{
+  "experiment": "GMR x Mr. DETR six-route ablation",
+  "date": "2026-10-30",
+  "dataset": "SoccerGMR Standard",
+  "seed": 2023,
+  "upstream_repository": "https://github.com/dymm9977/generalized-moment-retrieval",
+  "upstream_commit": "ac78df9129a1153e74d4f75ad437a34fd770487b",
+  "variants": ["baseline", "shared", "sepffn", "instruction", "multi", "adaptive"],
+  "test_samples": 1036,
+  "test_positive": 544,
+  "test_negative": 492,
+  "test_multi_moment": 160,
+  "best_epochs": {
+    "baseline": 5,
+    "shared": 5,
+    "sepffn": 20,
+    "instruction": 30,
+    "multi": 15,
+    "adaptive": 5
+  },
+  "last_completed_epochs": {
+    "baseline": 25,
+    "shared": 25,
+    "sepffn": 31,
+    "instruction": 30,
+    "multi": 24,
+    "adaptive": 23
+  },
+  "checkpoint_selection": "maximum positive-query validation mAP among completed validations",
+  "status": "training stopped; current validation-selected best checkpoints evaluated once on Test",
+  "weights_in_release": false,
+  "frozen_test_predictions_in_release": true
+}

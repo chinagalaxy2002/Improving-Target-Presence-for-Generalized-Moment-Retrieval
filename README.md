@@ -1,5 +1,11 @@
 # Improving Target Presence for Generalized Moment Retrieval
 
+## 新增：GMR × Mr. DETR 六路线一对多训练实验
+
+新增 Moment-DETR-GMR 的 Temporal O2M、Separate FFN、Instruction Tokens 与 Adaptive Matching 六组消融。发布包含完整训练/评估脚本、冻结 Test 预测、0–1 全域 G-mIoU 扫描和论文测评图；结果来自单 seed 2023 的当前验证最佳检查点。
+
+[实验 README、完整结果与复现入口](MrDETR_MultiRoute_20261030/README.md)
+
 ## 最新：仅 Global Event Query + Hard-RoI（固定 epoch 4）
 
 精简方案关闭 **LoRA、Gaussian-RoI、6D Saliency 与候选存在性融合**。在同一预训练 GMR 上冻结原参数，仅微调开启的新增模块，采用 **GMR / +Global / +Hard / +Global+Hard** 的完整 2×2 对照，五个 backbone 共 **20 个单元**：10 组新训练、10 组核验复用；全部微调固定第 4 个 epoch、seed 2026。下降项完整保留，结果为单种子探索性比较。
