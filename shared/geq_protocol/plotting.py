@@ -72,7 +72,7 @@ def render(backbone, data, output):
     g1, g3, delta, tradeoff, f1, fixed = axes.flat
     axis(g1, "(a) Threshold sensitivity", "Presence threshold", "G-mIoU@1 (0–1)")
     axis(g3, "(b) Top-3 retrieval", "Presence threshold", "G-mIoU@3 (0–1)")
-    axis(delta, "(c) Relative to GMR baseline", "Presence threshold", "Δ G-mIoU@1 (0–1 units)", bounded=False)
+    axis(delta, "(c) Relative to " + LABELS["baseline"], "Presence threshold", "Δ G-mIoU@1 (0–1 units)", bounded=False)
     axis(tradeoff, "(d) Rejection / positive retention", "Positive recall (0–1)", "N-acc (0–1)")
     axis(f1, "(e) Negative-class F1", "Presence threshold", "Rejection F1 (0–1)")
     fixed.set(xlabel="Presence threshold", ylabel="G-mIoU@1 (0–1)", ylim=(0, 1))
