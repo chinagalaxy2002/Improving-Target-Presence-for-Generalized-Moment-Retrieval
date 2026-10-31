@@ -1,503 +1,234 @@
-# Improving Target Presence for Generalized Moment Retrieval
+# GMR × Mr. DETR Multi-Route Training
 
-## 新增：GMR × Mr. DETR 六路线一对多训练实验
+本分支专门记录将 Mr. DETR 的 Instructive Multi-Route Training 迁移到
+Generalized Moment Retrieval（GMR）的实现与实验。目标是在保持
+GMR-Adapter 空集拒绝能力的同时，通过训练期 Temporal One-to-Many（O2M）
+监督提高多个不同相关片段的定位与召回。
 
-新增 Moment-DETR-GMR 的 Temporal O2M、Separate FFN、Instruction Tokens 与 Adaptive Matching 六组消融。发布包含完整训练/评估脚本、冻结 Test 预测、0–1 全域 G-mIoU 扫描和论文测评图；结果来自单 seed 2023 的当前验证最佳检查点。
+当前覆盖四个 DETR 类时序定位骨干：
 
-[实验 README、完整结果与复现入口](MrDETR_MultiRoute_20261030/README.md)
+- Moment-DETR-GMR
+- EaTR-GMR
+- QD-DETR-GMR
+- CG-DETR-GMR
 
-## 最新：仅 Global Event Query + Hard-RoI（固定 epoch 4）
+所有实验使用固定随机种子 `2023`，不进行多 Seed 重复。主路线仍使用原生
+Hungarian One-to-One（O2O）集合预测；辅助路线只在训练阶段执行，推理时不会
+增加 Query 数量或辅助 Decoder 计算。
 
-精简方案关闭 **LoRA、Gaussian-RoI、6D Saliency 与候选存在性融合**。在同一预训练 GMR 上冻结原参数，仅微调开启的新增模块，采用 **GMR / +Global / +Hard / +Global+Hard** 的完整 2×2 对照，五个 backbone 共 **20 个单元**：10 组新训练、10 组核验复用；全部微调固定第 4 个 epoch、seed 2026。下降项完整保留，结果为单种子探索性比较。
+## 1. 核心设计
 
-[实验设计与复现](ablations/global_hard_roi_20261023/README.md) · [完整 Val/Test 结果](ablations/global_hard_roi_20261023/reports/RESULTS.md) · [九指标 CSV](ablations/global_hard_roi_20261023/reports/all_metrics.csv) · [相对 GMR 增益](ablations/global_hard_roi_20261023/reports/gains_vs_gmr_pp.csv) · [独立数值复核](ablations/global_hard_roi_20261023/reports/METRIC_VERIFICATION.json)
+### 1.1 主路线：O2O 集合预测
 
-![仅 Global Event Query + Hard-RoI，Test，阈值0.4](ablations/global_hard_roi_20261023/tables/ABLATION_TEST_tau_0.4.png)
+主路线保留原始 GMR 定义：10 个主 Queries、Hungarian 匹配、分类损失、时间
+边界 L1 与 Temporal GIoU 损失。一个 Query 最多匹配一个 GT，一个 GT 在主路线
+最多监督一个 Query。推理结果只来自这条路线。
 
-[τ=0.4 PDF](ablations/global_hard_roi_20261023/tables/ABLATION_TEST_tau_0.4.pdf) · [τ=0.5 PDF](ablations/global_hard_roi_20261023/tables/ABLATION_TEST_tau_0.5.pdf) · [τ=0.6 PDF](ablations/global_hard_roi_20261023/tables/ABLATION_TEST_tau_0.6.pdf) · [四个条件效应及交互](ablations/global_hard_roi_20261023/reports/factorial_effects_pp.csv)
+### 1.2 Temporal One-to-Many 辅助监督
 
-[研究文档总览](docs/README.md) · [数据](docs/DATA.md) · [算法](docs/ALGORITHM.md) · [实验](docs/EXPERIMENTS.md) · [复现](docs/REPRODUCIBILITY.md) · [论文段落](docs/PAPER_NOTES.md)
+每条辅助路线使用 24 个训练专用 Queries。固定匹配时，每个 GT 复制两次后执行
+Hungarian 匹配，因此一个 GT 最多监督两个不同预测，而一个预测仍只对应一个 GT。
+辅助路线复用原始分类、L1 和 Temporal GIoU 定义，不改变 GMR 的多目标标注。
 
-Soccer-GMR 上五个主干的 **Baseline → GMR → GMR + S4_minus_Fusion** 实验代码、冻结预测和结果汇总。主干包括 **Moment-DETR、QD-DETR、CG-DETR、EaTR、FlashVTG**。
+需要区分两个概念：
 
-本仓库提供阈值 **0.4、0.5、0.6** 的三张完整结果表及图片，采用参考论文 Table 2 的指标分组与排版。每张表包含 **14 行本地实验 + 6 行论文 Table 4 的 MLLM 参考结果**。S4 行括号内标注相对**同一主干、同一阈值 GMR** 的变化值，单位为百分点（pp），负值表示下降。
+- **Multi-Moment Retrieval**：一条文本查询可以有多个不同 GT 片段；
+- **One-to-Many Matching**：训练时一个 GT 可以监督多个辅助预测。
 
-## 新增：正式组件消融（5主干 × 6配置 = 30组）
+本实验将两者结合，O2M 不替代 GMR 的多片段集合定义。
 
-新增完整组件阶梯：**GMR → +Global Event Query → +LoRA → +Hard-RoI → +Gaussian-RoI（无saliency）→ Full（含6D saliency）**。每一新增配置均标注相对**同主干、同split、同阈值GMR**的增益，单位 pp，按显示两位小数相减。**第七配置的5组融合实验仅为额外诊断，不进入正式消融表或30组计数。**
+### 1.3 Separate FFN
 
-与下方历史14行主结果对比表分开，本次新增正式消融采用同初始化、固定四轮、seed 2026；GMR基线冻结。[协议、全部Val表格与复现说明](ablations/component_ablation_20261023/README.md)。
+Separate FFN 路线与主路线共享 Decoder Self-Attention 和 Cross-Attention，但
+为辅助任务提供独立的 `linear1`、`linear2` 和 FFN 后 `norm3`。它用于隔离
+O2O 与 O2M 对 FFN 参数可能产生的不同优化方向，同时继续共享跨模态注意力表示。
 
-### 三阈值合并大表（Test，正式30组）
+### 1.4 Instruction Tokens
 
-[PDF](ablations/component_ablation_20261023/tables/ABLATION_TEST_ALL_THRESHOLDS.pdf) · [高清PNG](ablations/component_ablation_20261023/tables/ABLATION_TEST_ALL_THRESHOLDS.png) · [Markdown](ablations/component_ablation_20261023/tables/ABLATION_TEST_ALL_THRESHOLDS.md) · [数值CSV](ablations/component_ablation_20261023/tables/ABLATION_TEST_ALL_THRESHOLDS.csv) · [增益CSV](ablations/component_ablation_20261023/tables/ABLATION_TEST_ALL_THRESHOLDS_GAINS.csv) · [可编辑HTML](ablations/component_ablation_20261023/tables/ABLATION_TEST_ALL_THRESHOLDS.html) · [LaTeX](ablations/component_ablation_20261023/tables/ABLATION_TEST_ALL_THRESHOLDS.tex)
+Instruction 路线在每层 Decoder Self-Attention 中拼接 4 个可学习 Token。它们
+参与 Query、Key、Value 交互，完成 Self-Attention 后立即丢弃，不进入
+Cross-Attention、边界预测集合或 Hungarian 匹配。该机制通过路线条件信息调节
+共享 Decoder，而不增加推理输出。
 
-![正式30组组件消融：阈值0.4、0.5、0.6合并大表](ablations/component_ablation_20261023/tables/ABLATION_TEST_ALL_THRESHOLDS.png)
+### 1.5 Adaptive O2M
 
-### Global Event Query、LoRA 与 Hard-RoI 四配置消融（Test，三阈值）
+固定 O2M 强制每个 GT 获得两个匹配，可能引入低质量正样本。Adaptive 路线至少
+保留一个匹配；只有第二候选与 GT 的 Temporal IoU 不低于 `0.25` 时才增加第二个
+监督预测。匹配决策不参与反向传播。
 
-在五个主干上对照以下四组，按 **τ=0.4、0.5、0.6** 合并为一张 **20行 × 27指标列** 大表。各组独立从同一主干的GMR初始化，统一seed 2026、第4个微调epoch；本次仅整理已有结果。表结构、指标分组、相对同主干GMR的增益（pp）、最优加粗与次优下划线均沿用上方正式30组大表。
+### 1.6 GMR-Adapter 与空集样本
 
-1. **GMR → +Global Event Query**
-2. **GMR → +Global Event Query → +LoRA**
-3. **GMR → +Global Event Query + Hard-RoI**
-4. **GMR → +Global Event Query → +LoRA → +Hard-RoI**
+GMR-Adapter 始终从主路线特征预测存在性分数。总损失为：
 
-[PDF](ablations/component_ablation_20261023/tables/ABLATION_GLOBAL_LORA_HARD_TEST_ALL_THRESHOLDS.pdf) · [高清PNG](ablations/component_ablation_20261023/tables/ABLATION_GLOBAL_LORA_HARD_TEST_ALL_THRESHOLDS.png) · [Markdown](ablations/component_ablation_20261023/tables/ABLATION_GLOBAL_LORA_HARD_TEST_ALL_THRESHOLDS.md) · [数值CSV](ablations/component_ablation_20261023/tables/ABLATION_GLOBAL_LORA_HARD_TEST_ALL_THRESHOLDS.csv) · [增益CSV](ablations/component_ablation_20261023/tables/ABLATION_GLOBAL_LORA_HARD_TEST_ALL_THRESHOLDS_GAINS.csv) · [可编辑HTML](ablations/component_ablation_20261023/tables/ABLATION_GLOBAL_LORA_HARD_TEST_ALL_THRESHOLDS.html) · [LaTeX](ablations/component_ablation_20261023/tables/ABLATION_GLOBAL_LORA_HARD_TEST_ALL_THRESHOLDS.tex) · [数值核验](ablations/component_ablation_20261023/tables/ABLATION_GLOBAL_LORA_HARD_TEST_ALL_THRESHOLDS_VERIFICATION.json)
-
-![Global Event Query、LoRA与Hard-RoI四配置消融：Test，三阈值合并大表](ablations/component_ablation_20261023/tables/ABLATION_GLOBAL_LORA_HARD_TEST_ALL_THRESHOLDS.png)
-
-四组配置均关闭Gaussian-RoI、6D Saliency与候选存在性融合。各阈值使用同一份Test冻结预测；本表作为组件对照补充，不改变上方正式30组的计数。复现：`python tools/reproduce_lora_hard_ablation.py`。
-
-### 三个阈值的完整消融分表
-
-| 阈值 | Test PDF | Test PNG | Test Markdown | 数值CSV | 增益CSV | LaTeX | Val表格 |
-|---|---|---|---|---|---|---|---|
-| **0.4** | [PDF](ablations/component_ablation_20261023/tables/ABLATION_TEST_tau_0.4.pdf) | [PNG](ablations/component_ablation_20261023/tables/ABLATION_TEST_tau_0.4.png) | [Markdown](ablations/component_ablation_20261023/tables/ABLATION_TEST_tau_0.4.md) | [CSV](ablations/component_ablation_20261023/tables/ABLATION_TEST_tau_0.4.csv) | [Δ pp](ablations/component_ablation_20261023/tables/ABLATION_TEST_tau_0.4_GAINS.csv) | [TeX](ablations/component_ablation_20261023/tables/ABLATION_TEST_tau_0.4.tex) | [Val PDF](ablations/component_ablation_20261023/tables/ABLATION_VAL_tau_0.4.pdf) |
-| **0.5** | [PDF](ablations/component_ablation_20261023/tables/ABLATION_TEST_tau_0.5.pdf) | [PNG](ablations/component_ablation_20261023/tables/ABLATION_TEST_tau_0.5.png) | [Markdown](ablations/component_ablation_20261023/tables/ABLATION_TEST_tau_0.5.md) | [CSV](ablations/component_ablation_20261023/tables/ABLATION_TEST_tau_0.5.csv) | [Δ pp](ablations/component_ablation_20261023/tables/ABLATION_TEST_tau_0.5_GAINS.csv) | [TeX](ablations/component_ablation_20261023/tables/ABLATION_TEST_tau_0.5.tex) | [Val PDF](ablations/component_ablation_20261023/tables/ABLATION_VAL_tau_0.5.pdf) |
-| **0.6** | [PDF](ablations/component_ablation_20261023/tables/ABLATION_TEST_tau_0.6.pdf) | [PNG](ablations/component_ablation_20261023/tables/ABLATION_TEST_tau_0.6.png) | [Markdown](ablations/component_ablation_20261023/tables/ABLATION_TEST_tau_0.6.md) | [CSV](ablations/component_ablation_20261023/tables/ABLATION_TEST_tau_0.6.csv) | [Δ pp](ablations/component_ablation_20261023/tables/ABLATION_TEST_tau_0.6_GAINS.csv) | [TeX](ablations/component_ablation_20261023/tables/ABLATION_TEST_tau_0.6.tex) | [Val PDF](ablations/component_ablation_20261023/tables/ABLATION_VAL_tau_0.6.pdf) |
-
-指标分组沿用原表并增加 N-acc：**N-acc / AUROC / Rej-F1；mAP / mR@1 / mR@5 / mR+@5；G-mIoU@1 / G-mIoU@3**。每个主干内部最优加粗、次优下划线。CG/EaTR匹配GMR重导出mAP为18.66/16.22，历史表为18.65/16.20；新表增益以本次匹配基线为准。FlashVTG保留原生置信度校准与NMS。下降项完整保留。
-
-[额外融合诊断（单列5组）](ablations/component_ablation_20261023/extra_diagnostics/README.md) · [CPU数值复核](ablations/component_ablation_20261023/PUBLICATION_VERIFICATION.json) · [表格与增益核验](ablations/component_ablation_20261023/TABLE_VERIFICATION.json)
-
-```bash
-python tools/reproduce_ablation_tables.py
-python tools/reproduce_ablation_tables.py --recompute-metrics
+```text
+L = L_o2o + 1.0 * L_exist + sum(lambda_route * L_o2m_route)
 ```
 
-以下三个完整表保留原来的历史主结果及MLLM参考行，不与本次正式30组组件消融混合统计。
+单辅助路线权重为 `0.30`；双辅助路线各为 `0.15`，因此 E1–E5 的辅助总权重
+始终为 `0.30`。空 GT 样本继续计算主路线背景分类和存在性 BCE；辅助路线只计算
+背景分类，不计算时间边界回归。
 
-## 1. 三个阈值的完整表格
+## 2. 六组实验方法
 
-| 本地实验阈值 | PDF | PNG 图片 | Markdown | 原始数值 CSV | 增益 CSV | 可编辑 LaTeX |
-|---|---|---|---|---|---|---|
-| **0.4** | [PDF](backbonefolder/TABLE2_COMPLETE_RESULTS.pdf) | [PNG](backbonefolder/TABLE2_COMPLETE_RESULTS.png) | [Markdown](backbonefolder/TABLE2_OUR_RESULTS.md) | [CSV](backbonefolder/TABLE2_COMPLETE_RESULTS.csv) | [Δ pp](backbonefolder/TABLE2_COMPLETE_RESULTS_GAINS.csv) | [TeX](backbonefolder/TABLE2_COMPLETE_RESULTS.tex) |
-| **0.5** | [PDF](backbonefolder/TABLE2_COMPLETE_RESULTS_tau_0.5.pdf) | [PNG](backbonefolder/TABLE2_COMPLETE_RESULTS_tau_0.5.png) | [Markdown](backbonefolder/TABLE2_OUR_RESULTS_tau_0.5.md) | [CSV](backbonefolder/TABLE2_COMPLETE_RESULTS_tau_0.5.csv) | [Δ pp](backbonefolder/TABLE2_COMPLETE_RESULTS_tau_0.5_GAINS.csv) | [TeX](backbonefolder/TABLE2_COMPLETE_RESULTS_tau_0.5.tex) |
-| **0.6** | [PDF](backbonefolder/TABLE2_COMPLETE_RESULTS_tau_0.6.pdf) | [PNG](backbonefolder/TABLE2_COMPLETE_RESULTS_tau_0.6.png) | [Markdown](backbonefolder/TABLE2_OUR_RESULTS_tau_0.6.md) | [CSV](backbonefolder/TABLE2_COMPLETE_RESULTS_tau_0.6.csv) | [Δ pp](backbonefolder/TABLE2_COMPLETE_RESULTS_tau_0.6_GAINS.csv) | [TeX](backbonefolder/TABLE2_COMPLETE_RESULTS_tau_0.6.tex) |
+| ID | 配置 | 方法说明 | 辅助权重 |
+|---|---|---|---:|
+| E0 | `baseline` | 原始 O2O 主路线，无 O2M 辅助路线 | 0 |
+| E1 | `shared` | 一条固定 K=2 O2M 路线；SA、CA、FFN、Norm 全共享 | 0.30 |
+| E2 | `sepffn` | 一条固定 K=2 O2M 路线；共享 SA/CA，辅助 FFN 与 norm3 独立 | 0.30 |
+| E3 | `instruction` | 一条固定 K=2 O2M 路线；共享 Decoder，Self-Attention 加 4 个 Instruction Tokens | 0.30 |
+| E4 | `multi` | Separate FFN 与 Instruction 两条固定 O2M 路线同时训练 | 0.15 + 0.15 |
+| E5 | `adaptive` | E4 的双路线结构，第二个正样本由 tIoU≥0.25 动态决定 | 0.15 + 0.15 |
 
-同名 `.svg`、`.html` 提供矢量图和可编辑网页表格；同名 `.json` 保存来源与增益定义。
+关键消融比较为：`E1−E0` 检查密集监督；`E2−E1` 检查 FFN 隔离；
+`E3−E1` 检查指令调节；`E4−E2/E3` 检查互补性；`E5−E4` 检查动态匹配。
 
-### τ = 0.4
+## 3. Backbone 适配
 
-![完整结果表，阈值 0.4](backbonefolder/TABLE2_COMPLETE_RESULTS.png)
+| Backbone | 辅助 Query 实现 | 适配说明 |
+|---|---|---|
+| Moment-DETR-GMR | 24 个训练专用 Object Queries | 直接复用原生 Transformer Decoder、Hungarian Matcher 与 GMR-Adapter |
+| EaTR-GMR | 24 个学习型辅助 Slots | EaTR 使用 Slot Attention，因此共享原生 Slot 投影与更新 MLP，而不是复制 DAB Query |
+| QD-DETR-GMR | 24 个辅助 DAB reference queries | 保留原生 Query-Dependent Decoder 与主路线预测头 |
+| CG-DETR-GMR | 24 个辅助 DAB reference queries | DataLoader worker 只执行 CPU collate，主进程再搬运到 CUDA，修复多 worker 验证错误 |
 
-### τ = 0.5
+三种迁移骨干共用同一份 [`multiroute.py`](backbonefolder/multiroute_gmr/multiroute.py)
+和 [`run.py`](backbonefolder/multiroute_gmr/run.py)，各自入口位于
+[`backbones/`](backbonefolder/multiroute_gmr/backbones/)。共享核心可以避免三份
+Criterion、匹配与早停实现产生漂移。
 
-![完整结果表，阈值 0.5](backbonefolder/TABLE2_COMPLETE_RESULTS_tau_0.5.png)
+## 4. 统一训练与测试协议
 
-### τ = 0.6
-
-![完整结果表，阈值 0.6](backbonefolder/TABLE2_COMPLETE_RESULTS_tau_0.6.png)
-
-### 论文 MLLM 参考行的口径
-
-末尾的 Qwen3-VL-4B/8B/32B、TRACE、TimeChat 和 Qwen3-VL-4B (GRPO) 直接摘录自 [2605.02623v1，Table 4](https://arxiv.org/pdf/2605.02623v1)，**不是本仓库重跑的 MLLM 实验**。原表仅报告阈值 **0.4** 的 Rej-F1：这六行在三个表中均保留该原始阈值，不能将其当作 0.5 或 0.6 的结果。论文未报告的 **mR@5、G-mIoU@1、G-mIoU@3 均留空**。转录数值、论文 SHA256 和来源见 [PAPER_TABLE4_RESULTS.json](backbonefolder/figures/complete_comparison/PAPER_TABLE4_RESULTS.json)。
-
-## 2. 实验与指标说明
-
-| 项目 | 本仓库采用的口径 |
+| 项目 | 设置 |
 |---|---|
-| 数据 | 原始 Standard Train / Val / Test；Train 4,138，Val 465，Test 1,036 |
-| Test 构成 | 544 条正查询、492 条无目标查询；各实验使用相同测试标签 |
-| 四个 DETR 主干 | 每个包含 Baseline、GMR、GMR + S4_minus_Fusion，共 12 行 |
-| FlashVTG | 仅包含已验证的 E0/GMR 与 GMR + S4_minus_Fusion，共 2 行；没有补造无 GMR 的结果 |
-| S4 检查点 | Moment/QD/CG/EaTR 固定 epoch 4；FlashVTG 为历史无 QCD 实验的真实 epoch 4 |
-| 存在性门控 | 存在分数 **严格大于 τ** 才保留预测；否则输出空集合 |
-| 阈值相关指标 | Rej-F1、G-mIoU@1、G-mIoU@3 |
-| 阈值无关指标 | AUROC；正查询上的 mAP、mR@1、mR@5、mR+@5 不使用存在性硬门控 |
-| 增益 | S4 指标 − 同主干 GMR 指标；按表中保留两位小数的结果计算，单位 pp |
-| 排版 | 列内最优加粗、次优加下划线；缺失数据留空 |
-| 方法范围 | 三种方法对比；表格中不混入 QCD、MoPE 或其他 S4 轮次 |
+| Seed | 2023（单 Seed） |
+| Epoch 上限 | 400 |
+| Optimizer / LR | AdamW / `5e-5` |
+| 主 / 辅助 Queries | 10 / 24 |
+| Microbatch / 累积 | 2 / 4，有效 Batch 8 |
+| DataLoader | 每任务 `num_workers=2`、pin memory、prefetch 2、persistent workers |
+| 验证间隔 | 每 5 epochs |
+| 选模 | 验证集正样本定位 mAP 最大 |
+| 早停 | 当前 epoch 距 best epoch 达到 20 |
+| 队列并发 | 两张 GPU，每张最多同时 2 个任务 |
+| 测试 | 训练结束后仅测试冻结的 `best.ckpt` |
+| G-mIoU | 官方百分数保留，同时显式输出 `brief_0_1` 的 0–1 数值 |
 
-三张表使用相同的模型与预测，只改变存在性阈值；阈值扫描是冻结模型的敏感性分析。S4 epoch 4 固定后汇总，不按 Test 事后挑选最优轮次。四个新主干训练过程中曾保存 epoch 3–6 的 Test 诊断，因此本结果作为固定轮次的探索性实验报告；它们不构成额外独立测试集上的确认性结论。QD-DETR-GMR 和 CG-DETR-GMR 是本地扩展，参考论文 Table 2 没有这两项可直接对应的数值。
+队列阶段为 `smoke → train/resume → frozen-best test`。每个阶段最多重试三次；
+已有 `last.ckpt` 时自动恢复，已有完整任务自动跳过。测试完成后可通过
+`GMR_FIGURE_REFRESH` 调用外部图表刷新脚本，图表失败只产生警告，不改变已完成
+测试的有效性。
 
-S4_minus_Fusion 使用独立全局事件查询产生存在性分数，保留候选提取、边界精修及 LoRA；删除候选存在性融合。详见 [共同配置](Phase2(addbackbone_with_S4_minusFusion)/shared/config.json) 和各主干模型代码。
+## 5. 当前结果与状态
 
-## 3. 五个主干的曲线图
+Moment-DETR-GMR 的六组冻结结果、预测、完整 0–1 G-mIoU 扫描和论文图位于
+[`moment_detr_gmr_20261030/`](moment_detr_gmr_20261030/)。这些结果来自固定
+seed 2023，但六组按当时指令停止，实际训练 epoch 不完全一致，解释时不能把差异
+全部归因于结构。
 
-每张图均按六面板样式展示：阈值与 G-mIoU@1、阈值与 G-mIoU@3、相对同阈值 GMR 的 G-mIoU@1 差值、Positive recall 与 N-acc、阈值与 Rej-F1，以及固定 0.4/0.5/0.6 工作点。前四个主干有三条方法曲线；FlashVTG 有两条。
+截至 2026-10-31，额外骨干已有以下 frozen-best Test 结果；其余配置仍由队列训练。
+除 G-mIoU 外，表中指标沿用官方百分数；G-mIoU@3 使用 0–1 表示。
 
-### Moment-DETR
+| Backbone | 配置 | mAP | mR+@5 | AUROC | Rej-F1@0.4 | G-mIoU@3 |
+|---|---|---:|---:|---:|---:|---:|
+| EaTR | baseline | 6.86 | 0.87 | 69.99 | 75.00 | 0.4900 |
+| EaTR | shared | 16.65 | 8.60 | 77.57 | 61.23 | 0.3139 |
+| EaTR | sepffn | 17.06 | 9.21 | 77.75 | 54.93 | 0.2655 |
+| QD-DETR | baseline | 15.08 | 9.62 | 77.66 | 59.84 | 0.3035 |
+| QD-DETR | shared | 15.24 | 9.78 | 77.13 | 63.37 | 0.3334 |
+| QD-DETR | sepffn | 11.03 | 4.16 | 75.57 | 68.25 | 0.3783 |
 
-![Moment-DETR 的阈值敏感性与拒识曲线](backbonefolder/figures/complete_comparison/moment_detr_fig7_test_threshold_sweep.png)
+这些是单 Seed 探索性结果。定位指标、额外 GT 覆盖、空集拒绝和 G-mIoU 之间可能
+存在权衡，不能只依据单个指标宣称某种路线全面更优。
 
-[PDF 下载](backbonefolder/figures/complete_comparison/moment_detr_fig7_test_threshold_sweep.pdf) · [SVG 下载](backbonefolder/figures/complete_comparison/moment_detr_fig7_test_threshold_sweep.svg)
-
-### QD-DETR
-
-![QD-DETR 的阈值敏感性与拒识曲线](backbonefolder/figures/complete_comparison/qd_detr_fig7_test_threshold_sweep.png)
-
-[PDF 下载](backbonefolder/figures/complete_comparison/qd_detr_fig7_test_threshold_sweep.pdf) · [SVG 下载](backbonefolder/figures/complete_comparison/qd_detr_fig7_test_threshold_sweep.svg)
-
-### CG-DETR
-
-![CG-DETR 的阈值敏感性与拒识曲线](backbonefolder/figures/complete_comparison/cg_detr_fig7_test_threshold_sweep.png)
-
-[PDF 下载](backbonefolder/figures/complete_comparison/cg_detr_fig7_test_threshold_sweep.pdf) · [SVG 下载](backbonefolder/figures/complete_comparison/cg_detr_fig7_test_threshold_sweep.svg)
-
-### EaTR
-
-![EaTR 的阈值敏感性与拒识曲线](backbonefolder/figures/complete_comparison/eatr_fig7_test_threshold_sweep.png)
-
-[PDF 下载](backbonefolder/figures/complete_comparison/eatr_fig7_test_threshold_sweep.pdf) · [SVG 下载](backbonefolder/figures/complete_comparison/eatr_fig7_test_threshold_sweep.svg)
-
-### FlashVTG
-
-![FlashVTG 的阈值敏感性与拒识曲线](backbonefolder/figures/complete_comparison/flashvtg_fig7_test_threshold_sweep.png)
-
-[PDF 下载](backbonefolder/figures/complete_comparison/flashvtg_fig7_test_threshold_sweep.pdf) · [SVG 下载](backbonefolder/figures/complete_comparison/flashvtg_fig7_test_threshold_sweep.svg)
-
-## 4. 目录与代码入口
+## 6. 目录结构
 
 ```text
 .
 ├── README.md
-├── tools/reproduce_results.py          # CPU 重算指标 / 重绘三表和五主干图
-├── requirements-cpu.txt               # 图表与官方数值评测依赖
-├── docs/CODE_MAP.md                   # 各主干训练、配置和来源入口
-├── backbonefolder/
-│   ├── TABLE2_*                       # 三组完整表格：PDF/PNG/SVG/MD/CSV/TeX
-│   ├── figures/complete_comparison/   # 六面板图、阈值数据及论文转录
-│   ├── {moment_detr,qd_detr,cg_detr,eatr}/
-│   │   ├── ...                        # 原生模型代码和训练入口
-│   │   └── {original,gmr}/            # 冻结选择、配置、预测、测试指标
-│   └── flashvtg/gmr/                  # FlashVTG E0 的预测和来源
-├── Phase2(addbackbone_with_S4_minusFusion)/
-│   ├── shared/                       # 共同训练器、官方评测、Standard 标签
-│   ├── {moment_detr,qd_detr,cg_detr,eatr,flashvtg}/
-│   │   ├── source/ 或 baseline_source/ # 模型源码；各主干独立组织
-│   │   ├── configuration/            # 实际训练、初始化、参数记录
-│   │   └── epoch_004/test_results/    # S4 冻结预测和测试指标
-│   └── ...                           # 原始运行日志与来源记录
-├── provenance/                       # 来源复制清单、发布适配和外部权重 SHA256
-├── PUBLICATION_SCOPE.json             # GitHub 发布范围
-└── PUBLICATION_MANIFEST.json          # 本次实际上传文件的 SHA256
+├── LICENSE
+├── moment_detr_gmr_20261030/       # 已完成的 Moment-DETR 六路线结果包
+└── backbonefolder/
+    ├── moment_detr/                 # Moment-DETR-GMR 原生/GMR 源码
+    ├── eatr/                        # EaTR-GMR 源码与数据接口
+    ├── qd_detr/                     # QD-DETR-GMR 源码与数据接口
+    ├── cg_detr/                     # CG-DETR-GMR 源码与数据接口
+    └── multiroute_gmr/
+        ├── multiroute.py            # 多路线模型、O2M Matcher 与 Criterion
+        ├── run.py                   # 统一 smoke/train/test runner
+        ├── queue.py                 # 两 GPU、每卡最多两任务的可恢复队列
+        ├── launch_queue.sh           # tmux 队列入口
+        ├── validate_all.py           # 18 配置真实数据 smoke gate
+        ├── collect_results.py        # 汇总 frozen-best Test 指标
+        └── backbones/
+            ├── moment_detr_gmr/
+            ├── eatr_gmr/
+            ├── qd_detr_gmr/
+            └── cg_detr_gmr/
 ```
 
-代码按五个主干存放，详细映射见 **[docs/CODE_MAP.md](docs/CODE_MAP.md)**。原生/GMR 与 S4 的训练入口、模型实现、有效配置、初始化记录、选模规则均有保留。历史源码中的绝对路径属于来源信息；重新训练前需配置本机数据和检查点路径。
+## 7. 使用方法
 
-## 5. 复现三表和曲线：仅需 CPU
+### 单个迁移骨干
 
 ```bash
-git clone https://github.com/chinagalaxy2002/Improving-Target-Presence-for-Generalized-Moment-Retrieval.git
-cd Improving-Target-Presence-for-Generalized-Moment-Retrieval
-python -m pip install -r requirements-cpu.txt
+# BACKBONE 可替换为 eatr_gmr、qd_detr_gmr 或 cg_detr_gmr
+BACKBONE=eatr_gmr
+VARIANT=sepffn
 
-# 从已封存、核对过的阈值数据生成 0.4 / 0.5 / 0.6 三张表
-python tools/reproduce_results.py
+CUDA_VISIBLE_DEVICES=0 \
+python backbonefolder/multiroute_gmr/backbones/$BACKBONE/run.py \
+  --variant "$VARIANT" --mode smoke
 
-# 同时重绘五个主干的六面板图
-python tools/reproduce_results.py --figures
+CUDA_VISIBLE_DEVICES=0 \
+python backbonefolder/multiroute_gmr/backbones/$BACKBONE/run.py \
+  --variant "$VARIANT" --mode train
 
-# 可选：从 14 组完整预测重新进行官方数值评测，再重建三表
-python tools/reproduce_results.py --recompute-metrics
-
-# 仅重建一个阈值
-python tools/reproduce_results.py --thresholds 0.5
+CUDA_VISIBLE_DEVICES=0 \
+python backbonefolder/multiroute_gmr/backbones/$BACKBONE/run.py \
+  --variant "$VARIANT" --mode test
 ```
 
-以上命令不训练、不使用 GPU，也不需要视频、预提取特征或检查点。预测 SHA256 会与记录核对；`--recompute-metrics` 的逐实验报告另存到 `reproduced/metrics/`。表格仍写入 `backbonefolder/`，所有 Markdown 表格文件只包含一张表。
+也可以使用每个 Backbone 目录内的 `smoke.sh`、`train.sh` 和 `test.sh`。
 
-默认图表使用 Liberation Serif 字体；系统未安装时退回可用 serif 字体，数值不受影响。HTML、SVG、LaTeX 可继续编辑。
-
-## 6. 重新训练与模型推理
-
-本发布包含实验代码、配置、Standard 标签、冻结预测与图表；**不包含 `.ckpt/.pt/.pth` 二进制权重、原视频和视觉/文本特征**。外部权重的原位置、文件大小和 SHA256 见 [EXTERNAL_CHECKPOINTS.json](provenance/EXTERNAL_CHECKPOINTS.json)。这些资产不是 CPU 重算表格的依赖。
-
-重新训练需要原始 Soccer-GMR 的 SlowFast、CLIP、CLIP 文本特征及 PyTorch 环境。视觉输入顺序是 SlowFast2304 → CLIP512 → TEF2，文本维度 512。实际环境记录见 [requirements_frozen.txt](Phase2(addbackbone_with_S4_minusFusion)/requirements_frozen.txt)；它是历史环境记录，不要求 CPU 绘图安装 CUDA 依赖。
-
-先按 [代码映射](docs/CODE_MAP.md) 定位本主干入口和有效配置，再配置原生/GMR 输出目录、S4 初始化权重与数据路径。S4 必须从对应主干的真实 GMR 检查点初始化，保持新的 optimizer/scheduler。历史脚本使用的默认路径和本机输出路径不要直接照搬。发布整理未启动新训练。
-
-## 7. 来源和完整性
-
-- [SOURCE_COPY_MANIFEST.json](provenance/SOURCE_COPY_MANIFEST.json)：从本地实验复制的文件及原始哈希。
-- [PUBLICATION_ADAPTATIONS.json](provenance/PUBLICATION_ADAPTATIONS.json)：发布适配记录，包括 CPU 评测导入、缓存预测路径改为仓库相对路径；历史训练源码未改写。
-- [PUBLICATION_SCOPE.json](PUBLICATION_SCOPE.json)：14 组本地实验、6 组论文参考结果和三个阈值的范围。
-- [PUBLICATION_MANIFEST.json](PUBLICATION_MANIFEST.json)：本次发布实际包含文件的哈希；这是本 GitHub 子集的完整性入口。
-- Phase2 中旧 `MANIFEST.json`、`SHA256SUMS`、`ARCHIVE_SCOPE.json` 描述原始含权重的本地完整归档，作为历史来源保留；GitHub 是移除权重和其他数据集标签后的代码/结果子集，不用旧清单核验发布子集。
-- FlashVTG 历史训练辅助脚本的版本差异已记录于 [FLASHVTG_SOURCE_AUDIT.json](Phase2(addbackbone_with_S4_minusFusion)/reports/FLASHVTG_SOURCE_AUDIT.json)。
-
-数值评测沿用参考项目的官方 evaluator，原始实现提交身份见 [evaluator_manifest.json](Phase2(addbackbone_with_S4_minusFusion)/shared/evaluator_manifest.json)。本仓库保留上游许可证和来源文件；模型源码、基准标签及论文参考结果的归属沿用其原始来源。
-
-<!-- GAP_ALL_BACKBONES_20261026 -->
-
-## 8. GAP：正负均分间隔监督与五 Backbone 实验
-
-本节汇总 2026-10-26 的 GAP 实验，与前文历史 S4 / LoRA / Boundary Refiner 实验分别报告。比较三种方法：原始 **GMR（E0）**、全量微调的 **GMR＋GEQ（E1）**，以及增加均分约束的 **GMR＋GEQ＋GAP**。
-
-### 方法与评估
-
-从对应 backbone 的原始预训练 GMR checkpoint 独立初始化，接入随机初始化的 GEQ，保留原生定位、候选分类和原生存在性 BCE，并联合优化 GMR 与 GEQ。对含正负查询的 batch，使用 GEQ 概率 `s = sigmoid(z)` 计算正均分 `μ₊` 和负均分 `μ₋`，加入平方 hinge 损失 `L_GAP = max(0, m − (μ₊ − μ₋))²`，总损失为 `L_native + L_GEQ + λ·L_GAP`。单类 batch 的新增项为可反传的零。推理只使用 GEQ 作为最终视频级存在性预测器，保留各 backbone 原生定位与后处理。全 split 分别计算正负均分，以 `mean_gap = μ₊ − μ₋` 衡量均分分离；同时报告类别等权端点误差 `D = [mean(1−s | positive) + mean(s | negative)]/2` 及 `S = 100(1−D) = 50(1+mean_gap)`，并结合 AUROC、AUPRC、正负召回和定位指标评估。**S 与均分差距是同一信息的不同刻度，不能代替排序、完整分布重叠或概率校准评价。**
-
-![GAP 监督与评估机制](ablations/geq_gap_publication_20261026/figures/gap_supervision_and_evaluation.png)
-
-[方法图 PDF](ablations/geq_gap_publication_20261026/figures/gap_supervision_and_evaluation.pdf) · [可编辑 SVG](ablations/geq_gap_publication_20261026/figures/gap_supervision_and_evaluation.svg)
-
-### 固定迁移协议
-
-FlashVTG 上搜索 margin∈{0.4,0.6}、λ∈{0.5,1,2}，并纳入已有 GAP（0.5,1）作为参考，按第4轮 **Val AUROC** 选择 **m=0.6、λ=2**。随后将此配置固定迁移至 Moment-DETR、QD-DETR、CG-DETR、EaTR，未重新搜索；FlashVTG复用已完成结果。各组与对应 E1 的原始 GMR 初始化、GEQ 初始张量和数据顺序一致，不从 E1 微调后的 checkpoint 续训。
-
-统一 seed=2026、4 epochs、AdamW、GMR lr=1e-5、GEQ lr=3e-5、weight decay=1e-4、gradient clipping=0.1、constant scheduler；采用各 backbone 的原生 batch size。Train/Val/Test=4,138/465/1,036。外部 CLIP/SlowFast/文本特征离线预提取，编码器不在当前计算图中。无 PV、LoRA、边界 refiner、额外存在性融合或合成数据；不根据 Test 更换配置、epoch或阈值。
-
-### Test 正负均分与差距
-
-Test 共 **1,036 条查询（544正、492负）**。均分由全部原始存在性概率按类别分别计算，不按阈值筛选样本；均分差距越大，表示两类平均分分离越明显。
-
-| Backbone | 方法 | 正样本均分 μ₊ | 负样本均分 μ₋ | 均分差距 ↑ |
-|---|---|---:|---:|---:|
-| Moment-DETR | GMR | 0.6945 | 0.4969 | 0.1976 |
-| Moment-DETR | GMR＋GEQ | 0.5797 | 0.3035 | 0.2762 |
-| Moment-DETR | GMR＋GEQ＋GAP | 0.5339 | 0.2277 | 0.3062 |
-| QD-DETR | GMR | 0.6710 | 0.3734 | 0.2976 |
-| QD-DETR | GMR＋GEQ | 0.5845 | 0.2586 | 0.3259 |
-| QD-DETR | GMR＋GEQ＋GAP | 0.5565 | 0.1917 | 0.3648 |
-| CG-DETR | GMR | 0.7333 | 0.4865 | 0.2468 |
-| CG-DETR | GMR＋GEQ | 0.6057 | 0.2873 | 0.3185 |
-| CG-DETR | GMR＋GEQ＋GAP | 0.6032 | 0.2602 | 0.3429 |
-| EaTR | GMR | 0.6828 | 0.3976 | 0.2852 |
-| EaTR | GMR＋GEQ | 0.6031 | 0.3039 | 0.2993 |
-| EaTR | GMR＋GEQ＋GAP | 0.5785 | 0.2375 | 0.3410 |
-| FlashVTG | GMR | 0.6972 | 0.4632 | 0.2340 |
-| FlashVTG | GMR＋GEQ | 0.5796 | 0.2707 | 0.3088 |
-| FlashVTG | GMR＋GEQ＋GAP | 0.5605 | 0.2282 | 0.3323 |
-
-![五 Backbone 正均分、负均分及均分差距](ablations/geq_gap_all_backbones_20261026/figures/test_mean_gap_comparison.png)
-
-[均分对比图 PDF](ablations/geq_gap_all_backbones_20261026/figures/test_mean_gap_comparison.pdf) · [SVG](ablations/geq_gap_all_backbones_20261026/figures/test_mean_gap_comparison.svg) · [Val/Test 精确均分 CSV](ablations/geq_gap_all_backbones_20261026/reports/existence_score_means.csv)
-
-### 正负存在性分数分布
-
-每行一个 backbone，左列为正查询，右列为负查询；三种方法同图对比。40个等宽区间，分别按类别归一化为密度；彩色竖线为中位数，灰色点线为固定分类阈值0.4。**此图使用 Standard Test 1,036条，与历史 Full BN45 图的数据范围不同。**
-
-![五 Backbone 三种方法的正负存在性分数分布](ablations/geq_gap_all_backbones_20261026/figures/test_existence_score_distributions.png)
-
-[分布图 PDF](ablations/geq_gap_all_backbones_20261026/figures/test_existence_score_distributions.pdf) · [SVG](ablations/geq_gap_all_backbones_20261026/figures/test_existence_score_distributions.svg) · [性能对比图 PDF](ablations/geq_gap_all_backbones_20261026/figures/test_performance_comparison.pdf)
-
-### 结果与解释边界
-
-GAP 相对仅加 GEQ，在五个 backbone 上都扩大了均分差距，增量约 **0.0235–0.0417**；五组正均分均有所下降，但负均分下降更多。因此，这支持“改善均分分离”，不能解释为同时提高正分、降低负分。新增四个 backbone 的 AUROC 相对 E1 均略降，定位收益也不一致：Moment-DETR/QD-DETR 的 mAP 小幅提高，CG-DETR/EaTR/FlashVTG 的 mAP 下降，mR+@5 仅 FlashVTG 提高。**当前结果不支持 GAP 稳定改善全局排序或多时刻定位。**
-
-本实验为单 seed、固定预算的探索性验证，不报告统计显著性或跨 seed 稳定性。G-mIoU 受存在性拒识影响，不等同于纯定位精度；mR+@5 不等同于正查询存在性召回。四个新训练的 preflight、官方 Val/Test 和独立复算均通过。Checkpoint 按用户要求保留本地，不上传二进制权重。
-
-### 完整结果与复现
-
-- [五 Backbone 完整报告（含 AUROC、AUPRC、定位指标和相对 E1 变化）](ablations/geq_gap_all_backbones_20261026/reports/RESULTS.md)
-- [完整 Val/Test 与固定0.4/0.5/0.6指标 CSV](ablations/geq_gap_all_backbones_20261026/reports/all_metrics.csv)
-- [核验记录](ablations/geq_gap_all_backbones_20261026/reports/AUDIT.json)
-- [FlashVTG 方法报告、六组参数搜索及三方法阈值扫描图](ablations/geq_gap_publication_20261026/README.md)
-- [训练配置与入口](ablations/geq_gap_all_backbones_20261026/README.md)
-
-从已保存的真实分数与 GT 重画全部五 Backbone 图表，无需 GPU、checkpoint或特征：
+### 六配置 × 三迁移骨干队列
 
 ```bash
-python ablations/geq_gap_all_backbones_20261026/reproduce_figures.py
+# 首次执行或 smoke 发生变化时检查全部 18 个配置
+python backbonefolder/multiroute_gmr/validate_all.py
+
+# GPU 0 和 GPU 1 各最多两个任务
+GPU0=0 GPU1=1 bash backbonefolder/multiroute_gmr/launch_queue.sh
+
+# 查看状态与日志
+cat backbonefolder/multiroute_gmr/QUEUE.json
+tail -f backbonefolder/multiroute_gmr/logs/queue.log
+
+# 汇总已完成 Test
+python backbonefolder/multiroute_gmr/collect_results.py
 ```
 
-<!-- GAP_THRESHOLD_SWEEPS_TEST_20261026 -->
+### Moment-DETR-GMR 原始六路线
 
+完整说明见 [`moment_detr_gmr_20261030/README.md`](moment_detr_gmr_20261030/README.md)。
+该目录包含实际使用的训练、评估、预检、早停监视、结果重算与绘图脚本；不包含
+checkpoint、原始视频或预提取特征。
 
-## 9. 五个 Backbone 的 Test 存在性阈值扫描
+## 8. 分支范围与清理记录
 
-下图沿用参考 Figure 7 的六面板布局，对比 GMR（E0）、GMR＋GEQ（E1）和 GMR＋GEQ＋GAP。使用 Standard Test 的 1,036 条查询（544 正、492 负），对每种方法固定扫描 101 个阈值（0 至 1，步长 0.01），并严格按 `pred_exist_score > threshold` 判为存在。图中虚线和大标记表示原协议阈值 0.4；另列 0.5、0.6 固定点作敏感性参考，不据 Test 选择阈值或检查点。
+本分支只保留 Mr. DETR Multi-Route × GMR 实验。以下旧内容与本实验无关，已从
+当前分支删除，而不是改成容易误解的新名称：
 
-面板依次为 G-mIoU@1、G-mIoU@3、相对 E0 的 G-mIoU@1 差值、正例召回与负例正确拒识率（N-acc/TNR）、拒识 F1，以及 0.4/0.5/0.6 下的 G-mIoU@1。G-mIoU 随存在性门控变化，不能单独解释为纯定位质量；图例 mAP 是不经过存在性硬门控的定位指标。GAP 使用从 Val 固定的 margin=0.6、λ=2、第4轮配置。
+- `Phase2(addbackbone_with_S4_minusFusion)/`：S4-minus-Fusion 历史实验；
+- `ablations/`：GEQ、GAP、Hard-RoI、LoRA 等其他消融；
+- `experiments/`：D-GMR、两阶段 GEQ 等历史实验；
+- FlashVTG、旧 Table 2 汇总、旧发布清单与复现工具。
 
-1,515 个方法—阈值点、3,030 个官方 G-mIoU@1/@3 值以及原始固定阈值指标均已交叉核验。完整曲线数据见 [threshold_sweep_101.csv](ablations/geq_gap_all_backbones_20261026/reports/threshold_sweep_101.csv)，核验和输入文件 SHA256 见 [THRESHOLD_SWEEP_AUDIT.json](ablations/geq_gap_all_backbones_20261026/reports/THRESHOLD_SWEEP_AUDIT.json)。使用已保存 CSV 重画图无需模型或 GPU；从本地冻结预测重算全部曲线可执行：
+删除前内容仍可从提交
+[`4e38e85`](https://github.com/chinagalaxy2002/Improving-Target-Presence-for-Generalized-Moment-Retrieval/tree/4e38e850c2bc8960dba8a43b326e446b48c122ef)
+恢复。当前分支没有改写 Git 历史，只是在后续提交中缩小实验范围。
 
-```bash
-python ablations/geq_gap_all_backbones_20261026/plot_threshold_sweeps.py --recompute
-```
+## 9. 发布边界
 
-### Moment-DETR
-
-![Moment-DETR 三种方法的测试集存在性阈值扫描](ablations/geq_gap_all_backbones_20261026/figures/moment_detr_fig7_test_threshold_sweep.png)
-
-[PDF](ablations/geq_gap_all_backbones_20261026/figures/moment_detr_fig7_test_threshold_sweep.pdf) · [SVG](ablations/geq_gap_all_backbones_20261026/figures/moment_detr_fig7_test_threshold_sweep.svg)
-
-### QD-DETR
-
-![QD-DETR 三种方法的测试集存在性阈值扫描](ablations/geq_gap_all_backbones_20261026/figures/qd_detr_fig7_test_threshold_sweep.png)
-
-[PDF](ablations/geq_gap_all_backbones_20261026/figures/qd_detr_fig7_test_threshold_sweep.pdf) · [SVG](ablations/geq_gap_all_backbones_20261026/figures/qd_detr_fig7_test_threshold_sweep.svg)
-
-### CG-DETR
-
-![CG-DETR 三种方法的测试集存在性阈值扫描](ablations/geq_gap_all_backbones_20261026/figures/cg_detr_fig7_test_threshold_sweep.png)
-
-[PDF](ablations/geq_gap_all_backbones_20261026/figures/cg_detr_fig7_test_threshold_sweep.pdf) · [SVG](ablations/geq_gap_all_backbones_20261026/figures/cg_detr_fig7_test_threshold_sweep.svg)
-
-### EaTR
-
-![EaTR 三种方法的测试集存在性阈值扫描](ablations/geq_gap_all_backbones_20261026/figures/eatr_fig7_test_threshold_sweep.png)
-
-[PDF](ablations/geq_gap_all_backbones_20261026/figures/eatr_fig7_test_threshold_sweep.pdf) · [SVG](ablations/geq_gap_all_backbones_20261026/figures/eatr_fig7_test_threshold_sweep.svg)
-
-### FlashVTG
-
-![FlashVTG 三种方法的测试集存在性阈值扫描](ablations/geq_gap_all_backbones_20261026/figures/flashvtg_fig7_test_threshold_sweep.png)
-
-[PDF](ablations/geq_gap_all_backbones_20261026/figures/flashvtg_fig7_test_threshold_sweep.pdf) · [SVG](ablations/geq_gap_all_backbones_20261026/figures/flashvtg_fig7_test_threshold_sweep.svg)
-
-<!-- D_GMR_RELEASE_20261027 -->
-
-## 10. D-GMR：方法、复现脚本与五个 Backbone 的 Test 结果
-
-D-GMR 在原生 GMR 上联合训练 GEQ、TEM 与 TECR，使用簇内冗余排序和跨实例正例对背景排序，导出时执行 PAT-Select 高斯重叠分数衰减。五个 Backbone 均严格加载原生 GMR 权重，新增模块使用 seed 2026 随机初始化，训练4轮；原生 GMR、GEQ、TEM/TECR 的学习率分别为 `1e-5`、`3e-5`、`1e-4`。
-
-训练、测试、配置及结果统一收录于独立目录 [experiments/d_gmr_20261027](experiments/d_gmr_20261027/README.md)。正式 Test 使用 Val 选中的 checkpoint，Standard Test 为1,036条查询（544正、492负）；正查询定位不加存在性硬门控，拒识及G-mIoU采用0.4阈值。指标单位为百分数，差值为百分点。
-
-| Backbone | Val选中epoch | 原始GMR mAP | D-GMR mAP | ΔmAP | mR@5 | mR+@5 | G-mIoU@1 |
-|---|---:|---:|---:|---:|---:|---:|---:|
-| Moment-DETR | 4 | 6.68 | 9.29 | +2.61 | 15.40 | 1.42 | 5.71 |
-| QD-DETR | 4 | 14.62 | 15.21 | +0.59 | 21.59 | 6.40 | 39.37 |
-| CG-DETR | 3 | 18.66 | 18.88 | +0.22 | 26.62 | 14.41 | 27.54 |
-| EaTR | 3 | 16.49 | 18.30 | +1.81 | 26.39 | 10.64 | 32.49 |
-| FlashVTG | 1 | 25.34 | 25.73 | +0.39 | 35.51 | 20.03 | 33.22 |
-
-[完整九项指标](experiments/d_gmr_20261027/reports/RESULTS.md) · [逐轮 Val/Test CSV](experiments/d_gmr_20261027/results/all_metrics.csv) · [训练配置](experiments/d_gmr_20261027/code/d_gmr/configs/d_gmr.json)
-
-### 复现脚本
-
-```bash
-# CPU：复算 Val/Test 指标、结果表及五个 Backbone 的 PNG/PDF/SVG 图
-python experiments/d_gmr_20261027/reproduce.py
-
-# 训练所需资产路径
-export GMR_ASSETS_DIR=/absolute/path/to/Soccergmr
-export GMR_PRETRAINED_ROOT=/absolute/path/to/backbonefolder
-export DGMR_FLASHVTG_CHECKPOINT=/absolute/path/to/flashvtg_gmr_snapshot.pth
-
-# 五个 Backbone：训练4轮、Val选模、正式Test；输出目录须为新的绝对路径
-bash experiments/d_gmr_20261027/train_all.sh /absolute/path/to/new_d_gmr_run cuda:0
-```
-
-[训练入口](experiments/d_gmr_20261027/code/d_gmr/engine/train.py) · [测试入口](experiments/d_gmr_20261027/code/d_gmr/scripts/evaluate_checkpoint.py) · [CPU复算](experiments/d_gmr_20261027/reproduce.py) · [绘图脚本](experiments/d_gmr_20261027/plot_threshold_sweeps.py)
-
-### 五个 Backbone 的 Test 存在性阈值扫描图
-
-沿用第9节的六面板布局，比较原始GMR、联合训练后未重排序的GMR＋GEQ和最终D-GMR。每种输出扫描101个阈值（0至1、步长0.01），按 `pred_exist_score > threshold` 判为存在；竖直点线和大标记表示0.4。GMR＋GEQ与D-GMR共享存在性分数，图例mAP为无存在性硬门控的正查询定位指标。
-
-[101点曲线CSV](experiments/d_gmr_20261027/reports/test_threshold_sweep_101.csv) · [阈值扫描核验](experiments/d_gmr_20261027/reports/TEST_THRESHOLD_SWEEP_AUDIT.json)
-
-#### Moment-DETR
-
-![Moment-DETR 的 D-GMR Test 存在性阈值扫描](experiments/d_gmr_20261027/figures/moment_detr_d_gmr_test_threshold_sweep.png)
-
-[PDF](experiments/d_gmr_20261027/figures/moment_detr_d_gmr_test_threshold_sweep.pdf) · [SVG](experiments/d_gmr_20261027/figures/moment_detr_d_gmr_test_threshold_sweep.svg)
-
-#### QD-DETR
-
-![QD-DETR 的 D-GMR Test 存在性阈值扫描](experiments/d_gmr_20261027/figures/qd_detr_d_gmr_test_threshold_sweep.png)
-
-[PDF](experiments/d_gmr_20261027/figures/qd_detr_d_gmr_test_threshold_sweep.pdf) · [SVG](experiments/d_gmr_20261027/figures/qd_detr_d_gmr_test_threshold_sweep.svg)
-
-#### CG-DETR
-
-![CG-DETR 的 D-GMR Test 存在性阈值扫描](experiments/d_gmr_20261027/figures/cg_detr_d_gmr_test_threshold_sweep.png)
-
-[PDF](experiments/d_gmr_20261027/figures/cg_detr_d_gmr_test_threshold_sweep.pdf) · [SVG](experiments/d_gmr_20261027/figures/cg_detr_d_gmr_test_threshold_sweep.svg)
-
-#### EaTR
-
-![EaTR 的 D-GMR Test 存在性阈值扫描](experiments/d_gmr_20261027/figures/eatr_d_gmr_test_threshold_sweep.png)
-
-[PDF](experiments/d_gmr_20261027/figures/eatr_d_gmr_test_threshold_sweep.pdf) · [SVG](experiments/d_gmr_20261027/figures/eatr_d_gmr_test_threshold_sweep.svg)
-
-#### FlashVTG
-
-![FlashVTG 的 D-GMR Test 存在性阈值扫描](experiments/d_gmr_20261027/figures/flashvtg_d_gmr_test_threshold_sweep.png)
-
-[PDF](experiments/d_gmr_20261027/figures/flashvtg_d_gmr_test_threshold_sweep.pdf) · [SVG](experiments/d_gmr_20261027/figures/flashvtg_d_gmr_test_threshold_sweep.svg)
-
-<!-- D_GMR_TWO_STAGE_RELEASE_20261027 -->
-
-## 11. D-GMR两阶段：冻结预训练GEQ的结果与复现
-
-Stage 1 复用 GMR＋GEQ（E1）固定第4轮的 GEQ 权重。Stage 2 从原始预训练 GMR 初始化主干，加载并冻结 GEQ，随机初始化 TEM/TECR，训练4轮；主干和 TEM/TECR 学习率分别为 `1e-5`、`1e-4`，GEQ不进入优化器，额外存在性BCE权重为0，TEM输入使用 `event.detach()`。冻结的是GEQ参数，读取的主干特征仍会随训练更新。
-
-seed=2026；Stage 2 保持 `max(Val mAP, Val mR@1, -epoch)` 选模。Standard Test 共1,036条查询（544正、492负），存在性阈值0.4，正查询定位不加存在性硬门控。指标为百分数，差值为相对原始GMR的百分点。
-
-代码、训练测试脚本与结果位于独立目录 [experiments/d_gmr_two_stage_20261027](experiments/d_gmr_two_stage_20261027/README.md)。
-
-### 官方Test结果
-
-| Backbone | Epoch | mAP | ΔmAP | G-mIoU@1 | ΔG-mIoU@1 | N-acc | AUROC | Rej-F1 | mR@1 | mR@5 |
-|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| Moment-DETR | 2 | 8.45 | +1.77 | 51.91 | +46.08 | 100.00 | 70.24 | 75.00 | 4.49 | 12.92 |
-| QD-DETR | 3 | 15.65 | +1.03 | 51.50 | +14.99 | 93.09 | 75.90 | 74.17 | 9.81 | 22.69 |
-| CG-DETR | 3 | 18.02 | -0.64 | 45.45 | +22.61 | 77.44 | 76.05 | 69.91 | 11.60 | 25.14 |
-| EaTR | 4 | 16.92 | +0.43 | 44.70 | +11.29 | 75.81 | 75.46 | 69.27 | 10.27 | 24.13 |
-| FlashVTG | 2 | 26.23 | +0.89 | 50.99 | +22.94 | 88.82 | 74.72 | 72.95 | 16.09 | 36.60 |
-
-[完整指标](experiments/d_gmr_two_stage_20261027/reports/RESULTS.md) · [四路线对照](experiments/d_gmr_two_stage_20261027/reports/COMPARISON.md) · [逐轮Val/Test CSV](experiments/d_gmr_two_stage_20261027/reports/all_epoch_metrics.csv)
-
-### 历史路线对照
-
-每格依次为 **mAP / G-mIoU@1 / N-acc**，各路线使用各自记录的选模结果。
-
-| Backbone | 原始GMR | D-GMR联合训练 | D-GMR detach | D-GMR两阶段 |
-|---|---:|---:|---:|---:|
-| Moment-DETR | 6.68 / 5.83 / 0.00 | 9.29 / 5.71 / 0.00 | 8.66 / 7.06 / 1.63 | 8.45 / 51.91 / 100.00 |
-| QD-DETR | 14.62 / 36.51 / 56.71 | 15.21 / 39.37 / 63.82 | 16.57 / 45.11 / 77.64 | 15.65 / 51.50 / 93.09 |
-| CG-DETR | 18.66 / 22.84 / 23.17 | 18.88 / 27.54 / 34.55 | 19.29 / 27.85 / 35.16 | 18.02 / 45.45 / 77.44 |
-| EaTR | 16.49 / 33.41 / 48.58 | 18.30 / 32.49 / 47.76 | 17.30 / 32.23 / 47.36 | 16.92 / 44.70 / 75.81 |
-| FlashVTG | 25.34 / 28.05 / 32.72 | 25.73 / 33.22 / 46.14 | 26.64 / 36.23 / 52.44 | 26.23 / 50.99 / 88.82 |
-
-### 复现脚本
-
-```bash
-# CPU：复算指标、结果表和五个骨干的四路线阈值扫描图
-pip install -r experiments/d_gmr_two_stage_20261027/requirements-cpu.txt
-python experiments/d_gmr_two_stage_20261027/reproduce.py
-
-# 训练依赖与资产
-pip install -r experiments/d_gmr_two_stage_20261027/requirements-training.txt
-export GMR_ASSETS_DIR=/absolute/path/to/Soccergmr
-export GMR_PRETRAINED_ROOT=/absolute/path/to/backbonefolder
-export DGMR_FLASHVTG_CHECKPOINT=/absolute/path/to/flashvtg_gmr_snapshot.pth
-
-# Stage 1：GMR＋GEQ（E1）固定训练4轮
-bash experiments/d_gmr_two_stage_20261027/train_stage1.sh cuda:0
-
-# Stage 2：冻结GEQ，训练4轮、Val选模并正式Test；输出目录必须为新的绝对路径
-bash experiments/d_gmr_two_stage_20261027/train_stage2.sh /absolute/path/to/new_two_stage_run cuda:0
-```
-
-已有E1检查点可设置 `DGMR_STAGE1_ROOT` 后直接运行Stage 2；目录布局见[复现说明](experiments/d_gmr_two_stage_20261027/README.md)。
-
-### 五个骨干的Test阈值扫描图
-
-沿用第9、10节的六面板布局，比较四条路线：G-mIoU@1、G-mIoU@3、相对原始GMR差值、正例召回与负例拒识率、拒识F1、0.4/0.5/0.6固定点。每条曲线扫描101个阈值；竖线和大标记表示0.4，图例mAP是不加存在性门控的定位指标。
-
-[101点曲线CSV](experiments/d_gmr_two_stage_20261027/reports/test_threshold_sweep_101.csv) · [核验记录](experiments/d_gmr_two_stage_20261027/reports/TEST_THRESHOLD_SWEEP_AUDIT.json)
-
-#### Moment-DETR
-
-![Moment-DETR 的两阶段四路线Test阈值扫描](experiments/d_gmr_two_stage_20261027/figures/moment_detr_d_gmr_two_stage_test_threshold_sweep.png)
-
-[PDF](experiments/d_gmr_two_stage_20261027/figures/moment_detr_d_gmr_two_stage_test_threshold_sweep.pdf) · [SVG](experiments/d_gmr_two_stage_20261027/figures/moment_detr_d_gmr_two_stage_test_threshold_sweep.svg)
-
-#### QD-DETR
-
-![QD-DETR 的两阶段四路线Test阈值扫描](experiments/d_gmr_two_stage_20261027/figures/qd_detr_d_gmr_two_stage_test_threshold_sweep.png)
-
-[PDF](experiments/d_gmr_two_stage_20261027/figures/qd_detr_d_gmr_two_stage_test_threshold_sweep.pdf) · [SVG](experiments/d_gmr_two_stage_20261027/figures/qd_detr_d_gmr_two_stage_test_threshold_sweep.svg)
-
-#### CG-DETR
-
-![CG-DETR 的两阶段四路线Test阈值扫描](experiments/d_gmr_two_stage_20261027/figures/cg_detr_d_gmr_two_stage_test_threshold_sweep.png)
-
-[PDF](experiments/d_gmr_two_stage_20261027/figures/cg_detr_d_gmr_two_stage_test_threshold_sweep.pdf) · [SVG](experiments/d_gmr_two_stage_20261027/figures/cg_detr_d_gmr_two_stage_test_threshold_sweep.svg)
-
-#### EaTR
-
-![EaTR 的两阶段四路线Test阈值扫描](experiments/d_gmr_two_stage_20261027/figures/eatr_d_gmr_two_stage_test_threshold_sweep.png)
-
-[PDF](experiments/d_gmr_two_stage_20261027/figures/eatr_d_gmr_two_stage_test_threshold_sweep.pdf) · [SVG](experiments/d_gmr_two_stage_20261027/figures/eatr_d_gmr_two_stage_test_threshold_sweep.svg)
-
-#### FlashVTG
-
-![FlashVTG 的两阶段四路线Test阈值扫描](experiments/d_gmr_two_stage_20261027/figures/flashvtg_d_gmr_two_stage_test_threshold_sweep.png)
-
-[PDF](experiments/d_gmr_two_stage_20261027/figures/flashvtg_d_gmr_two_stage_test_threshold_sweep.pdf) · [SVG](experiments/d_gmr_two_stage_20261027/figures/flashvtg_d_gmr_two_stage_test_threshold_sweep.svg)
+仓库不上传 GitHub Token、`.ckpt/.pt/.pth`、CLIP/SlowFast/Text `.npz` 特征或
+原始视频。重新训练前需配置本机 SoccerGMR Standard 标签与预提取特征路径。
+上游模型代码、数据和评估器遵循各自许可证及引用要求。
