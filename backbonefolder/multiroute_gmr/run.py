@@ -9,6 +9,7 @@ import importlib.util
 import json
 import os
 import random
+import subprocess
 import sys
 import time
 from pathlib import Path
@@ -48,6 +49,13 @@ ACCUMULATION = 4
 EVAL_EVERY = 5
 EARLY_STOP_PATIENCE_EPOCHS = 20
 NUM_WORKERS = 2
+FIGURE_REFRESH = Path(
+    os.environ.get(
+        "GMR_FIGURE_REFRESH",
+        "/home/guoxiangyu/ImprovingGeneralizedMomentRetrieval/newidea/figure/"
+        "gmr_mr_detr_test_20261030/refresh_all.sh",
+    )
+)
 
 
 def dump(path: Path, value):
@@ -505,6 +513,15 @@ def test(experiment: Experiment):
     digest = hashlib.sha256(checkpoint.read_bytes()).hexdigest()
     dump(experiment.out / "status.json", {"status": "COMPLETED", "best_val_map": state["best"], "checkpoint_sha256": digest, "test": metrics["brief"]})
     print("TEST_COMPLETED", experiment.backbone, experiment.variant, json.dumps(metrics["brief"]), flush=True)
+    if FIGURE_REFRESH.is_file():
+        result = subprocess.run(["bash", str(FIGURE_REFRESH)], check=False)
+        if result.returncode:
+            print(
+                f"FIGURE_REFRESH_WARNING returncode={result.returncode} script={FIGURE_REFRESH}",
+                flush=True,
+            )
+        else:
+            print(f"FIGURE_REFRESH_COMPLETED script={FIGURE_REFRESH}", flush=True)
 
 
 def main():

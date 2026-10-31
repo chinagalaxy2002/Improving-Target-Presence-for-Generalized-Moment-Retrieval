@@ -69,3 +69,8 @@ canonical `brief` block and additionally writes `G-mIoU_0_1` plus `brief_0_1`,
 where every G-mIoU@k is divided by 100 into the requested full 0-1 domain.
 `collect_results.py` uses this 0-1 representation for G-mIoU while retaining
 the official percentage convention for the other metrics.
+
+After each successful frozen-best test, `run.py` invokes the figure refresh
+script configured by `GMR_FIGURE_REFRESH`. On the experiment server it defaults
+to `newidea/figure/gmr_mr_detr_test_20261030/refresh_all.sh`; figure-refresh
+failures are logged as warnings and do not invalidate completed test metrics.
