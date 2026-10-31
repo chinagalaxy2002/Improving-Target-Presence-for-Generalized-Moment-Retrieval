@@ -5,9 +5,18 @@ GMR-Adapter 空集拒绝能力的同时研究多片段定位。四个骨干使�
 
 ## 最新完整结果
 
+**[新增：Shared / Multi + Global Event Query 的八组微调与 Test 对照](results/geq_finetune/README.md)**
+
+2026-10-31 完成四骨干 × 两方法的 GEQ-only 微调。冻结原 best，固定微调 4 epoch、
+seed 2023。阈值 0.4 下，EaTR/QD/CG 六组 G-mIoU@3 提升，Moment-DETR 两组下降；
+8 组 AUROC 均略降。定位候选和 mAP/mR/mR+ 完全不变。每个骨干独立保存全域曲线、
+行内配色对照和数据；[代码与复现](shared/geq_finetune/README.md)。
+
+![GEQ 前后对照](results/geq_finetune/cross_backbone_overview/gmiou_at_0_4_before_after.png)
+
 **[四个骨干 × 六种方法：24 组完整表格、训练状态和图表](results/README.md)**
 
-本次快照更新于 2026-10-31 18:39（Asia/Shanghai）：22 组完成 Test、2 组训练中。
+原六路线快照更新于 2026-10-31 18:57（Asia/Shanghai）：23 组完成 Test、1 组训练中。
 未完成 Test 的指标留空；表内 G-mIoU 使用 0–1 数值，训练协议逐项标注。
 综合热力图按 Backbone 逐行归一化着色，颜色只比较同一行内的方法；格内数字保留真实指标。
 
@@ -36,6 +45,7 @@ GMR-Adapter 空集拒绝能力的同时研究多片段定位。四个骨干使�
 │   ├── qd_detr/          # 同上
 │   └── cg_detr/          # 同上
 ├── shared/               # 一份公共多路线模型、匹配、训练、评估和队列实现
+│   └── geq_finetune/     # 新增 GEQ-only 冻结微调、八任务队列与对照绘图
 └── docs/                 # 检查点交接、来源和实验记录
 ```
 

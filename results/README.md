@@ -1,8 +1,8 @@
 # GMR × Mr. DETR：四骨干完整实验结果
 
-更新时间：**2026-10-31T18:39:48+08:00**。本页是冻结最佳检查点 Test 结果与训练状态的统一快照。
+更新时间：**2026-10-31T18:57:04+08:00**。本页是冻结最佳检查点 Test 结果与训练状态的统一快照。
 
-共 **24 组**：**22 组完成 Test**、2 组训练中、0 组排队、0 组待完成 Test、0 组失败。
+共 **24 组**：**23 组完成 Test**、1 组训练中、0 组排队、0 组待完成 Test、0 组失败。
 
 Test 指标均来自 SoccerGMR Standard Test；mAP、mR、mR+、AUROC、Rej-F1 沿用官方百分数，**G-mIoU@3 转换为 0–1**。Rej-F1 与表中 G-mIoU 固定使用存在性阈值 **0.4**。未完成 Test 的指标留空，验证集结果只列在后面的训练状态表。
 
@@ -35,7 +35,7 @@ Test 指标均来自 SoccerGMR Standard Test；mAP、mR、mR+、AUROC、Rej-F1 �
 | CG-DETR-GMR | sepffn | 已完成 Test | 40 | 15.04 | 10.65 | 20.22 | 4.62 | 75.52 | 59.37 | 0.3022 |
 | CG-DETR-GMR | instruction | 已完成 Test | 75 | 15.67 | 10.72 | 21.34 | 8.46 | 76.96 | 38.60 | 0.1806 |
 | CG-DETR-GMR | multi | 已完成 Test | 120 | 16.59 | 11.21 | 21.77 | 8.14 | 77.40 | 56.20 | 0.2783 |
-| CG-DETR-GMR | adaptive | 训练中 | 80 | — | — | — | — | — | — | — |
+| CG-DETR-GMR | adaptive | 已完成 Test | 85 | 18.79 | 12.89 | 24.39 | 13.06 | 77.27 | 65.10 | 0.3579 |
 
 ## 综合图
 
@@ -55,8 +55,7 @@ Test 指标均来自 SoccerGMR Standard Test；mAP、mR、mR+、AUROC、Rej-F1 �
 
 | Backbone | 方法 | 状态 | GPU | 已完成 Epoch | Best Epoch | Best Val mAP |
 |---|---|---|---|---:|---:|---:|
-| EaTR-GMR | adaptive | 训练中 | 1 | 47 | 45 | 15.93 |
-| CG-DETR-GMR | adaptive | 训练中 | 0 | 80 | 80 | 18.99 |
+| EaTR-GMR | adaptive | 训练中 | 1 | 50 | 45 | 15.93 |
 
 ## 每个 Backbone 的图表
 
