@@ -18,3 +18,7 @@
 
 ![multi comparison](multi_full_frozen.png)
 
+## baseline：Val 选模曲线
+
+![baseline Val](baseline_validation_selection.png)
+

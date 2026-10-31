@@ -4,7 +4,7 @@
 
 ## 最新：统一验证集选模协议
 
-更新时间：2026-10-31T23:35:19+08:00。Multi / Shared全量与冻结 **15/16** 组完成Test；同源Baseline控制 **0/8** 组。
+更新时间：2026-10-31T23:45:50+08:00。Multi / Shared全量与冻结 **16/16** 组完成Test；同源Baseline控制 **4/8** 组。
 
 所有新微调均使用seed2023；按完整Val的G-mIoU@1在0.4/0.5/0.6三点均值选best，连续超过5轮（6轮）不提升早停，上限20轮。Test只评估选定best。两种方案并行排队，每卡最多两个CUDA任务，包含已有作业。
 
@@ -14,15 +14,23 @@ full保留原路线GMR/O2M损失并加GEQ BCE；frozen冻结原模型，仅训�
 
 ### moment_detr
 
-![moment_detr shared full/frozen](results/geq_val_selection/moment_detr/shared_full_frozen.png)
+**full：GMR / GMR+GEQ / Multi+GEQ / Shared+GEQ**
 
-![moment_detr multi full/frozen](results/geq_val_selection/moment_detr/multi_full_frozen.png)
+![moment_detr full](results/geq_val_selection/moment_detr/full_comparison.png)
+
+**frozen：GMR / GMR+GEQ / Multi+GEQ / Shared+GEQ**
+
+![moment_detr frozen](results/geq_val_selection/moment_detr/frozen_comparison.png)
 
 ### eatr
 
-![eatr shared full/frozen](results/geq_val_selection/eatr/shared_full_frozen.png)
+**full：GMR / GMR+GEQ / Multi+GEQ / Shared+GEQ**
 
-![eatr multi full/frozen](results/geq_val_selection/eatr/multi_full_frozen.png)
+![eatr full](results/geq_val_selection/eatr/full_comparison.png)
+
+**frozen：GMR / GMR+GEQ / Multi+GEQ / Shared+GEQ**
+
+![eatr frozen](results/geq_val_selection/eatr/frozen_comparison.png)
 
 ### qd_detr
 
@@ -33,6 +41,8 @@ full保留原路线GMR/O2M损失并加GEQ BCE；frozen冻结原模型，仅训�
 ### cg_detr
 
 ![cg_detr shared full/frozen](results/geq_val_selection/cg_detr/shared_full_frozen.png)
+
+![cg_detr multi full/frozen](results/geq_val_selection/cg_detr/multi_full_frozen.png)
 
 ## 已完成：main E1同源初始化的八组GEQ对照
 

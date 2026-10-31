@@ -22,3 +22,13 @@
 
 ![baseline Val](baseline_validation_selection.png)
 
+
+## Moment-DETR · full
+
+![moment_detr full](full_comparison.png)
+
+
+## Moment-DETR · frozen
+
+![moment_detr frozen](frozen_comparison.png)
+

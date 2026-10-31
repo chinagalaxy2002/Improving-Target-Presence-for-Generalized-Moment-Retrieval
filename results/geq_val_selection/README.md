@@ -8,7 +8,7 @@ Multi与Shared各运行全量和冻结两种方案，共16组。另补同源Base
 
 全量和冻结成对初始化相同。每骨干四条曲线分别为原GMR、GMR+GEQ、Multi+GEQ、Shared+GEQ；两种训练方式各一套。原GMR与路线的既有预训练预算仍存在差异，完整方法比较不等于单因素因果消融。
 
-更新时间：2026-10-31T23:34:56+08:00
+更新时间：2026-10-31T23:44:03+08:00
 
 | Backbone | 路线 | 模式 | 状态 | 完成Epoch | Best Epoch | Best Val均值 | Test mAP (%) | Test G1均值 |
 |---|---|---|---|---:|---:|---:|---:|---:|
@@ -16,8 +16,8 @@ Multi与Shared各运行全量和冻结两种方案，共16组。另补同源Base
 | Moment-DETR | shared | frozen | COMPLETED | 9 | 3 | 0.4846 | 7.28 | 0.5128 |
 | Moment-DETR | multi | full | COMPLETED | 12 | 6 | 0.4731 | 7.72 | 0.4956 |
 | Moment-DETR | multi | frozen | COMPLETED | 9 | 3 | 0.4821 | 7.27 | 0.5042 |
-| Moment-DETR | baseline | full | RUNNING | 2 | 1 | 0.4853 | — | — |
-| Moment-DETR | baseline | frozen | RUNNING | — | — | — | — | — |
+| Moment-DETR | baseline | full | COMPLETED | 7 | 1 | 0.4853 | 6.09 | 0.5256 |
+| Moment-DETR | baseline | frozen | COMPLETED | 9 | 3 | 0.4911 | 5.91 | 0.5239 |
 
 ## Moment-DETR · shared · full / frozen
 
@@ -29,15 +29,21 @@ Multi与Shared各运行全量和冻结两种方案，共16组。另补同源Base
 ![multi comparison](moment_detr/multi_full_frozen.png)
 
 
-Moment-DETR full：四曲线等待同源Baseline、Multi、Shared全部完成Test。
+## Moment-DETR · full
 
-Moment-DETR frozen：四曲线等待同源Baseline、Multi、Shared全部完成Test。
+![moment_detr full](moment_detr/full_comparison.png)
+
+
+## Moment-DETR · frozen
+
+![moment_detr frozen](moment_detr/frozen_comparison.png)
+
 | EaTR | shared | full | COMPLETED | 9 | 3 | 0.4044 | 17.15 | 0.4205 |
 | EaTR | shared | frozen | COMPLETED | 9 | 3 | 0.4226 | 16.65 | 0.4290 |
 | EaTR | multi | full | COMPLETED | 10 | 4 | 0.4529 | 19.88 | 0.4760 |
 | EaTR | multi | frozen | COMPLETED | 10 | 4 | 0.4539 | 17.52 | 0.4691 |
-| EaTR | baseline | full | QUEUED | — | — | — | — | — |
-| EaTR | baseline | frozen | QUEUED | — | — | — | — | — |
+| EaTR | baseline | full | COMPLETED | 10 | 4 | 0.4475 | 17.15 | 0.4834 |
+| EaTR | baseline | frozen | COMPLETED | 10 | 4 | 0.4639 | 16.20 | 0.4720 |
 
 ## EaTR · shared · full / frozen
 
@@ -49,15 +55,21 @@ Moment-DETR frozen：四曲线等待同源Baseline、Multi、Shared全部完成T
 ![multi comparison](eatr/multi_full_frozen.png)
 
 
-EaTR full：四曲线等待同源Baseline、Multi、Shared全部完成Test。
+## EaTR · full
 
-EaTR frozen：四曲线等待同源Baseline、Multi、Shared全部完成Test。
+![eatr full](eatr/full_comparison.png)
+
+
+## EaTR · frozen
+
+![eatr frozen](eatr/frozen_comparison.png)
+
 | QD-DETR | shared | full | COMPLETED | 9 | 3 | 0.4477 | 15.69 | 0.4466 |
 | QD-DETR | shared | frozen | COMPLETED | 10 | 4 | 0.4415 | 15.24 | 0.4417 |
 | QD-DETR | multi | full | COMPLETED | 10 | 4 | 0.5021 | 13.71 | 0.5316 |
 | QD-DETR | multi | frozen | COMPLETED | 10 | 4 | 0.4714 | 14.67 | 0.4975 |
-| QD-DETR | baseline | full | QUEUED | — | — | — | — | — |
-| QD-DETR | baseline | frozen | QUEUED | — | — | — | — | — |
+| QD-DETR | baseline | full | RUNNING | 8 | 4 | 0.4702 | — | — |
+| QD-DETR | baseline | frozen | RUNNING | 1 | 1 | 0.4429 | — | — |
 
 ## QD-DETR · shared · full / frozen
 
@@ -74,14 +86,19 @@ QD-DETR full：四曲线等待同源Baseline、Multi、Shared全部完成Test。
 QD-DETR frozen：四曲线等待同源Baseline、Multi、Shared全部完成Test。
 | CG-DETR | shared | full | COMPLETED | 7 | 1 | 0.4657 | 14.22 | 0.4906 |
 | CG-DETR | shared | frozen | COMPLETED | 10 | 4 | 0.4629 | 15.09 | 0.4723 |
-| CG-DETR | multi | full | RUNNING | 2 | 1 | 0.4477 | — | — |
+| CG-DETR | multi | full | COMPLETED | 7 | 1 | 0.4477 | 18.59 | 0.4637 |
 | CG-DETR | multi | frozen | COMPLETED | 7 | 1 | 0.4732 | 16.59 | 0.4815 |
-| CG-DETR | baseline | full | QUEUED | — | — | — | — | — |
+| CG-DETR | baseline | full | RUNNING | — | — | — | — | — |
 | CG-DETR | baseline | frozen | QUEUED | — | — | — | — | — |
 
 ## CG-DETR · shared · full / frozen
 
 ![shared comparison](cg_detr/shared_full_frozen.png)
+
+
+## CG-DETR · multi · full / frozen
+
+![multi comparison](cg_detr/multi_full_frozen.png)
 
 
 CG-DETR full：四曲线等待同源Baseline、Multi、Shared全部完成Test。
