@@ -5,6 +5,21 @@ GMR-Adapter 空集拒绝能力的同时研究多片段定位。四个骨干使�
 
 ## 最新完整结果
 
+**[按参考六面板绘制的三曲线对照：GMR baseline / multi + GEQ / shared + GEQ](results/geq_finetune/README.md)**
+
+四个骨干各一张六面板图与一张 G-mIoU@1 / @3 双面板图，完整扫描存在性阈值 0–1。
+G-mIoU 使用 0–1；下表 mAP 为官方正查询定位百分数，不作存在性硬门控。
+
+| Backbone | GMR baseline mAP (%) | multi + GEQ mAP (%) | shared + GEQ mAP (%) |
+|---|---:|---:|---:|
+| Moment-DETR | 5.91 | 7.27 | 7.28 |
+| EaTR | 16.20 | 17.52 | 16.65 |
+| QD-DETR | 15.08 | 14.67 | 15.24 |
+| CG-DETR | 16.09 | 16.59 | 15.09 |
+
+EaTR baseline 复用历史 seed 2026，GEQ 为 seed 2023；完整来源与协议差异见结果页。
+三曲线比较完整方法，GEQ 的独立影响仍使用下面各方法的前后配对比较。
+
 **[新增：Shared / Multi + Global Event Query 的八组微调与 Test 对照](results/geq_finetune/README.md)**
 
 2026-10-31 完成四骨干 × 两方法的 GEQ-only 微调。冻结原 best，固定微调 4 epoch、

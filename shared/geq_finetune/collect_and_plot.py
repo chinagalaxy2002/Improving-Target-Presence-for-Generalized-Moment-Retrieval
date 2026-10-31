@@ -189,6 +189,8 @@ def main():
                 writer.writeheader()
                 writer.writerows(threshold_records)
     print("REPORT_UPDATED", sum(record["status"] == "COMPLETED" for record in records), "/8", FIGURES, flush=True)
+    from plot_complete_comparison import refresh
+    refresh()
 
 
 if __name__ == "__main__":

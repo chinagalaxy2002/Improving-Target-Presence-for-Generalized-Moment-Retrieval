@@ -1,6 +1,47 @@
 # Shared / Multi + Global Event Query 微调
 
-更新时间：2026-10-31T19:25:46+08:00
+<!-- THREE_WAY_COMPARISON_START -->
+## 三条曲线：GMR baseline、multi + GEQ、shared + GEQ
+
+| Backbone | GMR baseline mAP (%) | multi + GEQ mAP (%) | shared + GEQ mAP (%) |
+|---|---:|---:|---:|
+| Moment-DETR | 5.91 | 7.27 | 7.28 |
+| EaTR | 16.20 | 17.52 | 16.65 |
+| QD-DETR | 15.08 | 14.67 | 15.24 |
+| CG-DETR | 16.09 | 16.59 | 15.09 |
+
+mAP 单位为百分数，来自相同 SoccerGMR Standard Test 的正查询，不随存在性阈值变化。GMR baseline 是当前六路线实验中的 baseline。EaTR baseline 为历史 seed 2026，其他两组为 seed 2023；各来源的训练预算、batch 也可能不同，完整来源保存在快照中。三曲线反映完整方法的效果；GEQ 的独立影响采用下方各方法与其 +GEQ 的配对结果判断。
+
+六面板沿用[参考图版式](https://github.com/chinagalaxy2002/Improving-Target-Presence-for-Generalized-Moment-Retrieval/tree/main/backbonefolder/figures/complete_comparison)：(a) G-mIoU@1 随阈值；(b) G-mIoU@3 随阈值；(c) 同阈值相对 GMR baseline 的 ΔG-mIoU@1；(d) 负查询拒绝率与正查询保留率；(e) 拒绝 F1；(f) 阈值 0.4/0.5/0.6 的 G-mIoU@1。所有 G-mIoU 图轴均覆盖 0–1，差值图保留负值。三条曲线使用同样的颜色、线型与标记跨骨干对应。
+
+[mAP CSV](three_way_map.csv) · [全部 1,212 行阈值数据](three_way_threshold_sweep.csv) · [固定工作点](three_way_fixed_points.csv) · [离线快照](three_way_comparison_snapshot.json)
+
+### Moment-DETR
+
+![Moment-DETR 六面板](moment_detr/gmr_multi_shared_geq_complete_comparison.png)
+
+[PDF](moment_detr/gmr_multi_shared_geq_complete_comparison.pdf) · [SVG](moment_detr/gmr_multi_shared_geq_complete_comparison.svg)
+
+### EaTR
+
+![EaTR 六面板](eatr/gmr_multi_shared_geq_complete_comparison.png)
+
+[PDF](eatr/gmr_multi_shared_geq_complete_comparison.pdf) · [SVG](eatr/gmr_multi_shared_geq_complete_comparison.svg)
+
+### QD-DETR
+
+![QD-DETR 六面板](qd_detr/gmr_multi_shared_geq_complete_comparison.png)
+
+[PDF](qd_detr/gmr_multi_shared_geq_complete_comparison.pdf) · [SVG](qd_detr/gmr_multi_shared_geq_complete_comparison.svg)
+
+### CG-DETR
+
+![CG-DETR 六面板](cg_detr/gmr_multi_shared_geq_complete_comparison.png)
+
+[PDF](cg_detr/gmr_multi_shared_geq_complete_comparison.pdf) · [SVG](cg_detr/gmr_multi_shared_geq_complete_comparison.svg)
+<!-- THREE_WAY_COMPARISON_END -->
+
+更新时间：2026-10-31T20:46:36+08:00
 
 四个骨干各运行 shared、multi 两组，仅新增 GEQ。冻结原模型，固定微调 4 epoch；seed 2023，AdamW lr=3e-5、wd=1e-4，梯度裁剪 0.1；每任务 num_workers=2，每 GPU 最多两个 CUDA 任务（包含原有任务）。Moment-DETR batch=8，其余骨干 batch=32，均不累积。
 

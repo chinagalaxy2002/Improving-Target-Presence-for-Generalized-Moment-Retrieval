@@ -1,5 +1,17 @@
 # 四骨干 Shared / Multi + Global Event Query
 
+三曲线六面板：每个骨干包含 **GMR baseline、multi + GEQ、shared + GEQ**，按 main 的 `backbonefolder/figures/complete_comparison` 版式，报告 G-mIoU@1 / @3 阈值曲线、相对 baseline 的 ΔG-mIoU@1、拒绝与保留关系、Rej-F1、三个固定工作点。所有 G-mIoU 绝对图轴均为 0–1，差值允许为负；图例和 CSV 同时报告三个方法的 mAP（官方正查询定位百分数，不按存在性阈值门控）。EaTR baseline 历史 seed 2026 与 GEQ seed 2023 的差异明确保留。
+
+从公开快照离线重绘六面板和 @1 / @3 双面板，只需要 NumPy / Matplotlib：
+
+```bash
+python shared/geq_finetune/plot_complete_comparison.py \
+  --snapshot results/geq_finetune/three_way_comparison_snapshot.json \
+  --output results/geq_finetune
+```
+
+服务器上可用 `python shared/geq_finetune/plot_complete_comparison.py --refresh` 从冻结预测复算全部 12 条曲线。统一入口 `collect_and_plot.py` 也会自动更新三曲线图。每个骨干目录独立存储六面板、双面板 PNG/PDF/SVG 和曲线数据；结果根目录 `three_way_map.csv`、`three_way_threshold_sweep.csv`、`three_way_fixed_points.csv` 提供 mAP、101 点曲线和预先固定的 0.4/0.5/0.6 工作点。
+
 八组均已完成，见 [结果、阈值对照与图表](../../results/geq_finetune/README.md)。发布包仅对 `common.py` 与启动器作路径适配；模型与训练逻辑与服务器使用的脚本一致。原始运行配置内的代码 SHA256 记录实际训练时版本。
 
 此工具在四个骨干各自已完成的 `shared`、`multi` best 上，独立微调新增 GEQ，共八组。原有实验目录只读。
