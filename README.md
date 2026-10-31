@@ -5,7 +5,7 @@ GMR-Adapter 空集拒绝能力的同时研究多片段定位。四个骨干使�
 
 ## 最新完整结果
 
-**[按参考六面板绘制的三曲线对照：GMR baseline / multi + GEQ / shared + GEQ](results/geq_finetune/README.md)**
+**三曲线对照：GMR baseline / multi + GEQ / shared + GEQ**
 
 四个骨干各一张六面板图与一张 G-mIoU@1 / @3 双面板图，完整扫描存在性阈值 0–1。
 G-mIoU 使用 0–1；下表 mAP 为官方正查询定位百分数，不作存在性硬门控。
@@ -19,6 +19,30 @@ G-mIoU 使用 0–1；下表 mAP 为官方正查询定位百分数，不作存�
 
 EaTR baseline 复用历史 seed 2026，GEQ 为 seed 2023；完整来源与协议差异见结果页。
 三曲线比较完整方法，GEQ 的独立影响仍使用下面各方法的前后配对比较。
+
+以下直接展示四个骨干的六面板图。每张图均包含 G-mIoU@1、G-mIoU@3 的阈值曲线、
+相对 GMR baseline 的变化、拒绝与正查询保留关系、Rej-F1，以及固定阈值工作点。
+图例同时标注三种方法的 Test mAP。
+
+### Moment-DETR
+
+![Moment-DETR：GMR baseline、multi + GEQ、shared + GEQ 六面板对照](results/geq_finetune/moment_detr/gmr_multi_shared_geq_complete_comparison.png)
+
+### EaTR
+
+![EaTR：GMR baseline、multi + GEQ、shared + GEQ 六面板对照](results/geq_finetune/eatr/gmr_multi_shared_geq_complete_comparison.png)
+
+### QD-DETR
+
+![QD-DETR：GMR baseline、multi + GEQ、shared + GEQ 六面板对照](results/geq_finetune/qd_detr/gmr_multi_shared_geq_complete_comparison.png)
+
+### CG-DETR
+
+![CG-DETR：GMR baseline、multi + GEQ、shared + GEQ 六面板对照](results/geq_finetune/cg_detr/gmr_multi_shared_geq_complete_comparison.png)
+
+[完整数据、协议与矢量图下载](results/geq_finetune/README.md)
+
+## GEQ 微调前后配对结果
 
 **[新增：Shared / Multi + Global Event Query 的八组微调与 Test 对照](results/geq_finetune/README.md)**
 
