@@ -2,6 +2,7 @@
 """Persistent GEQ dispatcher: at most two CUDA processes per physical GPU."""
 from __future__ import annotations
 
+import argparse
 import fcntl
 import json
 import os
@@ -33,11 +34,17 @@ def gpu_processes():
 
 
 def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--variants", nargs="+", choices=("baseline", *VARIANTS), default=list(VARIANTS))
+    parser.add_argument("--state-name", default="QUEUE.json")
+    parser.add_argument("--no-report", action="store_true")
+    args = parser.parse_args()
     OUTPUT.mkdir(parents=True, exist_ok=True)
-    lock = (OUTPUT / "queue.lock").open("a")
+    state_path = OUTPUT / args.state_name
+    lock = state_path.with_suffix(".lock").open("a")
     fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
     # Reopening a stopped dispatcher cannot duplicate a still-running child.
-    previous = read(OUTPUT / "QUEUE.json")
+    previous = read(state_path)
     for record in previous.get("jobs", {}).values():
         pid = record.get("pid")
         if record.get("status") == "RUNNING" and pid and Path(f"/proc/{pid}/cmdline").is_file():
@@ -46,7 +53,7 @@ def main():
                 raise RuntimeError(f"Previous job {pid} is still live; no duplicate dispatcher allowed")
     jobs = {f"{backbone}/{variant}": dict(backbone=backbone, variant=variant,
             status="COMPLETED" if read(OUTPUT / backbone / variant / "COMPLETE.json").get("status") == "COMPLETED" else "QUEUED",
-            attempts=0) for backbone in BACKBONES for variant in VARIANTS}
+            attempts=0) for backbone in BACKBONES for variant in args.variants}
     active = {}
     gpu_indices = (os.environ.get("GPU0", "0"), os.environ.get("GPU1", "1"))
     if len(set(gpu_indices)) != 2:
@@ -64,9 +71,10 @@ def main():
                        status="COMPLETED" if returncode == 0 and complete else "FAILED" if job["attempts"] >= 3 else "QUEUED")
             del active[key]
             print("JOB_EXIT", key, job["status"], returncode, flush=True)
-            report = subprocess.run([sys.executable, str(HERE / "collect_and_plot.py")])
-            if report.returncode:
-                print("REPORT_RETRY_PENDING", report.returncode, flush=True)
+            if not args.no_report:
+                report = subprocess.run([sys.executable, str(HERE / "collect_and_plot.py")])
+                if report.returncode:
+                    print("REPORT_RETRY_PENDING", report.returncode, flush=True)
         try:
             occupancy = gpu_processes()
         except (subprocess.CalledProcessError, ValueError) as error:
@@ -100,9 +108,10 @@ def main():
                      else "FAILED" if terminal else "RUNNING", pid=os.getpid(),
                      updated_at=time.time(), per_gpu_limit=2, includes_external_cuda_processes=True,
                      gpu_occupancy={gpu: sorted(pids) for gpu, pids in occupancy.items()}, jobs=jobs)
-        dump(OUTPUT / "QUEUE.json", state)
+        dump(state_path, state)
         if terminal:
-            subprocess.run([sys.executable, str(HERE / "collect_and_plot.py")], check=True)
+            if not args.no_report:
+                subprocess.run([sys.executable, str(HERE / "collect_and_plot.py")], check=True)
             print("QUEUE_TERMINAL", state["status"], flush=True)
             return 0 if state["status"] == "COMPLETED" else 1
         time.sleep(8)

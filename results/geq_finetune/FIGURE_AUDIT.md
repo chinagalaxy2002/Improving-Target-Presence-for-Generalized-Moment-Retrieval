@@ -1,9 +1,9 @@
 # Figure audit: frozen Shared / Multi + GEQ
 
-## Three-curve reference layout
+## Four-curve reference layout
 
-The new four backbone figures each contain exactly GMR baseline, multi + GEQ,
-and shared + GEQ. Their six panels follow the main branch reference: threshold
+The four backbone figures each contain exactly GMR baseline, GMR baseline + GEQ,
+multi + GEQ, and shared + GEQ. Their six panels follow the main branch reference: threshold
 versus G-mIoU@1, threshold versus G-mIoU@3, G-mIoU@1 difference from GMR at the
 same threshold, negative accuracy versus positive recall, rejection F1, and
 G-mIoU@1 at fixed thresholds 0.4/0.5/0.6. A separate two-panel vector export
@@ -12,16 +12,18 @@ provides the G-mIoU@1 / @3 curves for each backbone.
 All absolute performance axes span 0–1; the difference panel uses signed 0–1
 units. mAP is reported in percent in the shared legend, README and CSV and uses
 the official positive-query localization calculation without presence gating.
-All 12 model series cover the same 1,036 Test queries; the 8 GEQ curves match
+All 16 model series cover the same 1,036 Test queries; the 12 GEQ curves match
 their archived 101-point sweeps exactly, and every model's full metrics were
 recomputed from its frozen predictions and matched the archived metrics.
 Empirical rejection/retention curves use every unique score, with the three
-prespecified thresholds marked. No new training, weights or threshold selection
-are involved. EaTR's historical baseline seed 2026 is labeled separately from
+prespecified thresholds marked. Rendering does not load weights or select
+thresholds. Four additional baseline + GEQ controls were independently trained
+for fixed epoch 4 from the exact displayed baselines, with unchanged localization
+and mAP verified. EaTR's completed historical baseline seed 2026 is labeled separately from
 the GEQ seed 2023; source hashes and protocol metadata are retained.
 
 The two-column / three-column panel exports use native vector graphics, a
-consistent gray/green/blue palette, and distinct line styles and marker shapes.
+consistent gray/orange/green/blue palette, and distinct line styles and marker shapes.
 Legends explicitly identify each model and its mAP. Standalone exports were
 inspected for axis and legend readability, missing labels and clipping.
 

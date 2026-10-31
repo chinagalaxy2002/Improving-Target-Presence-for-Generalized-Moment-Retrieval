@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Independent CPU audit of the complete eight-job GEQ fine-tuning request."""
+import argparse
 import csv
 import math
 from pathlib import Path
@@ -7,15 +8,19 @@ from pathlib import Path
 import torch
 
 from common import (BACKBONES, EPOCHS, FIGURES, OUTPUT, VARIANTS, dump,
-                    original_metrics, original_prediction, read, rows, sha)
+                    original_metrics, original_prediction, read, rows, sha, source_dir)
 from model import GlobalEventQueryHead, state_digest
 
 
 def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--include-baseline", action="store_true")
+    args = parser.parse_args()
+    variants = ("baseline", *VARIANTS) if args.include_baseline else VARIANTS
     torch.set_num_threads(2)
     checked = []
     for backbone in BACKBONES:
-        for variant in VARIANTS:
+        for variant in variants:
             directory = OUTPUT / backbone / variant
             complete = read(directory / "COMPLETE.json")
             assert complete.get("status") == "COMPLETED", f"Unfinished: {directory}"
@@ -71,14 +76,19 @@ def main():
                 assert (FIGURES / backbone / f"gmiou_before_after.{extension}").stat().st_size > 1000
             checked.append(dict(backbone=backbone, variant=variant, status="PASSED"))
     for backbone in BACKBONES:
-        paired = [read(OUTPUT / backbone / variant / "experiment_config.json") for variant in VARIANTS]
-        assert paired[0]["initial_geq_sha256"] == paired[1]["initial_geq_sha256"]
+        paired = [read(OUTPUT / backbone / variant / "experiment_config.json") for variant in variants]
+        assert len({item["initial_geq_sha256"] for item in paired}) == 1
     assert read(OUTPUT / "REFERENCE_EQUIVALENCE.json")["masked_batch_outputs_exactly_equal"]
     assert len(read(OUTPUT / "BASELINE_METRIC_AUDIT.json")) == 8
     assert read(OUTPUT / "QUEUE.json")["status"] == "COMPLETED"
-    dump(OUTPUT / "FINAL_AUDIT.json", dict(status="PASSED", jobs=checked, count=8,
+    if args.include_baseline:
+        assert read(OUTPUT / "BASELINE_GEQ_QUEUE.json")["status"] == "COMPLETED"
+        assert all(read(OUTPUT / b / "baseline/experiment_config.json")["source_checkpoint"] ==
+                   str(source_dir(b, "baseline") / "best.ckpt") for b in BACKBONES)
+    report_name = "FINAL_AUDIT_12_GEQ.json" if args.include_baseline else "FINAL_AUDIT.json"
+    dump(OUTPUT / report_name, dict(status="PASSED", jobs=checked, count=len(checked),
          exact_frozen_test_proposals=True, full_domain_0_1=True, paired_geq_initialization_equal=True))
-    print("FINAL_AUDIT_PASSED", len(checked), "/8")
+    print("FINAL_AUDIT_PASSED", len(checked))
 
 
 if __name__ == "__main__":

@@ -5,40 +5,43 @@ GMR-Adapter 空集拒绝能力的同时研究多片段定位。四个骨干使�
 
 ## 最新完整结果
 
-**三曲线对照：GMR baseline / multi + GEQ / shared + GEQ**
+**四曲线对照：GMR baseline / GMR baseline + GEQ / multi + GEQ / shared + GEQ**
 
 四个骨干各一张六面板图与一张 G-mIoU@1 / @3 双面板图，完整扫描存在性阈值 0–1。
 G-mIoU 使用 0–1；下表 mAP 为官方正查询定位百分数，不作存在性硬门控。
 
-| Backbone | GMR baseline mAP (%) | multi + GEQ mAP (%) | shared + GEQ mAP (%) |
-|---|---:|---:|---:|
-| Moment-DETR | 5.91 | 7.27 | 7.28 |
-| EaTR | 16.20 | 17.52 | 16.65 |
-| QD-DETR | 15.08 | 14.67 | 15.24 |
-| CG-DETR | 16.09 | 16.59 | 15.09 |
+| Backbone | GMR baseline mAP (%) | GMR baseline + GEQ mAP (%) | multi + GEQ mAP (%) | shared + GEQ mAP (%) |
+|---|---:|---:|---:|---:|
+| Moment-DETR | 5.91 | 5.91 | 7.27 | 7.28 |
+| EaTR | 16.20 | 16.20 | 17.52 | 16.65 |
+| QD-DETR | 15.08 | 15.08 | 14.67 | 15.24 |
+| CG-DETR | 16.09 | 16.09 | 16.59 | 15.09 |
 
 EaTR baseline 复用历史 seed 2026，GEQ 为 seed 2023；完整来源与协议差异见结果页。
-三曲线比较完整方法，GEQ 的独立影响仍使用下面各方法的前后配对比较。
+新增的橙色 GMR baseline + GEQ 曲线严格来自同一个已完成 baseline 的四轮 GEQ-only 微调，
+全部原参数冻结；四组新增控制均已完成训练和完整 Val/Test，12 组 GEQ 审计全部通过。
+EaTR 继续使用已有的 mAP 16.20 baseline，本次未采用未完成的重训快照。
+四曲线比较完整方法，GEQ 的独立影响使用各方法与其 +GEQ 的配对比较。
 
 以下直接展示四个骨干的六面板图。每张图均包含 G-mIoU@1、G-mIoU@3 的阈值曲线、
 相对 GMR baseline 的变化、拒绝与正查询保留关系、Rej-F1，以及固定阈值工作点。
-图例同时标注三种方法的 Test mAP。
+图例同时标注四种方法的 Test mAP。
 
 ### Moment-DETR
 
-![Moment-DETR：GMR baseline、multi + GEQ、shared + GEQ 六面板对照](results/geq_finetune/moment_detr/gmr_multi_shared_geq_complete_comparison.png)
+![Moment-DETR：GMR baseline、GMR baseline + GEQ、multi + GEQ、shared + GEQ 六面板对照](results/geq_finetune/moment_detr/gmr_multi_shared_geq_complete_comparison.png)
 
 ### EaTR
 
-![EaTR：GMR baseline、multi + GEQ、shared + GEQ 六面板对照](results/geq_finetune/eatr/gmr_multi_shared_geq_complete_comparison.png)
+![EaTR：GMR baseline、GMR baseline + GEQ、multi + GEQ、shared + GEQ 六面板对照](results/geq_finetune/eatr/gmr_multi_shared_geq_complete_comparison.png)
 
 ### QD-DETR
 
-![QD-DETR：GMR baseline、multi + GEQ、shared + GEQ 六面板对照](results/geq_finetune/qd_detr/gmr_multi_shared_geq_complete_comparison.png)
+![QD-DETR：GMR baseline、GMR baseline + GEQ、multi + GEQ、shared + GEQ 六面板对照](results/geq_finetune/qd_detr/gmr_multi_shared_geq_complete_comparison.png)
 
 ### CG-DETR
 
-![CG-DETR：GMR baseline、multi + GEQ、shared + GEQ 六面板对照](results/geq_finetune/cg_detr/gmr_multi_shared_geq_complete_comparison.png)
+![CG-DETR：GMR baseline、GMR baseline + GEQ、multi + GEQ、shared + GEQ 六面板对照](results/geq_finetune/cg_detr/gmr_multi_shared_geq_complete_comparison.png)
 
 [完整数据、协议与矢量图下载](results/geq_finetune/README.md)
 

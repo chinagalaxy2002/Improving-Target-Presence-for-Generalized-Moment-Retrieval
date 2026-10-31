@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Reference-style six-panel GMR / Multi+GEQ / Shared+GEQ comparisons.
+"""Six-panel GMR / GMR+GEQ / Multi+GEQ / Shared+GEQ comparisons.
 
 Refresh measurements once with --refresh. Offline rendering from --snapshot
 requires only NumPy and Matplotlib; it never loads weights or uses a GPU.
@@ -25,10 +25,12 @@ from common import (BACKBONES, FIGURES, OUTPUT, PROJECT, dump, original_metrics,
                     original_prediction, read, rows, sha, source_dir)
 
 NAMES = {"moment_detr": "Moment-DETR", "eatr": "EaTR", "qd_detr": "QD-DETR", "cg_detr": "CG-DETR"}
-METHODS = ("baseline", "multi_geq", "shared_geq")
-LABELS = {"baseline": "GMR baseline", "multi_geq": "multi + GEQ", "shared_geq": "shared + GEQ"}
+METHODS = ("baseline", "baseline_geq", "multi_geq", "shared_geq")
+LABELS = {"baseline": "GMR baseline", "baseline_geq": "GMR baseline + GEQ",
+          "multi_geq": "multi + GEQ", "shared_geq": "shared + GEQ"}
 STYLES = {
     "baseline": dict(color="#64748B", linestyle="--", marker="o"),
+    "baseline_geq": dict(color="#E69F00", linestyle=":", marker="D"),
     "multi_geq": dict(color="#009E73", linestyle="-.", marker="^"),
     "shared_geq": dict(color="#0072B2", linestyle="-", marker="s"),
 }
@@ -41,7 +43,7 @@ END = "<!-- THREE_WAY_COMPARISON_END -->"
 def measurements():
     # Keep plotting-only imports independent of the server research environment.
     from run import evaluator
-    result = {"schema_version": 1, "generated_at": datetime.now().astimezone().isoformat(timespec="seconds"),
+    result = {"schema_version": 2, "generated_at": datetime.now().astimezone().isoformat(timespec="seconds"),
         "reference_layout": REFERENCE, "split": "SoccerGMR Standard Test", "methods": list(METHODS),
         "gmiou_unit": "0–1", "mAP_unit": "percent; positive queries; no existence gate",
         "positive_decision": "pred_exist_score > threshold", "grid": GRID, "backbones": {}}
@@ -101,6 +103,9 @@ def measurements():
                     positive_recall=float(predicted[positive].mean()),
                     negative_accuracy=float((~predicted[~positive]).mean())))
             config = read(directory / "experiment_config.json")
+            if method == "baseline_geq":
+                assert config["source_prediction_sha256"] == sha(original_prediction(backbone, "baseline"))
+                assert config["source_sha256"] == sha(source_dir(backbone, "baseline") / "best.ckpt")
             series[method] = dict(label=LABELS[method], seed=config.get("seed", 2023),
                 metrics=metrics["brief"], grid=grid, empirical_tradeoff=empirical,
                 source_predictions=str(pred_path), source_predictions_sha256=sha(pred_path),
@@ -120,6 +125,7 @@ def validate(snapshot):
     assert snapshot["methods"] == list(METHODS)
     for backbone, data in snapshot["backbones"].items():
         assert set(data["series"]) == set(METHODS)
+        assert data["series"]["baseline"]["metrics"]["mAP"] == data["series"]["baseline_geq"]["metrics"]["mAP"]
         for method, series in data["series"].items():
             grid = series["grid"]
             assert len(grid) == 101
@@ -204,9 +210,10 @@ def render(backbone, data, output):
                              color=STYLES[method]["color"], marker=STYLES[method]["marker"], s=29, zorder=5)
         line(f1, GRID, [row["rejection_f1"] for row in rows_], method)
         index = METHODS.index(method)
-        positions = np.arange(3) + (index - 1) * 0.22
+        width = 0.18
+        positions = np.arange(3) + (index - (len(METHODS) - 1) / 2) * width
         values = [rows_[round(t * 100)]["gmiou_1"] for t in (0.4, 0.5, 0.6)]
-        bars = fixed.bar(positions, values, width=0.205, color=STYLES[method]["color"], zorder=3)
+        bars = fixed.bar(positions, values, width=width * 0.94, color=STYLES[method]["color"], zorder=3)
         fixed.bar_label(bars, labels=[f"{v:.4f}" for v in values], padding=3, rotation=90, fontsize=8.5)
     fixed.set_xticks(range(3), ("0.4", "0.5", "0.6"))
     for panel in (g1, g3, delta, f1):
@@ -219,9 +226,9 @@ def render(backbone, data, output):
     handles = [Line2D([0], [0], **STYLES[m], linewidth=1.9, markersize=4.5,
                 label=f"{LABELS[m]}  (mAP {series[m]['metrics']['mAP']:.2f}%)") for m in METHODS]
     figure.suptitle(NAMES[backbone] + " | SoccerGMR Standard Test", fontsize=14, fontweight="bold", y=0.99)
-    figure.legend(handles=handles, loc="upper center", bbox_to_anchor=(0.5, 0.948), ncol=3,
-                  frameon=False, columnspacing=1.5, handlelength=2.6)
-    note = "Frozen Test predictions | GEQ fixed epoch 4 | 101 thresholds | mAP uses positive queries without presence gating"
+    figure.legend(handles=handles, loc="upper center", bbox_to_anchor=(0.5, 0.948), ncol=4,
+                  frameon=False, columnspacing=1.1, handlelength=2.4, fontsize=10)
+    note = "Frozen Test predictions | GEQ fixed epoch 4 for baseline / multi / shared | 101 thresholds | mAP without presence gating"
     figure.text(0.5, 0.037, note, ha="center", va="bottom", fontsize=9.5)
     protocol = ("Baseline seed 2026, batch 32; GEQ seed 2023. Mixed training protocols; not a controlled single-factor comparison."
                 if backbone == "eatr" else "Seed 2023; source training budgets / batch sizes differ; see README. No Test-based model or threshold selection.")
@@ -229,14 +236,14 @@ def render(backbone, data, output):
     save(figure, output / backbone / "gmr_multi_shared_geq_complete_comparison")
     # Large two-panel export isolates the two explicitly requested metrics.
     figure, axes = plt.subplots(1, 2, figsize=(10, 4.3))
-    figure.subplots_adjust(top=0.77, bottom=0.18, wspace=0.30, left=0.08, right=0.99)
+    figure.subplots_adjust(top=0.72, bottom=0.18, wspace=0.30, left=0.08, right=0.99)
     for ax, metric, title in zip(axes, ("gmiou_1", "gmiou_3"), ("G-mIoU@1", "G-mIoU@3")):
         axis(ax, title, "Presence threshold", title + " (0–1)")
         for method in METHODS:
             line(ax, GRID, [r[metric] for r in series[method]["grid"]], method)
         ax.axvline(0.4, color="#94A3B8", linestyle=":", linewidth=0.7)
-    figure.suptitle(NAMES[backbone] + " | GMR baseline, multi + GEQ, shared + GEQ", fontsize=12, y=0.995)
-    figure.legend(handles=handles, loc="upper center", bbox_to_anchor=(0.5, 0.935), ncol=3, fontsize=9, frameon=False)
+    figure.suptitle(NAMES[backbone] + " | GMR, GMR + GEQ, multi + GEQ, shared + GEQ", fontsize=12, y=0.995)
+    figure.legend(handles=handles, loc="upper center", bbox_to_anchor=(0.5, 0.935), ncol=2, fontsize=9, frameon=False)
     figure.text(0.5, 0.005, "Frozen Standard Test predictions | 101 thresholds | all G-mIoU axes span 0–1", ha="center", fontsize=9)
     save(figure, output / backbone / "gmr_multi_shared_geq_gmiou_1_3")
 
@@ -256,8 +263,8 @@ def csv_write(path, data):
 
 
 def publish(snapshot, output):
-    table = ["| Backbone | GMR baseline mAP (%) | multi + GEQ mAP (%) | shared + GEQ mAP (%) |",
-             "|---|---:|---:|---:|"]
+    table = ["| Backbone | GMR baseline mAP (%) | GMR baseline + GEQ mAP (%) | multi + GEQ mAP (%) | shared + GEQ mAP (%) |",
+             "|---|---:|---:|---:|---:|"]
     rows_, curve_rows, fixed_rows = [], [], []
     for backbone in BACKBONES:
         data = snapshot["backbones"][backbone]
@@ -274,19 +281,20 @@ def publish(snapshot, output):
                 curve_rows.append(item)
                 if index in (40, 50, 60):
                     fixed_rows.append(item)
-        dump(output / backbone / "three_way_comparison_data.json", data)
-        csv_write(output / backbone / "three_way_threshold_sweep.csv", [r for r in curve_rows if r["backbone"] == backbone])
+        dump(output / backbone / "four_way_comparison_data.json", data)
+        csv_write(output / backbone / "four_way_threshold_sweep.csv", [r for r in curve_rows if r["backbone"] == backbone])
         fig = "gmr_multi_shared_geq_complete_comparison"
         detail = "gmr_multi_shared_geq_gmiou_1_3"
         base_g1 = series["baseline"]["grid"][40]["gmiou_1"]
         delta_multi = series["multi_geq"]["grid"][40]["gmiou_1"] - base_g1
         delta_shared = series["shared_geq"]["grid"][40]["gmiou_1"] - base_g1
-        text = (f"## GMR baseline / multi + GEQ / shared + GEQ\n\n"
+        text = (f"## GMR baseline / GMR baseline + GEQ / multi + GEQ / shared + GEQ\n\n"
             f"固定阈值 0.4 下，相对 GMR baseline 的 G-mIoU@1 变化：multi + GEQ **{delta_multi:+.4f}**、"
             f"shared + GEQ **{delta_shared:+.4f}**（0–1 单位）。完整曲线展示这些差异随阈值的变化。\n\n"
             f"![六面板对照]({fig}.png)\n\n[PDF]({fig}.pdf) · [SVG]({fig}.svg) · "
-            f"[@1 / @3 双面板 PDF]({detail}.pdf) · [101 点数据](three_way_threshold_sweep.csv)\n\n"
+            f"[@1 / @3 双面板 PDF]({detail}.pdf) · [101 点数据](four_way_threshold_sweep.csv)\n\n"
             f"Test mAP：GMR baseline **{series['baseline']['metrics']['mAP']:.2f}%**；"
+            f"GMR baseline + GEQ **{series['baseline_geq']['metrics']['mAP']:.2f}%**；"
             f"multi + GEQ **{series['multi_geq']['metrics']['mAP']:.2f}%**；"
             f"shared + GEQ **{series['shared_geq']['metrics']['mAP']:.2f}%**。\n\n"
             "G-mIoU、N-acc、Positive recall、Rej-F1 均使用 0–1；差值允许为负。"
@@ -294,39 +302,41 @@ def publish(snapshot, output):
         if backbone == "eatr":
             text += "\n\nEaTR baseline 复用历史 seed 2026、batch 32；GEQ 为 seed 2023，存在训练协议差异。"
         managed_block(output / backbone / "README.md", text)
-    csv_write(output / "three_way_map.csv", rows_)
-    csv_write(output / "three_way_threshold_sweep.csv", curve_rows)
-    csv_write(output / "three_way_fixed_points.csv", fixed_rows)
-    root_text = "## 三条曲线：GMR baseline、multi + GEQ、shared + GEQ\n\n" + "\n".join(table)
+    csv_write(output / "four_way_map.csv", rows_)
+    csv_write(output / "four_way_threshold_sweep.csv", curve_rows)
+    csv_write(output / "four_way_fixed_points.csv", fixed_rows)
+    root_text = "## 四条曲线：GMR baseline、GMR baseline + GEQ、multi + GEQ、shared + GEQ\n\n" + "\n".join(table)
     root_text += ("\n\nmAP 单位为百分数，来自相同 SoccerGMR Standard Test 的正查询，不随存在性阈值变化。"
         "GMR baseline 是当前六路线实验中的 baseline。EaTR baseline 为历史 seed 2026，其他两组为 seed 2023；"
         "各来源的训练预算、batch 也可能不同，完整来源保存在快照中。"
-        "三曲线反映完整方法的效果；GEQ 的独立影响采用下方各方法与其 +GEQ 的配对结果判断。\n\n"
+        "新增的 GMR baseline + GEQ 严格从图中同一个 baseline 初始化，固定微调 4 epoch，仅训练 GEQ，"
+        "其定位候选与 mAP 保持不变。EaTR 继续采用已完成的历史 baseline，不使用仍在训练的重训快照。"
+        "四曲线反映完整方法的效果；GEQ 的独立影响采用各方法与其 +GEQ 的配对结果判断。\n\n"
         "六面板沿用[参考图版式](" + REFERENCE + ")："
         "(a) G-mIoU@1 随阈值；(b) G-mIoU@3 随阈值；(c) 同阈值相对 GMR baseline 的 ΔG-mIoU@1；"
         "(d) 负查询拒绝率与正查询保留率；(e) 拒绝 F1；(f) 阈值 0.4/0.5/0.6 的 G-mIoU@1。"
-        "所有 G-mIoU 图轴均覆盖 0–1，差值图保留负值。三条曲线使用同样的颜色、线型与标记跨骨干对应。\n\n"
-        "[mAP CSV](three_way_map.csv) · [全部 1,212 行阈值数据](three_way_threshold_sweep.csv) · "
-        "[固定工作点](three_way_fixed_points.csv) · [离线快照](three_way_comparison_snapshot.json)\n\n")
+        "所有 G-mIoU 图轴均覆盖 0–1，差值图保留负值。四条曲线使用同样的颜色、线型与标记跨骨干对应。\n\n"
+        "[mAP CSV](four_way_map.csv) · [全部 1,616 行阈值数据](four_way_threshold_sweep.csv) · "
+        "[固定工作点](four_way_fixed_points.csv) · [离线快照](four_way_comparison_snapshot.json)\n\n")
     for backbone in BACKBONES:
         base = backbone + "/gmr_multi_shared_geq_complete_comparison"
         root_text += f"### {NAMES[backbone]}\n\n![{NAMES[backbone]} 六面板]({base}.png)\n\n[PDF]({base}.pdf) · [SVG]({base}.svg)\n\n"
     managed_block(output / "README.md", root_text.rstrip())
-    dump(output / "three_way_comparison_snapshot.json", snapshot)
-    dump(output / "THREE_WAY_FIGURE_AUDIT.json", dict(status="PASSED", reference=REFERENCE,
-         backbones=list(BACKBONES), methods=list(METHODS), measured_series=12,
-         newly_finetuned_models=8, thresholds_per_series=101, curve_rows=len(curve_rows),
+    dump(output / "four_way_comparison_snapshot.json", snapshot)
+    dump(output / "FOUR_WAY_FIGURE_AUDIT.json", dict(status="PASSED", reference=REFERENCE,
+         backbones=list(BACKBONES), methods=list(METHODS), measured_series=16,
+         newly_finetuned_models=12, baseline_geq_controls=4, thresholds_per_series=101, curve_rows=len(curve_rows),
          fixed_point_rows=len(fixed_rows), gmiou_units="0–1; deltas signed", mAP_unit="percent",
          all_archived_metrics_reproduced=True, all_geq_101_point_sweeps_reproduced=True,
          empirical_tradeoff_uses_all_unique_scores=True, weights_loaded=False, training_launched=False))
 
 
 def refresh(snapshot_path=None, output=FIGURES, force=False):
-    source = Path(snapshot_path) if snapshot_path else OUTPUT / "three_way_comparison_snapshot.json"
+    source = Path(snapshot_path) if snapshot_path else OUTPUT / "four_way_comparison_snapshot.json"
     if force or not source.is_file():
         if not all(read(OUTPUT / b / v / "COMPLETE.json").get("status") == "COMPLETED"
-                   for b in BACKBONES for v in ("shared", "multi")):
-            print("THREE_WAY_WAITING_FOR_EIGHT_COMPLETE_MODELS", flush=True)
+                   for b in BACKBONES for v in ("baseline", "shared", "multi")):
+            print("FOUR_WAY_WAITING_FOR_TWELVE_COMPLETE_MODELS", flush=True)
             return
         snapshot = measurements()
         dump(source, snapshot)
@@ -337,7 +347,7 @@ def refresh(snapshot_path=None, output=FIGURES, force=False):
     for backbone in BACKBONES:
         render(backbone, snapshot["backbones"][backbone], output)
     publish(snapshot, output)
-    print("THREE_WAY_PLOTS_COMPLETE", output, "4 six-panel + 4 two-panel figures", flush=True)
+    print("FOUR_WAY_PLOTS_COMPLETE", output, "4 six-panel + 4 two-panel figures", flush=True)
 
 
 def main():

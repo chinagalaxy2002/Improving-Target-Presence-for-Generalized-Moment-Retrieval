@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Fine tune only a GEQ head on one frozen shared/multi source checkpoint."""
+"""Fine tune only a GEQ head on a frozen baseline/shared/multi checkpoint."""
 from __future__ import annotations
 
 import os
@@ -381,7 +381,7 @@ def run(args, output):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--backbone", choices=BACKBONES, required=True)
-    parser.add_argument("--variant", choices=VARIANTS, required=True)
+    parser.add_argument("--variant", choices=("baseline", *VARIANTS), required=True)
     parser.add_argument("--smoke-only", action="store_true")
     args = parser.parse_args()
     output = OUTPUT / args.backbone / args.variant

@@ -1,20 +1,29 @@
 # 四骨干 Shared / Multi + Global Event Query
 
-三曲线六面板：每个骨干包含 **GMR baseline、multi + GEQ、shared + GEQ**，按 main 的 `backbonefolder/figures/complete_comparison` 版式，报告 G-mIoU@1 / @3 阈值曲线、相对 baseline 的 ΔG-mIoU@1、拒绝与保留关系、Rej-F1、三个固定工作点。所有 G-mIoU 绝对图轴均为 0–1，差值允许为负；图例和 CSV 同时报告三个方法的 mAP（官方正查询定位百分数，不按存在性阈值门控）。EaTR baseline 历史 seed 2026 与 GEQ seed 2023 的差异明确保留。
+四曲线六面板：每个骨干包含 **GMR baseline、GMR baseline + GEQ、multi + GEQ、shared + GEQ**，按 main 的 `backbonefolder/figures/complete_comparison` 版式，报告 G-mIoU@1 / @3 阈值曲线、相对 baseline 的 ΔG-mIoU@1、拒绝与保留关系、Rej-F1、三个固定工作点。所有 G-mIoU 绝对图轴均为 0–1，差值允许为负；图例和 CSV 同时报告四个方法的 mAP（官方正查询定位百分数，不按存在性阈值门控）。EaTR 继续使用已完成的历史 seed 2026、mAP 16.20 baseline，所有 GEQ 使用 seed 2023；未采用未完成的 EaTR 重训快照。
 
 从公开快照离线重绘六面板和 @1 / @3 双面板，只需要 NumPy / Matplotlib：
 
 ```bash
 python shared/geq_finetune/plot_complete_comparison.py \
-  --snapshot results/geq_finetune/three_way_comparison_snapshot.json \
+  --snapshot results/geq_finetune/four_way_comparison_snapshot.json \
   --output results/geq_finetune
 ```
 
-服务器上可用 `python shared/geq_finetune/plot_complete_comparison.py --refresh` 从冻结预测复算全部 12 条曲线。统一入口 `collect_and_plot.py` 也会自动更新三曲线图。每个骨干目录独立存储六面板、双面板 PNG/PDF/SVG 和曲线数据；结果根目录 `three_way_map.csv`、`three_way_threshold_sweep.csv`、`three_way_fixed_points.csv` 提供 mAP、101 点曲线和预先固定的 0.4/0.5/0.6 工作点。
+服务器上可用 `python shared/geq_finetune/plot_complete_comparison.py --refresh` 从冻结预测复算全部 16 条模型曲线。统一入口 `collect_and_plot.py` 也会自动更新四曲线图。每个骨干目录独立存储六面板、双面板 PNG/PDF/SVG 和曲线数据；结果根目录 `four_way_map.csv`、`four_way_threshold_sweep.csv`、`four_way_fixed_points.csv` 提供 mAP、101 点曲线和预先固定的 0.4/0.5/0.6 工作点。`three_way_*` 为此前三曲线的历史数据。
+
+新增四组 baseline + GEQ 控制，与原八组使用相同的固定四轮 GEQ-only 协议，严格从图中同一个 baseline 初始化。新增输出在 `<backbone>/baseline/`，`BASELINE_GEQ_QUEUE.json` 与原八组队列分开；每卡最多两个任务，计入已运行 CUDA 进程。启动器完成四组训练/测试后自动绘制四曲线，不覆盖原八组。
+
+```bash
+bash shared/geq_finetune/launch_baseline.sh
+python shared/geq_finetune/audit.py --include-baseline
+```
+
+十二组均已完成训练与完整 Val/Test。服务器完整权重审计见 `results/geq_finetune/FINAL_AUDIT_12_GEQ.json`；原八组审计保留在 `FINAL_AUDIT.json`。
 
 八组均已完成，见 [结果、阈值对照与图表](../../results/geq_finetune/README.md)。发布包仅对 `common.py` 与启动器作路径适配；模型与训练逻辑与服务器使用的脚本一致。原始运行配置内的代码 SHA256 记录实际训练时版本。
 
-此工具在四个骨干各自已完成的 `shared`、`multi` best 上，独立微调新增 GEQ，共八组。原有实验目录只读。
+此工具在四个骨干各自已完成的 `baseline`、`shared`、`multi` best 上，独立微调新增 GEQ，共十二组。原有实验目录只读。
 
 参考 main commit `39ab0eb74427709851476b2bb86b698c8a3f4186` 的 `ablations/component_ablation_20261023` row 2 与 `ablations/global_hard_roi_20261023` Global-only 协议：冻结原模型所有参数及 buffer，并保持原模型 eval；只训练 GEQ，固定最终 epoch 4。GEQ 依次读取投影后的文本和每层 encoder 的视频 token；QD/CG 跳过开头的 saliency token。辅助 O2M decoder 不执行。不存在 LoRA、RoI、边界修正、候选融合或数据增强。
 
@@ -46,4 +55,4 @@ python shared/geq_finetune/collect_and_plot.py
 
 换机训练需提供源 GMR/Mr-DETR 代码、8 个对应 best、原冻结 Test 预测及预计算特征。`GMR_PROJECT_ROOT`、`GMR_BACKBONE_REPO`、`GMR_RUNTIME_ROOT` 分别重定向原项目、骨干仓库和三骨干运行目录；数据加载路径沿用各原生骨干配置，需一并配置。权重和特征不上传。
 
-公开结果包含 8 组配置、真实数据 smoke、四轮历史、原/新完整 Test 预测、Val 预测、官方指标、101 点扫描与最终审计。`audit.py` 的完整权重审计需要服务器源权重和 `final.ckpt`；公开 `FINAL_AUDIT.json` 记录实际服务器上已通过的结果。
+公开结果包含 12 组配置、真实数据 smoke、四轮历史、原/新完整 Test 预测、Val 预测、官方指标、101 点扫描与最终审计。`audit.py` 的完整权重审计需要服务器源权重和 `final.ckpt`；公开审计 JSON 记录实际服务器上已通过的结果。

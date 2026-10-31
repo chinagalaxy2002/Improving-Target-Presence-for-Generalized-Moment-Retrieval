@@ -1,20 +1,20 @@
 # Shared / Multi + Global Event Query 微调
 
 <!-- THREE_WAY_COMPARISON_START -->
-## 三条曲线：GMR baseline、multi + GEQ、shared + GEQ
+## 四条曲线：GMR baseline、GMR baseline + GEQ、multi + GEQ、shared + GEQ
 
-| Backbone | GMR baseline mAP (%) | multi + GEQ mAP (%) | shared + GEQ mAP (%) |
-|---|---:|---:|---:|
-| Moment-DETR | 5.91 | 7.27 | 7.28 |
-| EaTR | 16.20 | 17.52 | 16.65 |
-| QD-DETR | 15.08 | 14.67 | 15.24 |
-| CG-DETR | 16.09 | 16.59 | 15.09 |
+| Backbone | GMR baseline mAP (%) | GMR baseline + GEQ mAP (%) | multi + GEQ mAP (%) | shared + GEQ mAP (%) |
+|---|---:|---:|---:|---:|
+| Moment-DETR | 5.91 | 5.91 | 7.27 | 7.28 |
+| EaTR | 16.20 | 16.20 | 17.52 | 16.65 |
+| QD-DETR | 15.08 | 15.08 | 14.67 | 15.24 |
+| CG-DETR | 16.09 | 16.09 | 16.59 | 15.09 |
 
-mAP 单位为百分数，来自相同 SoccerGMR Standard Test 的正查询，不随存在性阈值变化。GMR baseline 是当前六路线实验中的 baseline。EaTR baseline 为历史 seed 2026，其他两组为 seed 2023；各来源的训练预算、batch 也可能不同，完整来源保存在快照中。三曲线反映完整方法的效果；GEQ 的独立影响采用下方各方法与其 +GEQ 的配对结果判断。
+mAP 单位为百分数，来自相同 SoccerGMR Standard Test 的正查询，不随存在性阈值变化。GMR baseline 是当前六路线实验中的 baseline。EaTR baseline 为历史 seed 2026，其他两组为 seed 2023；各来源的训练预算、batch 也可能不同，完整来源保存在快照中。新增的 GMR baseline + GEQ 严格从图中同一个 baseline 初始化，固定微调 4 epoch，仅训练 GEQ，其定位候选与 mAP 保持不变。EaTR 继续采用已完成的历史 baseline，不使用仍在训练的重训快照。四曲线反映完整方法的效果；GEQ 的独立影响采用各方法与其 +GEQ 的配对结果判断。
 
-六面板沿用[参考图版式](https://github.com/chinagalaxy2002/Improving-Target-Presence-for-Generalized-Moment-Retrieval/tree/main/backbonefolder/figures/complete_comparison)：(a) G-mIoU@1 随阈值；(b) G-mIoU@3 随阈值；(c) 同阈值相对 GMR baseline 的 ΔG-mIoU@1；(d) 负查询拒绝率与正查询保留率；(e) 拒绝 F1；(f) 阈值 0.4/0.5/0.6 的 G-mIoU@1。所有 G-mIoU 图轴均覆盖 0–1，差值图保留负值。三条曲线使用同样的颜色、线型与标记跨骨干对应。
+六面板沿用[参考图版式](https://github.com/chinagalaxy2002/Improving-Target-Presence-for-Generalized-Moment-Retrieval/tree/main/backbonefolder/figures/complete_comparison)：(a) G-mIoU@1 随阈值；(b) G-mIoU@3 随阈值；(c) 同阈值相对 GMR baseline 的 ΔG-mIoU@1；(d) 负查询拒绝率与正查询保留率；(e) 拒绝 F1；(f) 阈值 0.4/0.5/0.6 的 G-mIoU@1。所有 G-mIoU 图轴均覆盖 0–1，差值图保留负值。四条曲线使用同样的颜色、线型与标记跨骨干对应。
 
-[mAP CSV](three_way_map.csv) · [全部 1,212 行阈值数据](three_way_threshold_sweep.csv) · [固定工作点](three_way_fixed_points.csv) · [离线快照](three_way_comparison_snapshot.json)
+[mAP CSV](four_way_map.csv) · [全部 1,616 行阈值数据](four_way_threshold_sweep.csv) · [固定工作点](four_way_fixed_points.csv) · [离线快照](four_way_comparison_snapshot.json)
 
 ### Moment-DETR
 
