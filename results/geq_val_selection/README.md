@@ -8,7 +8,7 @@ Multi与Shared各运行全量和冻结两种方案，共16组。另补同源Base
 
 全量和冻结成对初始化相同。每骨干四条曲线分别为原GMR、GMR+GEQ、Multi+GEQ、Shared+GEQ；两种训练方式各一套。原GMR与路线的既有预训练预算仍存在差异，完整方法比较不等于单因素因果消融。
 
-更新时间：2026-10-31T23:46:04+08:00
+更新时间：2026-10-31T23:46:58+08:00
 
 | Backbone | 路线 | 模式 | 状态 | 完成Epoch | Best Epoch | Best Val均值 | Test mAP (%) | Test G1均值 |
 |---|---|---|---|---:|---:|---:|---:|---:|
@@ -94,8 +94,8 @@ Multi与Shared各运行全量和冻结两种方案，共16组。另补同源Base
 | CG-DETR | shared | frozen | COMPLETED | 10 | 4 | 0.4629 | 15.09 | 0.4723 |
 | CG-DETR | multi | full | COMPLETED | 7 | 1 | 0.4477 | 18.59 | 0.4637 |
 | CG-DETR | multi | frozen | COMPLETED | 7 | 1 | 0.4732 | 16.59 | 0.4815 |
-| CG-DETR | baseline | full | RUNNING | 3 | 1 | 0.4786 | — | — |
-| CG-DETR | baseline | frozen | RUNNING | 1 | 1 | 0.4639 | — | — |
+| CG-DETR | baseline | full | RUNNING | 4 | 1 | 0.4786 | — | — |
+| CG-DETR | baseline | frozen | RUNNING | 4 | 4 | 0.4682 | — | — |
 
 ## CG-DETR · shared · full / frozen
 
