@@ -1,5 +1,8 @@
 # Multi-Route GMR on EaTR, QD-DETR, and CG-DETR
 
+For a concise handoff covering baselines, six methods, checkpoint evaluation,
+and future fine-tuning, read [`HANDOFF.md`](HANDOFF.md).
+
 The branch-root [checkpoint and reproduction index](../../README.md#10-全部检查点与实验目录)
 lists all 24 methods, server paths (including expected checkpoints), native
 baseline sources, and exact smoke/train/test commands.

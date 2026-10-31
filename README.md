@@ -5,6 +5,9 @@ Generalized Moment Retrieval（GMR）的实现与实验。目标是在保持
 GMR-Adapter 空集拒绝能力的同时，通过训练期 Temporal One-to-Many（O2M）
 监督提高多个不同相关片段的定位与召回。
 
+简明交接入口：[`HANDOFF.md`](backbonefolder/multiroute_gmr/HANDOFF.md)，仅包含
+Baseline 复现、六种方法、检查点测试和后续微调的衔接步骤。
+
 检查点交接入口：下方 [全部 24 组检查点目录](#10-全部检查点与实验目录) 和
 [启动测试及复现命令](#11-启动测试与复现命令) 记录服务器绝对路径、未完成任务的
 预期路径、历史 Baseline 来源以及各骨干的脚本入口。文件状态为 2026-10-31 快照；
