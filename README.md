@@ -1,71 +1,67 @@
 # GMR × Mr. DETR 多骨干实验
 
-将 Mr. DETR 的训练期一对多监督迁移到 Generalized Moment Retrieval，在保留
-GMR-Adapter 空集拒绝能力的同时研究多片段定位。四个骨干使用统一的目录组织。
+四骨干的Temporal O2M、独立FFN、Instruction路线，以及Global Event Query存在性预测。
 
-## 最新完整结果
+## 最新：统一验证集选模协议
 
-**四曲线对照：GMR baseline / GMR baseline + GEQ / multi + GEQ / shared + GEQ**
+更新时间：2026-10-31T22:50:27+08:00。Multi / Shared全量与冻结 **1/16** 组完成Test；同源Baseline控制 **0/8** 组。
 
-四个骨干各一张六面板图与一张 G-mIoU@1 / @3 双面板图，完整扫描存在性阈值 0–1。
-G-mIoU 使用 0–1；下表 mAP 为官方正查询定位百分数，不作存在性硬门控。
+所有新微调均使用seed2023；按完整Val的G-mIoU@1在0.4/0.5/0.6三点均值选best，连续超过5轮（6轮）不提升早停，上限20轮。Test只评估选定best。两种方案并行排队，每卡最多两个CUDA任务，包含已有作业。
 
-| Backbone | GMR baseline mAP (%) | GMR baseline + GEQ mAP (%) | multi + GEQ mAP (%) | shared + GEQ mAP (%) |
-|---|---:|---:|---:|---:|
-| Moment-DETR | 5.91 | 5.91 | 7.27 | 7.28 |
-| EaTR | 16.20 | 16.20 | 17.52 | 16.65 |
-| QD-DETR | 15.08 | 15.08 | 14.67 | 15.24 |
-| CG-DETR | 16.09 | 16.09 | 16.59 | 15.09 |
+full保留原路线GMR/O2M损失并加GEQ BCE；frozen冻结原模型，仅训练GEQ。原GMR与Multi/Shared既有训练预算仍有差异，完整方法比较不能完全归因于单一模块。
 
-EaTR baseline 复用历史 seed 2026，GEQ 为 seed 2023；完整来源与协议差异见结果页。
-新增的橙色 GMR baseline + GEQ 曲线严格来自同一个已完成 baseline 的四轮 GEQ-only 微调，
-全部原参数冻结；四组新增控制均已完成训练和完整 Val/Test，12 组 GEQ 审计全部通过。
-EaTR 继续使用已有的 mAP 16.20 baseline，本次未采用未完成的重训快照。
-四曲线比较完整方法，GEQ 的独立影响使用各方法与其 +GEQ 的配对比较。
+[全部24组状态、选模和最新Test](results/geq_val_selection/README.md) · [复现代码](shared/geq_protocol/README.md)
 
-以下直接展示四个骨干的六面板图。每张图均包含 G-mIoU@1、G-mIoU@3 的阈值曲线、
-相对 GMR baseline 的变化、拒绝与正查询保留关系、Rej-F1，以及固定阈值工作点。
-图例同时标注四种方法的 Test mAP。
+### moment_detr
 
-### Moment-DETR
+新协议训练进行中；完成相应Test后自动展示曲线。
 
-![Moment-DETR：GMR baseline、GMR baseline + GEQ、multi + GEQ、shared + GEQ 六面板对照](results/geq_finetune/moment_detr/gmr_multi_shared_geq_complete_comparison.png)
+### eatr
 
-### EaTR
+新协议训练进行中；完成相应Test后自动展示曲线。
 
-![EaTR：GMR baseline、GMR baseline + GEQ、multi + GEQ、shared + GEQ 六面板对照](results/geq_finetune/eatr/gmr_multi_shared_geq_complete_comparison.png)
+### qd_detr
 
-### QD-DETR
+新协议训练进行中；完成相应Test后自动展示曲线。
 
-![QD-DETR：GMR baseline、GMR baseline + GEQ、multi + GEQ、shared + GEQ 六面板对照](results/geq_finetune/qd_detr/gmr_multi_shared_geq_complete_comparison.png)
+### cg_detr
 
-### CG-DETR
+新协议训练进行中；完成相应Test后自动展示曲线。
 
-![CG-DETR：GMR baseline、GMR baseline + GEQ、multi + GEQ、shared + GEQ 六面板对照](results/geq_finetune/cg_detr/gmr_multi_shared_geq_complete_comparison.png)
+## 已完成：main E1同源初始化的八组GEQ对照
 
-[完整数据、协议与矢量图下载](results/geq_finetune/README.md)
+这组使用main E1的历史GMR检查点，与上面的当前多路线起点不同，因此单列。八组均已完成完整Val/Test；下图直接展示G-mIoU@1、@3的101点阈值曲线、拒绝/保留关系、Rej-F1与固定工作点，图例报告mAP。
 
-## GEQ 微调前后配对结果
+| Backbone | GMR mAP (%) | full + GEQ | frozen + GEQ |
+|---|---:|---:|---:|
+| moment_detr | 6.68 | 5.77 | 6.68 |
+| eatr | 16.49 | 17.48 | 16.49 |
+| qd_detr | 14.62 | 14.83 | 14.62 |
+| cg_detr | 18.65 | 18.71 | 18.65 |
 
-**[新增：Shared / Multi + Global Event Query 的八组微调与 Test 对照](results/geq_finetune/README.md)**
+[完整指标、Val曲线、PDF/SVG和CSV](results/geq_epoch_study/README.md)
 
-2026-10-31 完成四骨干 × 两方法的 GEQ-only 微调。冻结原 best，固定微调 4 epoch、
-seed 2023。阈值 0.4 下，EaTR/QD/CG 六组 G-mIoU@3 提升，Moment-DETR 两组下降；
-8 组 AUROC 均略降。定位候选和 mAP/mR/mR+ 完全不变。每个骨干独立保存全域曲线、
-行内配色对照和数据；[代码与复现](shared/geq_finetune/README.md)。
+### moment_detr · main E1对照
 
-![GEQ 前后对照](results/geq_finetune/cross_backbone_overview/gmiou_at_0_4_before_after.png)
+![moment_detr full/frozen GEQ](results/geq_epoch_study/moment_detr/full_frozen_comparison.png)
 
-**[四个骨干 × 六种方法：24 组完整表格、训练状态和图表](results/README.md)**
+### eatr · main E1对照
 
-原六路线快照更新于 2026-10-31 18:57（Asia/Shanghai）：23 组完成 Test、1 组训练中。
-未完成 Test 的指标留空；表内 G-mIoU 使用 0–1 数值，训练协议逐项标注。
-综合热力图按 Backbone 逐行归一化着色，颜色只比较同一行内的方法；格内数字保留真实指标。
+![eatr full/frozen GEQ](results/geq_epoch_study/eatr/full_frozen_comparison.png)
 
-[下载总表 CSV](results/results.csv) · [数据快照与来源哈希](results/snapshot.json) ·
-[离线绘图脚本](shared/build_results_report.py) · [图表检查](results/FIGURE_AUDIT.md)
+### qd_detr · main E1对照
 
-![四骨干 Test 指标对照](results/cross_backbone_overview/all_backbones_metrics.png)
+![qd_detr full/frozen GEQ](results/geq_epoch_study/qd_detr/full_frozen_comparison.png)
+
+### cg_detr · main E1对照
+
+![cg_detr full/frozen GEQ](results/geq_epoch_study/cg_detr/full_frozen_comparison.png)
+
+## 历史结果
+
+- [固定四轮GEQ的12组结果与四曲线](results/geq_finetune/README.md)：旧协议，保留供追溯。
+- [原六路线24组汇总快照](results/README.md)：按原Val mAP选模，与本次GEQ选模分开。
+- G-mIoU及存在性图使用0–1；mAP、AUROC使用百分数。所有图表按骨干分文件夹。
 
 ## 从哪里开始
 
@@ -120,7 +116,7 @@ seed 2023。阈值 0.4 下，EaTR/QD/CG 六组 G-mIoU@3 提升，Moment-DETR 两
 主 Queries=10，辅助 Queries=24，辅助总损失权重=0.3。辅助路线仅训练执行，
 推理使用主路线与原存在性适配器。完整方法解释见 [实验说明](docs/CHECKPOINTS_AND_REPRODUCTION.md#1-核心设计)。
 
-## 当前训练配置
+## 原六路线训练配置
 
 新路线使用 seed2023、AdamW、LR5e-5。已运行任务及 EaTR 原队列使用 microbatch2、
 累积4；待启动 QD/CG 的 instruction、multi、adaptive 从头使用 batch32、累积1。
