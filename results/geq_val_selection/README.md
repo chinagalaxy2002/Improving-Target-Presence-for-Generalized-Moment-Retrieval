@@ -8,7 +8,7 @@ Multi与Shared各运行全量和冻结两种方案，共16组。另补同源Base
 
 全量和冻结成对初始化相同。每骨干四条曲线分别为原GMR、GMR+GEQ、Multi+GEQ、Shared+GEQ；两种训练方式各一套。原GMR与路线的既有预训练预算仍存在差异，完整方法比较不等于单因素因果消融。
 
-更新时间：2026-10-31T23:44:03+08:00
+更新时间：2026-10-31T23:46:04+08:00
 
 | Backbone | 路线 | 模式 | 状态 | 完成Epoch | Best Epoch | Best Val均值 | Test mAP (%) | Test G1均值 |
 |---|---|---|---|---:|---:|---:|---:|---:|
@@ -68,8 +68,8 @@ Multi与Shared各运行全量和冻结两种方案，共16组。另补同源Base
 | QD-DETR | shared | frozen | COMPLETED | 10 | 4 | 0.4415 | 15.24 | 0.4417 |
 | QD-DETR | multi | full | COMPLETED | 10 | 4 | 0.5021 | 13.71 | 0.5316 |
 | QD-DETR | multi | frozen | COMPLETED | 10 | 4 | 0.4714 | 14.67 | 0.4975 |
-| QD-DETR | baseline | full | RUNNING | 8 | 4 | 0.4702 | — | — |
-| QD-DETR | baseline | frozen | RUNNING | 1 | 1 | 0.4429 | — | — |
+| QD-DETR | baseline | full | COMPLETED | 10 | 4 | 0.4702 | 16.54 | 0.5129 |
+| QD-DETR | baseline | frozen | COMPLETED | 10 | 4 | 0.4587 | 15.08 | 0.5014 |
 
 ## QD-DETR · shared · full / frozen
 
@@ -81,15 +81,21 @@ Multi与Shared各运行全量和冻结两种方案，共16组。另补同源Base
 ![multi comparison](qd_detr/multi_full_frozen.png)
 
 
-QD-DETR full：四曲线等待同源Baseline、Multi、Shared全部完成Test。
+## QD-DETR · full
 
-QD-DETR frozen：四曲线等待同源Baseline、Multi、Shared全部完成Test。
+![qd_detr full](qd_detr/full_comparison.png)
+
+
+## QD-DETR · frozen
+
+![qd_detr frozen](qd_detr/frozen_comparison.png)
+
 | CG-DETR | shared | full | COMPLETED | 7 | 1 | 0.4657 | 14.22 | 0.4906 |
 | CG-DETR | shared | frozen | COMPLETED | 10 | 4 | 0.4629 | 15.09 | 0.4723 |
 | CG-DETR | multi | full | COMPLETED | 7 | 1 | 0.4477 | 18.59 | 0.4637 |
 | CG-DETR | multi | frozen | COMPLETED | 7 | 1 | 0.4732 | 16.59 | 0.4815 |
-| CG-DETR | baseline | full | RUNNING | — | — | — | — | — |
-| CG-DETR | baseline | frozen | QUEUED | — | — | — | — | — |
+| CG-DETR | baseline | full | RUNNING | 3 | 1 | 0.4786 | — | — |
+| CG-DETR | baseline | frozen | RUNNING | 1 | 1 | 0.4639 | — | — |
 
 ## CG-DETR · shared · full / frozen
 

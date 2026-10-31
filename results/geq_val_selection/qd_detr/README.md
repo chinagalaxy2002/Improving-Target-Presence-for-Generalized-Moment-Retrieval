@@ -22,3 +22,13 @@
 
 ![baseline Val](baseline_validation_selection.png)
 
+
+## QD-DETR · full
+
+![qd_detr full](full_comparison.png)
+
+
+## QD-DETR · frozen
+
+![qd_detr frozen](frozen_comparison.png)
+
