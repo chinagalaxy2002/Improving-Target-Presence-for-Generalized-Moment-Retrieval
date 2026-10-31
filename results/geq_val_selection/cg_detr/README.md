@@ -9,3 +9,7 @@
 
 ![shared comparison](shared_full_frozen.png)
 
+## multi：Val 选模曲线
+
+![multi Val](multi_validation_selection.png)
+

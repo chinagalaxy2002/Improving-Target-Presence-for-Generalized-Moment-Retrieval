@@ -13,3 +13,8 @@
 
 ![multi Val](multi_validation_selection.png)
 
+
+## QD-DETR · multi · full / frozen
+
+![multi comparison](multi_full_frozen.png)
+

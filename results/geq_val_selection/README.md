@@ -8,7 +8,7 @@ Multi与Shared各运行全量和冻结两种方案，共16组。另补同源Base
 
 全量和冻结成对初始化相同。每骨干四条曲线分别为原GMR、GMR+GEQ、Multi+GEQ、Shared+GEQ；两种训练方式各一套。原GMR与路线的既有预训练预算仍存在差异，完整方法比较不等于单因素因果消融。
 
-更新时间：2026-10-31T23:32:40+08:00
+更新时间：2026-10-31T23:33:13+08:00
 
 | Backbone | 路线 | 模式 | 状态 | 完成Epoch | Best Epoch | Best Val均值 | Test mAP (%) | Test G1均值 |
 |---|---|---|---|---:|---:|---:|---:|---:|
@@ -16,7 +16,7 @@ Multi与Shared各运行全量和冻结两种方案，共16组。另补同源Base
 | Moment-DETR | shared | frozen | COMPLETED | 9 | 3 | 0.4846 | 7.28 | 0.5128 |
 | Moment-DETR | multi | full | COMPLETED | 12 | 6 | 0.4731 | 7.72 | 0.4956 |
 | Moment-DETR | multi | frozen | COMPLETED | 9 | 3 | 0.4821 | 7.27 | 0.5042 |
-| Moment-DETR | baseline | full | QUEUED | — | — | — | — | — |
+| Moment-DETR | baseline | full | RUNNING | — | — | — | — | — |
 | Moment-DETR | baseline | frozen | QUEUED | — | — | — | — | — |
 
 ## Moment-DETR · shared · full / frozen
@@ -54,7 +54,7 @@ EaTR full：四曲线等待同源Baseline、Multi、Shared全部完成Test。
 EaTR frozen：四曲线等待同源Baseline、Multi、Shared全部完成Test。
 | QD-DETR | shared | full | COMPLETED | 9 | 3 | 0.4477 | 15.69 | 0.4466 |
 | QD-DETR | shared | frozen | COMPLETED | 10 | 4 | 0.4415 | 15.24 | 0.4417 |
-| QD-DETR | multi | full | RUNNING | 10 | 4 | 0.5021 | — | — |
+| QD-DETR | multi | full | COMPLETED | 10 | 4 | 0.5021 | 13.71 | 0.5316 |
 | QD-DETR | multi | frozen | COMPLETED | 10 | 4 | 0.4714 | 14.67 | 0.4975 |
 | QD-DETR | baseline | full | QUEUED | — | — | — | — | — |
 | QD-DETR | baseline | frozen | QUEUED | — | — | — | — | — |
@@ -64,13 +64,18 @@ EaTR frozen：四曲线等待同源Baseline、Multi、Shared全部完成Test。
 ![shared comparison](qd_detr/shared_full_frozen.png)
 
 
+## QD-DETR · multi · full / frozen
+
+![multi comparison](qd_detr/multi_full_frozen.png)
+
+
 QD-DETR full：四曲线等待同源Baseline、Multi、Shared全部完成Test。
 
 QD-DETR frozen：四曲线等待同源Baseline、Multi、Shared全部完成Test。
 | CG-DETR | shared | full | COMPLETED | 7 | 1 | 0.4657 | 14.22 | 0.4906 |
 | CG-DETR | shared | frozen | COMPLETED | 10 | 4 | 0.4629 | 15.09 | 0.4723 |
 | CG-DETR | multi | full | RUNNING | — | — | — | — | — |
-| CG-DETR | multi | frozen | RUNNING | — | — | — | — | — |
+| CG-DETR | multi | frozen | RUNNING | 2 | 1 | 0.4732 | — | — |
 | CG-DETR | baseline | full | QUEUED | — | — | — | — | — |
 | CG-DETR | baseline | frozen | QUEUED | — | — | — | — | — |
 
