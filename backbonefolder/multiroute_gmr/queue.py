@@ -12,6 +12,8 @@ import time
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
+from execution_plan import job_profile
+
 RUNNER = HERE / "run.py"
 VARIANTS_BY_LANE = {
     0: ("baseline", "sepffn", "multi"),
@@ -94,6 +96,15 @@ def main():
     missing = []
     for lane in (0, 1):
         for backbone, variant in tasks(lane):
+            profile = job_profile(backbone, variant)
+            if profile.get('action') == 'reuse_completed_baseline':
+                marker = HERE / 'runs' / backbone / variant / 'reused_baseline.json'
+                if marker.is_file():
+                    continue
+            if profile.get('action') == 'restart':
+                # Changed batch sizes must pass a fresh full-batch smoke in the
+                # queue worker, rather than requiring an out-of-queue GPU job.
+                continue
             smoke = HERE / "runs" / backbone / variant / "smoke.json"
             report = json.loads(smoke.read_text()) if smoke.exists() else {}
             if report.get("status") != "PASSED" or report.get("num_workers") != 2:
@@ -103,7 +114,7 @@ def main():
     state = {
         "pid": os.getpid(),
         "started": time.strftime("%F %T"),
-        "protocol": "18/18 smoke passed with num_workers2; seed2023; 400 epochs; microbatch2 x accumulation4; val/5 epochs; stop after 20 epochs without best-val-mAP improvement; frozen-best test",
+        "protocol": "per-job execution_plan.json; defaults seed2023 and microbatch2 x accumulation4; queued QD/CG instruction,multi,adaptive restart batch32 x accumulation1; EaTR baseline reused; num_workers2; full-batch smoke for changed profiles; val/5 epochs; early stop20 epochs; frozen-best test",
         "lanes": {"0": {"status": "RUNNING", "gpu": args.gpu0, "max_concurrent": 2}, "1": {"status": "RUNNING", "gpu": args.gpu1, "max_concurrent": 2}},
         "workers": {},
         "jobs": {},

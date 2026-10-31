@@ -9,6 +9,8 @@ import time
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
+from execution_plan import job_profile
+
 RUNNER = HERE / "run.py"
 BACKBONES = ("eatr", "qd_detr", "cg_detr")
 VARIANTS = ("baseline", "shared", "sepffn", "instruction", "multi", "adaptive")
@@ -17,11 +19,18 @@ LOCK = threading.Lock()
 
 
 def passed(backbone, variant):
+    profile = job_profile(backbone, variant)
+    run = HERE / 'runs' / backbone / variant
+    if profile.get('action') == 'reuse_completed_baseline':
+        return all((run / name).is_file() for name in ('reused_baseline.json', 'best.ckpt', 'test_metrics.json'))
     path = HERE / "runs" / backbone / variant / "smoke.json"
     if not path.exists():
         return False
     report = json.loads(path.read_text())
-    return report.get("status") == "PASSED" and report.get("num_workers") == 2
+    valid = report.get("status") == "PASSED" and report.get("num_workers") == 2
+    if profile.get('action') == 'restart':
+        valid = valid and report.get('measured_batch_size') == profile['microbatch']
+    return valid
 
 
 def worker(gpu, pending, results):

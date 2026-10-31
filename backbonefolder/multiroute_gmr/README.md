@@ -1,5 +1,25 @@
 # Multi-Route GMR on EaTR, QD-DETR, and CG-DETR
 
+The branch-root [checkpoint and reproduction index](../../README.md#10-全部检查点与实验目录)
+lists all 24 methods, server paths (including expected checkpoints), native
+baseline sources, and exact smoke/train/test commands.
+
+## Current execution plan
+
+`execution_plan.json` records the 2026-10-31 overrides. Four active jobs retain
+microbatch2/accumulation4. Queued QD/CG `instruction`, `multi`, and `adaptive`
+restart at batch32/accumulation1 after archiving their previous directories.
+Each changed job must pass a full 32-sample smoke gate inside its queue slot.
+Other EaTR routes continue the original queue and checkpoints.
+
+Only EaTR Baseline reuses the completed seed2026 GMR (batch32, LR3e-5, Test mAP
+16.20). `reuse_eatr_baseline.py` preserves all 238 weight tensors and maps their
+wrapper names. The old seed2023 baseline is archived; this reused reference
+must not be labelled as a matched-seed ablation baseline. Its source checkpoint
+is indexed under `reused_baselines/manifest.json`.
+
+The original default protocol below remains valid for jobs without an override.
+
 Per-backbone entry points are organized under [`backbones/`](backbones/):
 `moment_detr_gmr`, `eatr_gmr`, `qd_detr_gmr`, and `cg_detr_gmr`. The three new
 backbones call this directory's shared audited runner; Moment-DETR-GMR keeps its
@@ -7,7 +27,7 @@ original experiment kit inside its own folder.
 
 This directory migrates the training-only Mr. DETR-style routes used in the
 Moment-DETR-GMR experiments to three additional backbones.  It runs the same six
-single-seed (`2023`) configurations for every backbone:
+seed-2023 configurations for every backbone, except the reused EaTR baseline:
 
 | Variant | O2M | Separate FFN | Instruction tokens | Adaptive matching |
 |---|---:|---:|---:|---:|

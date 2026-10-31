@@ -1,0 +1,100 @@
+{
+  "baselines": [
+    {
+      "backbone": "moment_detr",
+      "checkpoint": "reused_baselines/moment_detr/best.ckpt",
+      "source_checkpoint": "/home/guoxiangyu/GMR_Unseen_s4_minus_fusion_baseline_20261019/backbonefolder/moment_detr/gmr/best.ckpt",
+      "checkpoint_sha256": "c69fc1bdc6b7187c471bb0272cca5e7bb1087c175f10c646dad30fca1295ca1f",
+      "checkpoint_format": "original_native_model_and_optimizer",
+      "source_seed": 2026,
+      "source_learning_rate": 3e-05,
+      "source_batch_size": 8,
+      "test_mAP": 6.68,
+      "state_dict_schema_matches_current_baseline": true,
+      "schema_check": "all keys and shapes match after stripping base. and EaTR slot_atten.shared. wrapper names",
+      "reuse_scope": "historical_baseline_reference",
+      "same_training_protocol_as_seed2023_ablation": false,
+      "copied_files": [
+        "best.ckpt",
+        "effective_config.json",
+        "frozen_selection.json",
+        "best_val_metrics.json",
+        "test_metrics.json",
+        "test_predictions.jsonl"
+      ]
+    },
+    {
+      "backbone": "eatr",
+      "checkpoint": "reused_baselines/eatr/best.ckpt",
+      "source_checkpoint": "/home/guoxiangyu/GMR_Unseen_s4_minus_fusion_baseline_20261019/backbonefolder/eatr/gmr/best.ckpt",
+      "checkpoint_sha256": "3d7f6f6cb8c62cfee30db2d48fee5d1e62e5d69604cc7ab484075ab4979606c0",
+      "checkpoint_format": "original_native_model_and_optimizer",
+      "source_seed": 2026,
+      "source_learning_rate": 3e-05,
+      "source_batch_size": 32,
+      "test_mAP": 16.2,
+      "state_dict_schema_matches_current_baseline": true,
+      "schema_check": "all keys and shapes match after stripping base. and EaTR slot_atten.shared. wrapper names",
+      "reuse_scope": "historical_baseline_reference",
+      "same_training_protocol_as_seed2023_ablation": false,
+      "copied_files": [
+        "best.ckpt",
+        "effective_config.json",
+        "frozen_selection.json",
+        "best_val_metrics.json",
+        "test_metrics.json",
+        "test_predictions.jsonl"
+      ]
+    },
+    {
+      "backbone": "qd_detr",
+      "checkpoint": "reused_baselines/qd_detr/best.ckpt",
+      "source_checkpoint": "/home/guoxiangyu/GMR_Unseen_s4_minus_fusion_baseline_20261019/backbonefolder/qd_detr/gmr/best.ckpt",
+      "checkpoint_sha256": "03011c48168532bc8a99cee669d0d0489d0919f8fb127474107ed705e88b43c0",
+      "checkpoint_format": "original_native_model_and_optimizer",
+      "source_seed": 2026,
+      "source_learning_rate": 3e-05,
+      "source_batch_size": 32,
+      "test_mAP": 14.62,
+      "state_dict_schema_matches_current_baseline": true,
+      "schema_check": "all keys and shapes match after stripping base. and EaTR slot_atten.shared. wrapper names",
+      "reuse_scope": "historical_baseline_reference",
+      "same_training_protocol_as_seed2023_ablation": false,
+      "copied_files": [
+        "best.ckpt",
+        "effective_config.json",
+        "checkpoint_frozen.json",
+        "best_val_metrics.json",
+        "test_metrics.json",
+        "test_predictions.jsonl"
+      ]
+    },
+    {
+      "backbone": "cg_detr",
+      "checkpoint": "reused_baselines/cg_detr/best.pt",
+      "source_checkpoint": "/home/guoxiangyu/GMR_Unseen_s4_minus_fusion_baseline_20261019/backbonefolder/cg_detr/gmr/best.pt",
+      "checkpoint_sha256": "200f2f200bea257b1704f3bf285aecd50cf1722eb7fa7390e0763042f5a9b1d8",
+      "checkpoint_format": "original_native_model_and_optimizer",
+      "source_seed": 2026,
+      "source_learning_rate": 3e-05,
+      "source_batch_size": 32,
+      "test_mAP": 18.65,
+      "state_dict_schema_matches_current_baseline": true,
+      "schema_check": "all keys and shapes match after stripping base. and EaTR slot_atten.shared. wrapper names",
+      "reuse_scope": "historical_baseline_reference",
+      "same_training_protocol_as_seed2023_ablation": false,
+      "copied_files": [
+        "best.pt",
+        "effective_config.json",
+        "frozen_checkpoint.json",
+        "best_val_metrics.json",
+        "final_test_metrics.json",
+        "final_test_predictions.jsonl"
+      ]
+    }
+  ],
+  "active_runs_replaced": false,
+  "queue_changed": false,
+  "pending_unstarted_baseline_jobs_at_audit": [],
+  "note": "Historical baselines use seed2026/lr3e-5; current ablations use seed2023/lr5e-5. Preserve both protocols explicitly."
+}

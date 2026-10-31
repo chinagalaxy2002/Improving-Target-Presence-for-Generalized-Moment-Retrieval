@@ -35,9 +35,10 @@ HERE = Path(__file__).resolve().parent
 BACKBONES = HERE.parent
 sys.path.insert(0, str(HERE))
 from multiroute import MultiRouteCriterion, MultiRouteModel, VARIANTS
+from execution_plan import job_profile, prepare_restart
 
-# Load the evaluator from the checked-out repository by default.  The optional
-# environment variable keeps compatibility with an external official evaluator.
+# Prefer the evaluator published with this branch. GMR_EVAL_DIR can point to
+# another checked official evaluator without changing the training source.
 EVAL_DIR = Path(os.environ.get("GMR_EVAL_DIR", BACKBONES / "moment_detr" / "eval"))
 sys.path.insert(0, str(EVAL_DIR))
 from eval_main import evaluate_gmr
@@ -155,6 +156,9 @@ class Experiment:
     def __init__(self, backbone: str, variant: str):
         self.backbone = backbone
         self.variant = variant
+        self.execution_profile = job_profile(backbone, variant)
+        self.microbatch = self.execution_profile['microbatch']
+        self.accumulation = self.execution_profile['gradient_accumulation']
         self.out = HERE / "runs" / backbone / variant
         self.out.mkdir(parents=True, exist_ok=True)
         self.module = None
@@ -174,8 +178,8 @@ class Experiment:
             options.seed = SEED
             options.lr = 5e-5
             options.n_epoch = EPOCHS
-            options.bsz = MICROBATCH
-            options.eval_bsz = 32
+            options.bsz = self.microbatch
+            options.eval_bsz = self.execution_profile.get('eval_bsz', 32)
             options.num_workers = NUM_WORKERS
             base, native = self.module.build_model(options)
             base.exist_head = self.module.MLP(options.hidden_dim, options.hidden_dim, 1, 2)
@@ -190,7 +194,7 @@ class Experiment:
             options.seed = SEED
             options.lr = 5e-5
             options.n_epoch = EPOCHS
-            options.bsz = MICROBATCH
+            options.bsz = self.microbatch
             options.eval_bsz = 32
             options.num_workers = NUM_WORKERS
             base, main_criterion = self.module.build_model(options)
@@ -203,7 +207,7 @@ class Experiment:
             options.seed = SEED
             options.lr = 5e-5
             options.n_epoch = EPOCHS
-            options.bsz = MICROBATCH
+            options.bsz = self.microbatch
             options.eval_bsz = 16
             options.num_workers = NUM_WORKERS
             base, main_criterion = self.module.build_model(options)
@@ -224,7 +228,7 @@ class Experiment:
         worker_function = self.module.worker_seed if self.backbone == "eatr" else seed_worker
         return DataLoader(
             data,
-            batch_size=MICROBATCH if training else self.options.eval_bsz,
+            batch_size=self.microbatch if training else self.options.eval_bsz,
             shuffle=training,
             collate_fn=collate_function,
             num_workers=NUM_WORKERS,
@@ -295,8 +299,12 @@ def smoke(experiment: Experiment):
     model, criterion = experiment.model, experiment.criterion
     positive = next(i for i, item in enumerate(experiment.train_data.data) if len(item["relevant_windows"]) >= 2)
     negative = next(i for i, item in enumerate(experiment.train_data.data) if not item["relevant_windows"])
-    subset = torch.utils.data.Subset(experiment.train_data, [positive, negative])
-    batch = next(iter(experiment.loader(subset, False)))
+    indices = [positive, negative]
+    if experiment.execution_profile.get('action') == 'restart':
+        indices.extend(i for i in range(len(experiment.train_data)) if i not in (positive, negative))
+        indices = indices[:experiment.microbatch]
+    subset = torch.utils.data.Subset(experiment.train_data, indices)
+    batch = next(iter(experiment.loader(subset, True)))
     _, inputs, targets, extra = experiment.unpack(batch)
     model.train()
     output = model(**inputs, **extra)
@@ -327,6 +335,10 @@ def smoke(experiment: Experiment):
         "backbone": experiment.backbone,
         "variant": experiment.variant,
         "seed": SEED,
+        "microbatch": experiment.microbatch,
+        "gradient_accumulation": experiment.accumulation,
+        "measured_batch_size": len(batch[0]),
+        "execution_plan_revision": experiment.execution_profile.get('revision'),
         "num_workers": NUM_WORKERS,
         "worker_collate": "cpu_then_main_process_cuda" if experiment.backbone == "cg_detr" else "native_cpu_collate",
         "positive_qid": experiment.train_data.data[positive]["qid"],
@@ -384,6 +396,17 @@ def checkpoint_state(experiment, optimizer, scheduler, epoch, best, best_epoch, 
 def train(experiment: Experiment):
     output = experiment.out
     smoke_path = output / "smoke.json"
+    if experiment.execution_profile.get('action') == 'restart':
+        report = json.loads(smoke_path.read_text()) if smoke_path.exists() else {}
+        if report.get('status') != 'PASSED' or report.get('measured_batch_size') != experiment.microbatch:
+            smoke_rng = (random.getstate(), np.random.get_state(), torch.get_rng_state(), torch.cuda.get_rng_state_all())
+            smoke(experiment)
+            experiment.model.zero_grad(set_to_none=True)
+            # A smoke gate must not consume the training run's seeded RNG stream.
+            random.setstate(smoke_rng[0])
+            np.random.set_state(smoke_rng[1])
+            torch.set_rng_state(smoke_rng[2])
+            torch.cuda.set_rng_state_all(smoke_rng[3])
     if not smoke_path.exists() or json.loads(smoke_path.read_text()).get("status") != "PASSED":
         raise RuntimeError(f"Smoke gate missing: {smoke_path}")
     model, criterion = experiment.model, experiment.criterion
@@ -414,9 +437,10 @@ def train(experiment: Experiment):
         "seed": SEED,
         "epochs": EPOCHS,
         "learning_rate": 5e-5,
-        "microbatch": MICROBATCH,
-        "gradient_accumulation": ACCUMULATION,
-        "effective_batch": MICROBATCH * ACCUMULATION,
+        "microbatch": experiment.microbatch,
+        "gradient_accumulation": experiment.accumulation,
+        "effective_batch": experiment.microbatch * experiment.accumulation,
+        "execution_plan_revision": experiment.execution_profile.get('revision'),
         "num_workers": NUM_WORKERS,
         "persistent_workers": True,
         "eval_every_epochs": EVAL_EVERY,
@@ -449,11 +473,11 @@ def train(experiment: Experiment):
             loss = weighted_loss(criterion, losses)
             if not torch.isfinite(loss):
                 raise RuntimeError({key: float(value) for key, value in losses.items() if torch.is_tensor(value)})
-            (loss / ACCUMULATION).backward()
+            (loss / experiment.accumulation).backward()
             total += float(loss.detach())
             match_sum += criterion.last_match_stats.get("matches", 0)
             match_gt += criterion.last_match_stats.get("gt", 0)
-            if (step + 1) % ACCUMULATION == 0 or step + 1 == len(train_loader):
+            if (step + 1) % experiment.accumulation == 0 or step + 1 == len(train_loader):
                 torch.nn.utils.clip_grad_norm_(model.parameters(), experiment.options.grad_clip, error_if_nonfinite=True)
                 optimizer.step()
                 optimizer.zero_grad(set_to_none=True)
@@ -530,6 +554,15 @@ def main():
     parser.add_argument("--variant", choices=VARIANTS, required=True)
     parser.add_argument("--mode", choices=("smoke", "train", "test"), required=True)
     args = parser.parse_args()
+    profile = job_profile(args.backbone, args.variant)
+    if profile.get('action') == 'reuse_completed_baseline' and args.mode in ('smoke', 'train'):
+        marker = HERE / 'runs' / args.backbone / args.variant / 'reused_baseline.json'
+        if not marker.is_file():
+            raise RuntimeError(f'Reused baseline has not been installed: {marker}')
+        print('REUSED_COMPLETED_BASELINE', marker, flush=True)
+        return
+    if args.mode in ('smoke', 'train'):
+        prepare_restart(args.backbone, args.variant)
     experiment = Experiment(args.backbone, args.variant).build()
     try:
         {"smoke": smoke, "train": train, "test": test}[args.mode](experiment)

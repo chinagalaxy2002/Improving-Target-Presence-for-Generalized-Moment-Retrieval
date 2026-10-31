@@ -1,0 +1,14 @@
+{
+  "revision": "original_batch_sizes_20261031",
+  "note": "Keep active processes unchanged. Only queued QD/CG instruction, multi, adaptive restart at batch32. EaTR baseline reuses the completed seed2026 GMR; other EaTR routes retain their current queue configuration.",
+  "protected_running_jobs": ["cg_detr/baseline", "cg_detr/shared", "cg_detr/sepffn", "eatr/instruction"],
+  "jobs": {
+    "eatr/baseline": {"action": "reuse_completed_baseline", "microbatch": 32, "gradient_accumulation": 1, "eval_bsz": 50},
+    "qd_detr/instruction": {"action": "restart", "microbatch": 32, "gradient_accumulation": 1},
+    "qd_detr/multi": {"action": "restart", "microbatch": 32, "gradient_accumulation": 1},
+    "qd_detr/adaptive": {"action": "restart", "microbatch": 32, "gradient_accumulation": 1},
+    "cg_detr/instruction": {"action": "restart", "microbatch": 32, "gradient_accumulation": 1},
+    "cg_detr/multi": {"action": "restart", "microbatch": 32, "gradient_accumulation": 1},
+    "cg_detr/adaptive": {"action": "restart", "microbatch": 32, "gradient_accumulation": 1}
+  }
+}

@@ -21,6 +21,12 @@ CUDA_VISIBLE_DEVICES=0 python eatr_gmr/run.py --variant baseline --mode test
 ```
 
 Valid variants are `baseline`, `shared`, `sepffn`, `instruction`, `multi`, and
-`adaptive`. Training uses seed 2023, `num_workers=2`, microbatch 2 with four-step
-gradient accumulation, validation every five epochs, and early stopping after
-20 epochs without a new best validation-mAP checkpoint.
+`adaptive`. Training uses seed 2023 and `num_workers=2`. Default microbatch2 ×
+accumulation4 is overridden by `../execution_plan.json` for queued QD/CG
+instruction, multi, adaptive (batch32 × accumulation1). Only EaTR baseline
+reuses a completed seed2026 checkpoint. Validation occurs every five epochs;
+early stopping occurs after 20 epochs without a new best validation-mAP checkpoint.
+
+All absolute and expected checkpoint paths, result folders and complete
+reproduction commands are listed in the branch-root
+[README](../../../README.md#10-全部检查点与实验目录).

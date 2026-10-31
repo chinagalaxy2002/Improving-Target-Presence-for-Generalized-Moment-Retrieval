@@ -38,7 +38,7 @@ with (HERE / "results.csv").open("w", newline="") as stream:
     writer.writeheader()
     writer.writerows(rows)
 
-lines = ["# Multi-route results (single seed 2023)", "", "G-mIoU is explicitly converted from the official percentage output to its full 0-1 domain. Other metrics retain the official evaluator's percentage scale.", ""]
+lines = ["# Multi-route results", "", "Route experiments use seed 2023. EaTR baseline reuses the completed seed2026 GMR (batch32, LR3e-5). Queued QD/CG instruction, multi, adaptive restart at batch32; previous/current routes retain their recorded configurations. See execution_plan.json and each experiment_config.json before interpreting gains.", "", "G-mIoU is explicitly converted from the official percentage output to its full 0-1 domain. Other metrics retain the official evaluator's percentage scale.", ""]
 for backbone in BACKBONES:
     lines += [f"## {backbone}", "", "| Variant | " + " | ".join(FIELDS) + " |", "|---|" + "---:|" * len(FIELDS)]
     for row in (item for item in rows if item["backbone"] == backbone):
