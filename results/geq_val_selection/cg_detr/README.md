@@ -22,3 +22,13 @@
 
 ![baseline Val](baseline_validation_selection.png)
 
+
+## CG-DETR · full
+
+![cg_detr full](full_comparison.png)
+
+
+## CG-DETR · frozen
+
+![cg_detr frozen](frozen_comparison.png)
+
