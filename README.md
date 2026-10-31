@@ -7,8 +7,9 @@ GMR-Adapter 空集拒绝能力的同时研究多片段定位。四个骨干使�
 
 **[四个骨干 × 六种方法：24 组完整表格、训练状态和图表](results/README.md)**
 
-本次快照更新于 2026-10-31 16:16（Asia/Shanghai）：18 组完成 Test、4 组训练中、
-2 组排队。未完成 Test 的指标留空；表内 G-mIoU 使用 0–1 数值，训练协议逐项标注。
+本次快照更新于 2026-10-31 18:39（Asia/Shanghai）：22 组完成 Test、2 组训练中。
+未完成 Test 的指标留空；表内 G-mIoU 使用 0–1 数值，训练协议逐项标注。
+综合热力图按 Backbone 逐行归一化着色，颜色只比较同一行内的方法；格内数字保留真实指标。
 
 [下载总表 CSV](results/results.csv) · [数据快照与来源哈希](results/snapshot.json) ·
 [离线绘图脚本](shared/build_results_report.py) · [图表检查](results/FIGURE_AUDIT.md)

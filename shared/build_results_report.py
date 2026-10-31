@@ -91,6 +91,10 @@ def metric_values(metrics: dict) -> dict:
 
 def capture(project: Path, runtime: Path, figure_root: Path) -> dict:
     queue = read_json(runtime / "QUEUE.json")
+    external_queue = read_json(runtime / "EXTERNAL_QUEUE.json")
+    queue["jobs"] = {**queue.get("jobs", {}), **external_queue.get("jobs", {})}
+    for key, gpu in read_json(runtime / "gpu_assignments.json").get("jobs", {}).items():
+        queue["jobs"].setdefault(key, {})["gpu"] = str(gpu)
     plan = read_json(runtime / "execution_plan.json")
     rows = []
     for backbone in BACKBONES:
@@ -176,10 +180,25 @@ def save_figure(figure, destination: Path) -> None:
     plt.close(figure)
 
 
+def normalize_rows(matrix: np.ndarray) -> np.ndarray:
+    """Color-encode method differences within each backbone, ignoring missing runs."""
+    normalized = np.full_like(matrix, np.nan, dtype=float)
+    for index, row in enumerate(matrix):
+        present = np.isfinite(row)
+        values = row[present]
+        if not values.size:
+            continue
+        minimum, maximum = values.min(), values.max()
+        normalized[index, present] = (
+            (values - minimum) / (maximum - minimum) if maximum > minimum else 0.5
+        )
+    return normalized
+
+
 def render_overview(snapshot: dict, output: Path) -> None:
     figure, axes = plt.subplots(2, 2, figsize=(10, 7.5), layout="constrained")
-    settings = (("mAP", "(a) Test mAP (%)", 25), ("mR+@5", "(b) Additional-moment recall (%)", 15), ("AUROC", "(c) Test AUROC (%)", 100), ("G-mIoU@3_0_1", "(d) G-mIoU@3 at threshold 0.4", 1))
-    for ax, (metric, title, maximum) in zip(axes.flat, settings):
+    settings = (("mAP", "(a) Test mAP (%)"), ("mR+@5", "(b) Additional-moment recall (%)"), ("AUROC", "(c) Test AUROC (%)"), ("G-mIoU@3_0_1", "(d) G-mIoU@3 at threshold 0.4"))
+    for ax, (metric, title) in zip(axes.flat, settings):
         matrix = np.full((4, 6), np.nan)
         for i, backbone in enumerate(BACKBONES):
             for j, variant in enumerate(VARIANTS):
@@ -188,21 +207,21 @@ def render_overview(snapshot: dict, output: Path) -> None:
                     matrix[i, j] = row["test"][metric]
         cmap = plt.get_cmap("viridis").copy()
         cmap.set_bad("#EDEDED")
-        # AUROC values use a clearly labeled 50–100 range; exact values are printed.
-        minimum = 50 if metric == "AUROC" else 0
-        maximum = max(maximum, math.ceil(float(np.nanmax(matrix)) / 5) * 5) if metric != "G-mIoU@3_0_1" else 1
-        im = ax.imshow(matrix, cmap=cmap, vmin=minimum, vmax=maximum, aspect="auto")
+        normalized = normalize_rows(matrix)
+        im = ax.imshow(normalized, cmap=cmap, vmin=0, vmax=1, aspect="auto")
         for i in range(4):
             for j in range(6):
                 value = matrix[i, j]
                 label = "—" if np.isnan(value) else f"{value:.4f}" if metric == "G-mIoU@3_0_1" else f"{value:.2f}"
-                color = "black" if np.isnan(value) or (value - minimum) / (maximum - minimum) > 0.55 else "white"
+                color = "black" if np.isnan(value) or normalized[i, j] > 0.55 else "white"
                 ax.text(j, i, label, ha="center", va="center", color=color, fontsize=10)
         ax.set_xticks(range(6), SHORT, rotation=25, ha="right")
         ax.set_yticks(range(4), ("Moment", "EaTR", "QD-DETR", "CG-DETR"))
         ax.set_title(title, loc="left")
-        figure.colorbar(im, ax=ax, shrink=0.8, pad=0.02)
-    figure.suptitle("Frozen-best Test results · gray cells have no completed Test", fontsize=13)
+        colorbar = figure.colorbar(im, ax=ax, shrink=0.8, pad=0.02, ticks=(0, 0.5, 1))
+        colorbar.ax.set_yticklabels(("Low", "Mid", "High"))
+        colorbar.set_label("Within-row relative score", fontsize=9)
+    figure.suptitle("Frozen-best Test results · colors compare methods within each backbone row", fontsize=12)
     figure.supxlabel("Mixed training protocols; see README. G-mIoU is 0–1; other metrics are percentages.", fontsize=9)
     save_figure(figure, output / "cross_backbone_overview" / "all_backbones_metrics")
 
@@ -282,7 +301,7 @@ def report_markdown(snapshot: dict) -> str:
         numbers = [fmt(values.get(metric), 4 if metric == METRICS[-1] else 2) for metric in METRICS]
         name = row["variant"] + ("（历史复用）" if row["reused_baseline"] else "")
         lines.append("| " + " | ".join([TITLES[row["backbone"]], name, STATUS_LABELS[row["status"]], str(row["best_epoch"] or "—"), *numbers]) + " |")
-    lines += ["", "## 综合图", "", "![四个骨干的 Test 指标对照](cross_backbone_overview/all_backbones_metrics.png)", "", "各路线的收益随骨干和指标变化；灰色单元格表示尚无完成的 Test。每格标注精确数值，AUROC 色阶为 50–100，其余色阶从 0 起；这些图不按 Test 重新选择检查点或阈值。", "", "[PDF](cross_backbone_overview/all_backbones_metrics.pdf) · [SVG](cross_backbone_overview/all_backbones_metrics.svg)", "", "![24 组训练与测试状态](cross_backbone_overview/training_status.png)", "", "[状态图 PDF](cross_backbone_overview/training_status.pdf) · [状态图 SVG](cross_backbone_overview/training_status.svg)", "", "## 训练状态快照", "", "以下为尚未完成 Test 的任务；Val mAP 与上表 Test mAP 属于不同 split。Epoch 是最后完整写入记录的轮次。", "", "| Backbone | 方法 | 状态 | GPU | 已完成 Epoch | Best Epoch | Best Val mAP |", "|---|---|---|---|---:|---:|---:|"]
+    lines += ["", "## 综合图", "", "![四个骨干的 Test 指标对照](cross_backbone_overview/all_backbones_metrics.png)", "", "颜色仅按行比较：每个 Backbone 的一行独立进行 min–max 归一化，颜色反映该行已完成方法之间的相对高低；相同行内分数相同用中间色。灰色单元格表示尚无完成的 Test，不参与归一化。单元格仍标注原始指标，G-mIoU 为 0–1、其余为百分数；跨行应比较数字，不能用颜色比较不同 Backbone 的绝对性能。这些图不按 Test 重新选择检查点或阈值。", "", "[PDF](cross_backbone_overview/all_backbones_metrics.pdf) · [SVG](cross_backbone_overview/all_backbones_metrics.svg)", "", "![24 组训练与测试状态](cross_backbone_overview/training_status.png)", "", "[状态图 PDF](cross_backbone_overview/training_status.pdf) · [状态图 SVG](cross_backbone_overview/training_status.svg)", "", "## 训练状态快照", "", "以下为尚未完成 Test 的任务；Val mAP 与上表 Test mAP 属于不同 split。Epoch 是最后完整写入记录的轮次。", "", "| Backbone | 方法 | 状态 | GPU | 已完成 Epoch | Best Epoch | Best Val mAP |", "|---|---|---|---|---:|---:|---:|"]
     for row in rows:
         if row["status"] != "completed":
             lines.append("| " + " | ".join([TITLES[row["backbone"]], row["variant"], STATUS_LABELS[row["status"]], str(row["gpu"] if row["gpu"] is not None else "—"), str(row["latest_epoch"] if row["latest_epoch"] is not None else "—"), str(row["best_epoch"] or "—"), fmt(row["best_val_map"])]) + " |")
