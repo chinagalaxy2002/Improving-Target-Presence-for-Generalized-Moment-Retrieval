@@ -1,5 +1,10 @@
 # GMR × Mr. DETR：六路线时序一对多训练实验
 
+> 四个骨干的当前训练与测试入口已按骨干拆分到
+> [`../backbonefolder/multiroute_gmr/backbones/`](../backbonefolder/multiroute_gmr/backbones/)。
+> EaTR、QD-DETR、CG-DETR 共用经过实际队列验证的核心实现；Moment-DETR-GMR
+> 在自己的目录中保留完整原始实验工具包。
+
 本目录记录 2026-10-30 在 SoccerGMR Standard 上完成的 Moment-DETR-GMR 六路线消融实验。研究目标是把 Mr. DETR 的密集一对多监督迁移到 Generalized Moment Retrieval，在保留 GMR-Adapter 空集拒绝能力的同时，提高多个不同相关片段的召回。
 
 本次结果是单个固定随机种子 `2023` 的探索性实验。训练按用户指令在不同 epoch 停止，然后统一使用停止时已经保存的验证集最佳检查点执行一次完整 Test 评估。它不是六个配置均训练至 400 epoch 的最终收敛结果，也不提供跨 seed 方差。
