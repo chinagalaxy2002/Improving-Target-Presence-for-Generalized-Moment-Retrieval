@@ -1,5 +1,7 @@
 # EaTR-GMR
 
+[完整结果表](../../results/README.md) · [本骨干指标与全域曲线](../../results/eatr_gmr/README.md)
+
 `source/` 保存原始骨干代码与来源；本目录的 `run.py` 调用唯一的公共
 [`shared/run.py`](../../shared/run.py)。
 

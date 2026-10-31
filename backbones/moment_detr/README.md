@@ -1,5 +1,7 @@
 # Moment-DETR-GMR
 
+[完整结果表](../../results/README.md) · [本骨干指标与全域曲线](../../results/moment_detr_gmr/README.md)
+
 - [`source/`](source/)：原生 GMR 模型、数据与评估器代码。
 - [`experiment/`](experiment/)：完整六路线结果包、唯一一份实验工具包、冻结 Test 预测与图表。
 - `smoke.sh`、`train.sh`、`test.sh`：该骨干的统一 Shell 入口。

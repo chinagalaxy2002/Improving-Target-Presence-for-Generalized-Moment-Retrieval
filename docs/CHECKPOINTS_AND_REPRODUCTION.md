@@ -144,17 +144,11 @@ Moment-DETR-GMR 的六组冻结结果、预测、完整 0–1 G-mIoU 扫描和�
 seed 2023，但六组按当时指令停止，实际训练 epoch 不完全一致，解释时不能把差异
 全部归因于结构。
 
-截至 2026-10-31，额外骨干已有以下 frozen-best Test 结果；其余配置仍由队列训练。
-除 G-mIoU 外，表中指标沿用官方百分数；G-mIoU@3 使用 0–1 表示。
-
-| Backbone | 配置 | mAP | mR+@5 | AUROC | Rej-F1@0.4 | G-mIoU@3 |
-|---|---|---:|---:|---:|---:|---:|
-| EaTR | baseline（复用） | 16.20 | 9.59 | 76.56 | 57.11 | 0.2834 |
-| EaTR | shared | 16.65 | 8.60 | 77.57 | 61.23 | 0.3139 |
-| EaTR | sepffn | 17.06 | 9.21 | 77.75 | 54.93 | 0.2655 |
-| QD-DETR | baseline | 15.08 | 9.62 | 77.66 | 59.84 | 0.3035 |
-| QD-DETR | shared | 15.24 | 9.78 | 77.13 | 63.37 | 0.3334 |
-| QD-DETR | sepffn | 11.03 | 4.16 | 75.57 | 68.25 | 0.3783 |
+四个骨干的完整 24 组 Test 表、训练状态、协议和图表统一更新到
+**[results/README.md](../results/README.md)**。本检查点文档不再重复维护局部结果表。
+原始数值、G-mIoU 的 0–1 转换和指标来源哈希见
+[results/snapshot.json](../results/snapshot.json)。后面的检查点路径仍可用于定位权重，
+其中历史状态描述以结果 README 标注的快照时间为准。
 
 EaTR Baseline 使用历史 seed2026/batch32/LR3e-5，而其他已完成路线使用
 seed2023/microbatch2×accumulation4/LR5e-5；这部分是跨协议参考比较，不能标为严格

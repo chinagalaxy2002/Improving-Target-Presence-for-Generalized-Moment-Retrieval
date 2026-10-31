@@ -3,6 +3,18 @@
 将 Mr. DETR 的训练期一对多监督迁移到 Generalized Moment Retrieval，在保留
 GMR-Adapter 空集拒绝能力的同时研究多片段定位。四个骨干使用统一的目录组织。
 
+## 最新完整结果
+
+**[四个骨干 × 六种方法：24 组完整表格、训练状态和图表](results/README.md)**
+
+本次快照更新于 2026-10-31 16:16（Asia/Shanghai）：18 组完成 Test、4 组训练中、
+2 组排队。未完成 Test 的指标留空；表内 G-mIoU 使用 0–1 数值，训练协议逐项标注。
+
+[下载总表 CSV](results/results.csv) · [数据快照与来源哈希](results/snapshot.json) ·
+[离线绘图脚本](shared/build_results_report.py) · [图表检查](results/FIGURE_AUDIT.md)
+
+![四骨干 Test 指标对照](results/cross_backbone_overview/all_backbones_metrics.png)
+
 ## 从哪里开始
 
 - **实验交接与后续微调**：[HANDOFF.md](HANDOFF.md)
@@ -16,6 +28,7 @@ GMR-Adapter 空集拒绝能力的同时研究多片段定位。四个骨干使�
 .
 ├── README.md
 ├── HANDOFF.md
+├── results/              # 完整结果 README、24 行 CSV 和四骨干图表
 ├── backbones/
 │   ├── moment_detr/      # source/、训练/测试入口、experiment/ 完整六路线结果包
 │   ├── eatr/             # source/、run.py、smoke.sh、train.sh、test.sh
@@ -88,3 +101,13 @@ CUDA_VISIBLE_DEVICES=0 bash backbones/moment_detr/test.sh sepffn
 
 换机前按 [交接文档](HANDOFF.md) 配置数据、特征、上游依赖与权重。
 无需移动服务器现有文件，也无需重启当前训练队列。
+
+## 离线重绘结果
+
+```bash
+python -m pip install numpy matplotlib
+python shared/build_results_report.py --snapshot results/snapshot.json --output results
+```
+
+此命令使用发布的数据快照生成同一份 README、表格、综合图和各骨干图，不需要
+GPU、权重或数据集。服务器每次完成 Test 后刷新本地报告；GitHub 为提交时快照。
