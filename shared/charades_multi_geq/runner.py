@@ -180,6 +180,8 @@ def train(ad,model,optimizer,parent,outdir,args):
  schedule=ensure_schedule(outdir,bool(parent),epoch)
  if resumed is not None and 'validation_schedule' in resumed:assert resumed['validation_schedule']==schedule
  cfg=json.loads((outdir/'config.json').read_text());cfg['validation_schedule']=schedule;dump(outdir/'config.json',cfg)
+ if resumed is not None:
+  print('TRAIN_RESUME',json.dumps(dict(epoch=epoch,cursor=cursor,best_epoch=best_epoch,stale=stale,checkpoint_sha256=sha(outdir/'last.ckpt'),validation_interval_epochs=schedule['interval_epochs'],strict_model_optimizer_rng_sampler_restore=True)),flush=True)
  baseline=None;parent_values=None
  if parent:
   baseline=json.loads((OUT/'runs'/ad.name/'gmr/best_val_metrics.json').read_text())['selection_values']

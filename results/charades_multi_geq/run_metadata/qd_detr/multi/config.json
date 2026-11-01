@@ -202,5 +202,19 @@
   "geq_init_snapshot_sha256": null,
   "amp": false,
   "microbatch": 32,
-  "accumulation": 1
+  "accumulation": 1,
+  "validation_schedule": {
+    "version": 1,
+    "authorized_by": "user",
+    "instruction": "按照你分阶段考虑方案。",
+    "interval_epochs": 5,
+    "patience_epochs": 20,
+    "effective_from_epoch": 18,
+    "legacy_history_rows": 17,
+    "legacy_history_sha256": "f4f4ea445867d4dabeeba9855d6d4b6f4649bd15c5e9b8b35e29d8da3c83ea90",
+    "resumed_checkpoint_sha256": "f3a60311abcba3be795b0b13b9b5bac9fd3316b713dc127165e719200e8908ba",
+    "selection": "Val positive mAP",
+    "terminal_validation": true,
+    "existing_best_retained": true
+  }
 }

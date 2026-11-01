@@ -1,0 +1,26 @@
+{
+  "revision": "eatr_positive_aux_v1",
+  "authorized_by": "user",
+  "instruction": "我认为eatr的multi训崩掉了。请你调整并且重新拉起训练。",
+  "source_split_for_diagnosis": "train",
+  "scope": "EaTR Multi and its Full fine-tuning auxiliary localization use positive queries only; existence BCE retains all queries",
+  "old_run_archive": "/home/guoxiangyu/ImprovingGeneralizedMomentRetrieval/charades/multiroute_geq_seed2023_20261101/archives/eatr_multi_all_queries_20261101_155310",
+  "native_init_snapshot_sha256": "219ddef5ced7f53262f1705d7991d431b304acd0f71a16bc208de02834d57b2c",
+  "adapter_sha256": "499826604f834891351a854fa7355b7d35bb315acd849946960ebf2c5dd9656d",
+  "runner_sha256": "59de3a8a8e5658202410551bb7b175b703f124d0203a706d41d07318fce27786",
+  "unchanged": [
+    "seed2023 native initialization",
+    "LR 3e-5",
+    "batch32",
+    "K=2",
+    "24 auxiliary queries per route",
+    "two routes at 0.15 each",
+    "Stage A Val mAP selection",
+    "Stage B Val three-threshold mean selection"
+  ],
+  "test_used_for_adjustment": false,
+  "cpu_checks_passed": true,
+  "regression_tests_passed": 3,
+  "time": 1793519678.949182,
+  "frozen_logging_without_native_loss_checked": true
+}

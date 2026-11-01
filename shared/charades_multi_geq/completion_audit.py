@@ -45,16 +45,38 @@ def audit(checkpoints=False,recompute=False):
     assert sha(d/'best.ckpt')==mark['checkpoint_sha256']
     assert [r['epoch'] for r in history]==list(range(1,len(history)+1))
     stage_b='_geq_' in m;best=-math.inf;best_epoch=0;stale=0;best_above=False
+    schedule_path=d/'validation_schedule.json';schedule=None
+    if schedule_path.exists():
+     import hashlib
+     schedule=json.loads(schedule_path.read_text())
+     assert schedule['authorized_by']=='user' and schedule['instruction']=='按照你分阶段考虑方案。'
+     assert schedule['interval_epochs']==(1 if stage_b else 5) and schedule['patience_epochs']==(6 if stage_b else 20)
+     n=schedule['legacy_history_rows'];assert schedule['effective_from_epoch']==n+1
+     prefix=b''.join((d/'history.jsonl').read_bytes().splitlines(keepends=True)[:n])
+     assert (hashlib.sha256(prefix).hexdigest() if n else None)==schedule['legacy_history_sha256'],'Legacy validation history was modified'
+     assert cfg['validation_schedule']==schedule and mark['validation_schedule_sha256']==sha(schedule_path)
     baseline=json.loads((OUT/'runs'/b/'gmr/best_val_metrics.json').read_text())['selection_values'] if stage_b else None
     for h in history:
      assert stale<(6 if stage_b else 20),'Training continued after stopping rule'
-     if stage_b:near(h['selection'],float(np.mean(h['val_values'])))
-     else:near(h['selection'],h['mAP'])
-     above=bool(stage_b) and all(x>y for x,y in zip(h['val_values'],baseline))
-     improvement=h['selection']>best;tie=h['selection']==best and above and not best_above
-     stale=0 if improvement else stale+1
-     if improvement or tie:best=h['selection'];best_epoch=h['epoch'];best_above=above
-     assert h['best_epoch']==best_epoch and h['stale']==stale;near(h['best'],best)
+     validated=h.get('validated',True)
+     if schedule and h['epoch']>=schedule['effective_from_epoch']:
+      from validation_schedule import validation_due
+      assert h['validation_interval_epochs']==schedule['interval_epochs']
+      assert validated==validation_due(h['epoch'],best_epoch,20 if stage_b else 200,schedule),'Incorrect validation cadence'
+     else:assert validated,'Legacy epochs must retain their original validation results'
+     if validated:
+      if stage_b:near(h['selection'],float(np.mean(h['val_values'])))
+      else:near(h['selection'],h['mAP'])
+      above=bool(stage_b) and all(x>y for x,y in zip(h['val_values'],baseline))
+      improvement=h['selection']>best;tie=h['selection']==best and above and not best_above
+      if improvement or tie:best=h['selection'];best_epoch=h['epoch'];best_above=above
+     else:
+      assert not stage_b and all(h[k] is None for k in ('selection','mAP','val_values'))
+      improvement=False
+     stale=0 if improvement else stale+1 if math.isfinite(best) else 0
+     assert h['best_epoch']==best_epoch and h['stale']==stale
+     if math.isfinite(best):near(h['best'],best)
+     else:assert h['best'] is None
     assert len(history)<=(20 if stage_b else 200)
     if mark.get('stopped_by_user'):
      assert (b,m)==('moment_detr','multi'),'User stop authorization is scoped to Moment-DETR Multi'
@@ -66,6 +88,7 @@ def audit(checkpoints=False,recompute=False):
      assert mark['last_completed_epoch']==history[-1]['epoch'] and request['time']<=mark['stop_time']
     else:
      assert stale>=(6 if stage_b else 20) or len(history)==(20 if stage_b else 200)
+     assert history[-1].get('validated',True),'Final stopping decision requires validation'
     assert best_epoch==mark['best_epoch'];near(best,mark['score']);near(best,val['selection_mean'] if stage_b else val['mAP'])
     predictions=rows(d/'best_val_predictions.jsonl');gt=rows(OUT/'data/val.jsonl');assert [p['qid'] for p in predictions]==[g['evaluation_id'] for g in gt]
     if stage_b:
@@ -79,6 +102,7 @@ def audit(checkpoints=False,recompute=False):
      assert state['seed']==2023 and state['train_sha256']==train_sha and state['best_epoch']==best_epoch
      assert all(torch.isfinite(v).all() for v in state['model'].values() if v.is_floating_point())
      assert all(k in state for k in ('optimizer','rng','sampler_epoch_start'))
+     if 'validation_schedule' in state:assert state['validation_schedule']==schedule
      assert all(g['weight_decay']==1e-4 for g in state['optimizer']['param_groups'])
      lrs=[g['lr'] for g in state['optimizer']['param_groups']]
      assert lrs==([3e-5] if not stage_b or m.endswith('frozen') else [1e-5,3e-5]),lrs

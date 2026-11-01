@@ -1,0 +1,46 @@
+{
+  "passed": true,
+  "scope": "Native clip-grid rounding and explicit fixed Charades export policy; no change to any prediction or selected checkpoint",
+  "backbones": {
+    "moment_detr": {
+      "native_postprocessor": "vendor/backends/moment_detr/source/training/moment_detr_gmr/postprocessing.py",
+      "source_sha256": "9fbaec910916772f136b0dac6af71ee005e6f68040e99944c910b200740f2da4",
+      "native_grid_seconds": 2.0,
+      "native_rounding_bitwise_equal": true,
+      "time_conversion": "Normalized center/width multiplied by real sample duration",
+      "NMS": "No NMS"
+    },
+    "eatr": {
+      "native_postprocessor": "vendor/backends/eatr/source/models/postprocessing.py",
+      "source_sha256": "292f04a477a00b7c600e8493ef09555e0dd293ed0dbdd719eac15d1a69e1d94f",
+      "native_grid_seconds": 2.0,
+      "native_rounding_bitwise_equal": true,
+      "time_conversion": "Normalized center/width multiplied by real sample duration",
+      "NMS": "No NMS"
+    },
+    "qd_detr": {
+      "native_postprocessor": "vendor/backends/qd_detr/source/qd_detr/postprocessing_qd_detr.py",
+      "source_sha256": "6202a2da1f2628175d82bc6322f95f6d733135b44a3eea3eb89d1eac69dda3b5",
+      "native_grid_seconds": 2.0,
+      "native_rounding_bitwise_equal": true,
+      "time_conversion": "Normalized center/width multiplied by real sample duration",
+      "NMS": "No NMS"
+    },
+    "flashvtg": {
+      "native_postprocessor": "vendor/baseline_source/training/flash_vtg_gmr/postprocessing.py",
+      "source_sha256": "a23f1656ec47b7e83f6330f32a95ac8aec2dc9a5799d68d54ba2688c472b2998",
+      "native_grid_seconds": 2.0,
+      "native_rounding_bitwise_equal": true,
+      "time_conversion": "Native dense head already exports seconds (clip_length=2)",
+      "NMS": "Native normal temporal NMS, configured threshold0.7"
+    }
+  },
+  "charades_adaptations": {
+    "real_duration_clamp": "After rounding, clamp boundaries to [0, actual duration]; no fixed150s limit",
+    "degenerate_windows": "Existing Charades adapter repair: only nonpositive-width windows become min(2s,duration) windows inside the video",
+    "confidence_precision": "Keep native FP32 confidence and stable descending confidence order",
+    "frozen": "Copy parent fixed candidate export exactly; replace presence score only"
+  },
+  "extra_ranking_modules": false,
+  "selection_uses_ungated_localization": true
+}

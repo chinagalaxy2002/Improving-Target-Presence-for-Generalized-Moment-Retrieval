@@ -1,9 +1,10 @@
 """Independent bounded Git publishing retries; never blocks the CUDA dispatcher."""
-import argparse,fcntl,hashlib,io,json,os,re,signal,subprocess,tempfile,time,urllib.request
+import argparse,fcntl,hashlib,io,json,os,re,signal,subprocess,tempfile,time,urllib.request,importlib
 from PIL import Image
 from pathlib import Path
 from paths import *
-from prepare_release import prepare,WORKTREE
+import prepare_release
+from prepare_release import WORKTREE
 URL='https://github.com/chinagalaxy2002/Improving-Target-Presence-for-Generalized-Moment-Retrieval.git'
 BRANCH='gmr-mr-detr-multiroute-20261030'
 REPO_RAW='https://raw.githubusercontent.com/chinagalaxy2002/Improving-Target-Presence-for-Generalized-Moment-Retrieval/'
@@ -22,7 +23,7 @@ def command(args,env=None,check=True):
 def publish_once(push=True):
  subprocess.run([__import__('sys').executable,str(KIT/'plot_report.py')],check=True,timeout=180)
  subprocess.run([__import__('sys').executable,str(KIT/'completion_audit.py'),'--checkpoints','--recompute'],check=True,timeout=600,stdout=subprocess.DEVNULL)
- manifest=prepare(WORKTREE)
+ manifest=importlib.reload(prepare_release).prepare(WORKTREE)
  staged=command(['diff','--cached','--name-only']).stdout.splitlines()
  assert all(any(p==prefix or p.startswith(prefix+'/') for prefix in OWNED) for p in staged),'Unrelated staged files: refusing to commit'
  if not push:return dict(state='PREPARED_ONLY',files=len(manifest))

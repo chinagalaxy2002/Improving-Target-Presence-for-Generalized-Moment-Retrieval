@@ -1,6 +1,5 @@
 """Prospective, recorded validation cadence; patience counts training epochs."""
-import math
-from paths import OUT, dump, rows, sha
+from paths import dump, rows, sha
 
 
 def ensure_schedule(directory, stage_b, next_epoch):

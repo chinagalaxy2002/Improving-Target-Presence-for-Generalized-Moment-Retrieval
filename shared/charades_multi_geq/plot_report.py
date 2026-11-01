@@ -22,7 +22,8 @@ def write_csv(path,records):
  if not records:return
  path.parent.mkdir(parents=True,exist_ok=True)
  with path.open('w') as f:
-  w=csv.DictWriter(f,fieldnames=list(records[0]));w.writeheader();w.writerows(records)
+  fields=list(dict.fromkeys(k for r in records for k in r))
+  w=csv.DictWriter(f,fieldnames=fields);w.writeheader();w.writerows(records)
 
 def render(snapshot,dest):
  methods=snapshot['methods'];series=snapshot['series'];baseline=series['gmr']['grid'];fig,ax=plt.subplots(2,3,figsize=(15,8.5));g1,g3,delta,trade,f1,fixed=ax.flat
@@ -54,14 +55,16 @@ def render(snapshot,dest):
 def render_selection(snapshot,destination):
  fig,axes=plt.subplots(1,2,figsize=(13,4.5))
  for m,history in snapshot['history'].items():
+  history=[r for r in history if r.get('validated',True) and r.get('selection') is not None]
+  if not history:continue
   axis=axes[1 if '_geq_' in m else 0]
   label=LABELS[m].replace('Multi','Multi-TQAux') if snapshot['backbone']=='flashvtg' else LABELS[m]
-  axis.plot([r['epoch'] for r in history],[r['selection'] for r in history],label=label,color=STYLES[m])
+  axis.plot([r['epoch'] for r in history],[r['selection'] for r in history],'.-',label=label,color=STYLES[m])
  for axis,label in zip(axes,['Val positive-query mAP (%)','Val mean G-mIoU@1 at .4/.5/.6 (0–1)']):
   axis.set(xlabel='Epoch',ylabel=label);axis.grid(alpha=.2)
   if axis.lines:axis.legend(fontsize=8)
  axes[1].set_ylim(0,1)
- fig.suptitle(f"{NAMES[snapshot['backbone']]} | Val selection, seed 2023");fig.tight_layout();save(fig,destination)
+ fig.suptitle(f"{NAMES[snapshot['backbone']]} | Val selection, seed 2023 (dots = actual validations)");fig.tight_layout();save(fig,destination)
 
 def selection_plot(b):
  history={};sources={}

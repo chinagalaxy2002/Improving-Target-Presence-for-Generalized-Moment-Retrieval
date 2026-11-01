@@ -18,14 +18,27 @@
     "max_epochs": 200,
     "patience": 20,
     "lr": 3e-05,
-    "selection": "positive Val mAP"
+    "selection": "positive Val mAP",
+    "validation_interval_epochs": 5,
+    "patience_unit": "training_epochs",
+    "terminal_validation": true,
+    "validation_cadence_revision": {
+      "authorized_by": "user",
+      "instruction": "按照你分阶段考虑方案。",
+      "time": 1793521416.47884,
+      "scope": "Unfinished Stage A training, prospective only; existing every-epoch history and selected best retained",
+      "per_run_evidence": "runs/<backbone>/<method>/validation_schedule.json",
+      "legacy_interval_epochs": 1
+    }
   },
   "stage_b": {
     "max_epochs": 20,
     "patience": 6,
     "lr_base": 1e-05,
     "lr_geq": 3e-05,
-    "selection": "mean Val G-mIoU@1 0.4/0.5/0.6"
+    "selection": "mean Val G-mIoU@1 0.4/0.5/0.6",
+    "validation_interval_epochs": 1,
+    "patience_unit": "training_epochs"
   },
   "batch_sizes": {
     "moment_detr": 8,
