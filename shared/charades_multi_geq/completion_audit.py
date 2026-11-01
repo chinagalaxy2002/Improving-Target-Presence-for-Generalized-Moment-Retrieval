@@ -56,7 +56,16 @@ def audit(checkpoints=False,recompute=False):
      if improvement or tie:best=h['selection'];best_epoch=h['epoch'];best_above=above
      assert h['best_epoch']==best_epoch and h['stale']==stale;near(h['best'],best)
     assert len(history)<=(20 if stage_b else 200)
-    assert stale>=(6 if stage_b else 20) or len(history)==(20 if stage_b else 200)
+    if mark.get('stopped_by_user'):
+     assert (b,m)==('moment_detr','multi'),'User stop authorization is scoped to Moment-DETR Multi'
+     request=json.loads((d/'USER_STOP_REQUEST.json').read_text())
+     assert sha(d/'USER_STOP_REQUEST.json')==mark['stop_request_sha256']
+     assert request['authorized_by']=='user' and request['instruction'] and (request['backbone'],request['method'])==(b,m)
+     assert request['checkpoint_sha256']==mark['checkpoint_sha256'] and request['best_epoch']==best_epoch
+     near(request['score'],best);assert request['selection']==mark['selection']=='Val positive mAP'
+     assert mark['last_completed_epoch']==history[-1]['epoch'] and request['time']<=mark['stop_time']
+    else:
+     assert stale>=(6 if stage_b else 20) or len(history)==(20 if stage_b else 200)
     assert best_epoch==mark['best_epoch'];near(best,mark['score']);near(best,val['selection_mean'] if stage_b else val['mAP'])
     predictions=rows(d/'best_val_predictions.jsonl');gt=rows(OUT/'data/val.jsonl');assert [p['qid'] for p in predictions]==[g['evaluation_id'] for g in gt]
     if stage_b:

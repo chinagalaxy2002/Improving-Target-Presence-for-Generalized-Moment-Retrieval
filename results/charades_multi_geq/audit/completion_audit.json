@@ -1,7 +1,7 @@
 {
-  "time": 1793517464.3269858,
+  "time": 1793519394.1886456,
   "complete": false,
-  "training_verified": 10,
+  "training_verified": 12,
   "tests_verified": 12,
   "checks": {
     "data_views_and_original_integrity": {
@@ -54,6 +54,15 @@
         "best_checkpoint_sha256": "cce5525e5a3e3742cd8c780be8ec325d81066ac0e5e063078cc638446a21897d"
       }
     },
+    "moment_detr/multi/training_selection": {
+      "passed": true,
+      "evidence": {
+        "best_epoch": 92,
+        "last_epoch": 93,
+        "score": 32.63,
+        "best_checkpoint_sha256": "1ad0c74e359cfbc0e2166e506b54fbf7562be85cb90301bdaefabbe4edc235ec"
+      }
+    },
     "moment_detr/gmr_geq_frozen/training_selection": {
       "passed": true,
       "evidence": {
@@ -79,6 +88,15 @@
         "last_epoch": 86,
         "score": 35.78,
         "best_checkpoint_sha256": "fc5c0acdfd719280d804e96db9af8bf48f86e9e6dca285eb16eee9cc814a80f7"
+      }
+    },
+    "eatr/multi/training_selection": {
+      "passed": true,
+      "evidence": {
+        "best_epoch": 13,
+        "last_epoch": 33,
+        "score": 27.17,
+        "best_checkpoint_sha256": "2af2d61f94d9fafe50a8acd34fe2cdd465c0403c36e29070c1da5405b2fa120f"
       }
     },
     "eatr/gmr_geq_frozen/training_selection": {
@@ -276,10 +294,8 @@
   },
   "pending": [
     "canonical_GEQ_initialization_not_yet_created_for_all_backbones",
-    "moment_detr/multi/training",
     "moment_detr/multi_geq_frozen/training",
     "moment_detr/multi_geq_full/training",
-    "eatr/multi/training",
     "eatr/multi_geq_frozen/training",
     "eatr/multi_geq_full/training",
     "qd_detr/gmr/training",
