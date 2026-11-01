@@ -1,7 +1,7 @@
 {
-  "time": 1793527583.6501665,
+  "time": 1793529621.7113886,
   "complete": false,
-  "training_verified": 13,
+  "training_verified": 15,
   "additional_training_verified": {},
   "tests_verified": 24,
   "checks": {
@@ -42,8 +42,8 @@
       "evidence": {
         "seed": 2023,
         "all_native_inits_ready": true,
-        "all_four_geq_inits_ready": false,
-        "report_sha256": "f731835bbbef0213347229be4dbe953717d13bba21483f5f1d83d8a701c5abde"
+        "all_four_geq_inits_ready": true,
+        "report_sha256": "d8c66472d6e008740db6084d2cde6e487958277a279fc8e2054c7d108da58cc1"
       }
     },
     "moment_detr/gmr/training_selection": {
@@ -125,6 +125,24 @@
         "last_epoch": 9,
         "score": 0.6390220689309979,
         "best_checkpoint_sha256": "8380540cbe11d6d5a10667c3438232fc349a9709bc8ad04cbaaec28314b33a46"
+      }
+    },
+    "qd_detr/gmr/training_selection": {
+      "passed": true,
+      "evidence": {
+        "best_epoch": 85,
+        "last_epoch": 105,
+        "score": 35.72,
+        "best_checkpoint_sha256": "638f54dbae8a7aef7298a1d9f38932b7415da572d3a3d9871a9aee8bcd8d3246"
+      }
+    },
+    "qd_detr/gmr_geq_frozen/training_selection": {
+      "passed": true,
+      "evidence": {
+        "best_epoch": 1,
+        "last_epoch": 7,
+        "score": 0.6398926130772553,
+        "best_checkpoint_sha256": "8ade3aa9fd39c684d79985a419056886e5e07ea08ea32eb9add84058ef9faff2"
       }
     },
     "flashvtg/gmr/training_selection": {
@@ -477,13 +495,10 @@
     }
   },
   "pending": [
-    "canonical_GEQ_initialization_not_yet_created_for_all_backbones",
     "eatr/multi/training",
     "eatr/multi_geq_frozen/training",
     "eatr/multi_geq_full/training",
-    "qd_detr/gmr/training",
     "qd_detr/multi/training",
-    "qd_detr/gmr_geq_frozen/training",
     "qd_detr/gmr_geq_full/training",
     "qd_detr/multi_geq_frozen/training",
     "qd_detr/multi_geq_full/training",
