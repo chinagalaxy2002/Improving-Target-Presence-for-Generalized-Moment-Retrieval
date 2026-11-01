@@ -24,6 +24,16 @@ def audit(checkpoints=False,recompute=False):
    evidence[split]=dict(rows=n,positive=pos,sha256=sha(p))
   return evidence
  run('data_views_and_original_integrity',data_check)
+ def export_check():
+  from export_protocol_audit import audit as verify_export
+  report=verify_export();assert report['passed'] and not report['extra_ranking_modules'];return dict(report_sha256=sha(OUT/'reports/export_protocol_audit.json'),scope=report['scope'])
+ run('native_grid_and_fixed_temporal_export_policy',export_check)
+ def initialization_check():
+  from initialization_audit import audit as check_initialization
+  report=check_initialization();assert report['all_native_inits_ready']
+  if not report['all_four_geq_inits_ready']:pending.append('canonical_GEQ_initialization_not_yet_created_for_all_backbones')
+  return dict(seed=report['seed'],all_native_inits_ready=report['all_native_inits_ready'],all_four_geq_inits_ready=report['all_four_geq_inits_ready'],report_sha256=sha(OUT/'reports/initialization_audit.json'))
+ run('canonical_initialization_seed_and_tensor_digests',initialization_check)
  for b in BACKBONES:
   for m in METHODS:
    d=OUT/'runs'/b/m;key=f'{b}/{m}';marker=d/'TRAINED.json'

@@ -62,3 +62,5 @@ The audit does not equate file existence with completion. It checks selection hi
 The existing SoccerGMR results in the repository are separate experiments and are preserved. Use the root Charades result page for this experiment; do not mix the two datasets or training budgets.
 
 `PROFILE.json` records a Val-only CUDA forward benchmark (25 warmups,100 measured iterations). GEQ overhead compares against a separate native trunk with identical trained tensors and no GEQ feature hooks. The total Test inference metric additionally includes I/O/export. Timing does not select checkpoints or change hyperparameters.
+
+Temporal export is fixed before Test: DETR normalized center/width uses real duration, Flash uses its native dense seconds output; native2s grid rounding is retained. The existing Charades adapter clamps to real duration (no fixed150s truncation), repairs only nonpositive-width windows inside the video, retains FP32 confidence, and uses native confidence order plus Flash native NMS. `export_protocol_audit.py` records these adaptations explicitly and verifies the native rounding functions; it does not modify outputs or checkpoints.

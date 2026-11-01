@@ -1,7 +1,7 @@
 {
-  "time": 1793502196.1302497,
+  "time": 1793504020.213046,
   "complete": false,
-  "training_verified": 5,
+  "training_verified": 6,
   "tests_verified": 0,
   "checks": {
     "data_views_and_original_integrity": {
@@ -27,6 +27,22 @@
           "positive": 3720,
           "sha256": "300047d6cc1eda57f20dd31e69b6e7cc2d2f0f3050310cb34b17cd53036481dc"
         }
+      }
+    },
+    "native_grid_and_fixed_temporal_export_policy": {
+      "passed": true,
+      "evidence": {
+        "report_sha256": "055f7ccc36c9b153911987b35e01603ee11b42f6bbd7e8755d8e2424dd846039",
+        "scope": "Native clip-grid rounding and explicit fixed Charades export policy; no change to any prediction or selected checkpoint"
+      }
+    },
+    "canonical_initialization_seed_and_tensor_digests": {
+      "passed": true,
+      "evidence": {
+        "seed": 2023,
+        "all_native_inits_ready": true,
+        "all_four_geq_inits_ready": false,
+        "report_sha256": "219fb304ead11a8ff89648d3bf5452d3f65b587cbbc21d77aac30e15000a5981"
       }
     },
     "moment_detr/gmr/training_selection": {
@@ -73,9 +89,54 @@
         "score": 0.657672073367617,
         "best_checkpoint_sha256": "0063953e56c67fc868ccef32700babc7fcbddaa9c444d831dc4e21fb8cdb0f40"
       }
+    },
+    "flashvtg/gmr_geq_full/training_selection": {
+      "passed": true,
+      "evidence": {
+        "best_epoch": 1,
+        "last_epoch": 7,
+        "score": 0.659846811898325,
+        "best_checkpoint_sha256": "84f33ede79481f8d27e58bd5991129775d10838601210f353c390b612dbaba36"
+      }
+    },
+    "moment_detr/gmr/inference_profile": {
+      "passed": true,
+      "evidence": {
+        "sha256": "e840dcbf055a1fb70bd939ecc0cf72811ca3f930b00a4c4b06660b20dc49d95f",
+        "batch_size": 8
+      }
+    },
+    "moment_detr/gmr_geq_frozen/inference_profile": {
+      "passed": true,
+      "evidence": {
+        "sha256": "0bfcd0cef307dc8930158fa94f85352aafb1df3a577d8756e36c1ec35d8a361a",
+        "batch_size": 8
+      }
+    },
+    "moment_detr/gmr_geq_full/inference_profile": {
+      "passed": true,
+      "evidence": {
+        "sha256": "2a213fed45800bcc714512d3a93f7f6e19a7bbd9f8bf72c7849a8f56e984d05e",
+        "batch_size": 8
+      }
+    },
+    "flashvtg/gmr/inference_profile": {
+      "passed": true,
+      "evidence": {
+        "sha256": "cf6b63797763e15bb2902b1571f97fd5b8e41c4d85ea0e48abf5a6bcf3345e4a",
+        "batch_size": 1
+      }
+    },
+    "flashvtg/gmr_geq_frozen/inference_profile": {
+      "passed": true,
+      "evidence": {
+        "sha256": "c43daada6ac9ed77cf68217767ffaeaa6bf8dee12a249a11f9023c21a5d7439a",
+        "batch_size": 1
+      }
     }
   },
   "pending": [
+    "canonical_GEQ_initialization_not_yet_created_for_all_backbones",
     "moment_detr/multi/training",
     "moment_detr/multi_geq_frozen/training",
     "moment_detr/multi_geq_full/training",
@@ -92,7 +153,6 @@
     "qd_detr/multi_geq_frozen/training",
     "qd_detr/multi_geq_full/training",
     "flashvtg/multi/training",
-    "flashvtg/gmr_geq_full/training",
     "flashvtg/multi_geq_frozen/training",
     "flashvtg/multi_geq_full/training",
     "moment_detr/gmr/test_id/evaluation",
@@ -143,10 +203,7 @@
     "flashvtg/multi_geq_frozen/test_ood/evaluation",
     "flashvtg/multi_geq_full/test_id/evaluation",
     "flashvtg/multi_geq_full/test_ood/evaluation",
-    "moment_detr/gmr/inference_profile",
     "moment_detr/multi/inference_profile",
-    "moment_detr/gmr_geq_frozen/inference_profile",
-    "moment_detr/gmr_geq_full/inference_profile",
     "moment_detr/multi_geq_frozen/inference_profile",
     "moment_detr/multi_geq_full/inference_profile",
     "eatr/gmr/inference_profile",
@@ -161,9 +218,7 @@
     "qd_detr/gmr_geq_full/inference_profile",
     "qd_detr/multi_geq_frozen/inference_profile",
     "qd_detr/multi_geq_full/inference_profile",
-    "flashvtg/gmr/inference_profile",
     "flashvtg/multi/inference_profile",
-    "flashvtg/gmr_geq_frozen/inference_profile",
     "flashvtg/gmr_geq_full/inference_profile",
     "flashvtg/multi_geq_frozen/inference_profile",
     "flashvtg/multi_geq_full/inference_profile",

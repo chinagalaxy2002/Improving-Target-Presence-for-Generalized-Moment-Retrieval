@@ -28,7 +28,7 @@ def prepare(worktree=WORKTREE):
  for name in ('protocol.json','source_manifest.json'):copy_file(OUT/name,result/name)
  for p in (OUT/'figures').rglob('*'):
   if p.is_file() and p.suffix in ('.png','.pdf','.svg','.json','.csv','.md'):copy_file(p,result/p.relative_to(OUT/'figures'))
- audit_names=('DEBUG24_READY.json','independent_data_audit.json','independent_metric_contract.json','completion_audit.json','flash_zero_reg_fix_20261101.json','moment_frozen_parent_integrity_20261101.json','moment_frozen_cache_fix_20261101.json','FIGURE_REVIEW.json')
+ audit_names=('DEBUG24_READY.json','export_protocol_audit.json','initialization_audit.json','flash_zero_point_guard.json','independent_data_audit.json','independent_metric_contract.json','completion_audit.json','flash_zero_reg_fix_20261101.json','moment_frozen_parent_integrity_20261101.json','moment_frozen_cache_fix_20261101.json','FIGURE_REVIEW.json')
  for name in audit_names:
   p=OUT/'reports'/name
   if p.exists():copy_file(p,result/'audit'/name)

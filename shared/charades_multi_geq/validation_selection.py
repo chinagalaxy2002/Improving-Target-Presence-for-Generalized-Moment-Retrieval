@@ -28,8 +28,8 @@ class ValidationSelector:
         current = values(reports, self.metric)
         score = math.fsum(current) / 3
         all_above = all(a > b for a, b in zip(current, self.baseline_values))
-        improved = self.best_mean is None or score > self.best_mean + 1e-12
-        tie_better = (self.best_mean is not None and abs(score - self.best_mean) <= 1e-12
+        improved = self.best_mean is None or score > self.best_mean
+        tie_better = (self.best_mean is not None and score == self.best_mean
                       and all_above and not self.best_all_above)
         if improved:
             self.stale_epochs = 0

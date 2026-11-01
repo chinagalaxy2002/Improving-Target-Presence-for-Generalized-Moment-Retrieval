@@ -1,0 +1,32 @@
+{
+  "concurrent_cuda_processes": [
+    "GPU-85e2ee01-eb00-3292-bf43-0082d4151f94, 2207192",
+    "GPU-85e2ee01-eb00-3292-bf43-0082d4151f94, 2217190",
+    "GPU-80929bc2-0dbf-5ef4-7c7c-f33a8b43add0, 2120028",
+    "GPU-80929bc2-0dbf-5ef4-7c7c-f33a8b43add0, 2140463"
+  ],
+  "cuda_visible_devices": "0",
+  "checkpoint_sha256": "5a48a3ae57dcf746e77c974c910aa15e7adc1db5a9a6bea09d4b421a8976036e",
+  "source_split": "val",
+  "batch_size": 8,
+  "warmup_iterations": 25,
+  "measured_iterations": 100,
+  "total": {
+    "mean_ms_per_batch": 14.038384294509887,
+    "median_ms_per_batch": 13.975039958953857,
+    "p95_ms_per_batch": 14.407401609420777,
+    "mean_ms_per_query": 1.754798036813736
+  },
+  "matched_native_trunk": {
+    "mean_ms_per_batch": 9.760277767181396,
+    "median_ms_per_batch": 9.745408058166504,
+    "p95_ms_per_batch": 9.894870519638062,
+    "mean_ms_per_query": 1.2200347208976745
+  },
+  "incremental_geq_ms_per_query": 0.5347633159160614,
+  "parameters": 6471179,
+  "geq_parameters": 1581825,
+  "gpu": "NVIDIA GeForce RTX 3090",
+  "scope": "CUDA forward compute only; excludes feature I/O, proposal export and metrics. Native comparator has matching trained trunk tensors and no GEQ hooks. Measurements occur under the recorded queue GPU load; timing noise can make a difference negative.",
+  "time": 1793503985.764825
+}

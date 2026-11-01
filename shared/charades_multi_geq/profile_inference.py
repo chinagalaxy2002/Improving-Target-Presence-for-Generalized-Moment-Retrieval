@@ -1,5 +1,5 @@
 """Val-only CUDA latency measurement; never selects or updates a checkpoint."""
-import copy,time
+import copy,time,subprocess,os
 import numpy as np
 import torch
 from paths import *
@@ -25,5 +25,6 @@ def profile(ad,model,directory):
     start.record();module(**inputs);end.record();end.synchronize();durations.append(start.elapsed_time(end))
   return dict(mean_ms_per_batch=float(np.mean(durations)),median_ms_per_batch=float(np.median(durations)),p95_ms_per_batch=float(np.percentile(durations,95)),mean_ms_per_query=float(np.mean(durations))/batch)
  total=time_forward(model);baseline=time_forward(native) if native is not None else total
- result=dict(checkpoint_sha256=marker['checkpoint_sha256'],source_split='val',batch_size=batch,warmup_iterations=25,measured_iterations=100,total=total,matched_native_trunk=baseline,incremental_geq_ms_per_query=total['mean_ms_per_query']-baseline['mean_ms_per_query'] if native is not None else None,parameters=sum(p.numel() for p in model.parameters()),geq_parameters=sum(p.numel() for p in model.geq.parameters()) if isinstance(model,RouteGEQ) else 0,gpu=torch.cuda.get_device_name(),scope='CUDA forward compute only; excludes feature I/O, proposal export and metrics. Native comparator has matching trained trunk tensors and no GEQ hooks. Timing noise can make a difference negative.',time=time.time())
+ gpu_jobs=subprocess.run(['nvidia-smi','--query-compute-apps=gpu_uuid,pid','--format=csv,noheader'],capture_output=True,text=True,timeout=15,check=True).stdout.splitlines()
+ result=dict(concurrent_cuda_processes=gpu_jobs,cuda_visible_devices=os.environ.get('CUDA_VISIBLE_DEVICES'),checkpoint_sha256=marker['checkpoint_sha256'],source_split='val',batch_size=batch,warmup_iterations=25,measured_iterations=100,total=total,matched_native_trunk=baseline,incremental_geq_ms_per_query=total['mean_ms_per_query']-baseline['mean_ms_per_query'] if native is not None else None,parameters=sum(p.numel() for p in model.parameters()),geq_parameters=sum(p.numel() for p in model.geq.parameters()) if isinstance(model,RouteGEQ) else 0,gpu=torch.cuda.get_device_name(),scope='CUDA forward compute only; excludes feature I/O, proposal export and metrics. Native comparator has matching trained trunk tensors and no GEQ hooks. Measurements occur under the recorded queue GPU load; timing noise can make a difference negative.',time=time.time())
  dump(directory/'PROFILE.json',result);return result
