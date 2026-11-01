@@ -1,11 +1,11 @@
 {
-  "time": 1793563485.9396687,
+  "time": 1793565751.0972617,
   "complete": false,
-  "training_verified": 23,
+  "training_verified": 24,
   "additional_training_verified": {
     "eatr/multi_positive_only": true
   },
-  "tests_verified": 46,
+  "tests_verified": 48,
   "checks": {
     "data_views_and_original_integrity": {
       "passed": true,
@@ -145,6 +145,15 @@
         "last_epoch": 7,
         "score": 0.6308892506078867,
         "best_checkpoint_sha256": "bceaa7054cac78edcf8a2c2e5a0a9c0a2267076d894dc551bd2a5b8465695181"
+      }
+    },
+    "eatr/multi_geq_full/training_selection": {
+      "passed": true,
+      "evidence": {
+        "best_epoch": 1,
+        "last_epoch": 7,
+        "score": 0.6315681648910124,
+        "best_checkpoint_sha256": "d932c010769b8b8143ad672a79ecb28eccf22ad5f0067e43a6121a59c32f841b"
       }
     },
     "qd_detr/gmr/training_selection": {
@@ -440,6 +449,22 @@
         "metrics_sha256": "6b8a33af25d72a581bda1ba039bca72c740b0e8293378b9b96389ec41c1f7cda"
       }
     },
+    "eatr/multi_geq_full/test_id/identity_metrics_and_frozen_invariance": {
+      "passed": true,
+      "evidence": {
+        "rows": 7440,
+        "checkpoint_sha256": "d932c010769b8b8143ad672a79ecb28eccf22ad5f0067e43a6121a59c32f841b",
+        "metrics_sha256": "bcf79b7703c08c6a781240e48dc8cd02c894e3b0960a9533584089696bcaf50a"
+      }
+    },
+    "eatr/multi_geq_full/test_ood/identity_metrics_and_frozen_invariance": {
+      "passed": true,
+      "evidence": {
+        "rows": 7440,
+        "checkpoint_sha256": "d932c010769b8b8143ad672a79ecb28eccf22ad5f0067e43a6121a59c32f841b",
+        "metrics_sha256": "36a830055dbea14e3b6726887b4de897002411b3e03c7e94fdc8386d078d2a27"
+      }
+    },
     "qd_detr/gmr/test_id/identity_metrics_and_frozen_invariance": {
       "passed": true,
       "evidence": {
@@ -709,6 +734,13 @@
         "batch_size": 32
       }
     },
+    "eatr/multi_geq_full/inference_profile": {
+      "passed": true,
+      "evidence": {
+        "sha256": "28c1a52b89e2a23acf0c05fda52f92e96b8472fb6d2ed8fa953501df52904f8b",
+        "batch_size": 32
+      }
+    },
     "qd_detr/gmr/inference_profile": {
       "passed": true,
       "evidence": {
@@ -832,13 +864,37 @@
     "figures/eatr/test_id/frozen": {
       "passed": true,
       "evidence": {
-        "snapshot_sha256": "3236af7fa9d026060b02cbf13cd8e893025655b10d2f779359e6a8b472ed0ba6"
+        "snapshot_sha256": "35314fc308e63b3bec5b4343184b6e30029c6b7970e33bdcc483fbf7107e2d96"
+      }
+    },
+    "figures/eatr/test_id/full": {
+      "passed": true,
+      "evidence": {
+        "snapshot_sha256": "26ee70fe2056d60ee74a4b6c95bc53346df3891755d48e2580f4372607bf9349"
+      }
+    },
+    "figures/eatr/test_id/multi_comparison": {
+      "passed": true,
+      "evidence": {
+        "snapshot_sha256": "2e5e74226b5ba89c2b52bcd5b08caf713b5bd49002ac8fd77dc39d6aa24c2f19"
       }
     },
     "figures/eatr/test_ood/frozen": {
       "passed": true,
       "evidence": {
-        "snapshot_sha256": "4541a62cd3d727cf69fab51ba88be402d37abf40219dadf4cbeee15ac17664c1"
+        "snapshot_sha256": "cda62d01108a7cfe57f527cf5aad7a804d878f7cab47998dfdede7f95f8d53b5"
+      }
+    },
+    "figures/eatr/test_ood/full": {
+      "passed": true,
+      "evidence": {
+        "snapshot_sha256": "f4d94cb7a70e831ccaa0656f97d4800d0819a27c26d604a480f17d936b2c1c9b"
+      }
+    },
+    "figures/eatr/test_ood/multi_comparison": {
+      "passed": true,
+      "evidence": {
+        "snapshot_sha256": "b1eb940aa6b3da488ddc1e3dae46da3467f9ca044dbf75375ebbbb4819a5b9a6"
       }
     },
     "figures/qd_detr/test_id/frozen": {
@@ -915,20 +971,6 @@
     }
   },
   "pending": [
-    "eatr/multi_geq_full/training",
-    "eatr/multi_geq_full/test_id/evaluation",
-    "eatr/multi_geq_full/test_ood/evaluation",
-    "eatr/multi_geq_full/inference_profile",
-    "figures/eatr/test_id/full",
-    "figures/eatr/test_id/multi_comparison",
-    "figures/eatr/test_id/heatmap.png",
-    "figures/eatr/test_id/heatmap.pdf",
-    "figures/eatr/test_id/heatmap.svg",
-    "figures/eatr/test_ood/full",
-    "figures/eatr/test_ood/multi_comparison",
-    "figures/eatr/test_ood/heatmap.png",
-    "figures/eatr/test_ood/heatmap.pdf",
-    "figures/eatr/test_ood/heatmap.svg",
     "manual_visual_figure_review_against_current_image_hashes",
     "verified_final_GitHub_publication"
   ],
