@@ -1,6 +1,6 @@
 # Charades GMR + Multi + GEQ (seed 2023)
 
-**Actual completion: 9/24 training tasks; 12/48 formal test evaluations.** This release remains incomplete until the full audit and remote verification pass.
+**Actual completion: 10/24 training tasks; 12/48 formal test evaluations.** This release remains incomplete until the full audit and remote verification pass.
 
 Test-ID is the primary result. Test-OOD is supplementary and keeps all 7,440 rows, including 2,170 duplicate extra records. Tests never select checkpoints or thresholds. All local positive examples have one GT: mR+ and multi-GT coverage are N/A. Flash Multi uses the **Multi-TQAux structural adaptation**, not the same native query decoder as the other backbones.
 
@@ -13,7 +13,7 @@ G-mIoU@1 is the mean at presence thresholds 0.4/0.5/0.6, on a 0–1 scale. mAP i
 | Backbone | Method | Status | Val mAP % | Val G-mIoU@1 mean |
 |---|---|---|---:|---:|
 | moment_detr | GMR | Val selection finished | 30.96 | 0.6042 |
-| moment_detr | GMR + Multi | In progress | 32.37 | 0.6184 |
+| moment_detr | GMR + Multi | In progress | 32.57 | 0.6176 |
 | moment_detr | GMR + GEQ Frozen | Val selection finished | 30.96 | 0.6206 |
 | moment_detr | GMR + GEQ Full | Val selection finished | 30.42 | 0.6268 |
 | moment_detr | GMR + Multi + GEQ Frozen | Pending | — | — |
@@ -21,7 +21,7 @@ G-mIoU@1 is the mean at presence thresholds 0.4/0.5/0.6, on a 0–1 scale. mAP i
 | eatr | GMR | Val selection finished | 35.78 | 0.6364 |
 | eatr | GMR + Multi | In progress | 27.17 | 0.5024 |
 | eatr | GMR + GEQ Frozen | Val selection finished | 35.78 | 0.6364 |
-| eatr | GMR + GEQ Full | In progress | 35.59 | 0.6390 |
+| eatr | GMR + GEQ Full | Val selection finished | 35.59 | 0.6390 |
 | eatr | GMR + Multi + GEQ Frozen | Pending | — | — |
 | eatr | GMR + Multi + GEQ Full | Pending | — | — |
 | qd_detr | GMR | Pending | — | — |
@@ -34,8 +34,8 @@ G-mIoU@1 is the mean at presence thresholds 0.4/0.5/0.6, on a 0–1 scale. mAP i
 | flashvtg | GMR + Multi-TQAux | Val selection finished | 41.85 | 0.6515 |
 | flashvtg | GMR + GEQ Frozen | Val selection finished | 42.73 | 0.6577 |
 | flashvtg | GMR + GEQ Full | Val selection finished | 42.31 | 0.6598 |
-| flashvtg | GMR + Multi-TQAux + GEQ Frozen | Pending | — | — |
-| flashvtg | GMR + Multi-TQAux + GEQ Full | Pending | — | — |
+| flashvtg | GMR + Multi-TQAux + GEQ Frozen | In progress | 41.85 | 0.6533 |
+| flashvtg | GMR + Multi-TQAux + GEQ Full | In progress | 41.89 | 0.6602 |
 
 ## moment_detr
 
