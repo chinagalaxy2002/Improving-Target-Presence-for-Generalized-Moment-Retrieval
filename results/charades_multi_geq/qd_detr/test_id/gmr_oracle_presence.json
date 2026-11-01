@@ -1,0 +1,21 @@
+{
+  "definition": "Perfect binary presence decisions; retain every positive query and reject every negative query; localization candidates and ranking stay fixed.",
+  "units": "0–1",
+  "rows": 7440,
+  "positive": 3720,
+  "negative": 3720,
+  "all_reject_gmiou": 0.5,
+  "formula": "(N_negative + sum_positive fixed-candidate set-IoU@k) / N_total",
+  "threshold_interpretation": "Horizontal analytical ceiling; not a thresholded 0/1 score curve. At threshold=1 a bounded scored classifier still rejects all queries.",
+  "test_used_for_selection": false,
+  "gmiou_1": 0.7353307490886836,
+  "positive_localization_mean_1": 0.47066149817736724,
+  "gmiou_3": 0.5784435830295612,
+  "positive_localization_mean_3": 0.1568871660591223,
+  "source": {
+    "version": 1,
+    "prediction_sha256": "7b0b0ddca8b92d9cd61559de0f9e008cf905e8eb27cc273100da6328a917bbf5",
+    "ground_truth_sha256": "ae283dd205ce4fd1dcc0dedfb2287e9a0aeff56c2c7f5654b12e4a4551a0e9da",
+    "evaluator_sha256": "7f49929789725baca0bfeaaa73517a6baedf608c3b2ff341881a7dee3aefa656"
+  }
+}

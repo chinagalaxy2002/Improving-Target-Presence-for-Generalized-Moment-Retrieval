@@ -1061,7 +1061,28 @@
       "all_reject_gmiou": 0.5,
       "inference_seconds": 18.90067434310913,
       "inference_ms_per_row": 2.5404132181598293,
-      "checkpoint_selection_split": "val"
+      "checkpoint_selection_split": "val",
+      "oracle_presence": {
+        "definition": "Perfect binary presence decisions; retain every positive query and reject every negative query; localization candidates and ranking stay fixed.",
+        "units": "0–1",
+        "rows": 7440,
+        "positive": 3720,
+        "negative": 3720,
+        "all_reject_gmiou": 0.5,
+        "formula": "(N_negative + sum_positive fixed-candidate set-IoU@k) / N_total",
+        "threshold_interpretation": "Horizontal analytical ceiling; not a thresholded 0/1 score curve. At threshold=1 a bounded scored classifier still rejects all queries.",
+        "test_used_for_selection": false,
+        "gmiou_1": 0.7353307490886836,
+        "positive_localization_mean_1": 0.47066149817736724,
+        "gmiou_3": 0.5784435830295612,
+        "positive_localization_mean_3": 0.1568871660591223,
+        "source": {
+          "version": 1,
+          "prediction_sha256": "7b0b0ddca8b92d9cd61559de0f9e008cf905e8eb27cc273100da6328a917bbf5",
+          "ground_truth_sha256": "ae283dd205ce4fd1dcc0dedfb2287e9a0aeff56c2c7f5654b12e4a4551a0e9da",
+          "evaluator_sha256": "7f49929789725baca0bfeaaa73517a6baedf608c3b2ff341881a7dee3aefa656"
+        }
+      }
     },
     "multi": {
       "official": {
@@ -2116,7 +2137,28 @@
       "all_reject_gmiou": 0.5,
       "inference_seconds": 19.429163932800293,
       "inference_ms_per_row": 2.61144676516133,
-      "checkpoint_selection_split": "val"
+      "checkpoint_selection_split": "val",
+      "oracle_presence": {
+        "definition": "Perfect binary presence decisions; retain every positive query and reject every negative query; localization candidates and ranking stay fixed.",
+        "units": "0–1",
+        "rows": 7440,
+        "positive": 3720,
+        "negative": 3720,
+        "all_reject_gmiou": 0.5,
+        "formula": "(N_negative + sum_positive fixed-candidate set-IoU@k) / N_total",
+        "threshold_interpretation": "Horizontal analytical ceiling; not a thresholded 0/1 score curve. At threshold=1 a bounded scored classifier still rejects all queries.",
+        "test_used_for_selection": false,
+        "gmiou_1": 0.7394608223834237,
+        "positive_localization_mean_1": 0.4789216447668474,
+        "gmiou_3": 0.5798202741278078,
+        "positive_localization_mean_3": 0.15964054825561566,
+        "source": {
+          "version": 1,
+          "prediction_sha256": "e7861eb7d3740ba3865ac185b930bcb30afa31b20df3f89e06db0fb9eabdb53c",
+          "ground_truth_sha256": "ae283dd205ce4fd1dcc0dedfb2287e9a0aeff56c2c7f5654b12e4a4551a0e9da",
+          "evaluator_sha256": "7f49929789725baca0bfeaaa73517a6baedf608c3b2ff341881a7dee3aefa656"
+        }
+      }
     },
     "gmr_geq_frozen": {
       "official": {
@@ -3175,7 +3217,28 @@
       "frozen_candidates_identical": true,
       "parent_prediction_sha256": "7b0b0ddca8b92d9cd61559de0f9e008cf905e8eb27cc273100da6328a917bbf5",
       "parent_checkpoint_sha256": "638f54dbae8a7aef7298a1d9f38932b7415da572d3a3d9871a9aee8bcd8d3246",
-      "frozen_parent_tensors_bitwise_equal": true
+      "frozen_parent_tensors_bitwise_equal": true,
+      "oracle_presence": {
+        "definition": "Perfect binary presence decisions; retain every positive query and reject every negative query; localization candidates and ranking stay fixed.",
+        "units": "0–1",
+        "rows": 7440,
+        "positive": 3720,
+        "negative": 3720,
+        "all_reject_gmiou": 0.5,
+        "formula": "(N_negative + sum_positive fixed-candidate set-IoU@k) / N_total",
+        "threshold_interpretation": "Horizontal analytical ceiling; not a thresholded 0/1 score curve. At threshold=1 a bounded scored classifier still rejects all queries.",
+        "test_used_for_selection": false,
+        "gmiou_1": 0.7353307490886836,
+        "positive_localization_mean_1": 0.47066149817736724,
+        "gmiou_3": 0.5784435830295612,
+        "positive_localization_mean_3": 0.1568871660591223,
+        "source": {
+          "version": 1,
+          "prediction_sha256": "095d368cb6f079ea30941bbcea8ce9769249e9652e98a175d0208ce47a5d9e21",
+          "ground_truth_sha256": "ae283dd205ce4fd1dcc0dedfb2287e9a0aeff56c2c7f5654b12e4a4551a0e9da",
+          "evaluator_sha256": "7f49929789725baca0bfeaaa73517a6baedf608c3b2ff341881a7dee3aefa656"
+        }
+      }
     },
     "gmr_geq_full": {
       "official": {
@@ -4230,7 +4293,28 @@
       "all_reject_gmiou": 0.5,
       "inference_seconds": 20.55785083770752,
       "inference_ms_per_row": 2.763151994315527,
-      "checkpoint_selection_split": "val"
+      "checkpoint_selection_split": "val",
+      "oracle_presence": {
+        "definition": "Perfect binary presence decisions; retain every positive query and reject every negative query; localization candidates and ranking stay fixed.",
+        "units": "0–1",
+        "rows": 7440,
+        "positive": 3720,
+        "negative": 3720,
+        "all_reject_gmiou": 0.5,
+        "formula": "(N_negative + sum_positive fixed-candidate set-IoU@k) / N_total",
+        "threshold_interpretation": "Horizontal analytical ceiling; not a thresholded 0/1 score curve. At threshold=1 a bounded scored classifier still rejects all queries.",
+        "test_used_for_selection": false,
+        "gmiou_1": 0.7371716481583707,
+        "positive_localization_mean_1": 0.4743432963167413,
+        "gmiou_3": 0.57905721605279,
+        "positive_localization_mean_3": 0.1581144321055801,
+        "source": {
+          "version": 1,
+          "prediction_sha256": "3a2c4f464b92fab66ec3dc90b55016ed7b96e77181384cca19ef53446e06a634",
+          "ground_truth_sha256": "ae283dd205ce4fd1dcc0dedfb2287e9a0aeff56c2c7f5654b12e4a4551a0e9da",
+          "evaluator_sha256": "7f49929789725baca0bfeaaa73517a6baedf608c3b2ff341881a7dee3aefa656"
+        }
+      }
     },
     "multi_geq_frozen": {
       "official": {
@@ -5289,7 +5373,28 @@
       "frozen_candidates_identical": true,
       "parent_prediction_sha256": "e7861eb7d3740ba3865ac185b930bcb30afa31b20df3f89e06db0fb9eabdb53c",
       "parent_checkpoint_sha256": "cfd06a581b6113810b8588815312968929697a6766095786492e3b6802541447",
-      "frozen_parent_tensors_bitwise_equal": true
+      "frozen_parent_tensors_bitwise_equal": true,
+      "oracle_presence": {
+        "definition": "Perfect binary presence decisions; retain every positive query and reject every negative query; localization candidates and ranking stay fixed.",
+        "units": "0–1",
+        "rows": 7440,
+        "positive": 3720,
+        "negative": 3720,
+        "all_reject_gmiou": 0.5,
+        "formula": "(N_negative + sum_positive fixed-candidate set-IoU@k) / N_total",
+        "threshold_interpretation": "Horizontal analytical ceiling; not a thresholded 0/1 score curve. At threshold=1 a bounded scored classifier still rejects all queries.",
+        "test_used_for_selection": false,
+        "gmiou_1": 0.7394608223834237,
+        "positive_localization_mean_1": 0.4789216447668474,
+        "gmiou_3": 0.5798202741278078,
+        "positive_localization_mean_3": 0.15964054825561566,
+        "source": {
+          "version": 1,
+          "prediction_sha256": "790d49f01efcf0cf49af16043ac4da0b22b375bf595647b5718858a4561eb70b",
+          "ground_truth_sha256": "ae283dd205ce4fd1dcc0dedfb2287e9a0aeff56c2c7f5654b12e4a4551a0e9da",
+          "evaluator_sha256": "7f49929789725baca0bfeaaa73517a6baedf608c3b2ff341881a7dee3aefa656"
+        }
+      }
     },
     "multi_geq_full": {
       "official": {
@@ -6344,7 +6449,28 @@
       "all_reject_gmiou": 0.5,
       "inference_seconds": 20.381556510925293,
       "inference_ms_per_row": 2.739456520285658,
-      "checkpoint_selection_split": "val"
+      "checkpoint_selection_split": "val",
+      "oracle_presence": {
+        "definition": "Perfect binary presence decisions; retain every positive query and reject every negative query; localization candidates and ranking stay fixed.",
+        "units": "0–1",
+        "rows": 7440,
+        "positive": 3720,
+        "negative": 3720,
+        "all_reject_gmiou": 0.5,
+        "formula": "(N_negative + sum_positive fixed-candidate set-IoU@k) / N_total",
+        "threshold_interpretation": "Horizontal analytical ceiling; not a thresholded 0/1 score curve. At threshold=1 a bounded scored classifier still rejects all queries.",
+        "test_used_for_selection": false,
+        "gmiou_1": 0.737320939040544,
+        "positive_localization_mean_1": 0.4746418780810877,
+        "gmiou_3": 0.5791069796801812,
+        "positive_localization_mean_3": 0.15821395936036245,
+        "source": {
+          "version": 1,
+          "prediction_sha256": "fa1ff01918c85e18c61cbbdc137bc6bceba9dc3b3785810f9362457eded6b39c",
+          "ground_truth_sha256": "ae283dd205ce4fd1dcc0dedfb2287e9a0aeff56c2c7f5654b12e4a4551a0e9da",
+          "evaluator_sha256": "7f49929789725baca0bfeaaa73517a6baedf608c3b2ff341881a7dee3aefa656"
+        }
+      }
     }
   },
   "provenance": {
