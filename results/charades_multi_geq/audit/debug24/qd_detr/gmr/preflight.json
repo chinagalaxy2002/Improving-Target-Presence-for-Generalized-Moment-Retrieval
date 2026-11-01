@@ -1,0 +1,44 @@
+{
+  "passed": true,
+  "checks": {
+    "mixed": {
+      "loss": 9.580376625061035,
+      "finite": true
+    },
+    "all_null": {
+      "loss": 0.6696184873580933,
+      "finite": true
+    },
+    "longest_tail": {
+      "loss": 6.722609519958496,
+      "finite": true
+    },
+    "physical_batch": {
+      "loss": 8.219016075134277,
+      "finite": true
+    },
+    "ood_negative": 0.7390732765197754,
+    "eval_auxiliary_forward_calls": 0,
+    "eval_has_no_auxiliary_outputs": true,
+    "native_export_and_metrics": {
+      "rows": 2,
+      "mAP": 5.0,
+      "finite": true
+    },
+    "geq_parameters_changed": false,
+    "strict_reload": true,
+    "initial_state_restored": true
+  },
+  "backbone": "qd_detr",
+  "method": "gmr",
+  "physical_batch": 32,
+  "amp": false,
+  "peak_memory_bytes": 309057536,
+  "initial_state_sha256": "316bbad54f0a975401596396c9adc38f7bf355be6f26e025986d40e5183a9eda",
+  "parent": "Diagnostic scratch parent; formal tasks repeat against actual Val-best",
+  "formal_weights_modified": false,
+  "real_process_exit_and_restart": true,
+  "optimizer_reloaded_and_stepped": true,
+  "post_resume_loss": 7.570011138916016,
+  "diagnostic_updates_restored": true
+}

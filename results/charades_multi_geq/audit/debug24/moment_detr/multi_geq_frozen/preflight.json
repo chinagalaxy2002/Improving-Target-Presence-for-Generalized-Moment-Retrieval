@@ -1,0 +1,45 @@
+{
+  "passed": true,
+  "checks": {
+    "mixed": {
+      "loss": 0.7942464351654053,
+      "finite": true
+    },
+    "all_null": {
+      "loss": 0.6003564596176147,
+      "finite": true
+    },
+    "longest_tail": {
+      "loss": 0.7317270040512085,
+      "finite": true
+    },
+    "physical_batch": {
+      "loss": 0.6446770429611206,
+      "finite": true
+    },
+    "ood_negative": 0.8861142992973328,
+    "frozen_parameters_buffers_unchanged": true,
+    "eval_auxiliary_forward_calls": 0,
+    "eval_has_no_auxiliary_outputs": true,
+    "native_export_and_metrics": {
+      "rows": 2,
+      "mAP": 0.0,
+      "finite": true
+    },
+    "geq_parameters_changed": true,
+    "strict_reload": true,
+    "initial_state_restored": true
+  },
+  "backbone": "moment_detr",
+  "method": "multi_geq_frozen",
+  "physical_batch": 8,
+  "amp": false,
+  "peak_memory_bytes": 154822656,
+  "initial_state_sha256": "a37f22912e558676223e042bb27bf8c1eba0b481e1c10de8193cd363f4c2e6ca",
+  "parent": "Diagnostic scratch parent; formal tasks repeat against actual Val-best",
+  "formal_weights_modified": false,
+  "real_process_exit_and_restart": true,
+  "optimizer_reloaded_and_stepped": true,
+  "post_resume_loss": 0.6534780859947205,
+  "diagnostic_updates_restored": true
+}

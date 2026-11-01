@@ -1,0 +1,52 @@
+{
+  "seed": 2023,
+  "backbones": [
+    "moment_detr",
+    "eatr",
+    "qd_detr",
+    "flashvtg"
+  ],
+  "methods": [
+    "gmr",
+    "multi",
+    "gmr_geq_frozen",
+    "gmr_geq_full",
+    "multi_geq_frozen",
+    "multi_geq_full"
+  ],
+  "stage_a": {
+    "max_epochs": 200,
+    "patience": 20,
+    "lr": 3e-05,
+    "selection": "positive Val mAP"
+  },
+  "stage_b": {
+    "max_epochs": 20,
+    "patience": 6,
+    "lr_base": 1e-05,
+    "lr_geq": 3e-05,
+    "selection": "mean Val G-mIoU@1 0.4/0.5/0.6"
+  },
+  "batch_sizes": {
+    "moment_detr": 8,
+    "eatr": 32,
+    "qd_detr": 32,
+    "flashvtg": 8
+  },
+  "amp": false,
+  "num_workers": 2,
+  "weight_decay": 0.0001,
+  "gradient_clip": 0.1,
+  "train_sha256": "2cc68a571f6d818cd50a630b0c023457d8cc57bde3a498af35a4788c93e1413a",
+  "test_used_for_selection": false,
+  "threshold_operator": ">",
+  "flash_multi": "Multi-TQAux structural adaptation",
+  "o2m_k": 2,
+  "aux_queries": 24,
+  "instruction_tokens": 4,
+  "route_weights": [
+    0.15,
+    0.15
+  ],
+  "max_v_l": 128
+}
