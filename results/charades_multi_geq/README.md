@@ -1,6 +1,6 @@
 # Charades GMR + Multi + GEQ (seed 2023)
 
-**Actual completion: 16/24 training tasks; 30/48 formal test evaluations.** This release remains incomplete until the full audit and remote verification pass.
+**Actual completion: 17/24 training tasks; 30/48 formal test evaluations.** This release remains incomplete until the full audit and remote verification pass.
 
 Test-ID is the primary result. Test-OOD is supplementary and keeps all 7,440 rows, including 2,170 duplicate extra records. Tests never select checkpoints or thresholds. All local positive examples have one GT: mR+ and multi-GT coverage are N/A. Flash Multi uses the **Multi-TQAux structural adaptation**, not the same native query decoder as the other backbones.
 
@@ -19,17 +19,17 @@ G-mIoU@1 is the mean at presence thresholds 0.4/0.5/0.6, on a 0–1 scale. mAP i
 | moment_detr | GMR + Multi + GEQ Frozen | Val selection finished | 32.63 | 0.6233 |
 | moment_detr | GMR + Multi + GEQ Full | Val selection finished | 33.48 | 0.6340 |
 | eatr | GMR | Val selection finished | 35.78 | 0.6364 |
-| eatr | GMR + Multi | In progress | 28.64 | 0.5961 |
+| eatr | GMR + Multi | In progress | 29.48 | 0.5995 |
 | eatr | GMR + GEQ Frozen | Val selection finished | 35.78 | 0.6364 |
 | eatr | GMR + GEQ Full | Val selection finished | 35.59 | 0.6390 |
 | eatr | GMR + Multi + GEQ Frozen | Pending | — | — |
 | eatr | GMR + Multi + GEQ Full | Pending | — | — |
 | qd_detr | GMR | Val selection finished | 35.72 | 0.6465 |
-| qd_detr | GMR + Multi | In progress | 36.78 | 0.6429 |
+| qd_detr | GMR + Multi | Val selection finished | 36.78 | 0.6429 |
 | qd_detr | GMR + GEQ Frozen | Val selection finished | 35.72 | 0.6399 |
 | qd_detr | GMR + GEQ Full | Val selection finished | 35.49 | 0.6563 |
-| qd_detr | GMR + Multi + GEQ Frozen | Pending | — | — |
-| qd_detr | GMR + Multi + GEQ Full | Pending | — | — |
+| qd_detr | GMR + Multi + GEQ Frozen | In progress | 36.78 | 0.6405 |
+| qd_detr | GMR + Multi + GEQ Full | In progress | 35.56 | 0.6385 |
 | flashvtg | GMR | Val selection finished | 42.73 | 0.6471 |
 | flashvtg | GMR + Multi-TQAux | Val selection finished | 41.85 | 0.6515 |
 | flashvtg | GMR + GEQ Frozen | Val selection finished | 42.73 | 0.6577 |
@@ -41,7 +41,7 @@ G-mIoU@1 is the mean at presence thresholds 0.4/0.5/0.6, on a 0–1 scale. mAP i
 
 This independently resumed Stage A run is additional to the main24 training tasks and48 formal Test evaluations. It has separate checkpoints and Val history. Its training must finish before final acceptance.
 
-Val-selected mAP: 27.20%; training in progress.
+Val-selected mAP: 28.37%; training in progress.
 
 
 ## moment_detr
