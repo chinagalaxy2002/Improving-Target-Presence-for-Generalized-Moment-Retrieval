@@ -16,7 +16,8 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 from matplotlib.lines import Line2D
 
-from paths import BACKBONES, METHODS, OUT
+from paths import BACKBONES, METHODS, OUT,dump,sha
+from oracle_presence import selected_val_reference
 
 
 BACKBONE_NAMES = {
@@ -186,23 +187,26 @@ def load_method(backbone, method, active):
         "selected_epoch": selected_epoch,
         "selected_map": selected_map,
         "latest_map": latest_map,
+        "selected_oracle": selected_val_reference(run_dir, OUT / "figures" / backbone / "val" / f"{method}_oracle_presence.json", history),
     }
 
 
 def render(output):
     active = load_queue_active()
     has_positive_only = (OUT / "runs/eatr/multi_positive_only").is_dir()
-    fig = plt.figure(figsize=(16, 9), dpi=160)
+    oracle_records={}
+    fig = plt.figure(figsize=(20, 10), dpi=160)
     outer = fig.add_gridspec(2, 2, left=0.045, right=0.98, top=0.80, bottom=0.105,
                              hspace=0.34, wspace=0.17)
 
     for panel_index, backbone in enumerate(BACKBONES):
         row, column = divmod(panel_index, 2)
-        panel = outer[row, column].subgridspec(1, 2, width_ratios=[1.5, 1.3], wspace=0.06)
+        panel = outer[row, column].subgridspec(1, 2, width_ratios=[1.4, 1.8], wspace=0.06)
         axis = fig.add_subplot(panel[0, 0])
         table = fig.add_subplot(panel[0, 1])
         methods = (*METHODS, "multi_positive_only") if backbone == "eatr" and has_positive_only else METHODS
         records = {method: load_method(backbone, method, active) for method in methods}
+        oracle_records[backbone]={m:r['selected_oracle'] for m,r in records.items() if r['selected_oracle']}
         completed = sum(records[method]["state"] == "complete" for method in METHODS)
         running = sum(records[method]["state"] == "running" for method in methods)
 
@@ -244,13 +248,16 @@ def render(output):
         axis.grid(axis="both", alpha=0.24, linewidth=0.8)
         axis.tick_params(labelsize=10)
         axis.margins(x=0.04, y=0.16)
+        axis.text(.02,.02,"Presence oracle: ungated mAP unchanged", transform=axis.transAxes,
+                  fontsize=7.5,bbox=dict(facecolor="white",alpha=.9,edgecolor="none"))
 
         table.set_xlim(0, 1)
         table.set_ylim(0, 1)
         table.axis("off")
         table.text(0.01, 0.93, "Method", ha="left", va="center", fontweight="bold", fontsize=9)
-        table.text(0.52, 0.93, "State", ha="left", va="center", fontweight="bold", fontsize=8.5)
-        table.text(0.70, 0.93, "Last / picked", ha="left", va="center", fontweight="bold", fontsize=8.5)
+        table.text(0.42, 0.93, "State", ha="left", va="center", fontweight="bold", fontsize=8.5)
+        table.text(0.55, 0.93, "Last / picked", ha="left", va="center", fontweight="bold", fontsize=8.5)
+        table.text(0.81, 0.93, "Oracle G1/G3", ha="left", va="center", fontweight="bold", fontsize=8)
         for index, method in enumerate(methods):
             record = records[method]
             latest = "—" if record["latest_map"] is None else f'{record["latest_map"]:.2f}'
@@ -264,10 +271,14 @@ def render(output):
             y = 0.80 - index * 0.125
             table.text(0.01, y, short_method_name(backbone, method), ha="left", va="center",
                        fontsize=8.5, color=METHOD_COLORS[method], fontweight="bold")
-            table.text(0.52, y, state_name, ha="left", va="center", fontsize=8,
+            table.text(0.42, y, state_name, ha="left", va="center", fontsize=8,
                        color="#334155")
-            table.text(0.70, y, f"{latest} / {selected}", ha="left", va="center",
+            table.text(0.55, y, f"{latest} / {selected}", ha="left", va="center",
                        fontsize=7.8, color="#172033", family="monospace")
+            reference=record['selected_oracle']
+            oracle=reference['oracle_presence'] if reference else None
+            text=f"{oracle['gmiou_1']:.3f}/{oracle['gmiou_3']:.3f}" if oracle else "—"
+            table.text(0.81,y,text,ha="left",va="center",fontsize=7.8,color="#172033",family="monospace")
 
     legend = [
         Line2D(
@@ -281,13 +292,14 @@ def render(output):
                bbox_to_anchor=(0.5, 0.91), fontsize=10, columnspacing=2.2,
                handlelength=3, labelspacing=1.0)
     fig.suptitle(
-        "Charades Multi + GEQ | Val positive-query mAP by method | seed 2023",
+        "Charades Multi + GEQ | Val mAP and picked-checkpoint Oracle | seed 2023",
         y=0.965, fontsize=17, fontweight="bold",
     )
     fig.text(
         0.5, 0.025,
         "Lines: actual Val epochs, mAP (%)  |  ★: selected epoch (GEQ: maximum Val mean G-mIoU@1 over 0.4/0.5/0.6)  "
         "|  Test excluded  |  FlashVTG Multi = Multi-TQAux\n"
+        "Oracle G1/G3: perfect presence with current Val-best candidates fixed (0–1); ungated mAP is unchanged.  "
         + ("EaTR positive-only: additional ablation  |  " if has_positive_only else "")
         +
         f"Updated {datetime.now().astimezone().strftime('%Y-%m-%d %H:%M:%S %Z')}",
@@ -295,12 +307,14 @@ def render(output):
     )
 
     output.parent.mkdir(parents=True, exist_ok=True)
-    temporary = output.with_name(output.stem + ".tmp" + output.suffix)
+    temporary = output.with_name(output.stem + f".{os.getpid()}.tmp" + output.suffix)
     try:
         fig.savefig(temporary, dpi=160, format="png")
     finally:
         plt.close(fig)
     os.replace(temporary, output)
+    dump(output.with_suffix('.oracle.json'),dict(type='mAP_dashboard_with_selected_val_oracles',png_sha256=sha(output),
+         oracle_scope='Current Val-best only, fixed localization; ungated mAP unchanged.',references=oracle_records))
 
 
 def main():

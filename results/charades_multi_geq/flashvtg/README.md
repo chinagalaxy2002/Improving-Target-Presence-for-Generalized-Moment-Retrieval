@@ -2,6 +2,8 @@
 
 Status reflects files actually completed.
 
+Dashed colored lines show each model's perfect-presence ceiling with its own localization candidates held fixed. Oracle G-mIoU@k = (negative rows + sum of positive-query set-IoU@k) / all rows. Here each Test split is balanced, so this equals 0.5 + 0.5 times positive-query mean set-IoU@k. It is generally below 1.0; G-mIoU@1 and @3 have separate ceilings under the evaluator's set-IoU definition. These are post-hoc label-based references, not scored threshold curves or model-selection criteria.
+
 ![Val selection](val/selection.png)
 
 ## test_id

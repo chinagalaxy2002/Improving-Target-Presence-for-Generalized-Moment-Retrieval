@@ -6,7 +6,7 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from matplotlib.lines import Line2D
 from paths import *
-from oracle_presence import cached_oracle_presence
+from oracle_presence import cached_oracle_presence,selected_val_reference
 NAMES={'moment_detr':'Moment-DETR-GMR','eatr':'EaTR-GMR','qd_detr':'QD-DETR-GMR','flashvtg':'FlashVTG-GMR (Multi-TQAux adaptation)'}
 LABELS=dict(zip(METHODS,['GMR','GMR + Multi','GMR + GEQ Frozen','GMR + GEQ Full','GMR + Multi + GEQ Frozen','GMR + Multi + GEQ Full']))
 COLORS=['#64748b','#e69f00','#009e73','#56b4e9','#0072b2','#cc79a7']
@@ -40,7 +40,7 @@ def render(snapshot,dest):
   label=f"{LABELS[m].replace('Multi','Multi-TQAux') if snapshot['backbone']=='flashvtg' else LABELS[m]} (mAP {metrics['mAP']:.2f}%)"
   handle,=g1.plot(x,[r['gmiou_1'] for r in grid],color=c,label=label);method_handles.append(handle)
   g3.plot(x,[r['gmiou_3'] for r in grid],color=c)
-  delta.plot(x,[r['gmiou_1']-b['gmiou_1'] for r,b in zip(grid,baseline)],color=c)
+  delta.plot(x,[r['gmiou_1']-b['gmiou_1'] for r,b in zip(grid,baseline)],color=c,lw=2)
   trade.plot([r['positive_retention'] for r in grid],[r['negative_rejection'] for r in grid],color=c)
   f1.plot(x,[r['rejection_f1'] for r in grid],color=c)
   fixed.plot([.4,.5,.6],[grid[i]['gmiou_1'] for i in (40,50,60)],'o-',color=c)
@@ -57,11 +57,19 @@ def render(snapshot,dest):
    handles=[]
    for ceiling,members in groups.items():
     label=' / '.join(short[m] for m in members)+f': {ceiling:.4f}'
-    line=axis.axhline(ceiling,color=STYLES[members[0]],ls='--',lw=1.1,alpha=.85,label=label);handles.append(line)
-   if axis is not fixed:axis.legend(handles=handles,title='Perfect-presence ceilings',loc='lower left',fontsize=8,title_fontsize=8,framealpha=.95)
+    line=axis.axhline(ceiling,color=STYLES[members[0]],ls=(0,(7,3)),lw=1.8,alpha=1.,zorder=5,label=label);handles.append(line)
+   low=min(groups);high=max(groups);bounds=f'{low:.4f}' if low==high else f'{low:.4f}–{high:.4f}'
+   axis.text(.98,min(.9,high+.055),f'Oracle upper bound @{k}\n{bounds}',transform=axis.get_yaxis_transform(),ha='right',va='bottom',fontsize=9,fontweight='bold',bbox=dict(facecolor='white',edgecolor='#9ca3af',alpha=.95,boxstyle='round,pad=.3'))
+   if axis is not fixed:axis.legend(handles=handles,title='Oracle upper bounds: perfect presence',loc='lower left',fontsize=8,title_fontsize=8,framealpha=.95)
   trade.scatter([1],[1],marker='*',s=90,color='#111827',clip_on=False,zorder=8)
-  trade.annotate('Perfect presence',(1,1),xytext=(.46,.91),arrowprops=dict(arrowstyle='->',color='#4b5563'),fontsize=8)
-  f1.axhline(1,color='#111827',ls='--',lw=1.1)
+  trade.annotate('Oracle: perfect presence',(1,1),xytext=(.40,.91),arrowprops=dict(arrowstyle='->',color='#4b5563'),fontsize=8)
+  f1.axhline(1,color='#111827',ls='--',lw=1.8)
+  f1.text(.98,.96,'Oracle = 1',ha='right',va='top',transform=f1.transAxes,fontsize=8)
+  for m in methods:
+   delta.plot([r['threshold'] for r in baseline],[series[m]['oracle_presence']['gmiou_1']-r['gmiou_1'] for r in baseline],color=STYLES[m],ls='--',lw=1.6,alpha=.9)
+  delta.text(.98,.97,'Dashed: Oracle − observed GMR',transform=delta.transAxes,ha='right',va='top',fontsize=8,bbox=dict(facecolor='white',alpha=.9,edgecolor='none'))
+  detail=delta.inset_axes([.12,.42,.65,.36]);draw_relative(detail,snapshot,zoom=True)
+  detail.set_title('Fixed-point detail (0.35–0.65)',fontsize=7);detail.set_xlabel('');detail.set_ylabel('');detail.tick_params(labelsize=6)
  for a,title,xlabel,ylabel in [(g1,'(a) G-mIoU@1','Presence threshold','G-mIoU@1 (0–1)'),(g3,'(b) G-mIoU@3','Presence threshold','G-mIoU@3 (0–1)'),(delta,'(c) Relative to GMR','Presence threshold','Δ G-mIoU@1'),(trade,'(d) Rejection / retention','Positive query retention','Negative query rejection'),(f1,'(e) Rejection F1','Presence threshold','Rej-F1 (0–1)'),(fixed,'(f) Fixed operating points','Presence threshold','G-mIoU@1 (0–1)')]:
   a.set(title=title,xlabel=xlabel,ylabel=ylabel,xlim=(0,1));a.grid(alpha=.2)
   if a is not delta:a.set_ylim(0,1)
@@ -70,33 +78,108 @@ def render(snapshot,dest):
  fixed.set_xticks([.4,.5,.6]);fixed.set_xlim(.35,.65)
  fig.suptitle(f"{NAMES[snapshot['backbone']]} | Charades {snapshot['split']} | {snapshot['comparison']}",y=1.04)
  handles=method_handles+[Line2D([],[],color='#9ca3af',ls=':',label=f"All reject = {series['gmr']['all_reject_gmiou']:.2f}")]
- if has_oracle:handles.append(Line2D([],[],color='#111827',ls='--',label='Dashed: perfect presence, fixed localization'))
+ if has_oracle:handles.append(Line2D([],[],color='#111827',ls='--',lw=1.8,label='Oracle upper bounds: dashed, fixed localization'))
  fig.legend(handles=handles,loc='upper center',bbox_to_anchor=(.5,1.005),ncol=2,frameon=False)
  caption='seed 2023 | Val-selected checkpoints | 101 thresholds | presence score > threshold'
- if has_oracle:caption+='\nOracle = (negative rows + positive set-IoU sum) / all rows; diagnostic only, not a tuned threshold or perfect localization.'
+ if has_oracle:caption+='\nOracle fixes localization; in (c), Oracle(method) minus observed GMR. Diagnostic only; no threshold or checkpoint selection.'
  fig.text(.5,-.045,caption,ha='center',fontsize=9)
  fig.tight_layout(rect=(0,0,1,.94));save(fig,dest)
  records=[]
  for m in methods:
-  for r in series[m]['grid']:
-   record=dict(method=m,**r)
-   if 'oracle_presence' in series[m]:record.update(oracle_gmiou_1=series[m]['oracle_presence']['gmiou_1'],oracle_gmiou_3=series[m]['oracle_presence']['gmiou_3'])
+  for i,r in enumerate(series[m]['grid']):
+   record=dict(method=m,**r,relative_to_gmr=r['gmiou_1']-baseline[i]['gmiou_1'])
+   if 'oracle_presence' in series[m]:record.update(oracle_gmiou_1=series[m]['oracle_presence']['gmiou_1'],oracle_gmiou_3=series[m]['oracle_presence']['gmiou_3'],oracle_relative_to_gmr=series[m]['oracle_presence']['gmiou_1']-baseline[i]['gmiou_1'])
    records.append(record)
  write_csv(dest.with_suffix('.csv'),records)
 
+def relative_records(snapshot):
+ baseline=snapshot['series']['gmr']['grid'];records=[]
+ for m in snapshot['methods']:
+  values=snapshot['series'][m];ceiling=values['oracle_presence']['gmiou_1']
+  for r,b in zip(values['grid'],baseline):
+   actual=r['gmiou_1']-b['gmiou_1'];oracle=ceiling-b['gmiou_1'];assert actual<=oracle+1e-12
+   records.append(dict(method=m,threshold=r['threshold'],actual_relative_to_gmr=actual,oracle_relative_to_gmr=oracle))
+ return records
+
+def draw_relative(axis,snapshot,zoom=False):
+ records=relative_records(snapshot);visible=[]
+ for m in snapshot['methods']:
+  values=[r for r in records if r['method']==m];x=[r['threshold'] for r in values];actual=[r['actual_relative_to_gmr'] for r in values];oracle=[r['oracle_relative_to_gmr'] for r in values]
+  axis.plot(x,actual,color=STYLES[m],lw=2);axis.plot(x,oracle,color=STYLES[m],ls='--',lw=1.6)
+  if zoom:
+   for r in values:
+    if .35<=r['threshold']<=.65:visible.extend([r['actual_relative_to_gmr'],r['oracle_relative_to_gmr']])
+   for index in [40,50,60]:
+    axis.scatter([values[index]['threshold']],[values[index]['actual_relative_to_gmr']],s=14,color=STYLES[m])
+    axis.scatter([values[index]['threshold']],[values[index]['oracle_relative_to_gmr']],s=21,marker='^',facecolors='none',edgecolors=STYLES[m])
+ axis.axhline(0,color='#374151',lw=.8);axis.grid(alpha=.2);axis.set(xlabel='Presence threshold',ylabel='Δ G-mIoU@1 relative to observed GMR',xlim=(.35,.65) if zoom else (0,1))
+ if zoom:
+  low=min([0]+visible);high=max([0]+visible);pad=max(.003,.12*(high-low));axis.set_ylim(low-pad,high+pad);axis.set_xticks([.4,.5,.6])
+
+def render_relative(snapshot,destination):
+ fig,axes=plt.subplots(1,2,figsize=(13,5.5));draw_relative(axes[0],snapshot);draw_relative(axes[1],snapshot,zoom=True)
+ axes[0].set_title('Relative to GMR: full threshold range');axes[0].axvspan(.35,.65,color='#9ca3af',alpha=.1)
+ axes[1].set_title('Detail at fixed operating points (0.35–0.65)')
+ handles=[Line2D([],[],color=STYLES[m],label=f"{LABELS[m]} (mAP {snapshot['series'][m]['mAP']:.2f}%)") for m in snapshot['methods']]
+ handles.extend([Line2D([],[],color='#111827',lw=2,label='Solid: actual increment'),Line2D([],[],color='#111827',ls='--',lw=1.6,label='Dashed: Oracle increment upper bound')])
+ fig.legend(handles=handles,loc='upper center',bbox_to_anchor=(.5,.93),ncol=2,frameon=False,fontsize=9)
+ fig.suptitle(f"{NAMES[snapshot['backbone']]} | Charades {snapshot['split']} | Relative to GMR",fontsize=13)
+ fig.text(.5,.015,'Oracle increment = fixed-candidate Oracle(method) − observed GMR at the same threshold. Negative actual increments are retained.',ha='center',fontsize=9)
+ fig.tight_layout(rect=(0,.06,1,.76));save(fig,destination);write_csv(destination.with_suffix('.csv'),relative_records(snapshot))
+
 def render_selection(snapshot,destination):
- fig,axes=plt.subplots(1,2,figsize=(13,4.5))
+ fig,axes=plt.subplots(1,3,figsize=(20,5.5));references=snapshot.get('selected_oracles',{})
  for m,history in snapshot['history'].items():
   history=[r for r in history if r.get('validated',True) and r.get('selection') is not None]
   if not history:continue
   axis=axes[1 if '_geq_' in m else 0]
   label=LABELS[m].replace('Multi','Multi-TQAux') if snapshot['backbone']=='flashvtg' else LABELS[m]
   axis.plot([r['epoch'] for r in history],[r['selection'] for r in history],'.-',label=label,color=STYLES[m])
- for axis,label in zip(axes,['Val positive-query mAP (%)','Val mean G-mIoU@1 at .4/.5/.6 (0–1)']):
+  reference=references.get(m)
+  if reference:
+   if '_geq_' in m:
+    axis.vlines(reference['epoch'],reference['gmiou_1_mean'],reference['oracle_presence']['gmiou_1'],color=STYLES[m],ls=':',lw=1)
+    axis.scatter([reference['epoch']],[reference['oracle_presence']['gmiou_1']],marker='^',s=48,facecolors='none',edgecolors=STYLES[m],zorder=6)
+   else:axis.scatter([reference['epoch']],[reference['mAP_percent']],marker='D',s=50,facecolors='none',edgecolors=STYLES[m],zorder=6)
+ for axis,label in zip(axes[:2],['Val positive-query mAP (%)','Val mean G-mIoU@1 at .4/.5/.6 (0–1)']):
   axis.set(xlabel='Epoch',ylabel=label);axis.grid(alpha=.2)
   if axis.lines:axis.legend(fontsize=8)
  axes[1].set_ylim(0,1)
- fig.suptitle(f"{NAMES[snapshot['backbone']]} | Val selection, seed 2023 (dots = actual validations)");fig.tight_layout();save(fig,destination)
+ axes[0].text(.02,.02,'Presence oracle leaves ungated mAP unchanged',transform=axes[0].transAxes,fontsize=8,bbox=dict(facecolor='white',alpha=.85,edgecolor='none'))
+ axes[0].set_title('Stage A: mAP (oracle unchanged)',fontsize=10)
+ axes[1].set_title('Stage B: triangle = oracle at picked epoch',fontsize=10)
+ names=[]
+ for index,(m,r) in enumerate(references.items()):
+  names.append(LABELS[m].replace('Multi','Multi-TQAux') if snapshot['backbone']=='flashvtg' else LABELS[m])
+  for k,offset,observed_marker,oracle_marker in [(1,-.15,'o','^'),(3,.15,'s','D')]:
+   observed=r[f'gmiou_{k}_mean'];oracle=r['oracle_presence'][f'gmiou_{k}'];y=index+offset
+   axes[2].plot([observed,oracle],[y,y],color=STYLES[m],lw=1)
+   axes[2].scatter([observed],[y],color=STYLES[m],marker=observed_marker,s=23)
+   axes[2].scatter([oracle],[y],edgecolors=STYLES[m],facecolors='none',marker=oracle_marker,s=37)
+ axes[2].set(xlim=(0,1),xlabel='G-mIoU (0–1)',title='Current Val-best: actual and presence oracle')
+ axes[2].set_yticks(range(len(names)),names,fontsize=8);axes[2].invert_yaxis();axes[2].grid(alpha=.2,axis='x')
+ legend=[Line2D([],[],color='#374151',marker=marker,ls='none',markerfacecolor='none' if oracle else '#374151',label=label) for marker,oracle,label in [('o',False,'Actual G1 mean'),('^',True,'Oracle G1'),('s',False,'Actual G3 mean'),('D',True,'Oracle G3')]]
+ axes[2].legend(handles=legend,fontsize=7.5,ncol=2,loc='upper center',bbox_to_anchor=(.5,-.15))
+ if not names:axes[2].text(.5,.5,'Oracle not retained in this historical snapshot',ha='center',transform=axes[2].transAxes,fontsize=9)
+ fig.suptitle(f"{NAMES[snapshot['backbone']]} | Val selection, seed 2023 (dots = actual validations)")
+ fig.text(.5,.01,'Oracle references apply only to current exported Val-best candidates; no per-epoch Oracle is invented for historical predictions.',ha='center',fontsize=9)
+ fig.tight_layout(rect=(0,.13,1,.95));save(fig,destination)
+
+def render_oracle_detail(snapshot,destination):
+ methods=snapshot['methods'];fig,axes=plt.subplots(len(methods),2,figsize=(12,3.1*len(methods)),squeeze=False)
+ records=[]
+ for row,m in enumerate(methods):
+  series=snapshot['series'][m];oracle=series['oracle_presence'];grid=series['grid']
+  for col,k in enumerate((1,3)):
+   axis=axes[row,col];bound=oracle[f'gmiou_{k}'];x=[r['threshold'] for r in grid];y=[r[f'gmiou_{k}'] for r in grid]
+   axis.plot(x,y,color=STYLES[m],lw=2,label='Actual G-mIoU')
+   axis.axhline(bound,color='black',ls=(0,(7,3)),lw=2.6,zorder=6,label=f'Oracle upper bound = {bound:.4f}')
+   axis.text(.97,min(.92,bound+.065),f'ORACLE = {bound:.4f}',ha='right',va='bottom',transform=axis.get_yaxis_transform(),fontweight='bold',fontsize=11,bbox=dict(facecolor='white',edgecolor='black',boxstyle='round,pad=.3'))
+   axis.set(xlim=(0,1),ylim=(0,1),xlabel='Presence threshold',ylabel=f'G-mIoU@{k} (0–1)',title=f'{LABELS[m]} | G-mIoU@{k}');axis.grid(alpha=.2);axis.legend(loc='lower left',fontsize=9)
+   records.append(dict(method=m,k=k,oracle=bound,prediction_sha256=oracle['source']['prediction_sha256']))
+ fig.suptitle(f"{NAMES[snapshot['backbone']]} | Charades {snapshot['split']} | Oracle upper bounds",fontsize=14)
+ fig.text(.5,.005,'Black dashed line: perfect presence, with each model\'s localization candidates fixed. Colored curve: original scored predictions.',ha='center',fontsize=10)
+ fig.tight_layout(rect=(0,.025,1,.97));save(fig,destination);write_csv(destination.with_suffix('.csv'),records)
 
 def selection_plot(b):
  history={};sources={}
@@ -106,11 +189,17 @@ def selection_plot(b):
   payload=p.read_bytes();history[m]=[json.loads(l) for l in payload.decode().splitlines() if l.strip()];sources[m]=hashlib.sha256(payload).hexdigest()
   write_csv(OUT/'figures'/b/'val'/f'{m}_history.csv',[{k:v for k,v in row.items() if not isinstance(v,(dict,list))} for row in history[m]])
  if not history:return False
- snapshot=dict(type='val_selection',backbone=b,history=history,source_hashes=sources)
+ references={}
+ for m,h in history.items():
+  reference=selected_val_reference(OUT/'runs'/b/m,OUT/'figures'/b/'val'/f'{m}_oracle_presence.json',h)
+  if reference:references[m]=reference
+ write_csv(OUT/'figures'/b/'val/oracle_selected.csv',[dict(method=m,epoch=r['epoch'],actual_gmiou_1=r['gmiou_1_mean'],actual_gmiou_3=r['gmiou_3_mean'],oracle_gmiou_1=r['oracle_presence']['gmiou_1'],oracle_gmiou_3=r['oracle_presence']['gmiou_3'],reference='current Val-best only',**r['source']) for m,r in references.items()])
+ snapshot=dict(type='val_selection',backbone=b,history=history,source_hashes=sources,selected_oracles=references)
  dump(OUT/'figures'/b/'val/selection.snapshot.json',snapshot);render_selection(snapshot,OUT/'figures'/b/'val/selection')
  for split in ('test_id','test_ood'):
   dest=OUT/'figures'/b/split;dest.mkdir(parents=True,exist_ok=True)
-  for suffix in ('png','pdf','svg'):shutil.copy2(OUT/'figures'/b/'val'/('selection.'+suffix),dest/('val_selection.'+suffix))
+  for suffix in ('png','pdf','svg'):
+   target=dest/('val_selection.'+suffix);temporary=target.with_name(target.name+f'.{os.getpid()}.tmp');shutil.copyfile(OUT/'figures'/b/'val'/('selection.'+suffix),temporary);temporary.replace(target)
  return True
 
 def summarize(b,s,series):
@@ -119,6 +208,7 @@ def summarize(b,s,series):
   cfg=json.loads((OUT/'runs'/b/m/'config.json').read_text());hist=rows(OUT/'runs'/b/m/'history.jsonl')
   record=dict(backbone=b,split=s,method=m,mAP_percent=v['mAP'],mR1_percent=v['mR1'],mR5_percent=v['mR5'],AUROC_percent=v['AUROC'],R1_tIoU_05_percent=v['R1']['0.5'],R1_tIoU_07_percent=v['R1']['0.7'],mR_plus='N/A',multi_gt_coverage='N/A',parameters=cfg['parameter_count'],trainable_parameters=cfg['trainable_parameters'],training_seconds=sum(h['seconds'] for h in hist),training_time_basis='Recorded completed-epoch training plus Val wall time; interrupted partial attempts excluded',peak_memory_bytes=max(h['peak_memory_bytes'] for h in hist),inference_ms_per_row=v['inference_ms_per_row'])
   if 'oracle_presence' in v:record.update(oracle_gmiou_1=v['oracle_presence']['gmiou_1'],oracle_gmiou_3=v['oracle_presence']['gmiou_3'])
+  record.update(oracle_AUROC_percent=100.,oracle_mAP_percent=v['mAP'],oracle_mR1_percent=v['mR1'],oracle_mR5_percent=v['mR5'])
   for key in ('gmiou_1','gmiou_3','rejection_f1','negative_rejection','positive_retention'):
    for i in (40,50,60):record[f'{key}_at_{i/100}']=v['grid'][i][key]
    if key.startswith('gmiou'):record[key+'_mean']=float(np.mean([v['grid'][i][key] for i in (40,50,60)]))
@@ -130,34 +220,45 @@ def summarize(b,s,series):
  write_csv(OUT/'figures'/b/s/'summary.csv',records)
  if len(series)==6:
   keys=['mAP_percent','mR1_percent','mR5_percent','AUROC_percent','gmiou_1_mean','gmiou_3_mean']
-  values=np.array([[r[k] for r in records] for k in keys]);minimum=values.min(1,keepdims=True);span=values.max(1,keepdims=True)-minimum
-  fig,ax=plt.subplots(figsize=(11,4));ax.imshow((values-minimum)/np.maximum(span,1e-12),aspect='auto',vmin=0,vmax=1,cmap='YlGnBu');ax.set_xticks(range(6),[LABELS[r['method']] for r in records],rotation=22,ha='right');ax.set_yticks(range(len(keys)),keys)
-  for y in range(len(keys)):
-   for x in range(6):ax.text(x,y,f'{values[y,x]:.4f}' if 'gmiou' in keys[y] else f'{values[y,x]:.2f}',ha='center',va='center',color='black' if (values[y,x]-minimum[y,0])/max(span[y,0],1e-12)<.65 else 'white')
-  ax.set_title(f'{NAMES[b]} | {s} | colors compare methods within each row only');save(fig,OUT/'figures'/b/s/'heatmap')
+  snapshot=dict(type='oracle_heatmap',actual=[[r[k] for r in records] for k in keys],oracle=[[metric_oracle(r,k) for r in records] for k in keys],xlabels=[LABELS[r['method']] for r in records],ylabels=keys,precision_per_row=[4 if 'gmiou' in k else 2 for k in keys],figsize=[12,6],title=f'{NAMES[b]} | {s} | actual / Oracle presence (O)\nColors compare actual methods within each row; ungated localization unchanged')
+  dest=OUT/'figures'/b/s/'heatmap';dump(dest.with_suffix('.snapshot.json'),snapshot);render_oracle_heatmap(snapshot,dest)
  return records
+
+def metric_oracle(record,metric):
+ if metric=='gmiou_1_mean':return record['oracle_gmiou_1']
+ if metric=='gmiou_3_mean':return record['oracle_gmiou_3']
+ if metric=='AUROC_percent':return 100.
+ return record[metric]
+
+def render_oracle_heatmap(snapshot,destination):
+ values=np.array(snapshot['actual'],dtype=float);oracles=np.array(snapshot['oracle'],dtype=float);color=np.full_like(values,np.nan)
+ for row in range(len(values)):
+  if np.isfinite(values[row]).any():color[row]=(values[row]-np.nanmin(values[row]))/max(float(np.nanmax(values[row])-np.nanmin(values[row])),1e-12)
+ fig,axis=plt.subplots(figsize=snapshot['figsize']);axis.imshow(np.ma.masked_invalid(color),vmin=0,vmax=1,cmap='YlGnBu',aspect='auto');axis.set_xticks(range(values.shape[1]),snapshot['xlabels'],rotation=20,ha='right');axis.set_yticks(range(values.shape[0]),snapshot['ylabels'])
+ records=[]
+ for row in range(values.shape[0]):
+  for col in range(values.shape[1]):
+   if np.isfinite(values[row,col]):
+    digits=snapshot['precision_per_row'][row];axis.text(col,row,f'{values[row,col]:.{digits}f}\nO {oracles[row,col]:.{digits}f}',ha='center',va='center',fontsize=9,color='white' if color[row,col]>.65 else 'black')
+    records.append(dict(row=snapshot['ylabels'][row],method=snapshot['xlabels'][col],actual=values[row,col],oracle=oracles[row,col]))
+ axis.set_title(snapshot['title'],fontsize=10);save(fig,destination);write_csv(destination.with_suffix('.csv'),records)
 
 def global_heatmaps(records):
  for split in ('test_id','test_ood'):
   for metric in ('mAP_percent','mR1_percent','mR5_percent','AUROC_percent','gmiou_1_mean','gmiou_3_mean'):
-   values=np.full((4,6),np.nan)
+   values=np.full((4,6),np.nan);oracles=np.full((4,6),np.nan)
    for record in records:
-    if record['split']==split:values[BACKBONES.index(record['backbone']),METHODS.index(record['method'])]=record[metric]
+    if record['split']==split:
+     row=BACKBONES.index(record['backbone']);col=METHODS.index(record['method']);values[row,col]=record[metric];oracles[row,col]=metric_oracle(record,metric)
    if not np.isfinite(values).any():continue
-   color=np.full_like(values,np.nan)
-   for row in range(4):
-    if np.isfinite(values[row]).any():color[row]=(values[row]-np.nanmin(values[row]))/max(float(np.nanmax(values[row])-np.nanmin(values[row])),1e-12)
-   fig,axis=plt.subplots(figsize=(14,4.5));axis.imshow(np.ma.masked_invalid(color),vmin=0,vmax=1,cmap='YlGnBu',aspect='auto');axis.set_xticks(range(6),[LABELS[m] for m in METHODS],rotation=20,ha='right');axis.set_yticks(range(4),[NAMES[b] for b in BACKBONES])
-   for row in range(4):
-    for col in range(6):
-     if np.isfinite(values[row,col]):axis.text(col,row,f'{values[row,col]:.4f}' if 'gmiou' in metric else f'{values[row,col]:.2f}',ha='center',va='center',color='white' if color[row,col]>.65 else 'black')
-   axis.set_title(f'{split} | {metric} | colors compare methods within a backbone row only');save(fig,OUT/'reports'/f'heatmap_{split}_{metric}')
+   snapshot=dict(type='oracle_heatmap',split=split,metric=metric,actual=[[float(v) if np.isfinite(v) else None for v in row] for row in values],oracle=[[float(v) if np.isfinite(v) else None for v in row] for row in oracles],xlabels=[LABELS[m] for m in METHODS],ylabels=[NAMES[b] for b in BACKBONES],precision_per_row=[4 if 'gmiou' in metric else 2]*4,figsize=[14,5.5],title=f'{split} | {metric} | actual / Oracle presence (O)\nColors compare actual values within a backbone row; ungated localization unchanged')
+   dest=OUT/'reports'/f'heatmap_{split}_{metric}';dump(dest.with_suffix('.snapshot.json'),snapshot);render_oracle_heatmap(snapshot,dest)
 
 
 def main():
  p=argparse.ArgumentParser();p.add_argument('--snapshot');p.add_argument('--output');args=p.parse_args()
  if args.snapshot:
-  snapshot=json.loads(Path(args.snapshot).read_text());(render_selection if snapshot.get('type')=='val_selection' else render)(snapshot,Path(args.output));return
+  snapshot=json.loads(Path(args.snapshot).read_text());{'val_selection':render_selection,'oracle_heatmap':render_oracle_heatmap,'oracle_detail':render_oracle_detail,'relative_to_gmr':render_relative}.get(snapshot.get('type'),render)(snapshot,Path(args.output));return
  (OUT/'logs').mkdir(parents=True,exist_ok=True)
  with (OUT/'logs/plot_report.lock').open('a') as lock:
   fcntl.flock(lock,fcntl.LOCK_EX);generate_reports()

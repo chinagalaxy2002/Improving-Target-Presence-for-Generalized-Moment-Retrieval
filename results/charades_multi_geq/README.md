@@ -19,7 +19,7 @@ G-mIoU@1 is the mean at presence thresholds 0.4/0.5/0.6, on a 0–1 scale. mAP i
 | moment_detr | GMR + Multi + GEQ Frozen | Val selection finished | 32.63 | 0.6233 |
 | moment_detr | GMR + Multi + GEQ Full | Val selection finished | 33.48 | 0.6340 |
 | eatr | GMR | Val selection finished | 35.78 | 0.6364 |
-| eatr | GMR + Multi | In progress | 31.58 | 0.6155 |
+| eatr | GMR + Multi | In progress | 32.43 | 0.6332 |
 | eatr | GMR + GEQ Frozen | Val selection finished | 35.78 | 0.6364 |
 | eatr | GMR + GEQ Full | Val selection finished | 35.59 | 0.6390 |
 | eatr | GMR + Multi + GEQ Frozen | Pending | — | — |
@@ -34,14 +34,14 @@ G-mIoU@1 is the mean at presence thresholds 0.4/0.5/0.6, on a 0–1 scale. mAP i
 | flashvtg | GMR + Multi-TQAux | Val selection finished | 41.85 | 0.6515 |
 | flashvtg | GMR + GEQ Frozen | Val selection finished | 42.73 | 0.6577 |
 | flashvtg | GMR + GEQ Full | Val selection finished | 42.31 | 0.6598 |
-| flashvtg | GMR + Multi-TQAux + GEQ Frozen | In progress | 41.85 | 0.6533 |
-| flashvtg | GMR + Multi-TQAux + GEQ Full | In progress | 41.89 | 0.6602 |
+| flashvtg | GMR + Multi-TQAux + GEQ Frozen | In progress | 41.85 | 0.6609 |
+| flashvtg | GMR + Multi-TQAux + GEQ Full | In progress | 41.83 | 0.6623 |
 
 ## Additional EaTR positive-only ablation
 
 This independently resumed Stage A run is additional to the main24 training tasks and48 formal Test evaluations. It has separate checkpoints and Val history. Its training must finish before final acceptance.
 
-Val-selected mAP: 33.92%; training in progress.
+Val-selected mAP: 35.43%; training in progress.
 
 
 ## moment_detr

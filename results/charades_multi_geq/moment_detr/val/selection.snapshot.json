@@ -4380,5 +4380,205 @@
     "gmr_geq_full": "fd04847b753d73672089fcb20f274c7e32b8dfae33d0d92bd46aa4e7e35ae3f3",
     "multi_geq_frozen": "6dbdb7f70646f0ed31efd6041f7d68ffb01aaca300cef3f69f58b77108394cfe",
     "multi_geq_full": "54502b1bb115083aab11beb436e126a1876a96cce9c20dcbf67c6323a28932bf"
+  },
+  "selected_oracles": {
+    "gmr": {
+      "epoch": 67,
+      "reference_kind": "Current Val-best only; other epochs have no retained prediction exports.",
+      "oracle_presence": {
+        "definition": "Perfect binary presence decisions; retain every positive query and reject every negative query; localization candidates and ranking stay fixed.",
+        "units": "0–1",
+        "rows": 2047,
+        "positive": 1205,
+        "negative": 842,
+        "all_reject_gmiou": 0.41133365901319,
+        "formula": "(N_negative + sum_positive fixed-candidate set-IoU@k) / N_total",
+        "threshold_interpretation": "Horizontal analytical ceiling; not a thresholded 0/1 score curve. At threshold=1 a bounded scored classifier still rejects all queries.",
+        "test_used_for_selection": false,
+        "gmiou_1": 0.6782674472521207,
+        "positive_localization_mean_1": 0.45345515728223323,
+        "gmiou_3": 0.5003115884261666,
+        "positive_localization_mean_3": 0.1511517190940771,
+        "source": {
+          "version": 1,
+          "prediction_sha256": "2211d101a1bb59406fe4022435933570eeedccb3a2d607660b1b346e7d514a6c",
+          "ground_truth_sha256": "ae42c1260c6ecbf43518d6fe89f45002b2852d3c43dd0f54ef8ee442d6cff21d",
+          "evaluator_sha256": "7f49929789725baca0bfeaaa73517a6baedf608c3b2ff341881a7dee3aefa656"
+        }
+      },
+      "mAP_percent": 30.96,
+      "gmiou_1_mean": 0.6042350505309475,
+      "gmiou_3_mean": 0.4665150868648184,
+      "source": {
+        "metrics_sha256": "e8e136f94fcbfa342ca1d818545a04e9660168582a0adc0ba672b6892ec05ab3",
+        "prediction_sha256": "2211d101a1bb59406fe4022435933570eeedccb3a2d607660b1b346e7d514a6c",
+        "source_split": "val"
+      }
+    },
+    "multi": {
+      "epoch": 92,
+      "reference_kind": "Current Val-best only; other epochs have no retained prediction exports.",
+      "oracle_presence": {
+        "definition": "Perfect binary presence decisions; retain every positive query and reject every negative query; localization candidates and ranking stay fixed.",
+        "units": "0–1",
+        "rows": 2047,
+        "positive": 1205,
+        "negative": 842,
+        "all_reject_gmiou": 0.41133365901319,
+        "formula": "(N_negative + sum_positive fixed-candidate set-IoU@k) / N_total",
+        "threshold_interpretation": "Horizontal analytical ceiling; not a thresholded 0/1 score curve. At threshold=1 a bounded scored classifier still rejects all queries.",
+        "test_used_for_selection": false,
+        "gmiou_1": 0.6873026029692509,
+        "positive_localization_mean_1": 0.46880367491954905,
+        "gmiou_3": 0.5033233069985434,
+        "positive_localization_mean_3": 0.15626789163984947,
+        "source": {
+          "version": 1,
+          "prediction_sha256": "f1943fd379ac4bf623edbd46fa025cad774e93e20d601161c47971275277af80",
+          "ground_truth_sha256": "ae42c1260c6ecbf43518d6fe89f45002b2852d3c43dd0f54ef8ee442d6cff21d",
+          "evaluator_sha256": "7f49929789725baca0bfeaaa73517a6baedf608c3b2ff341881a7dee3aefa656"
+        }
+      },
+      "mAP_percent": 32.63,
+      "gmiou_1_mean": 0.612116402075872,
+      "gmiou_3_mean": 0.47022780356879607,
+      "source": {
+        "metrics_sha256": "fcf9788418a36c562cba61825474e6fdb47b9cf2062c73289630b7575dfe5b32",
+        "prediction_sha256": "f1943fd379ac4bf623edbd46fa025cad774e93e20d601161c47971275277af80",
+        "source_split": "val"
+      }
+    },
+    "gmr_geq_frozen": {
+      "epoch": 1,
+      "reference_kind": "Current Val-best only; other epochs have no retained prediction exports.",
+      "oracle_presence": {
+        "definition": "Perfect binary presence decisions; retain every positive query and reject every negative query; localization candidates and ranking stay fixed.",
+        "units": "0–1",
+        "rows": 2047,
+        "positive": 1205,
+        "negative": 842,
+        "all_reject_gmiou": 0.41133365901319,
+        "formula": "(N_negative + sum_positive fixed-candidate set-IoU@k) / N_total",
+        "threshold_interpretation": "Horizontal analytical ceiling; not a thresholded 0/1 score curve. At threshold=1 a bounded scored classifier still rejects all queries.",
+        "test_used_for_selection": false,
+        "gmiou_1": 0.6782674472521207,
+        "positive_localization_mean_1": 0.45345515728223323,
+        "gmiou_3": 0.5003115884261666,
+        "positive_localization_mean_3": 0.1511517190940771,
+        "source": {
+          "version": 1,
+          "prediction_sha256": "5f2b1ceeedb9c8a07f3e00a1be0c3dd97a541fb42b886f5e1140df1b0fdaf980",
+          "ground_truth_sha256": "ae42c1260c6ecbf43518d6fe89f45002b2852d3c43dd0f54ef8ee442d6cff21d",
+          "evaluator_sha256": "7f49929789725baca0bfeaaa73517a6baedf608c3b2ff341881a7dee3aefa656"
+        }
+      },
+      "mAP_percent": 30.96,
+      "gmiou_1_mean": 0.62059118115686,
+      "gmiou_3_mean": 0.4690360116964814,
+      "source": {
+        "metrics_sha256": "142bed71a11dfa5db64d60b3f2fa5b9e6739b944010b3d0e57527517bdb317cd",
+        "prediction_sha256": "5f2b1ceeedb9c8a07f3e00a1be0c3dd97a541fb42b886f5e1140df1b0fdaf980",
+        "source_split": "val"
+      }
+    },
+    "gmr_geq_full": {
+      "epoch": 7,
+      "reference_kind": "Current Val-best only; other epochs have no retained prediction exports.",
+      "oracle_presence": {
+        "definition": "Perfect binary presence decisions; retain every positive query and reject every negative query; localization candidates and ranking stay fixed.",
+        "units": "0–1",
+        "rows": 2047,
+        "positive": 1205,
+        "negative": 842,
+        "all_reject_gmiou": 0.41133365901319,
+        "formula": "(N_negative + sum_positive fixed-candidate set-IoU@k) / N_total",
+        "threshold_interpretation": "Horizontal analytical ceiling; not a thresholded 0/1 score curve. At threshold=1 a bounded scored classifier still rejects all queries.",
+        "test_used_for_selection": false,
+        "gmiou_1": 0.676491665945976,
+        "positive_localization_mean_1": 0.4504385395779359,
+        "gmiou_3": 0.49971966132411855,
+        "positive_localization_mean_3": 0.15014617985931175,
+        "source": {
+          "version": 1,
+          "prediction_sha256": "3a6e58ce409a1659d84a80eeaf7d18ca157caa7359956341c94b7f1961f1704e",
+          "ground_truth_sha256": "ae42c1260c6ecbf43518d6fe89f45002b2852d3c43dd0f54ef8ee442d6cff21d",
+          "evaluator_sha256": "7f49929789725baca0bfeaaa73517a6baedf608c3b2ff341881a7dee3aefa656"
+        }
+      },
+      "mAP_percent": 30.42,
+      "gmiou_1_mean": 0.6268364719821881,
+      "gmiou_3_mean": 0.47068353549598957,
+      "source": {
+        "metrics_sha256": "7b71951774fc3f131dde29be5026b23f3ae751968b5988110552aadeff5f0e50",
+        "prediction_sha256": "3a6e58ce409a1659d84a80eeaf7d18ca157caa7359956341c94b7f1961f1704e",
+        "source_split": "val"
+      }
+    },
+    "multi_geq_frozen": {
+      "epoch": 4,
+      "reference_kind": "Current Val-best only; other epochs have no retained prediction exports.",
+      "oracle_presence": {
+        "definition": "Perfect binary presence decisions; retain every positive query and reject every negative query; localization candidates and ranking stay fixed.",
+        "units": "0–1",
+        "rows": 2047,
+        "positive": 1205,
+        "negative": 842,
+        "all_reject_gmiou": 0.41133365901319,
+        "formula": "(N_negative + sum_positive fixed-candidate set-IoU@k) / N_total",
+        "threshold_interpretation": "Horizontal analytical ceiling; not a thresholded 0/1 score curve. At threshold=1 a bounded scored classifier still rejects all queries.",
+        "test_used_for_selection": false,
+        "gmiou_1": 0.6873026029692509,
+        "positive_localization_mean_1": 0.46880367491954905,
+        "gmiou_3": 0.5033233069985434,
+        "positive_localization_mean_3": 0.15626789163984947,
+        "source": {
+          "version": 1,
+          "prediction_sha256": "c6abb974e38f93889b26d8280d279977ad82cf79cbb3546f528188e6ffcc4f00",
+          "ground_truth_sha256": "ae42c1260c6ecbf43518d6fe89f45002b2852d3c43dd0f54ef8ee442d6cff21d",
+          "evaluator_sha256": "7f49929789725baca0bfeaaa73517a6baedf608c3b2ff341881a7dee3aefa656"
+        }
+      },
+      "mAP_percent": 32.63,
+      "gmiou_1_mean": 0.6232968432410498,
+      "gmiou_3_mean": 0.47167485829361594,
+      "source": {
+        "metrics_sha256": "3243659fea7138237e6ffc82af642aa3a790613f2118a36aa5bd6a895db9256f",
+        "prediction_sha256": "c6abb974e38f93889b26d8280d279977ad82cf79cbb3546f528188e6ffcc4f00",
+        "source_split": "val"
+      }
+    },
+    "multi_geq_full": {
+      "epoch": 7,
+      "reference_kind": "Current Val-best only; other epochs have no retained prediction exports.",
+      "oracle_presence": {
+        "definition": "Perfect binary presence decisions; retain every positive query and reject every negative query; localization candidates and ranking stay fixed.",
+        "units": "0–1",
+        "rows": 2047,
+        "positive": 1205,
+        "negative": 842,
+        "all_reject_gmiou": 0.41133365901319,
+        "formula": "(N_negative + sum_positive fixed-candidate set-IoU@k) / N_total",
+        "threshold_interpretation": "Horizontal analytical ceiling; not a thresholded 0/1 score curve. At threshold=1 a bounded scored classifier still rejects all queries.",
+        "test_used_for_selection": false,
+        "gmiou_1": 0.6861822098011047,
+        "positive_localization_mean_1": 0.4669004012139929,
+        "gmiou_3": 0.5029498426091614,
+        "positive_localization_mean_3": 0.1556334670713306,
+        "source": {
+          "version": 1,
+          "prediction_sha256": "58de6e98ec34ea7a8a3be1837d29104f7a1281a80c5f6254006ef698feae831c",
+          "ground_truth_sha256": "ae42c1260c6ecbf43518d6fe89f45002b2852d3c43dd0f54ef8ee442d6cff21d",
+          "evaluator_sha256": "7f49929789725baca0bfeaaa73517a6baedf608c3b2ff341881a7dee3aefa656"
+        }
+      },
+      "mAP_percent": 33.48,
+      "gmiou_1_mean": 0.6340132882085309,
+      "gmiou_3_mean": 0.47351004738037167,
+      "source": {
+        "metrics_sha256": "67f4bae166692092fe8619e8cbb925c0abd5628ba64af2385ad8b7d54ff6d088",
+        "prediction_sha256": "58de6e98ec34ea7a8a3be1837d29104f7a1281a80c5f6254006ef698feae831c",
+        "source_split": "val"
+      }
+    }
   }
 }
