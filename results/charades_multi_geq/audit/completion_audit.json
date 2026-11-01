@@ -1,9 +1,9 @@
 {
-  "time": 1793541993.3499467,
+  "time": 1793544107.7277489,
   "complete": false,
-  "training_verified": 18,
+  "training_verified": 19,
   "additional_training_verified": {},
-  "tests_verified": 34,
+  "tests_verified": 36,
   "checks": {
     "data_views_and_original_integrity": {
       "passed": true,
@@ -170,6 +170,15 @@
         "last_epoch": 7,
         "score": 0.6405231962254034,
         "best_checkpoint_sha256": "8e9eb773e649e57a537004c7f06ee0edfabc622c81cec56e66e086c33c8228be"
+      }
+    },
+    "qd_detr/multi_geq_full/training_selection": {
+      "passed": true,
+      "evidence": {
+        "best_epoch": 2,
+        "last_epoch": 8,
+        "score": 0.6456179114460644,
+        "best_checkpoint_sha256": "7d6bb1b976d1c036c42dec572b79e268d0542cc3d62ce58eb81126857a544372"
       }
     },
     "flashvtg/gmr/training_selection": {
@@ -432,6 +441,22 @@
         "metrics_sha256": "133e92f1c5a84d33f0373615f1149a20a645e0364c35e5234dad87b428f64c67"
       }
     },
+    "qd_detr/multi_geq_full/test_id/identity_metrics_and_frozen_invariance": {
+      "passed": true,
+      "evidence": {
+        "rows": 7440,
+        "checkpoint_sha256": "7d6bb1b976d1c036c42dec572b79e268d0542cc3d62ce58eb81126857a544372",
+        "metrics_sha256": "0ca7be88ea7c43575b5643ab108064dfd9edff9f798c40be4a51ef053a48ad8b"
+      }
+    },
+    "qd_detr/multi_geq_full/test_ood/identity_metrics_and_frozen_invariance": {
+      "passed": true,
+      "evidence": {
+        "rows": 7440,
+        "checkpoint_sha256": "7d6bb1b976d1c036c42dec572b79e268d0542cc3d62ce58eb81126857a544372",
+        "metrics_sha256": "aace3d20b019403f59571a9d9816f2cadd95952e44091463a20c32f24d5fd5b0"
+      }
+    },
     "flashvtg/gmr/test_id/identity_metrics_and_frozen_invariance": {
       "passed": true,
       "evidence": {
@@ -578,6 +603,13 @@
         "batch_size": 32
       }
     },
+    "qd_detr/multi_geq_full/inference_profile": {
+      "passed": true,
+      "evidence": {
+        "sha256": "531b50a3b454fd858387a851e6077e3d73228f6bd9fd9f499660fe5aa4e63d4e",
+        "batch_size": 32
+      }
+    },
     "flashvtg/gmr/inference_profile": {
       "passed": true,
       "evidence": {
@@ -638,13 +670,37 @@
     "figures/qd_detr/test_id/frozen": {
       "passed": true,
       "evidence": {
-        "snapshot_sha256": "ad0fda54965164238f2986257e51fcfcaccb47b3adae03a09b08f3f7440636e0"
+        "snapshot_sha256": "a1923ab606cd7d370eb562654b0858cd1af8956a3871e816211b2ffcf89398ae"
+      }
+    },
+    "figures/qd_detr/test_id/full": {
+      "passed": true,
+      "evidence": {
+        "snapshot_sha256": "d147682a2ca8553f1e4eb0622f69b138decbaad11845eed9ae6686f718f891a8"
+      }
+    },
+    "figures/qd_detr/test_id/multi_comparison": {
+      "passed": true,
+      "evidence": {
+        "snapshot_sha256": "310b58fdabc5fd7ebc841cf4910f6af1aaf7e3170f9274abcdfa2356a02ccadf"
       }
     },
     "figures/qd_detr/test_ood/frozen": {
       "passed": true,
       "evidence": {
-        "snapshot_sha256": "aefc8225a5c3130cb1a7dec966a4763a20440bbb2b3e059fd28f45a3222ba639"
+        "snapshot_sha256": "fe5656f641d41bb74ee8afb8c8984ea6541739844c4d597f23cbcff9ed5fca8e"
+      }
+    },
+    "figures/qd_detr/test_ood/full": {
+      "passed": true,
+      "evidence": {
+        "snapshot_sha256": "9b3f256a06e6fef8cb1fe45128bf7488234bbb78c2aaf6a76829158b107dadbf"
+      }
+    },
+    "figures/qd_detr/test_ood/multi_comparison": {
+      "passed": true,
+      "evidence": {
+        "snapshot_sha256": "841ecb43b15bf7da16fa9a9f6f34280832ac1925fa572b9aa9903d2512bbf032"
       }
     }
   },
@@ -652,7 +708,6 @@
     "eatr/multi/training",
     "eatr/multi_geq_frozen/training",
     "eatr/multi_geq_full/training",
-    "qd_detr/multi_geq_full/training",
     "flashvtg/multi_geq_frozen/training",
     "flashvtg/multi_geq_full/training",
     "eatr/multi_positive_only/additional_ablation_training",
@@ -662,8 +717,6 @@
     "eatr/multi_geq_frozen/test_ood/evaluation",
     "eatr/multi_geq_full/test_id/evaluation",
     "eatr/multi_geq_full/test_ood/evaluation",
-    "qd_detr/multi_geq_full/test_id/evaluation",
-    "qd_detr/multi_geq_full/test_ood/evaluation",
     "flashvtg/multi/test_id/evaluation",
     "flashvtg/multi/test_ood/evaluation",
     "flashvtg/multi_geq_frozen/test_id/evaluation",
@@ -673,7 +726,6 @@
     "eatr/multi/inference_profile",
     "eatr/multi_geq_frozen/inference_profile",
     "eatr/multi_geq_full/inference_profile",
-    "qd_detr/multi_geq_full/inference_profile",
     "flashvtg/multi/inference_profile",
     "flashvtg/multi_geq_frozen/inference_profile",
     "flashvtg/multi_geq_full/inference_profile",
@@ -689,16 +741,6 @@
     "figures/eatr/test_ood/heatmap.png",
     "figures/eatr/test_ood/heatmap.pdf",
     "figures/eatr/test_ood/heatmap.svg",
-    "figures/qd_detr/test_id/full",
-    "figures/qd_detr/test_id/multi_comparison",
-    "figures/qd_detr/test_id/heatmap.png",
-    "figures/qd_detr/test_id/heatmap.pdf",
-    "figures/qd_detr/test_id/heatmap.svg",
-    "figures/qd_detr/test_ood/full",
-    "figures/qd_detr/test_ood/multi_comparison",
-    "figures/qd_detr/test_ood/heatmap.png",
-    "figures/qd_detr/test_ood/heatmap.pdf",
-    "figures/qd_detr/test_ood/heatmap.svg",
     "figures/flashvtg/test_id/frozen",
     "figures/flashvtg/test_id/full",
     "figures/flashvtg/test_id/multi_comparison",

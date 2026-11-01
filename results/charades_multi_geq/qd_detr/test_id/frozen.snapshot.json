@@ -5291,6 +5291,1061 @@
       "parent_prediction_sha256": "e7861eb7d3740ba3865ac185b930bcb30afa31b20df3f89e06db0fb9eabdb53c",
       "parent_checkpoint_sha256": "cfd06a581b6113810b8588815312968929697a6766095786492e3b6802541447",
       "frozen_parent_tensors_bitwise_equal": true
+    },
+    "multi_geq_full": {
+      "official": {
+        "GMR-CLS": {
+          "AUROC": 84.02,
+          "per_threshold": {
+            "0.4": {
+              "Rej-F1": 71.37,
+              "Acc": 74.92,
+              "Rej-P": 83.13,
+              "Rej-R": 62.53,
+              "TP": 3248,
+              "TN": 2326,
+              "FP": 1394,
+              "FN": 472
+            },
+            "0.5": {
+              "Rej-F1": 74.31,
+              "Acc": 75.91,
+              "Rej-P": 79.61,
+              "Rej-R": 69.68,
+              "TP": 3056,
+              "TN": 2592,
+              "FP": 1128,
+              "FN": 664
+            },
+            "0.6": {
+              "Rej-F1": 75.97,
+              "Acc": 75.9,
+              "Rej-P": 75.74,
+              "Rej-R": 76.21,
+              "TP": 2812,
+              "TN": 2835,
+              "FP": 885,
+              "FN": 908
+            }
+          },
+          "score_sources": {
+            "pred_exist_score": 7440
+          }
+        },
+        "G-mIoU_gate": {
+          "cls_threshold": 0.5,
+          "decision_positive_if": "existence_score > cls_threshold",
+          "num_submission_samples": 7440,
+          "num_predicted_positive": 4184,
+          "num_predicted_negative": 3256,
+          "num_non_empty_windows_before_gate": 7440,
+          "num_non_empty_windows_after_gate": 4184,
+          "score_sources": {
+            "pred_exist_score": 7440
+          }
+        },
+        "G-mIoU_detail": {
+          "G-mIoU@1": 55.28,
+          "G-mIoU@3": 41.65,
+          "G-mIoU@5": 38.93
+        },
+        "brief": {
+          "AUROC": 84.02,
+          "Rej-F1@0.4": 71.37,
+          "Acc@0.4": 74.92,
+          "Rej-F1@0.5": 74.31,
+          "Acc@0.5": 75.91,
+          "Rej-F1@0.6": 75.97,
+          "Acc@0.6": 75.9,
+          "G-mIoU@1": 55.28,
+          "G-mIoU@3": 41.65,
+          "G-mIoU@5": 38.93,
+          "mAP": 35.57,
+          "mR@1": 29.26,
+          "mR@3": 41.14,
+          "mR@5": 44.34,
+          "mR+@1": 0.0,
+          "mR+@3": 0.0,
+          "mR+@5": 0.0,
+          "mIoU@1": 47.46,
+          "mIoU@3": 47.46,
+          "mIoU@5": 47.46,
+          "mIoU+@1": 0.0,
+          "mIoU+@3": 0.0,
+          "mIoU+@5": 0.0
+        },
+        "mAP_detail": {
+          "mAP": 35.57,
+          "AP@IoU": {
+            "0.50": 65.28,
+            "0.55": 60.36,
+            "0.60": 55.02,
+            "0.65": 48.35,
+            "0.70": 39.61,
+            "0.75": 32.21,
+            "0.80": 24.22,
+            "0.85": 17.0,
+            "0.90": 9.46,
+            "0.95": 4.21
+          }
+        },
+        "mR_detail": {
+          "mR@1": 29.26,
+          "mR@1_per_IoU": {
+            "0.50": 54.22,
+            "0.55": 49.84,
+            "0.60": 45.24,
+            "0.65": 39.81,
+            "0.70": 32.45,
+            "0.75": 26.42,
+            "0.80": 19.81,
+            "0.85": 13.87,
+            "0.90": 7.66,
+            "0.95": 3.25
+          },
+          "mR@3": 41.14,
+          "mR@3_per_IoU": {
+            "0.50": 76.08,
+            "0.55": 70.4,
+            "0.60": 64.03,
+            "0.65": 55.78,
+            "0.70": 45.56,
+            "0.75": 36.77,
+            "0.80": 27.63,
+            "0.85": 19.41,
+            "0.90": 10.83,
+            "0.95": 4.92
+          },
+          "mR@5": 44.34,
+          "mR@5_per_IoU": {
+            "0.50": 81.45,
+            "0.55": 75.56,
+            "0.60": 68.87,
+            "0.65": 60.24,
+            "0.70": 49.41,
+            "0.75": 39.81,
+            "0.80": 29.78,
+            "0.85": 21.05,
+            "0.90": 11.67,
+            "0.95": 5.51
+          }
+        },
+        "mR+_detail": {
+          "num_multi_moment_queries": 0,
+          "mR+@1": 0.0,
+          "mR+@1_per_IoU": {
+            "0.50": 0.0,
+            "0.55": 0.0,
+            "0.60": 0.0,
+            "0.65": 0.0,
+            "0.70": 0.0,
+            "0.75": 0.0,
+            "0.80": 0.0,
+            "0.85": 0.0,
+            "0.90": 0.0,
+            "0.95": 0.0
+          },
+          "mR+@3": 0.0,
+          "mR+@3_per_IoU": {
+            "0.50": 0.0,
+            "0.55": 0.0,
+            "0.60": 0.0,
+            "0.65": 0.0,
+            "0.70": 0.0,
+            "0.75": 0.0,
+            "0.80": 0.0,
+            "0.85": 0.0,
+            "0.90": 0.0,
+            "0.95": 0.0
+          },
+          "mR+@5": 0.0,
+          "mR+@5_per_IoU": {
+            "0.50": 0.0,
+            "0.55": 0.0,
+            "0.60": 0.0,
+            "0.65": 0.0,
+            "0.70": 0.0,
+            "0.75": 0.0,
+            "0.80": 0.0,
+            "0.85": 0.0,
+            "0.90": 0.0,
+            "0.95": 0.0
+          }
+        },
+        "mIoU_detail": {
+          "mIoU@1": 47.46,
+          "mIoU@3": 47.46,
+          "mIoU@5": 47.46
+        },
+        "mIoU+_detail": {
+          "mIoU+@1": 0.0,
+          "mIoU+@3": 0.0,
+          "mIoU+@5": 0.0
+        },
+        "stats": {
+          "num_total": 7440,
+          "num_positive": 3720,
+          "num_negative": 3720,
+          "num_multi_instance": 0,
+          "num_single_instance": 3720,
+          "k_list": [
+            1,
+            3,
+            5
+          ],
+          "cls_thresholds": [
+            0.4,
+            0.5,
+            0.6
+          ],
+          "gmiou_cls_threshold": 0.5,
+          "eval_time_sec": 4.57
+        }
+      },
+      "grid": [
+        {
+          "threshold": 0.0,
+          "gmiou_1": 0.2373209390405438,
+          "gmiou_3": 0.07910697968018127,
+          "positive_retention": 1.0,
+          "negative_rejection": 0.0,
+          "rejection_f1": 0.0
+        },
+        {
+          "threshold": 0.01,
+          "gmiou_1": 0.266622014309361,
+          "gmiou_3": 0.10840805494899847,
+          "positive_retention": 0.9994623655913979,
+          "negative_rejection": 0.05860215053763441,
+          "rejection_f1": 0.11065989847715736
+        },
+        {
+          "threshold": 0.02,
+          "gmiou_1": 0.3073659109875298,
+          "gmiou_3": 0.14940870868043107,
+          "positive_retention": 0.9970430107526882,
+          "negative_rejection": 0.14086021505376345,
+          "rejection_f1": 0.2462984723854289
+        },
+        {
+          "threshold": 0.03,
+          "gmiou_1": 0.33184410282336274,
+          "gmiou_3": 0.17396595542140764,
+          "positive_retention": 0.9954301075268818,
+          "negative_rejection": 0.19005376344086022,
+          "rejection_f1": 0.3181818181818182
+        },
+        {
+          "threshold": 0.04,
+          "gmiou_1": 0.3493279226615117,
+          "gmiou_3": 0.19180106382623863,
+          "positive_retention": 0.9919354838709677,
+          "negative_rejection": 0.2260752688172043,
+          "rejection_f1": 0.36636898279242
+        },
+        {
+          "threshold": 0.05,
+          "gmiou_1": 0.362841860064562,
+          "gmiou_3": 0.20580391751256008,
+          "positive_retention": 0.9884408602150537,
+          "negative_rejection": 0.2545698924731183,
+          "rejection_f1": 0.4021231422505308
+        },
+        {
+          "threshold": 0.06,
+          "gmiou_1": 0.374818610677373,
+          "gmiou_3": 0.21812950105016377,
+          "positive_retention": 0.9854838709677419,
+          "negative_rejection": 0.27956989247311825,
+          "rejection_f1": 0.4320731200664728
+        },
+        {
+          "threshold": 0.07,
+          "gmiou_1": 0.38316119785946673,
+          "gmiou_3": 0.2269139476735857,
+          "positive_retention": 0.9819892473118279,
+          "negative_rejection": 0.29758064516129035,
+          "rejection_f1": 0.4523906824683286
+        },
+        {
+          "threshold": 0.08,
+          "gmiou_1": 0.3907048880867921,
+          "gmiou_3": 0.23480485516871563,
+          "positive_retention": 0.9795698924731183,
+          "negative_rejection": 0.31370967741935485,
+          "rejection_f1": 0.4702800725367721
+        },
+        {
+          "threshold": 0.09,
+          "gmiou_1": 0.39845782574653743,
+          "gmiou_3": 0.24303432901228667,
+          "positive_retention": 0.9758064516129032,
+          "negative_rejection": 0.33064516129032256,
+          "rejection_f1": 0.4880952380952381
+        },
+        {
+          "threshold": 0.1,
+          "gmiou_1": 0.40704663411252057,
+          "gmiou_3": 0.2518112436289047,
+          "positive_retention": 0.9736559139784946,
+          "negative_rejection": 0.34838709677419355,
+          "rejection_f1": 0.5068439577630035
+        },
+        {
+          "threshold": 0.11,
+          "gmiou_1": 0.41331269738990434,
+          "gmiou_3": 0.258828246800219,
+          "positive_retention": 0.9685483870967742,
+          "negative_rejection": 0.3631720430107527,
+          "rejection_f1": 0.5208172706245181
+        },
+        {
+          "threshold": 0.12,
+          "gmiou_1": 0.4217569465779278,
+          "gmiou_3": 0.2674673692894168,
+          "positive_retention": 0.9658602150537634,
+          "negative_rejection": 0.38064516129032255,
+          "rejection_f1": 0.5380961428842865
+        },
+        {
+          "threshold": 0.13,
+          "gmiou_1": 0.4285085806313237,
+          "gmiou_3": 0.27455662365130146,
+          "positive_retention": 0.9631720430107527,
+          "negative_rejection": 0.3951612903225806,
+          "rejection_f1": 0.5519053876478318
+        },
+        {
+          "threshold": 0.14,
+          "gmiou_1": 0.433202262327701,
+          "gmiou_3": 0.2795262021379075,
+          "positive_retention": 0.960752688172043,
+          "negative_rejection": 0.4053763440860215,
+          "rejection_f1": 0.5612206922218087
+        },
+        {
+          "threshold": 0.15,
+          "gmiou_1": 0.43810122853482203,
+          "gmiou_3": 0.2847434202642955,
+          "positive_retention": 0.9577956989247312,
+          "negative_rejection": 0.4161290322580645,
+          "rejection_f1": 0.5706912442396314
+        },
+        {
+          "threshold": 0.16,
+          "gmiou_1": 0.4428105385752205,
+          "gmiou_3": 0.2899870254032097,
+          "positive_retention": 0.9540322580645161,
+          "negative_rejection": 0.4271505376344086,
+          "rejection_f1": 0.57992700729927
+        },
+        {
+          "threshold": 0.17,
+          "gmiou_1": 0.4467479235446035,
+          "gmiou_3": 0.29416687057221547,
+          "positive_retention": 0.9521505376344086,
+          "negative_rejection": 0.435752688172043,
+          "rejection_f1": 0.5874252581989491
+        },
+        {
+          "threshold": 0.18,
+          "gmiou_1": 0.45251113662245895,
+          "gmiou_3": 0.30020980539745046,
+          "positive_retention": 0.9481182795698925,
+          "negative_rejection": 0.4481182795698925,
+          "rejection_f1": 0.5974910394265233
+        },
+        {
+          "threshold": 0.19,
+          "gmiou_1": 0.4570927387464207,
+          "gmiou_3": 0.30514202402658464,
+          "positive_retention": 0.9440860215053763,
+          "negative_rejection": 0.4583333333333333,
+          "rejection_f1": 0.6053612639801171
+        },
+        {
+          "threshold": 0.2,
+          "gmiou_1": 0.4618199919729355,
+          "gmiou_3": 0.3103020044927706,
+          "positive_retention": 0.9408602150537635,
+          "negative_rejection": 0.46908602150537637,
+          "rejection_f1": 0.613896218117854
+        },
+        {
+          "threshold": 0.21,
+          "gmiou_1": 0.4675833024090996,
+          "gmiou_3": 0.31634497177077514,
+          "positive_retention": 0.9384408602150538,
+          "negative_rejection": 0.4814516129032258,
+          "rejection_f1": 0.6240418118466899
+        },
+        {
+          "threshold": 0.22,
+          "gmiou_1": 0.47064460745913556,
+          "gmiou_3": 0.3196951558913964,
+          "positive_retention": 0.9354838709677419,
+          "negative_rejection": 0.4884408602150538,
+          "rejection_f1": 0.6290462177600831
+        },
+        {
+          "threshold": 0.23,
+          "gmiou_1": 0.4749634902334373,
+          "gmiou_3": 0.3243605899344433,
+          "positive_retention": 0.9325268817204301,
+          "negative_rejection": 0.49811827956989246,
+          "rejection_f1": 0.6363324175824175
+        },
+        {
+          "threshold": 0.24,
+          "gmiou_1": 0.47889371700963335,
+          "gmiou_3": 0.3284484433042864,
+          "positive_retention": 0.9301075268817204,
+          "negative_rejection": 0.5064516129032258,
+          "rejection_f1": 0.6425648021828103
+        },
+        {
+          "threshold": 0.25,
+          "gmiou_1": 0.4819907596186553,
+          "gmiou_3": 0.33198975141410375,
+          "positive_retention": 0.9268817204301075,
+          "negative_rejection": 0.513978494623656,
+          "rejection_f1": 0.6476964769647696
+        },
+        {
+          "threshold": 0.26,
+          "gmiou_1": 0.48521731356635467,
+          "gmiou_3": 0.335843047174448,
+          "positive_retention": 0.9223118279569893,
+          "negative_rejection": 0.5223118279569893,
+          "rejection_f1": 0.6528897849462365
+        },
+        {
+          "threshold": 0.27,
+          "gmiou_1": 0.48843645851944906,
+          "gmiou_3": 0.33933545033085577,
+          "positive_retention": 0.9196236559139785,
+          "negative_rejection": 0.5295698924731183,
+          "rejection_f1": 0.6578727667390215
+        },
+        {
+          "threshold": 0.28,
+          "gmiou_1": 0.4914590673888549,
+          "gmiou_3": 0.3426727357246004,
+          "positive_retention": 0.9161290322580645,
+          "negative_rejection": 0.5365591397849462,
+          "rejection_f1": 0.6622428666224287
+        },
+        {
+          "threshold": 0.29,
+          "gmiou_1": 0.49489641927997247,
+          "gmiou_3": 0.34641708599654997,
+          "positive_retention": 0.914247311827957,
+          "negative_rejection": 0.5443548387096774,
+          "rejection_f1": 0.6678759894459103
+        },
+        {
+          "threshold": 0.3,
+          "gmiou_1": 0.49728481379239364,
+          "gmiou_3": 0.34891572646126384,
+          "positive_retention": 0.9120967741935484,
+          "negative_rejection": 0.5494623655913978,
+          "rejection_f1": 0.6711541618781809
+        },
+        {
+          "threshold": 0.31,
+          "gmiou_1": 0.5000988824829244,
+          "gmiou_3": 0.3522731041968171,
+          "positive_retention": 0.907258064516129,
+          "negative_rejection": 0.5567204301075269,
+          "rejection_f1": 0.6750325945241199
+        },
+        {
+          "threshold": 0.32,
+          "gmiou_1": 0.5028286814307961,
+          "gmiou_3": 0.3555127862833836,
+          "positive_retention": 0.9037634408602151,
+          "negative_rejection": 0.5637096774193548,
+          "rejection_f1": 0.6791902834008097
+        },
+        {
+          "threshold": 0.33,
+          "gmiou_1": 0.5063397911414795,
+          "gmiou_3": 0.35937132822995554,
+          "positive_retention": 0.9008064516129032,
+          "negative_rejection": 0.5717741935483871,
+          "rejection_f1": 0.6843629343629344
+        },
+        {
+          "threshold": 0.34,
+          "gmiou_1": 0.5092134183261455,
+          "gmiou_3": 0.3625693473273532,
+          "positive_retention": 0.8986559139784946,
+          "negative_rejection": 0.578494623655914,
+          "rejection_f1": 0.6887502000320052
+        },
+        {
+          "threshold": 0.35000000000000003,
+          "gmiou_1": 0.5121222212402975,
+          "gmiou_3": 0.3657790916679127,
+          "positive_retention": 0.8956989247311828,
+          "negative_rejection": 0.5852150537634409,
+          "rejection_f1": 0.6927605409705648
+        },
+        {
+          "threshold": 0.36,
+          "gmiou_1": 0.5148663344770685,
+          "gmiou_3": 0.36893393944934544,
+          "positive_retention": 0.8930107526881721,
+          "negative_rejection": 0.5919354838709677,
+          "rejection_f1": 0.6968354430379747
+        },
+        {
+          "threshold": 0.37,
+          "gmiou_1": 0.5175886713253562,
+          "gmiou_3": 0.3724399513736851,
+          "positive_retention": 0.8862903225806451,
+          "negative_rejection": 0.5997311827956989,
+          "rejection_f1": 0.7000313774709759
+        },
+        {
+          "threshold": 0.38,
+          "gmiou_1": 0.5213140413632624,
+          "gmiou_3": 0.3767283363683993,
+          "positive_retention": 0.8830645161290323,
+          "negative_rejection": 0.6088709677419355,
+          "rejection_f1": 0.705607476635514
+        },
+        {
+          "threshold": 0.39,
+          "gmiou_1": 0.5239391835248279,
+          "gmiou_3": 0.3801123443290645,
+          "positive_retention": 0.8779569892473118,
+          "negative_rejection": 0.6163978494623656,
+          "rejection_f1": 0.7091387041905056
+        },
+        {
+          "threshold": 0.4,
+          "gmiou_1": 0.5271903234123095,
+          "gmiou_3": 0.38415304687220353,
+          "positive_retention": 0.8731182795698925,
+          "negative_rejection": 0.625268817204301,
+          "rejection_f1": 0.7137158637618901
+        },
+        {
+          "threshold": 0.41000000000000003,
+          "gmiou_1": 0.5298476632066169,
+          "gmiou_3": 0.38718936443804797,
+          "positive_retention": 0.8698924731182796,
+          "negative_rejection": 0.6317204301075269,
+          "rejection_f1": 0.7171193164479707
+        },
+        {
+          "threshold": 0.42,
+          "gmiou_1": 0.531353515766237,
+          "gmiou_3": 0.3892146127822941,
+          "positive_retention": 0.8653225806451613,
+          "negative_rejection": 0.6362903225806451,
+          "rejection_f1": 0.7185792349726776
+        },
+        {
+          "threshold": 0.43,
+          "gmiou_1": 0.5337928710352948,
+          "gmiou_3": 0.3922678745744889,
+          "positive_retention": 0.860752688172043,
+          "negative_rejection": 0.6430107526881721,
+          "rejection_f1": 0.7215686274509804
+        },
+        {
+          "threshold": 0.44,
+          "gmiou_1": 0.5376822514291919,
+          "gmiou_3": 0.39687974689216793,
+          "positive_retention": 0.8556451612903225,
+          "negative_rejection": 0.6529569892473118,
+          "rejection_f1": 0.7265928806461263
+        },
+        {
+          "threshold": 0.45,
+          "gmiou_1": 0.5406264184720262,
+          "gmiou_3": 0.40045970221468974,
+          "positive_retention": 0.8508064516129032,
+          "negative_rejection": 0.660752688172043,
+          "rejection_f1": 0.7301351552057033
+        },
+        {
+          "threshold": 0.46,
+          "gmiou_1": 0.5434391845835316,
+          "gmiou_3": 0.4039958572267686,
+          "positive_retention": 0.8446236559139785,
+          "negative_rejection": 0.6685483870967742,
+          "rejection_f1": 0.7330876934414149
+        },
+        {
+          "threshold": 0.47000000000000003,
+          "gmiou_1": 0.5454661922685474,
+          "gmiou_3": 0.40664285261998173,
+          "positive_retention": 0.839516129032258,
+          "negative_rejection": 0.6744623655913978,
+          "rejection_f1": 0.7351303838265456
+        },
+        {
+          "threshold": 0.48,
+          "gmiou_1": 0.5479412404998701,
+          "gmiou_3": 0.41015604074010004,
+          "positive_retention": 0.8327956989247312,
+          "negative_rejection": 0.6825268817204301,
+          "rejection_f1": 0.7379741316669088
+        },
+        {
+          "threshold": 0.49,
+          "gmiou_1": 0.5499146408993763,
+          "gmiou_3": 0.41305398424244444,
+          "positive_retention": 0.8255376344086022,
+          "negative_rejection": 0.689247311827957,
+          "rejection_f1": 0.7396509447569595
+        },
+        {
+          "threshold": 0.5,
+          "gmiou_1": 0.5527731650391231,
+          "gmiou_3": 0.41651578619583673,
+          "positive_retention": 0.821505376344086,
+          "negative_rejection": 0.6967741935483871,
+          "rejection_f1": 0.7431192660550459
+        },
+        {
+          "threshold": 0.51,
+          "gmiou_1": 0.5551624720112158,
+          "gmiou_3": 0.4197315766919107,
+          "positive_retention": 0.8153225806451613,
+          "negative_rejection": 0.7040322580645161,
+          "rejection_f1": 0.7455166524338173
+        },
+        {
+          "threshold": 0.52,
+          "gmiou_1": 0.55742537352527,
+          "gmiou_3": 0.42272602056577097,
+          "positive_retention": 0.8102150537634408,
+          "negative_rejection": 0.710752688172043,
+          "rejection_f1": 0.747949080622348
+        },
+        {
+          "threshold": 0.53,
+          "gmiou_1": 0.559449197760769,
+          "gmiou_3": 0.42546156054391226,
+          "positive_retention": 0.8056451612903226,
+          "negative_rejection": 0.7169354838709677,
+          "rejection_f1": 0.750210970464135
+        },
+        {
+          "threshold": 0.54,
+          "gmiou_1": 0.5615963192190031,
+          "gmiou_3": 0.4284174110658326,
+          "positive_retention": 0.8005376344086022,
+          "negative_rejection": 0.7236559139784946,
+          "rejection_f1": 0.7525859658932066
+        },
+        {
+          "threshold": 0.55,
+          "gmiou_1": 0.5629624006510732,
+          "gmiou_3": 0.43057528050376276,
+          "positive_retention": 0.7932795698924732,
+          "negative_rejection": 0.728763440860215,
+          "rejection_f1": 0.7530555555555556
+        },
+        {
+          "threshold": 0.56,
+          "gmiou_1": 0.5638133002144701,
+          "gmiou_3": 0.43265102838690217,
+          "positive_retention": 0.7846774193548387,
+          "negative_rejection": 0.7341397849462366,
+          "rejection_f1": 0.7531715388858246
+        },
+        {
+          "threshold": 0.5700000000000001,
+          "gmiou_1": 0.5650785932253931,
+          "gmiou_3": 0.43504411888875116,
+          "positive_retention": 0.7766129032258065,
+          "negative_rejection": 0.7400537634408603,
+          "rejection_f1": 0.7538335158817087
+        },
+        {
+          "threshold": 0.58,
+          "gmiou_1": 0.566831690396605,
+          "gmiou_3": 0.4375102050425959,
+          "positive_retention": 0.771505376344086,
+          "negative_rejection": 0.7456989247311828,
+          "rejection_f1": 0.7554466230936819
+        },
+        {
+          "threshold": 0.59,
+          "gmiou_1": 0.5695393438269357,
+          "gmiou_3": 0.44101132249428326,
+          "positive_retention": 0.7647849462365591,
+          "negative_rejection": 0.753494623655914,
+          "rejection_f1": 0.7577723709110571
+        },
+        {
+          "threshold": 0.6,
+          "gmiou_1": 0.5721729220979109,
+          "gmiou_3": 0.4447565654304864,
+          "positive_retention": 0.7559139784946236,
+          "negative_rejection": 0.7620967741935484,
+          "rejection_f1": 0.7597480905801957
+        },
+        {
+          "threshold": 0.61,
+          "gmiou_1": 0.5735987551927892,
+          "gmiou_3": 0.4472031692936538,
+          "positive_retention": 0.7473118279569892,
+          "negative_rejection": 0.7680107526881721,
+          "rejection_f1": 0.7601436743381669
+        },
+        {
+          "threshold": 0.62,
+          "gmiou_1": 0.5748752893833334,
+          "gmiou_3": 0.45004803552921147,
+          "positive_retention": 0.7384408602150537,
+          "negative_rejection": 0.7752688172043011,
+          "rejection_f1": 0.761251154810611
+        },
+        {
+          "threshold": 0.63,
+          "gmiou_1": 0.5768569845733614,
+          "gmiou_3": 0.45312795543126383,
+          "positive_retention": 0.7293010752688172,
+          "negative_rejection": 0.7825268817204301,
+          "rejection_f1": 0.7622414244566641
+        },
+        {
+          "threshold": 0.64,
+          "gmiou_1": 0.5786676339629828,
+          "gmiou_3": 0.456061254331747,
+          "positive_retention": 0.7217741935483871,
+          "negative_rejection": 0.7895161290322581,
+          "rejection_f1": 0.7636505460218409
+        },
+        {
+          "threshold": 0.65,
+          "gmiou_1": 0.5822237454867901,
+          "gmiou_3": 0.46038282555652865,
+          "positive_retention": 0.7150537634408602,
+          "negative_rejection": 0.7989247311827957,
+          "rejection_f1": 0.7667698658410733
+        },
+        {
+          "threshold": 0.66,
+          "gmiou_1": 0.5833931464265192,
+          "gmiou_3": 0.4628335577694132,
+          "positive_retention": 0.7053763440860215,
+          "negative_rejection": 0.8051075268817204,
+          "rejection_f1": 0.7668672385097939
+        },
+        {
+          "threshold": 0.67,
+          "gmiou_1": 0.5851049632233225,
+          "gmiou_3": 0.4657339124722903,
+          "positive_retention": 0.6970430107526882,
+          "negative_rejection": 0.8120967741935484,
+          "rejection_f1": 0.7679206914082359
+        },
+        {
+          "threshold": 0.68,
+          "gmiou_1": 0.5857274022981814,
+          "gmiou_3": 0.46773350685925047,
+          "positive_retention": 0.6879032258064516,
+          "negative_rejection": 0.8174731182795699,
+          "rejection_f1": 0.7677354203483969
+        },
+        {
+          "threshold": 0.6900000000000001,
+          "gmiou_1": 0.5885928397973335,
+          "gmiou_3": 0.4712872190005449,
+          "positive_retention": 0.6790322580645162,
+          "negative_rejection": 0.8252688172043011,
+          "rejection_f1": 0.7690380761523046
+        },
+        {
+          "threshold": 0.7000000000000001,
+          "gmiou_1": 0.588381755048025,
+          "gmiou_3": 0.47336739505185066,
+          "positive_retention": 0.6629032258064517,
+          "negative_rejection": 0.8317204301075268,
+          "rejection_f1": 0.7669806643529995
+        },
+        {
+          "threshold": 0.71,
+          "gmiou_1": 0.5891841533109713,
+          "gmiou_3": 0.4760542159782091,
+          "positive_retention": 0.6513440860215054,
+          "negative_rejection": 0.8389784946236559,
+          "rejection_f1": 0.7670189235684444
+        },
+        {
+          "threshold": 0.72,
+          "gmiou_1": 0.5896130247067095,
+          "gmiou_3": 0.4781684992749964,
+          "positive_retention": 0.6400537634408602,
+          "negative_rejection": 0.8448924731182795,
+          "rejection_f1": 0.7663984394050232
+        },
+        {
+          "threshold": 0.73,
+          "gmiou_1": 0.5906655440647195,
+          "gmiou_3": 0.4809386938997094,
+          "positive_retention": 0.6282258064516129,
+          "negative_rejection": 0.8521505376344086,
+          "rejection_f1": 0.7663483621419074
+        },
+        {
+          "threshold": 0.74,
+          "gmiou_1": 0.5926844403192947,
+          "gmiou_3": 0.48483746576951403,
+          "positive_retention": 0.6137096774193549,
+          "negative_rejection": 0.8618279569892473,
+          "rejection_f1": 0.7667105105823269
+        },
+        {
+          "threshold": 0.75,
+          "gmiou_1": 0.5930650628139357,
+          "gmiou_3": 0.487383694773104,
+          "positive_retention": 0.5991935483870968,
+          "negative_rejection": 0.8690860215053764,
+          "rejection_f1": 0.7657508289909996
+        },
+        {
+          "threshold": 0.76,
+          "gmiou_1": 0.5924136325644153,
+          "gmiou_3": 0.4891378775214718,
+          "positive_retention": 0.5817204301075268,
+          "negative_rejection": 0.875,
+          "rejection_f1": 0.7630992849607314
+        },
+        {
+          "threshold": 0.77,
+          "gmiou_1": 0.5937092139184595,
+          "gmiou_3": 0.49243712148536467,
+          "positive_retention": 0.567741935483871,
+          "negative_rejection": 0.8836021505376344,
+          "rejection_f1": 0.763087637840975
+        },
+        {
+          "threshold": 0.78,
+          "gmiou_1": 0.5926581655019694,
+          "gmiou_3": 0.49423730964760987,
+          "positive_retention": 0.5497311827956989,
+          "negative_rejection": 0.8900537634408602,
+          "rejection_f1": 0.7606248564208592
+        },
+        {
+          "threshold": 0.79,
+          "gmiou_1": 0.5914529700364165,
+          "gmiou_3": 0.49616532692970156,
+          "positive_retention": 0.5298387096774193,
+          "negative_rejection": 0.8970430107526882,
+          "rejection_f1": 0.7578923461276402
+        },
+        {
+          "threshold": 0.8,
+          "gmiou_1": 0.5913580519905662,
+          "gmiou_3": 0.4985530424197945,
+          "positive_retention": 0.5145161290322581,
+          "negative_rejection": 0.9043010752688172,
+          "rejection_f1": 0.7568053993250844
+        },
+        {
+          "threshold": 0.81,
+          "gmiou_1": 0.5892953619478658,
+          "gmiou_3": 0.4997471995023352,
+          "positive_retention": 0.49408602150537634,
+          "negative_rejection": 0.9099462365591398,
+          "rejection_f1": 0.7533103371536664
+        },
+        {
+          "threshold": 0.8200000000000001,
+          "gmiou_1": 0.5879300547697267,
+          "gmiou_3": 0.502159480622167,
+          "positive_retention": 0.4706989247311828,
+          "negative_rejection": 0.9185483870967742,
+          "rejection_f1": 0.7504941796617615
+        },
+        {
+          "threshold": 0.8300000000000001,
+          "gmiou_1": 0.5851747741532624,
+          "gmiou_3": 0.5038396200582559,
+          "positive_retention": 0.4443548387096774,
+          "negative_rejection": 0.9263440860215054,
+          "rejection_f1": 0.7464529405393696
+        },
+        {
+          "threshold": 0.84,
+          "gmiou_1": 0.5818834392034808,
+          "gmiou_3": 0.5043554116341352,
+          "positive_retention": 0.4204301075268817,
+          "negative_rejection": 0.9311827956989247,
+          "rejection_f1": 0.7417558886509636
+        },
+        {
+          "threshold": 0.85,
+          "gmiou_1": 0.5797007069142183,
+          "gmiou_3": 0.5064952177169258,
+          "positive_retention": 0.3967741935483871,
+          "negative_rejection": 0.9397849462365592,
+          "rejection_f1": 0.7391120507399577
+        },
+        {
+          "threshold": 0.86,
+          "gmiou_1": 0.5764142514464703,
+          "gmiou_3": 0.5079982988692535,
+          "positive_retention": 0.3685483870967742,
+          "negative_rejection": 0.9475806451612904,
+          "rejection_f1": 0.7348342714196373
+        },
+        {
+          "threshold": 0.87,
+          "gmiou_1": 0.5737080336962043,
+          "gmiou_3": 0.5096051868593082,
+          "positive_retention": 0.34274193548387094,
+          "negative_rejection": 0.9551075268817204,
+          "rejection_f1": 0.7312204157233999
+        },
+        {
+          "threshold": 0.88,
+          "gmiou_1": 0.5684463288316188,
+          "gmiou_3": 0.5100914286069554,
+          "positive_retention": 0.30833333333333335,
+          "negative_rejection": 0.9618279569892473,
+          "rejection_f1": 0.7249518792422247
+        },
+        {
+          "threshold": 0.89,
+          "gmiou_1": 0.5637350392141991,
+          "gmiou_3": 0.5105819306341237,
+          "positive_retention": 0.2779569892473118,
+          "negative_rejection": 0.968010752688172,
+          "rejection_f1": 0.7196962126511443
+        },
+        {
+          "threshold": 0.9,
+          "gmiou_1": 0.5587580253070705,
+          "gmiou_3": 0.5108942521632888,
+          "positive_retention": 0.24704301075268817,
+          "negative_rejection": 0.9739247311827957,
+          "rejection_f1": 0.714313880126183
+        },
+        {
+          "threshold": 0.91,
+          "gmiou_1": 0.5523596879613237,
+          "gmiou_3": 0.5108224049476814,
+          "positive_retention": 0.2129032258064516,
+          "negative_rejection": 0.9801075268817204,
+          "rejection_f1": 0.7083738099863999
+        },
+        {
+          "threshold": 0.92,
+          "gmiou_1": 0.5428976188213663,
+          "gmiou_3": 0.5091916793920683,
+          "positive_retention": 0.16801075268817203,
+          "negative_rejection": 0.9846774193548387,
+          "rejection_f1": 0.699179232677992
+        },
+        {
+          "threshold": 0.93,
+          "gmiou_1": 0.5360659550881889,
+          "gmiou_3": 0.5085273613734823,
+          "positive_retention": 0.1336021505376344,
+          "negative_rejection": 0.989516129032258,
+          "rejection_f1": 0.6929593373493976
+        },
+        {
+          "threshold": 0.9400000000000001,
+          "gmiou_1": 0.5275842733261793,
+          "gmiou_3": 0.5069546144062175,
+          "positive_retention": 0.09731182795698924,
+          "negative_rejection": 0.9932795698924731,
+          "rejection_f1": 0.6859741947461245
+        },
+        {
+          "threshold": 0.9500000000000001,
+          "gmiou_1": 0.5198163505581502,
+          "gmiou_3": 0.5051717584297777,
+          "positive_retention": 0.06801075268817204,
+          "negative_rejection": 0.9956989247311828,
+          "rejection_f1": 0.6801946561380957
+        },
+        {
+          "threshold": 0.96,
+          "gmiou_1": 0.5131212204211922,
+          "gmiou_3": 0.5037464999970283,
+          "positive_retention": 0.041666666666666664,
+          "negative_rejection": 0.9981182795698925,
+          "rejection_f1": 0.6752136752136753
+        },
+        {
+          "threshold": 0.97,
+          "gmiou_1": 0.5053687945457948,
+          "gmiou_3": 0.5016103867123975,
+          "positive_retention": 0.016397849462365593,
+          "negative_rejection": 0.9994623655913979,
+          "rejection_f1": 0.670091015589799
+        },
+        {
+          "threshold": 0.98,
+          "gmiou_1": 0.5010701256749671,
+          "gmiou_3": 0.5003567085583224,
+          "positive_retention": 0.002688172043010753,
+          "negative_rejection": 1.0,
+          "rejection_f1": 0.6672645739910313
+        },
+        {
+          "threshold": 0.99,
+          "gmiou_1": 0.5,
+          "gmiou_3": 0.5,
+          "positive_retention": 0.0,
+          "negative_rejection": 1.0,
+          "rejection_f1": 0.6666666666666666
+        },
+        {
+          "threshold": 1.0,
+          "gmiou_1": 0.5,
+          "gmiou_3": 0.5,
+          "positive_retention": 0.0,
+          "negative_rejection": 1.0,
+          "rejection_f1": 0.6666666666666666
+        }
+      ],
+      "selection_values": [
+        0.5271903234123095,
+        0.5527731650391231,
+        0.5721729220979109
+      ],
+      "selection_mean": 0.5507121368497812,
+      "mAP": 35.57,
+      "mR1": 29.26,
+      "mR5": 44.34,
+      "AUROC": 84.02,
+      "R1": {
+        "0.5": 54.22043010752688,
+        "0.7": 32.446236559139784
+      },
+      "mR_plus": "N/A",
+      "multi_gt_coverage": "N/A",
+      "units": {
+        "gmiou": "0–1",
+        "mAP": "percent",
+        "mR": "percent",
+        "AUROC": "percent",
+        "R1": "percent",
+        "rejection_f1": "0–1"
+      },
+      "coverage": {
+        "rows": 7440,
+        "unique_evaluation_ids": 7440,
+        "positive": 3720,
+        "negative": 3720
+      },
+      "all_reject_gmiou": 0.5,
+      "inference_seconds": 20.381556510925293,
+      "inference_ms_per_row": 2.739456520285658,
+      "checkpoint_selection_split": "val"
     }
   },
   "provenance": {
@@ -5323,6 +6378,12 @@
       "rows": 7440,
       "prediction_sha256": "790d49f01efcf0cf49af16043ac4da0b22b375bf595647b5718858a4561eb70b",
       "metrics_sha256": "69bd451c3a40edfa809f550156fa2ec7d37dc5e3f6ed822f536d9fd90409162f"
+    },
+    "multi_geq_full": {
+      "checkpoint_sha256": "7d6bb1b976d1c036c42dec572b79e268d0542cc3d62ce58eb81126857a544372",
+      "rows": 7440,
+      "prediction_sha256": "fa1ff01918c85e18c61cbbdc137bc6bceba9dc3b3785810f9362457eded6b39c",
+      "metrics_sha256": "0ca7be88ea7c43575b5643ab108064dfd9edff9f798c40be4a51ef053a48ad8b"
     }
   }
 }
