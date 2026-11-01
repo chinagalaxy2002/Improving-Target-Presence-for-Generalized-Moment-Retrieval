@@ -8,7 +8,9 @@ Dashed colored lines show each model's perfect-presence ceiling with its own loc
 
 ## test_id
 
-3/6 methods evaluated. G-mIoU uses 0–1; mAP, mR, R@1 and AUROC use percent.
+5/6 methods evaluated. G-mIoU uses 0–1; mAP, mR, R@1 and AUROC use percent.
+
+![frozen](test_id/frozen.png)
 
 [Metrics CSV](test_id/summary.csv)
 
@@ -16,7 +18,9 @@ Dashed colored lines show each model's perfect-presence ceiling with its own loc
 
 ## test_ood
 
-3/6 methods evaluated. G-mIoU uses 0–1; mAP, mR, R@1 and AUROC use percent.
+5/6 methods evaluated. G-mIoU uses 0–1; mAP, mR, R@1 and AUROC use percent.
+
+![frozen](test_ood/frozen.png)
 
 [Metrics CSV](test_ood/summary.csv)
 

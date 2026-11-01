@@ -3,11 +3,11 @@
 
 ## Charades: target-domain seed2023 training
 
-Charades progress: **21/24 training tasks, 42/48 Test evaluations**. [Full protocol, status and results](results/charades_multi_geq/README.md). GMR + Multi is the explicit name of the Multi baseline; Flash uses Multi-TQAux.
+Charades progress: **23/24 training tasks, 46/48 Test evaluations**. [Full protocol, status and results](results/charades_multi_geq/README.md). GMR + Multi is the explicit name of the Multi baseline; Flash uses Multi-TQAux.
 
 ![Charades moment_detr](results/charades_multi_geq/moment_detr/test_id/frozen.png)
 
-![Charades eatr](results/charades_multi_geq/eatr/val/selection.png)
+![Charades eatr](results/charades_multi_geq/eatr/test_id/frozen.png)
 
 ![Charades qd_detr](results/charades_multi_geq/qd_detr/test_id/frozen.png)
 
