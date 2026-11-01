@@ -1,9 +1,9 @@
 {
-  "time": 1793554693.474558,
+  "time": 1793556848.8129044,
   "complete": false,
-  "training_verified": 19,
+  "training_verified": 20,
   "additional_training_verified": {},
-  "tests_verified": 36,
+  "tests_verified": 37,
   "checks": {
     "data_views_and_original_integrity": {
       "passed": true,
@@ -215,6 +215,15 @@
         "last_epoch": 7,
         "score": 0.659846811898325,
         "best_checkpoint_sha256": "84f33ede79481f8d27e58bd5991129775d10838601210f353c390b612dbaba36"
+      }
+    },
+    "flashvtg/multi_geq_full/training_selection": {
+      "passed": true,
+      "evidence": {
+        "best_epoch": 7,
+        "last_epoch": 13,
+        "score": 0.6622706147539416,
+        "best_checkpoint_sha256": "67eb825f93e6e585638aca8c22fae3cd2774b2b09ed39f128d0ae4a90b12da8b"
       }
     },
     "moment_detr/gmr/test_id/identity_metrics_and_frozen_invariance": {
@@ -473,6 +482,14 @@
         "metrics_sha256": "8357e6b311a28a3c2e41d299d82483b9a9b10435e329361a068078e1fca43d49"
       }
     },
+    "flashvtg/multi/test_id/identity_metrics_and_frozen_invariance": {
+      "passed": true,
+      "evidence": {
+        "rows": 7440,
+        "checkpoint_sha256": "6df1cb50042fa15ef38a506a76fc41e672f6b29b4e1d0b3d9e9871e3aa100ae4",
+        "metrics_sha256": "b56ee3038b672cd908cecae6867b6d83d1db4617cad0f1391cf145cbd8f1bb44"
+      }
+    },
     "flashvtg/gmr_geq_frozen/test_id/identity_metrics_and_frozen_invariance": {
       "passed": true,
       "evidence": {
@@ -617,6 +634,13 @@
         "batch_size": 1
       }
     },
+    "flashvtg/multi/inference_profile": {
+      "passed": true,
+      "evidence": {
+        "sha256": "3661a811d8b48bb0e2d4f85dc2cce0b3255ddca3c310446f236cbe3eb4b141e4",
+        "batch_size": 1
+      }
+    },
     "flashvtg/gmr_geq_frozen/inference_profile": {
       "passed": true,
       "evidence": {
@@ -628,6 +652,13 @@
       "passed": true,
       "evidence": {
         "sha256": "6c21cbdf71591326121c06de2d1720312ff3cba7c29ff6b0e9fea2c6c0001996",
+        "batch_size": 1
+      }
+    },
+    "flashvtg/multi_geq_full/inference_profile": {
+      "passed": true,
+      "evidence": {
+        "sha256": "6156a025bcbb45536d292f2eb9d38188adee37602f943ffe2ef3ba45ad2df3b2",
         "batch_size": 1
       }
     },
@@ -709,7 +740,6 @@
     "eatr/multi_geq_frozen/training",
     "eatr/multi_geq_full/training",
     "flashvtg/multi_geq_frozen/training",
-    "flashvtg/multi_geq_full/training",
     "eatr/multi_positive_only/additional_ablation_training",
     "eatr/multi/test_id/evaluation",
     "eatr/multi/test_ood/evaluation",
@@ -717,7 +747,6 @@
     "eatr/multi_geq_frozen/test_ood/evaluation",
     "eatr/multi_geq_full/test_id/evaluation",
     "eatr/multi_geq_full/test_ood/evaluation",
-    "flashvtg/multi/test_id/evaluation",
     "flashvtg/multi/test_ood/evaluation",
     "flashvtg/multi_geq_frozen/test_id/evaluation",
     "flashvtg/multi_geq_frozen/test_ood/evaluation",
@@ -726,9 +755,7 @@
     "eatr/multi/inference_profile",
     "eatr/multi_geq_frozen/inference_profile",
     "eatr/multi_geq_full/inference_profile",
-    "flashvtg/multi/inference_profile",
     "flashvtg/multi_geq_frozen/inference_profile",
-    "flashvtg/multi_geq_full/inference_profile",
     "figures/eatr/test_id/frozen",
     "figures/eatr/test_id/full",
     "figures/eatr/test_id/multi_comparison",

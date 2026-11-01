@@ -1,6 +1,6 @@
 # Charades GMR + Multi + GEQ (seed 2023)
 
-**Actual completion: 19/24 training tasks; 36/48 formal test evaluations.** This release remains incomplete until the full audit and remote verification pass.
+**Actual completion: 20/24 training tasks; 37/48 formal test evaluations.** This release remains incomplete until the full audit and remote verification pass.
 
 Test-ID is the primary result. Test-OOD is supplementary and keeps all 7,440 rows, including 2,170 duplicate extra records. Tests never select checkpoints or thresholds. All local positive examples have one GT: mR+ and multi-GT coverage are N/A. Flash Multi uses the **Multi-TQAux structural adaptation**, not the same native query decoder as the other backbones.
 
@@ -35,7 +35,7 @@ G-mIoU@1 is the mean at presence thresholds 0.4/0.5/0.6, on a 0–1 scale. mAP i
 | flashvtg | GMR + GEQ Frozen | Val selection finished | 42.73 | 0.6577 |
 | flashvtg | GMR + GEQ Full | Val selection finished | 42.31 | 0.6598 |
 | flashvtg | GMR + Multi-TQAux + GEQ Frozen | In progress | 41.85 | 0.6609 |
-| flashvtg | GMR + Multi-TQAux + GEQ Full | In progress | 41.83 | 0.6623 |
+| flashvtg | GMR + Multi-TQAux + GEQ Full | Val selection finished | 41.83 | 0.6623 |
 
 ## Additional EaTR positive-only ablation
 
