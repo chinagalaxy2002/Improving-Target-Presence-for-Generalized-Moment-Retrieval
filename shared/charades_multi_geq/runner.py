@@ -10,6 +10,7 @@ from engine_utils import seed,save,rng,restore,state_hash,seed_worker
 from adapter import Adapter
 from geq_model import RouteGEQ
 from metrics import measure
+from validation_schedule import ensure_schedule,validation_due,advance_selection
 STOP=False
 
 def stop(signum,frame):
@@ -163,8 +164,10 @@ def preflight(ad,model,optimizer,method,outdir):
  (outdir/'preflight_reload.pt').unlink();checks['strict_reload']=True;checks['initial_state_restored']=all(torch.equal(v,model.state_dict()[k]) for k,v in initial.items())
  dump(outdir/'preflight.json',dict(passed=True,checks=checks))
 
-def checkpoint(model,optimizer,epoch,cursor,generator_state,best,best_epoch,stale,best_above,train_sha):
- return dict(model=model.state_dict(),optimizer=optimizer.state_dict(),rng=rng(),sampler_epoch_start=generator_state,epoch=epoch,cursor=cursor,best=best,best_epoch=best_epoch,stale=stale,best_above=best_above,train_sha256=train_sha,seed=2023)
+def checkpoint(model,optimizer,epoch,cursor,generator_state,best,best_epoch,stale,best_above,train_sha,schedule=None):
+ state=dict(model=model.state_dict(),optimizer=optimizer.state_dict(),rng=rng(),sampler_epoch_start=generator_state,epoch=epoch,cursor=cursor,best=best,best_epoch=best_epoch,stale=stale,best_above=best_above,train_sha256=train_sha,seed=2023)
+ if schedule is not None:state['validation_schedule']=schedule
+ return state
 
 def train(ad,model,optimizer,parent,outdir,args):
  train_sha=sha(OUT/'data/train.jsonl');generator=torch.Generator().manual_seed(2023)
@@ -174,13 +177,16 @@ def train(ad,model,optimizer,parent,outdir,args):
   model.load_state_dict(resumed['model'],strict=True);optimizer.load_state_dict(resumed['optimizer']);restore(resumed['rng'])
   epoch=resumed['epoch'];cursor=resumed['cursor'];best=resumed['best'];best_epoch=resumed['best_epoch'];stale=resumed['stale'];best_above=resumed['best_above'];generator.set_state(resumed['sampler_epoch_start'])
  else:preflight(ad,model,optimizer,args.method,outdir)
+ schedule=ensure_schedule(outdir,bool(parent),epoch)
+ if resumed is not None and 'validation_schedule' in resumed:assert resumed['validation_schedule']==schedule
+ cfg=json.loads((outdir/'config.json').read_text());cfg['validation_schedule']=schedule;dump(outdir/'config.json',cfg)
  baseline=None;parent_values=None
  if parent:
   baseline=json.loads((OUT/'runs'/ad.name/'gmr/best_val_metrics.json').read_text())['selection_values']
   parent_values=json.loads((parent/'best_val_metrics.json').read_text())['selection_values']
  ceiling=20 if parent else 200
  for ep in range(epoch,ceiling+1):
-  if stale>=(6 if parent else 20):break
+  if stale>=schedule['patience_epochs']:break
   epoch_generator=generator.get_state();batches=loader(ad,'train',True,generator);model.train();begun=time.time();total=0.;steps=0
   torch.cuda.reset_peak_memory_stats()
   for step,items in enumerate(batches):
@@ -191,27 +197,29 @@ def train(ad,model,optimizer,parent,outdir,args):
    value.backward();norm=torch.nn.utils.clip_grad_norm_([p for p in model.parameters() if p.requires_grad],.1);assert torch.isfinite(norm)
    optimizer.step();total+=float(value);steps+=1
    if (step+1)%100==0 or STOP or args.interrupt_after_steps and steps>=args.interrupt_after_steps:
-    save(outdir/'last.ckpt',checkpoint(model,optimizer,ep,step+1,epoch_generator,best,best_epoch,stale,best_above,train_sha))
-    dump(outdir/'status.json',dict(status='TRAINING',epoch=ep,step=step+1,total_steps=len(batches),pid=os.getpid(),train_loss=total/max(steps,1)))
-    print(json.dumps(dict(epoch=ep,step=step+1,loss=total/max(steps,1))),flush=True)
+    save(outdir/'last.ckpt',checkpoint(model,optimizer,ep,step+1,epoch_generator,best,best_epoch,stale,best_above,train_sha,schedule))
+    diagnostics={'last_batch_loss_parts':{k:float(v) for k,v in getattr(ad,'last_loss_components',{}).items()}} if ad.name=='eatr' and ad.native.cfg.get('multi_auxiliary_query_scope')=='positive_only_v1' else {}
+    dump(outdir/'status.json',dict(status='TRAINING',epoch=ep,step=step+1,total_steps=len(batches),pid=os.getpid(),train_loss=total/max(steps,1),**diagnostics))
+    print(json.dumps(dict(epoch=ep,step=step+1,loss=total/max(steps,1),**diagnostics)),flush=True)
    if STOP or args.interrupt_after_steps and steps>=args.interrupt_after_steps:return
   cursor=0
-  metrics,pred=evaluate(ad,model,'val',outdir/'current_val',parent)
-  score=metrics['selection_mean'] if parent else metrics['mAP'];above=bool(parent) and all(a>b for a,b in zip(metrics['selection_values'],baseline))
-  improved=score>best;tie_better=score==best and above and not best_above
-  stale=0 if improved else stale+1
-  if improved or tie_better:best=score;best_epoch=ep;best_above=above
+  validated=validation_due(ep,best_epoch,ceiling,schedule);metrics=None;pred=None;score=None;above=False
+  if validated:
+   metrics,pred=evaluate(ad,model,'val',outdir/'current_val',parent)
+   score=metrics['selection_mean'] if parent else metrics['mAP'];above=bool(parent) and all(a>b for a,b in zip(metrics['selection_values'],baseline))
+  best,best_epoch,best_above,improved,tie_better=advance_selection(ep,score,above,best,best_epoch,best_above)
+  stale=0 if improved else stale+1 if math.isfinite(best) else 0
   # At an epoch boundary, generator now stores next epoch's deterministic sampler state.
-  state=checkpoint(model,optimizer,ep+1,0,generator.get_state(),best,best_epoch,stale,best_above,train_sha)
+  state=checkpoint(model,optimizer,ep+1,0,generator.get_state(),best,best_epoch,stale,best_above,train_sha,schedule)
   save(outdir/'last.ckpt',state)
   if improved or tie_better:
    save(outdir/'best.ckpt',state);jsonl(outdir/'best_val_predictions.jsonl',pred);dump(outdir/'best_val_metrics.json',metrics)
-  record=dict(epoch=ep,selection=score,best=best,best_epoch=best_epoch,stale=stale,seconds=time.time()-begun,train_loss=total/max(steps,1),peak_memory_bytes=torch.cuda.max_memory_allocated(),mAP=metrics['mAP'],val_values=metrics['selection_values'],gain_vs_gmr=[a-b for a,b in zip(metrics['selection_values'],baseline)] if parent else None,gain_vs_parent=[a-b for a,b in zip(metrics['selection_values'],parent_values)] if parent else None)
+  record=dict(epoch=ep,validated=validated,validation_interval_epochs=schedule['interval_epochs'],selection=score,best=best if math.isfinite(best) else None,best_epoch=best_epoch,stale=stale,seconds=time.time()-begun,train_loss=total/max(steps,1),peak_memory_bytes=torch.cuda.max_memory_allocated(),mAP=metrics['mAP'] if validated else None,val_values=metrics['selection_values'] if validated else None,gain_vs_gmr=[a-b for a,b in zip(metrics['selection_values'],baseline)] if parent and validated else None,gain_vs_parent=[a-b for a,b in zip(metrics['selection_values'],parent_values)] if parent and validated else None)
   with (outdir/'history.jsonl').open('a') as f:f.write(json.dumps(record)+'\n');f.flush();os.fsync(f.fileno())
   dump(outdir/'status.json',dict(status='TRAINING',pid=os.getpid(),**record));print('EPOCH',json.dumps(record),flush=True)
   if STOP:return
  assert (outdir/'best.ckpt').is_file()
- dump(outdir/'TRAINED.json',dict(best_epoch=best_epoch,score=best,checkpoint_sha256=sha(outdir/'best.ckpt'),selection='Val mean G-mIoU@1 at .4/.5/.6' if parent else 'Val positive mAP',seed=2023))
+ dump(outdir/'TRAINED.json',dict(best_epoch=best_epoch,score=best,checkpoint_sha256=sha(outdir/'best.ckpt'),selection='Val mean G-mIoU@1 at .4/.5/.6' if parent else 'Val positive mAP',seed=2023,validation_schedule_sha256=sha(outdir/'validation_schedule.json')))
 
 def main():
  p=argparse.ArgumentParser();p.add_argument('--backbone',choices=BACKBONES,required=True);p.add_argument('--method',choices=METHODS,required=True);p.add_argument('--mode',choices=['train','preflight','test','profile'],default='train');p.add_argument('--split',choices=['test_id','test_ood']);p.add_argument('--interrupt-after-steps',type=int,default=0);p.add_argument('--output-suffix',default='');args=p.parse_args()
@@ -222,6 +230,8 @@ def main():
   fcntl.flock(legacy_lock,fcntl.LOCK_EX|fcntl.LOCK_NB)
   ad,model,optimizer,parent=build(args.backbone,args.method)
   dump(outdir/'config.json',dict(backbone=args.backbone,method=args.method,seed=2023,train_sha256=sha(OUT/'data/train.jsonl'),native=ad.native.cfg,initialization=ad.native.manifest,parameter_count=sum(p.numel() for p in model.parameters()),trainable_parameters=sum(p.numel() for p in model.parameters() if p.requires_grad),parent_sha256=sha(parent/'best.ckpt') if parent else None,native_init_snapshot_sha256=sha(OUT/'runs'/args.backbone/'native_init.pt'),geq_init_snapshot_sha256=sha(OUT/'runs'/args.backbone/'geq_init.pt') if parent else None,amp=False,microbatch=ad.bs,accumulation=1))
+  if (outdir/'validation_schedule.json').exists():
+   cfg=json.loads((outdir/'config.json').read_text());cfg['validation_schedule']=json.loads((outdir/'validation_schedule.json').read_text());dump(outdir/'config.json',cfg)
   if args.mode=='preflight':preflight(ad,model,optimizer,args.method,outdir)
   elif args.mode=='train':
    if not (outdir/'TRAINED.json').exists():train(ad,model,optimizer,parent,outdir,args)

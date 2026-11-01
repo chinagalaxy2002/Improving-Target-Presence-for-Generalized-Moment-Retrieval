@@ -12,6 +12,8 @@ class Adapter:
  def __init__(self,name,multi,device='cuda'):
   load_local("dab_routes_local","dab_routes.py")
   self.name=name;self.native=TargetAdapter(name,device,'charades',seed=2023,config={'enable_pat_select':False})
+  if name=='eatr' and multi:
+   self.native.cfg['multi_auxiliary_query_scope']='positive_only_v1'
   self.opt=self.native.opt;self.opt.num_workers=2;self.opt.seed=2023;self.native.cfg["seed"]=2023
   self.opt.max_v_l=json.loads((OUT/'data/audit.json').read_text())['max_v_l']
   self.bs={'moment_detr':8,'eatr':32,'qd_detr':32,'flashvtg':8}[name]
@@ -47,16 +49,28 @@ class Adapter:
  def loss(self,out,targets,metas,epoch):
   native={k:v for k,v in out.items() if k!='o2m_outputs'}
   total,parts=self.native.native_loss(native,targets,metas,epoch-1)
+  self.last_loss_components={'native_total':total.detach(),**{k:v.detach() for k,v in parts.items() if k.startswith('loss_') and isinstance(v,torch.Tensor)}}
+  native_total=total
   # Fixed K=2 Hungarian matching shared by all train-only auxiliary routes.
   from scipy.optimize import linear_sum_assignment
   geometry=load_local("aux_geometry", "dab_routes.py")
   _generalized_iou,_span_xx=geometry._generalized_iou,geometry._span_xx
   cspan=float(self.native.cfg.get("span_loss_coef",10));cgiou=float(self.native.cfg.get("giou_loss_coef",1));cclass=float(self.native.cfg.get("label_loss_coef",4))
   mspan=float(self.native.cfg.get("set_cost_span",10));mgiou=float(self.native.cfg.get("set_cost_giou",1));mclass=float(self.native.cfg.get("set_cost_class",4))
+  span_labels=targets['span_labels'];positive=None
+  if self.native.cfg.get('multi_auxiliary_query_scope')=='positive_only_v1':
+   positive=torch.tensor([len(t['spans'])>0 for t in span_labels],device=self.device,dtype=torch.bool)
+   if not positive.any():
+    self.last_loss_components['aux_total']=total.detach()*0
+    return total
+   span_labels=[t for t,keep in zip(span_labels,positive.tolist()) if keep]
   for route,pred in out.get('o2m_outputs',{}).items():
+   route_total=total.detach()*0
    for p in pred.get('aux_outputs',[])+[pred]:
     z=p['pred_logits'];sp=p['pred_spans'];cls=torch.ones(z.shape[:2],dtype=torch.long,device=z.device);terms=[]
-    for i,t in enumerate(targets['span_labels']):
+    if positive is not None:
+     z=z[positive];sp=sp[positive];cls=cls[positive]
+    for i,t in enumerate(span_labels):
      gt=t['spans'].repeat_interleave(2,dim=0)
      if len(gt):
       a=_span_xx(sp[i]);b=_span_xx(gt)
@@ -66,4 +80,7 @@ class Adapter:
       terms.append(cspan*F.l1_loss(sp[i,ii],gt[jj])+cgiou*(1-_generalized_iou(a[ii],b[jj])).mean())
     aux=cclass*F.cross_entropy(z.transpose(1,2),cls,weight=z.new_tensor([1.,.1]))+(torch.stack(terms).mean() if terms else sp.sum()*0)
     total=total+.15*aux
+    route_total=route_total+.15*aux.detach()
+   self.last_loss_components['aux_'+route]=route_total
+  self.last_loss_components['aux_total']=(total-native_total).detach()
   return total

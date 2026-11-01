@@ -61,6 +61,7 @@ def main():
      dump(OUT/'logs'/('failure_'+key.replace('/','_')+'.json'),dict(key=key,returncode=rc,attempts=failures[key],log=f.name,time=time.time()))
   policy_path=OUT/'logs/scheduling_policy.json'
   policy=json.loads(policy_path.read_text()) if policy_path.exists() else {}
+  held_tasks=set(policy.get('held_tasks',[]))
   defer_flash=policy.get('flash_last',False) and any(not (OUT/'runs'/b/m/'TRAINED.json').exists() for b in BACKBONES if b!='flashvtg' for m in METHODS)
   candidates=[]
   for b in BACKBONES:
@@ -68,6 +69,7 @@ def main():
    if not (OUT/'reports/DEBUG24_READY.json').exists():continue
    if not (OUT/'reports'/f'resume_audit_{b}.json').exists():continue
    for m in METHODS:
+    if f'{b}/{m}' in held_tasks:continue
     d=OUT/'runs'/b/m;parent=OUT/'runs'/b/('multi' if m.startswith('multi') else 'gmr')
     if not (d/'TRAINED.json').exists():
      if '_geq_' in m and not ((parent/'TRAINED.json').exists() and (OUT/'runs'/b/'gmr/TRAINED.json').exists()):continue
