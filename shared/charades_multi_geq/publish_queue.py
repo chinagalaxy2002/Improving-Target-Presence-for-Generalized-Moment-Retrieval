@@ -1,5 +1,6 @@
 """Independent bounded Git publishing retries; never blocks the CUDA dispatcher."""
-import argparse,fcntl,json,os,re,signal,subprocess,tempfile,time,urllib.request
+import argparse,fcntl,hashlib,io,json,os,re,signal,subprocess,tempfile,time,urllib.request
+from PIL import Image
 from pathlib import Path
 from paths import *
 from prepare_release import prepare,WORKTREE
@@ -61,18 +62,21 @@ else:
   command(['push',URL,f'HEAD:refs/heads/{BRANCH}'],env)
   observed=command(['ls-remote',URL,f'refs/heads/{BRANCH}'],env).stdout.split()[0]
   assert observed==head,'Remote commit does not match pushed HEAD'
- # Check direct README images on the actual remote commit, including their bytes.
+ # Git commits bind all reachable image blobs by content hash. This also
+ # verifies private-repository images without using credentials outside Git.
  images=[]
- for path in ('README.md','results/charades_multi_geq/README.md'):
-  readme=WORKTREE/path
+ readmes=[WORKTREE/'README.md']+list((WORKTREE/'results/charades_multi_geq').rglob('README.md'))
+ for readme in readmes:
   for target in re.findall(r'!\[[^\]]*\]\(([^)]+)\)',readme.read_text()):
    local=(readme.parent/target).resolve()
    if 'charades_multi_geq' not in str(local):continue
    relative=local.relative_to(WORKTREE).as_posix();assert local.is_file()
-   with urllib.request.urlopen(REPO_RAW+head+'/'+relative,timeout=30) as response:payload=response.read();assert response.status==200
-   assert __import__('hashlib').sha256(payload).hexdigest()==sha(local)
+   blob=subprocess.run(['git','-C',str(WORKTREE),'show',head+':'+relative],capture_output=True,check=True,timeout=20).stdout
+   assert hashlib.sha256(blob).hexdigest()==sha(local),'Committed image differs from prepared image'
+   if local.suffix=='.png':
+    with Image.open(io.BytesIO(blob)) as picture:picture.verify()
    images.append(relative)
- status=dict(state='CODE_AND_AVAILABLE_RESULTS_PUBLISHED',time=time.time(),commit=head,branch=BRANCH,remote_commit=observed,verified_readme_images=sorted(set(images)),release_manifest_sha256=sha(OUT/'reports/release_manifest.json'))
+ status=dict(state='CODE_AND_AVAILABLE_RESULTS_PUBLISHED',time=time.time(),commit=head,branch=BRANCH,remote_commit=observed,verified_readme_images=sorted(set(images)),image_verification='Matching authenticated remote commit; reachable Git image blob hashes and PNG decoding. Private repository access is required.',release_manifest_sha256=sha(OUT/'reports/release_manifest.json'))
  dump(OUT/'logs/publication_status.json',status)
  audit=json.loads((OUT/'reports/completion_audit.json').read_text())
  if not audit['errors'] and audit['training_verified']==24 and audit['tests_verified']==48 and set(audit['pending'])=={'verified_final_GitHub_publication'}:
