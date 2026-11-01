@@ -14,7 +14,7 @@ Status reflects files actually completed.
 
 ## test_ood
 
-2/6 methods evaluated. G-mIoU uses 0–1; mAP, mR, R@1 and AUROC use percent.
+3/6 methods evaluated. G-mIoU uses 0–1; mAP, mR, R@1 and AUROC use percent.
 
 [Metrics CSV](test_ood/summary.csv)
 
