@@ -1,0 +1,108 @@
+{
+  "passed": true,
+  "reference": {
+    "url": "https://github.com/chinagalaxy2002/Improving-Target-Presence-for-Generalized-Moment-Retrieval/blob/main/ablations/geq_gap_all_backbones_20261026/figures/test_existence_score_distributions.pdf",
+    "git_blob_sha": "c47827e422ef039b888a9c5d6a48bb3afffe021a",
+    "local_sha256": "0e6419c3b0f91049464e73659e299a92b233a8480e5ac8061ee31728cf0ea506"
+  },
+  "figures": [
+    {
+      "split": "test_id",
+      "family": "gmr",
+      "available": [
+        "moment_detr/gmr",
+        "moment_detr/gmr_geq_frozen",
+        "moment_detr/gmr_geq_full",
+        "eatr/gmr",
+        "eatr/gmr_geq_frozen",
+        "eatr/gmr_geq_full",
+        "qd_detr/gmr",
+        "qd_detr/gmr_geq_frozen",
+        "qd_detr/gmr_geq_full",
+        "flashvtg/gmr",
+        "flashvtg/gmr_geq_frozen",
+        "flashvtg/gmr_geq_full"
+      ],
+      "pending": {},
+      "snapshot_sha256": "53273bba8e9047ab825b882ab7806bf984ba326c982278e8ea3c895a552d0a56"
+    },
+    {
+      "split": "test_id",
+      "family": "multi",
+      "available": [
+        "moment_detr/multi",
+        "moment_detr/multi_geq_frozen",
+        "moment_detr/multi_geq_full",
+        "qd_detr/multi",
+        "qd_detr/multi_geq_frozen",
+        "qd_detr/multi_geq_full"
+      ],
+      "pending": {
+        "eatr": [
+          "multi",
+          "multi_geq_frozen",
+          "multi_geq_full"
+        ],
+        "flashvtg": [
+          "multi",
+          "multi_geq_frozen",
+          "multi_geq_full"
+        ]
+      },
+      "snapshot_sha256": "1b79724c532fc8a27ad45be9bc584cd00c760337b08b769360fc0c73ca465b80"
+    },
+    {
+      "split": "test_ood",
+      "family": "gmr",
+      "available": [
+        "moment_detr/gmr",
+        "moment_detr/gmr_geq_frozen",
+        "moment_detr/gmr_geq_full",
+        "eatr/gmr",
+        "eatr/gmr_geq_frozen",
+        "eatr/gmr_geq_full",
+        "qd_detr/gmr",
+        "qd_detr/gmr_geq_frozen",
+        "qd_detr/gmr_geq_full",
+        "flashvtg/gmr",
+        "flashvtg/gmr_geq_frozen",
+        "flashvtg/gmr_geq_full"
+      ],
+      "pending": {},
+      "snapshot_sha256": "01ece822970657183f3141e8ddaff07c0cbd2da564a58e2b2f802ee61ca53d49"
+    },
+    {
+      "split": "test_ood",
+      "family": "multi",
+      "available": [
+        "moment_detr/multi",
+        "moment_detr/multi_geq_frozen",
+        "moment_detr/multi_geq_full",
+        "qd_detr/multi",
+        "qd_detr/multi_geq_frozen",
+        "qd_detr/multi_geq_full"
+      ],
+      "pending": {
+        "eatr": [
+          "multi",
+          "multi_geq_frozen",
+          "multi_geq_full"
+        ],
+        "flashvtg": [
+          "multi",
+          "multi_geq_frozen",
+          "multi_geq_full"
+        ]
+      },
+      "snapshot_sha256": "ec56b0f241bb21da3690c44b0ae421dbd02c5c4b7dc29e025fc9b8f6c3cdfa0b"
+    }
+  ],
+  "checks": [
+    "Complete unique row identities and unchanged prediction SHA",
+    "Scores finite and in0–1 without clipping",
+    "Each class/method histogram integrates to1",
+    "40 common bins and full0–1 x-axis",
+    "Means/medians computed from all class rows",
+    "Only COMPLETE formal tests plotted; missing methods explicitly pending"
+  ]
+}

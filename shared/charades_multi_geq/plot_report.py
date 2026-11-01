@@ -258,7 +258,11 @@ def global_heatmaps(records):
 def main():
  p=argparse.ArgumentParser();p.add_argument('--snapshot');p.add_argument('--output');args=p.parse_args()
  if args.snapshot:
-  snapshot=json.loads(Path(args.snapshot).read_text());{'val_selection':render_selection,'oracle_heatmap':render_oracle_heatmap,'oracle_detail':render_oracle_detail,'relative_to_gmr':render_relative}.get(snapshot.get('type'),render)(snapshot,Path(args.output));return
+  snapshot=json.loads(Path(args.snapshot).read_text())
+  if snapshot.get('type')=='existence_score_distributions':
+   from plot_existence_score_distributions import render as renderer
+  else:renderer={'val_selection':render_selection,'oracle_heatmap':render_oracle_heatmap,'oracle_detail':render_oracle_detail,'relative_to_gmr':render_relative}.get(snapshot.get('type'),render)
+  renderer(snapshot,Path(args.output));return
  (OUT/'logs').mkdir(parents=True,exist_ok=True)
  with (OUT/'logs/plot_report.lock').open('a') as lock:
   fcntl.flock(lock,fcntl.LOCK_EX);generate_reports()
@@ -288,6 +292,9 @@ def generate_reports():
   if (OUT/'figures'/b/'test_id/frozen.png').exists():index += [f'![Frozen comparison](../figures/{b}/test_id/frozen.png)','']
  write_csv(OUT/'reports/all_metrics.csv',all_records)
  global_heatmaps(all_records)
+ from plot_existence_score_distributions import generate_score_distributions
+ generate_score_distributions()
+ index += ['## Existence-score distributions','', '[All score-distribution figures and statistics](../figures/score_distributions/README.md)','']
  trained=sum((OUT/'runs'/b/m/'TRAINED.json').exists() for b in BACKBONES for m in METHODS)
  index.insert(2,f'Training completed: {trained}/24. Test evaluations completed: {len(all_records)}/48. Not complete until all acceptance checks and remote publication succeed.')
  (OUT/'reports/README.md').write_text('\n'.join(index)+'\n')
