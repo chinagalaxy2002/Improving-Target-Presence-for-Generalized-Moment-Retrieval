@@ -1,0 +1,98 @@
+{
+  "type": "oracle_heatmap",
+  "split": "test_id",
+  "metric": "mR5_percent",
+  "actual": [
+    [
+      38.44,
+      38.56,
+      38.44,
+      38.59,
+      38.56,
+      38.55
+    ],
+    [
+      42.84,
+      39.24,
+      42.84,
+      42.26,
+      39.24,
+      37.75
+    ],
+    [
+      40.16,
+      43.61,
+      40.16,
+      40.41,
+      43.61,
+      44.34
+    ],
+    [
+      54.52,
+      54.16,
+      54.52,
+      55.02,
+      54.16,
+      53.65
+    ]
+  ],
+  "oracle": [
+    [
+      38.44,
+      38.56,
+      38.44,
+      38.59,
+      38.56,
+      38.55
+    ],
+    [
+      42.84,
+      39.24,
+      42.84,
+      42.26,
+      39.24,
+      37.75
+    ],
+    [
+      40.16,
+      43.61,
+      40.16,
+      40.41,
+      43.61,
+      44.34
+    ],
+    [
+      54.52,
+      54.16,
+      54.52,
+      55.02,
+      54.16,
+      53.65
+    ]
+  ],
+  "xlabels": [
+    "GMR",
+    "GMR + Multi",
+    "GMR + GEQ Frozen",
+    "GMR + GEQ Full",
+    "GMR + Multi + GEQ Frozen",
+    "GMR + Multi + GEQ Full"
+  ],
+  "ylabels": [
+    "Moment-DETR-GMR",
+    "EaTR-GMR",
+    "QD-DETR-GMR",
+    "FlashVTG-GMR (Multi-TQAux adaptation)"
+  ],
+  "precision_per_row": [
+    2,
+    2,
+    2,
+    2
+  ],
+  "figsize": [
+    14,
+    5.5
+  ],
+  "title": "test_id | mR5_percent | actual / Oracle presence (O)\nColors compare actual values within a backbone row; ungated localization unchanged"
+}

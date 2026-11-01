@@ -11,6 +11,7 @@ NAMES={'moment_detr':'Moment-DETR-GMR','eatr':'EaTR-GMR','qd_detr':'QD-DETR-GMR'
 LABELS=dict(zip(METHODS,['GMR','GMR + Multi','GMR + GEQ Frozen','GMR + GEQ Full','GMR + Multi + GEQ Frozen','GMR + Multi + GEQ Full']))
 COLORS=['#64748b','#e69f00','#009e73','#56b4e9','#0072b2','#cc79a7']
 STYLES=dict(zip(METHODS,COLORS))
+MARKERS=dict(zip(METHODS,['o','s','^','v','D','P']))
 LABELS['multi_positive_only']='GMR + Multi (positive-only ablation)'
 STYLES['multi_positive_only']='#dc2626'
 plt.rcParams.update({'font.family':'DejaVu Sans','font.size':10,'axes.spines.top':False,'axes.spines.right':False,'svg.fonttype':'none','pdf.fonttype':42,'svg.hashsalt':'charades-seed2023'})
@@ -38,12 +39,13 @@ def render(snapshot,dest):
  for m in methods:
   metrics=series[m];grid=metrics['grid'];x=[r['threshold'] for r in grid];c=STYLES[m]
   label=f"{LABELS[m].replace('Multi','Multi-TQAux') if snapshot['backbone']=='flashvtg' else LABELS[m]} (mAP {metrics['mAP']:.2f}%)"
-  handle,=g1.plot(x,[r['gmiou_1'] for r in grid],color=c,label=label);method_handles.append(handle)
-  g3.plot(x,[r['gmiou_3'] for r in grid],color=c)
-  delta.plot(x,[r['gmiou_1']-b['gmiou_1'] for r,b in zip(grid,baseline)],color=c,lw=2)
-  trade.plot([r['positive_retention'] for r in grid],[r['negative_rejection'] for r in grid],color=c)
-  f1.plot(x,[r['rejection_f1'] for r in grid],color=c)
-  fixed.plot([.4,.5,.6],[grid[i]['gmiou_1'] for i in (40,50,60)],'o-',color=c)
+  style=dict(color=c,marker=MARKERS[m],markevery=20,markersize=4)
+  handle,=g1.plot(x,[r['gmiou_1'] for r in grid],label=label,**style);method_handles.append(handle)
+  g3.plot(x,[r['gmiou_3'] for r in grid],**style)
+  delta.plot(x,[r['gmiou_1']-b['gmiou_1'] for r,b in zip(grid,baseline)],lw=2,**style)
+  trade.plot([r['positive_retention'] for r in grid],[r['negative_rejection'] for r in grid],**style)
+  f1.plot(x,[r['rejection_f1'] for r in grid],**style)
+  fixed.plot([.4,.5,.6],[grid[i]['gmiou_1'] for i in (40,50,60)],marker=MARKERS[m],color=c)
   for i in (40,50,60):trade.scatter(grid[i]['positive_retention'],grid[i]['negative_rejection'],s=15,color=c)
  has_oracle=all('oracle_presence' in series[m] for m in methods)
  if has_oracle:

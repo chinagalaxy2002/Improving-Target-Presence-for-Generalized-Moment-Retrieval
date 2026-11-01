@@ -1,0 +1,98 @@
+{
+  "type": "oracle_heatmap",
+  "split": "test_id",
+  "metric": "mAP_percent",
+  "actual": [
+    [
+      30.99,
+      31.83,
+      30.99,
+      31.12,
+      31.83,
+      31.65
+    ],
+    [
+      34.59,
+      32.38,
+      34.59,
+      34.44,
+      32.38,
+      31.25
+    ],
+    [
+      34.17,
+      35.21,
+      34.17,
+      34.38,
+      35.21,
+      35.57
+    ],
+    [
+      41.4,
+      41.37,
+      41.4,
+      41.7,
+      41.37,
+      41.4
+    ]
+  ],
+  "oracle": [
+    [
+      30.99,
+      31.83,
+      30.99,
+      31.12,
+      31.83,
+      31.65
+    ],
+    [
+      34.59,
+      32.38,
+      34.59,
+      34.44,
+      32.38,
+      31.25
+    ],
+    [
+      34.17,
+      35.21,
+      34.17,
+      34.38,
+      35.21,
+      35.57
+    ],
+    [
+      41.4,
+      41.37,
+      41.4,
+      41.7,
+      41.37,
+      41.4
+    ]
+  ],
+  "xlabels": [
+    "GMR",
+    "GMR + Multi",
+    "GMR + GEQ Frozen",
+    "GMR + GEQ Full",
+    "GMR + Multi + GEQ Frozen",
+    "GMR + Multi + GEQ Full"
+  ],
+  "ylabels": [
+    "Moment-DETR-GMR",
+    "EaTR-GMR",
+    "QD-DETR-GMR",
+    "FlashVTG-GMR (Multi-TQAux adaptation)"
+  ],
+  "precision_per_row": [
+    2,
+    2,
+    2,
+    2
+  ],
+  "figsize": [
+    14,
+    5.5
+  ],
+  "title": "test_id | mAP_percent | actual / Oracle presence (O)\nColors compare actual values within a backbone row; ungated localization unchanged"
+}

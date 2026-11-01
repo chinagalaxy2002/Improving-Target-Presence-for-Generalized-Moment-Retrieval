@@ -1,5 +1,5 @@
 """Prepare only Charades-owned release paths; exclude weights/features/credentials."""
-import argparse,gzip,hashlib,io,json,re,shutil,time
+import argparse,gzip,hashlib,io,json,re,shutil,time,csv
 from pathlib import Path
 from paths import *
 WORKTREE=Path('/home/guoxiangyu/charades-multi-geq-worktree')
@@ -26,12 +26,20 @@ def prepare(worktree=WORKTREE):
  if monitor.exists():monitor.write_text(monitor.read_text().replace("THREAD='01a19315-f496-7fc1-a79e-751074928b45'","THREAD=os.environ.get('CHARADES_CODEX_THREAD','')"))
  result=worktree/'results/charades_multi_geq';result.mkdir(parents=True,exist_ok=True)
  for name in ('protocol.json','source_manifest.json'):copy_file(OUT/name,result/name)
+ if (OUT/'reports/all_metrics.csv').exists():copy_file(OUT/'reports/all_metrics.csv',result/'all_metrics.csv')
+ summary=['# Charades summary heatmaps','','Colors compare actual values within a backbone row only. O denotes the fixed-candidate perfect-presence reference; it does not select a checkpoint or threshold.','']
+ for p in sorted((OUT/'reports').glob('heatmap_*')):
+  if p.is_file() and p.suffix in ('.png','.pdf','.svg','.csv','.json'):
+   copy_file(p,result/'summary'/p.name)
+   if p.suffix=='.png':summary += [f'## {p.stem}','','!['+p.stem+']('+p.name+')','',f'[PDF]({p.stem}.pdf) · [SVG]({p.stem}.svg) · [CSV]({p.stem}.csv) · [Offline snapshot]({p.stem}.snapshot.json)','']
+ (result/'summary').mkdir(exist_ok=True);(result/'summary/README.md').write_text('\n'.join(summary)+'\n')
  for p in (OUT/'figures').rglob('*'):
   if p.is_file() and p.suffix in ('.png','.pdf','.svg','.json','.csv','.md'):copy_file(p,result/p.relative_to(OUT/'figures'))
  audit_names=('DEBUG24_READY.json','export_protocol_audit.json','initialization_audit.json','flash_zero_point_guard.json','independent_data_audit.json','independent_metric_contract.json','completion_audit.json','flash_zero_reg_fix_20261101.json','moment_frozen_parent_integrity_20261101.json','moment_frozen_cache_fix_20261101.json','validation_cadence_regression_20261101.json','validation_cadence_restart_20261101.json','auxiliary_matching_batch_transfer_20261101.json','eatr_matching_gpu_verification_20261101.json','eatr_matching_activation_20261101.json','eatr_original_continuation_regression_20261101.json','eatr_restore_all_queries_20261101.json','FIGURE_REVIEW.json')
  for name in audit_names:
   p=OUT/'reports'/name
   if p.exists():copy_file(p,result/'audit'/name)
+ if (OUT/'reports/final_artifact_audit.json').exists():copy_file(OUT/'reports/final_artifact_audit.json',result/'audit/final_artifact_audit.json')
  for pattern in ('native_factory_equivalence_*.json','resume_audit_*.json'):
   for p in (OUT/'reports').glob(pattern):copy_file(p,result/'audit'/p.name)
  for p in (OUT/'reports/debug24').glob('*/*/preflight.json'):copy_file(p,result/'audit/debug24'/p.relative_to(OUT/'reports/debug24'))
@@ -56,7 +64,20 @@ def prepare(worktree=WORKTREE):
     dest=result/'run_metadata'/b/m/split/'predictions.jsonl.gz';dest.parent.mkdir(parents=True,exist_ok=True)
     with dest.open('wb') as f:
      with gzip.GzipFile(filename='',fileobj=f,mode='wb',mtime=0) as out:out.write((sd/'predictions.jsonl').read_bytes())
- readme=['# Charades GMR + Multi + GEQ (seed 2023)','',f'**Actual completion: {trained}/24 training tasks; {tested}/48 formal test evaluations.** This release remains incomplete until the full audit and remote verification pass.','', 'Test-ID is the primary result. Test-OOD is supplementary and keeps all 7,440 rows, including 2,170 duplicate extra records. Tests never select checkpoints or thresholds. All local positive examples have one GT: mR+ and multi-GT coverage are N/A. Flash Multi uses the **Multi-TQAux structural adaptation**, not the same native query decoder as the other backbones.','', '[Reproduction instructions](../../shared/charades_multi_geq/README.md) · [Protocol](protocol.json) · [Completion audit](audit/completion_audit.json)','', '## Current Val-selected checkpoints','', 'G-mIoU@1 is the mean at presence thresholds 0.4/0.5/0.6, on a 0–1 scale. mAP is ungated, positive-query localization mAP in percent. In-progress rows are provisional and are not final Test results.','', '| Backbone | Method | Status | Val mAP % | Val G-mIoU@1 mean |','|---|---|---|---:|---:|']+table
+ finished=trained==24 and tested==48
+ state='Training and formal evaluation are complete; final acceptance is documented in the audit.' if finished else 'This release remains incomplete until the full audit and remote verification pass.'
+ readme=['# Charades GMR + Multi + GEQ (seed 2023)','',f'**Actual completion: {trained}/24 training tasks; {tested}/48 formal test evaluations.** '+state,'', 'Test-ID is the primary result. Test-OOD is supplementary and keeps all 7,440 rows, including 2,170 duplicate extra records. Tests never select checkpoints or thresholds. All local positive examples have one GT: mR+ and multi-GT coverage are N/A. Flash Multi uses the **Multi-TQAux structural adaptation**, not the same native query decoder as the other backbones.','', '[Reproduction instructions](../../shared/charades_multi_geq/README.md) · [Protocol](protocol.json) · [Completion audit](audit/completion_audit.json) · [All metrics CSV](all_metrics.csv) · [Summary heatmaps](summary/README.md) · [Existence-score distributions](score_distributions/README.md)','', 'Stage A selects ungated positive-Val mAP. Stage B selects the Val G-mIoU@1 mean at presence thresholds0.4/0.5/0.6. Stage A validation cadence was prospectively changed to every5 epochs by the user; historical validations are retained. Moment Multi was ended early by user instruction; original EaTR Multi received an explicitly authorized continuation. These exceptions and their checkpoint/history hashes are recorded in run_metadata.','']
+ if (result/'all_metrics.csv').exists():
+  records=list(csv.DictReader((result/'all_metrics.csv').open()))
+  for split in ('test_id','test_ood'):
+   readme += [f'## {split} — fixed Val-selected checkpoints','','G1/G3 are the three-threshold means on a0–1 scale; mAP and AUROC are percentages. ΔG1 uses the same-backbone GMR at the same fixed thresholds. Every row is retained, including decreases. Full metrics, timing and memory are in the CSV.','', '| Backbone | Method | mAP % | G1 mean | G3 mean | AUROC % | ΔG1 vs GMR |','|---|---|---:|---:|---:|---:|---:|']
+   baseline={r['backbone']:float(r['gmiou_1_mean']) for r in records if r['split']==split and r['method']=='gmr'}
+   for r in records:
+    if r['split']!=split:continue
+    label=LABELS[r['method']].replace('Multi','Multi-TQAux') if r['backbone']=='flashvtg' else LABELS[r['method']]
+    readme += [f"| {r['backbone']} | {label} | {float(r['mAP_percent']):.2f} | {float(r['gmiou_1_mean']):.4f} | {float(r['gmiou_3_mean']):.4f} | {float(r['AUROC_percent']):.2f} | {float(r['gmiou_1_mean'])-baseline[r['backbone']]:+.4f} |"]
+   readme += ['']
+ readme += ['## Val-selected checkpoints','','G-mIoU@1 is the mean at presence thresholds0.4/0.5/0.6, on a0–1 scale. mAP is ungated positive-query localization mAP in percent.','', '| Backbone | Method | Status | Val mAP % | Val G-mIoU@1 mean |','|---|---|---|---:|---:|']+table
  extra=OUT/'runs/eatr/multi_positive_only'
  if (extra/'DUAL_VARIANT_AUTHORIZATION.json').exists():
   for name in ('config.json','TRAINED.json','preflight.json','history.jsonl','best_val_metrics.json','validation_schedule.json','RETRAIN_PROTOCOL.json','runtime_optimizations.json','DUAL_VARIANT_AUTHORIZATION.json'):

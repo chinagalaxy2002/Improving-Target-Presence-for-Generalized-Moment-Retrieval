@@ -24,6 +24,11 @@ def publish_once(push=True):
  subprocess.run([__import__('sys').executable,str(KIT/'plot_report.py')],check=True,timeout=180)
  subprocess.run([__import__('sys').executable,str(KIT/'completion_audit.py'),'--checkpoints','--recompute'],check=True,timeout=600,stdout=subprocess.DEVNULL)
  manifest=importlib.reload(prepare_release).prepare(WORKTREE)
+ return publish_prepared(manifest,push)
+
+def publish_prepared(manifest,push=True):
+ """Publish the exact prepared manifest; permits bounded Git-only retries."""
+ for path,digest in manifest.items():assert sha(WORKTREE/path)==digest,'Prepared release changed before publication: '+path
  staged=command(['diff','--cached','--name-only']).stdout.splitlines()
  assert all(any(p==prefix or p.startswith(prefix+'/') for prefix in OWNED) for p in staged),'Unrelated staged files: refusing to commit'
  if not push:return dict(state='PREPARED_ONLY',files=len(manifest))
@@ -80,8 +85,9 @@ else:
  status=dict(state='CODE_AND_AVAILABLE_RESULTS_PUBLISHED',time=time.time(),commit=head,branch=BRANCH,remote_commit=observed,verified_readme_images=sorted(set(images)),image_verification='Matching authenticated remote commit; reachable Git image blob hashes and PNG decoding. Private repository access is required.',release_manifest_sha256=sha(OUT/'reports/release_manifest.json'))
  dump(OUT/'logs/publication_status.json',status)
  audit=json.loads((OUT/'reports/completion_audit.json').read_text())
- if not audit['errors'] and audit['training_verified']==24 and audit['tests_verified']==48 and set(audit['pending'])=={'verified_final_GitHub_publication'}:
+ if not audit['errors'] and audit['training_verified']==24 and audit['tests_verified']==48 and set(audit['pending'])<={'verified_final_GitHub_publication'}:
   status['state']='PUBLISHED';dump(OUT/'logs/PUBLISHED.json',status)
+  dump(OUT/'logs/publication_status.json',status)
  return status
 
 def main():
