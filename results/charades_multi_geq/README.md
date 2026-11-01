@@ -13,13 +13,13 @@ G-mIoU@1 is the mean at presence thresholds 0.4/0.5/0.6, on a 0–1 scale. mAP i
 | Backbone | Method | Status | Val mAP % | Val G-mIoU@1 mean |
 |---|---|---|---:|---:|
 | moment_detr | GMR | Val selection finished | 30.96 | 0.6042 |
-| moment_detr | GMR + Multi | In progress | 32.16 | 0.6077 |
+| moment_detr | GMR + Multi | In progress | 32.37 | 0.6184 |
 | moment_detr | GMR + GEQ Frozen | Val selection finished | 30.96 | 0.6206 |
 | moment_detr | GMR + GEQ Full | Val selection finished | 30.42 | 0.6268 |
 | moment_detr | GMR + Multi + GEQ Frozen | Pending | — | — |
 | moment_detr | GMR + Multi + GEQ Full | Pending | — | — |
 | eatr | GMR | In progress | 35.78 | 0.6364 |
-| eatr | GMR + Multi | In progress | 26.88 | 0.4992 |
+| eatr | GMR + Multi | In progress | 27.17 | 0.5024 |
 | eatr | GMR + GEQ Frozen | Pending | — | — |
 | eatr | GMR + GEQ Full | Pending | — | — |
 | eatr | GMR + Multi + GEQ Frozen | Pending | — | — |
