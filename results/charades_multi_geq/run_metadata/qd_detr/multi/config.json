@@ -95,17 +95,14 @@
     "gmiou_cls_threshold": 0.4
   },
   "initialization": {
-    "initialization_protocol": "target train split only; random model initialization",
+    "initialization_protocol": "random native seed2023; no model checkpoint loaded",
     "dataset": "charades",
     "backbone": "qd_detr",
     "random_seed": 2023,
-    "clip_length_seconds": 2.0,
-    "native_checkpoint": null,
-    "checkpoint_sha256": null,
-    "native_checkpoint_epoch": null,
-    "strict_native_load": false,
-    "native_equal_tensors": 0,
-    "train_split_sha256": null,
+    "feature_order": [
+      "slowfast",
+      "clip"
+    ],
     "native_config": {
       "dset_name": "soccer_gmr",
       "dset_domain": null,
@@ -196,19 +193,13 @@
         "tef"
       ],
       "gmiou_cls_threshold": 0.4
-    },
-    "temporal_grid": "normalized_tef",
-    "clip_length": 2.0,
-    "video_feature_order": [
-      "slowfast",
-      "clip"
-    ],
-    "score_semantics": "softmax foreground",
-    "pat_select_enabled": false
+    }
   },
   "parameter_count": 8704902,
   "trainable_parameters": 8704902,
   "parent_sha256": null,
+  "native_init_snapshot_sha256": "47cae171490e424362fddda56d2c6c437d529ff3612f01b43a08b6ea5e0fb069",
+  "geq_init_snapshot_sha256": null,
   "amp": false,
   "microbatch": 32,
   "accumulation": 1

@@ -59,8 +59,12 @@ def main():
     if rc:
      failures[key]=failures.get(key,0)+1
      dump(OUT/'logs'/('failure_'+key.replace('/','_')+'.json'),dict(key=key,returncode=rc,attempts=failures[key],log=f.name,time=time.time()))
+  policy_path=OUT/'logs/scheduling_policy.json'
+  policy=json.loads(policy_path.read_text()) if policy_path.exists() else {}
+  defer_flash=policy.get('flash_last',False) and any(not (OUT/'runs'/b/m/'TRAINED.json').exists() for b in BACKBONES if b!='flashvtg' for m in METHODS)
   candidates=[]
   for b in BACKBONES:
+   if b=='flashvtg' and defer_flash:continue
    if not (OUT/'reports/DEBUG24_READY.json').exists():continue
    if not (OUT/'reports'/f'resume_audit_{b}.json').exists():continue
    for m in METHODS:
@@ -75,7 +79,12 @@ def main():
        if m.endswith('frozen') and not (parent/s/'COMPLETE.json').exists():continue
        candidates.append((b,m,'test',s))
   # Fill ready GEQ branches before starting another backbone; do not globally barrier stages.
-  candidates.sort(key=lambda x:(('/'.join((x[0],x[1],x[2],x[3] or ''))) not in retry,0 if x[2]=='train' and '_geq_' in x[1] else 1 if x[2]=='profile' else 2 if x[2]=='test' else 3,not (OUT/'runs'/x[0]/x[1]/'last.ckpt').exists()))
+  def dispatch_priority(x):
+   recovery=('/'.join((x[0],x[1],x[2],x[3] or ''))) not in retry
+   if policy.get('prioritize_training',False):rank=0 if x[2]=='train' and '_geq_' in x[1] else 1 if x[2]=='train' else 2 if x[2]=='profile' else 3
+   else:rank=0 if x[2]=='train' and '_geq_' in x[1] else 1 if x[2]=='profile' else 2 if x[2]=='test' else 3
+   return recovery,rank,not (OUT/'runs'/x[0]/x[1]/'last.ckpt').exists()
+  candidates.sort(key=dispatch_priority)
   counts=compute()
   if not stopping:
    for b,m,mode,split in candidates:
@@ -94,7 +103,7 @@ def main():
   trained=sum((OUT/'runs'/b/m/'TRAINED.json').is_file() for b in BACKBONES for m in METHODS)
   tested=sum((OUT/'runs'/b/m/s/'COMPLETE.json').is_file() for b in BACKBONES for m in METHODS for s in ('test_id','test_ood'))
   profiled=sum((OUT/'runs'/b/m/'PROFILE.json').exists() for b in BACKBONES for m in METHODS)
-  dump(OUT/'logs/QUEUE.json',dict(profiled=profiled,required_profiles=24,pid=os.getpid(),time=time.time(),trained=trained,required_training=24,tested=tested,required_testing=48,active={k:dict(pid=p.pid,gpu=g,log=f.name) for k,(p,g,f) in active.items()},failures=failures))
+  dump(OUT/'logs/QUEUE.json',dict(scheduling_policy=policy,flash_deferred=defer_flash,profiled=profiled,required_profiles=24,pid=os.getpid(),time=time.time(),trained=trained,required_training=24,tested=tested,required_testing=48,active={k:dict(pid=p.pid,gpu=g,log=f.name) for k,(p,g,f) in active.items()},failures=failures))
   if trained==24 and tested==48 and profiled==24:
    dump(OUT/'logs/GPU_WORK_FINISHED.json',dict(time=time.time(),trained=24,tested=48));return
   time.sleep(10)

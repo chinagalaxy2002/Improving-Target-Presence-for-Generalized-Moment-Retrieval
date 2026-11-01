@@ -9,6 +9,8 @@ Charades progress: **10/24 training tasks, 12/48 Test evaluations**. [Full proto
 
 ![Charades eatr](results/charades_multi_geq/eatr/val/selection.png)
 
+![Charades qd_detr](results/charades_multi_geq/qd_detr/val/selection.png)
+
 ![Charades flashvtg](results/charades_multi_geq/flashvtg/val/selection.png)
 
 ## SoccerGMR: previously published experiments

@@ -13,7 +13,7 @@ G-mIoU@1 is the mean at presence thresholds 0.4/0.5/0.6, on a 0–1 scale. mAP i
 | Backbone | Method | Status | Val mAP % | Val G-mIoU@1 mean |
 |---|---|---|---:|---:|
 | moment_detr | GMR | Val selection finished | 30.96 | 0.6042 |
-| moment_detr | GMR + Multi | In progress | 32.57 | 0.6176 |
+| moment_detr | GMR + Multi | In progress | 32.63 | 0.6121 |
 | moment_detr | GMR + GEQ Frozen | Val selection finished | 30.96 | 0.6206 |
 | moment_detr | GMR + GEQ Full | Val selection finished | 30.42 | 0.6268 |
 | moment_detr | GMR + Multi + GEQ Frozen | Pending | — | — |
@@ -24,8 +24,8 @@ G-mIoU@1 is the mean at presence thresholds 0.4/0.5/0.6, on a 0–1 scale. mAP i
 | eatr | GMR + GEQ Full | Val selection finished | 35.59 | 0.6390 |
 | eatr | GMR + Multi + GEQ Frozen | Pending | — | — |
 | eatr | GMR + Multi + GEQ Full | Pending | — | — |
-| qd_detr | GMR | Pending | — | — |
-| qd_detr | GMR + Multi | Pending | — | — |
+| qd_detr | GMR | In progress | 27.59 | 0.5297 |
+| qd_detr | GMR + Multi | In progress | 25.82 | 0.4920 |
 | qd_detr | GMR + GEQ Frozen | Pending | — | — |
 | qd_detr | GMR + GEQ Full | Pending | — | — |
 | qd_detr | GMR + Multi + GEQ Frozen | Pending | — | — |
@@ -54,6 +54,8 @@ G-mIoU@1 is the mean at presence thresholds 0.4/0.5/0.6, on a 0–1 scale. mAP i
 ## qd_detr
 
 [All figures, CSV files and offline snapshots](qd_detr/README.md)
+
+![qd_detr Val selection](qd_detr/val/selection.png)
 
 
 ## flashvtg
