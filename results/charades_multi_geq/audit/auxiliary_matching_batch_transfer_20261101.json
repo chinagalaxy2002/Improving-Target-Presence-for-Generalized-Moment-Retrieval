@@ -1,0 +1,28 @@
+{
+  "time": "2026-11-01T16:46:55.049611+08:00",
+  "scope": "EaTR positive_only_v1 auxiliary loss only",
+  "implementation": "Pack per-example cost matrices per route/layer, one host transfer, original SciPy Hungarian solver per matrix; CPU-known positive indices avoid boolean GPU synchronization",
+  "cpu_tests_passed": 6,
+  "checks": [
+    "Random, tied, duplicate-column, near-tied, variable-size and empty cost matrices preserve exact assignments",
+    "Full batch32 auxiliary loss and gradients exactly equal legacy, including tied predictions",
+    "Mixed positives/negatives retain original positive supervision and negative existence BCE",
+    "All-negative batch retains BCE only",
+    "13 matrices require one Tensor.cpu call per layer"
+  ],
+  "gpu_benchmark_performed": false,
+  "current_training_restarted": false,
+  "activation": "Pending controlled resume in main conversation; current EaTR process has the earlier imported Adapter.loss",
+  "active_eatr_process": {
+    "eatr/multi/train/": {
+      "pid": 2288944,
+      "gpu": 1,
+      "log": "/home/guoxiangyu/ImprovingGeneralizedMomentRetrieval/charades/multiroute_geq_seed2023_20261101/logs/eatr_multi_train_.log"
+    }
+  },
+  "source_sha256": {
+    "adapter.py": "54d7b66c875ca34bf8b2d615ca641eb689c6c872cb5df960c06504b2ceabf007",
+    "auxiliary_matching.py": "2cd376851a033dcd8869a0aa4729ffde1f0cdfd7372cfd07a14715698dd63a4a",
+    "test_auxiliary_matching.py": "dfa5031df468225dd0d0e0a3c2dd5a7dad1ca249c4b4cf0724bbbd96a3a71b72"
+  }
+}

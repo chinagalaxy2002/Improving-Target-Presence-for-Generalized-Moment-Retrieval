@@ -17,14 +17,14 @@ G-mIoU@1 is the mean at presence thresholds 0.4/0.5/0.6, on a 0–1 scale. mAP i
 | moment_detr | GMR + GEQ Frozen | Val selection finished | 30.96 | 0.6206 |
 | moment_detr | GMR + GEQ Full | Val selection finished | 30.42 | 0.6268 |
 | moment_detr | GMR + Multi + GEQ Frozen | Val selection finished | 32.63 | 0.6233 |
-| moment_detr | GMR + Multi + GEQ Full | In progress | 33.20 | 0.6297 |
+| moment_detr | GMR + Multi + GEQ Full | In progress | 33.48 | 0.6340 |
 | eatr | GMR | Val selection finished | 35.78 | 0.6364 |
-| eatr | GMR + Multi | In progress | 21.91 | 0.5007 |
+| eatr | GMR + Multi | In progress | 22.81 | 0.4964 |
 | eatr | GMR + GEQ Frozen | Val selection finished | 35.78 | 0.6364 |
 | eatr | GMR + GEQ Full | Val selection finished | 35.59 | 0.6390 |
 | eatr | GMR + Multi + GEQ Frozen | Pending | — | — |
 | eatr | GMR + Multi + GEQ Full | Pending | — | — |
-| qd_detr | GMR | In progress | 33.77 | 0.6164 |
+| qd_detr | GMR | In progress | 34.73 | 0.6324 |
 | qd_detr | GMR + Multi | In progress | 30.05 | 0.5762 |
 | qd_detr | GMR + GEQ Frozen | Pending | — | — |
 | qd_detr | GMR + GEQ Full | Pending | — | — |

@@ -28,7 +28,7 @@ def prepare(worktree=WORKTREE):
  for name in ('protocol.json','source_manifest.json'):copy_file(OUT/name,result/name)
  for p in (OUT/'figures').rglob('*'):
   if p.is_file() and p.suffix in ('.png','.pdf','.svg','.json','.csv','.md'):copy_file(p,result/p.relative_to(OUT/'figures'))
- audit_names=('DEBUG24_READY.json','export_protocol_audit.json','initialization_audit.json','flash_zero_point_guard.json','independent_data_audit.json','independent_metric_contract.json','completion_audit.json','flash_zero_reg_fix_20261101.json','moment_frozen_parent_integrity_20261101.json','moment_frozen_cache_fix_20261101.json','validation_cadence_regression_20261101.json','validation_cadence_restart_20261101.json','FIGURE_REVIEW.json')
+ audit_names=('DEBUG24_READY.json','export_protocol_audit.json','initialization_audit.json','flash_zero_point_guard.json','independent_data_audit.json','independent_metric_contract.json','completion_audit.json','flash_zero_reg_fix_20261101.json','moment_frozen_parent_integrity_20261101.json','moment_frozen_cache_fix_20261101.json','validation_cadence_regression_20261101.json','validation_cadence_restart_20261101.json','auxiliary_matching_batch_transfer_20261101.json','eatr_matching_gpu_verification_20261101.json','eatr_matching_activation_20261101.json','FIGURE_REVIEW.json')
  for name in audit_names:
   p=OUT/'reports'/name
   if p.exists():copy_file(p,result/'audit'/name)
@@ -42,7 +42,7 @@ def prepare(worktree=WORKTREE):
  for b in BACKBONES:
   for m in METHODS:
    d=OUT/'runs'/b/m;complete=(d/'TRAINED.json').exists();trained+=complete
-   for name in ('config.json','TRAINED.json','preflight.json','history.jsonl','best_val_metrics.json','PROFILE.json','validation_schedule.json','USER_STOP_REQUEST.json','RETRAIN_PROTOCOL.json'):
+   for name in ('config.json','TRAINED.json','preflight.json','history.jsonl','best_val_metrics.json','PROFILE.json','validation_schedule.json','USER_STOP_REQUEST.json','RETRAIN_PROTOCOL.json','runtime_optimizations.json'):
     if (d/name).exists():copy_file(d/name,result/'run_metadata'/b/m/name)
    val=json.loads((d/'best_val_metrics.json').read_text()) if (d/'best_val_metrics.json').exists() else None
    label=LABELS[m].replace('Multi','Multi-TQAux') if b=='flashvtg' else LABELS[m]

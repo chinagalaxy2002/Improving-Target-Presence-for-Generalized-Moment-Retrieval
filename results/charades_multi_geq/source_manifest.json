@@ -4,8 +4,9 @@
   "train_sha256": "2cc68a571f6d818cd50a630b0c023457d8cc57bde3a498af35a4788c93e1413a",
   "files": {
     "README.md": "7dfb69873b3632aca85bb28f82e7611b8cb1457831e09e84feda255acfb45edc",
-    "adapter.py": "499826604f834891351a854fa7355b7d35bb315acd849946960ebf2c5dd9656d",
+    "adapter.py": "54d7b66c875ca34bf8b2d615ca641eb689c6c872cb5df960c06504b2ceabf007",
     "audit_factory.py": "b4153edf66cdaac8ac572659882b74e5b47c37919dbadf4852b192bdcf987d2e",
+    "auxiliary_matching.py": "2cd376851a033dcd8869a0aa4729ffde1f0cdfd7372cfd07a14715698dd63a4a",
     "completion_audit.py": "bbbf1b9a0c50cd1b3ade1d890d1c2f853bdd412be52579cbfffb8b73cddf9629",
     "configs/eatr.json": "0411b4cacbc2687e48f5cf67b3f6770ea7acc62412224bab16e51dea84929ae8",
     "configs/flashvtg.json": "09b52f3f8ae852059775f8362795085a925b5e69677d973aa5a767a63a193fed",
@@ -29,7 +30,7 @@
     "paths.py": "214cb0e6ecc87b86d8e9ba5a7a6487090f9d74c817f321f6090a9cc58232990c",
     "plot_report.py": "cba3d32951e8d798505a6e9cd855533d46cf2c53abe72ae56b7de83d3b5f2106",
     "prepare.py": "568220459537ae811d96946c7b22faccaf9f0ceeb93c8c4bdb156979127d57e3",
-    "prepare_release.py": "d5d6383b15ab19dd986ab12a004d553c2ef324e8f5cd2b34a3730169bd5a1251",
+    "prepare_release.py": "69417d67ba2e44d05432eb5acb16cc6e327f31183eb0b0f1003dad6badd7e66e",
     "profile_inference.py": "65501144af53fcbe298506e5652e956de0c88db6f23c435b11a3dfbfeb6f774c",
     "progress_dashboard.py": "925bf4a55e4eca74199e4b0551cd5a8a309ef7ea48088183ac934df498afbd98",
     "publish_queue.py": "00818ab9d07d066cd83344ab3f6f8b97134f9be1b84f241bedf8e51692a4dc30",
@@ -39,6 +40,7 @@
     "resume_audit.py": "e5f5d713236c29207da5623cde1408aa8bb5312fd25c4d4912f68c126b064f53",
     "runner.py": "e144c6a5d223b7687d6785905b0a7b5973e23c8c483f65cb95e1af78cb68e17e",
     "seal_preflight.py": "bf411f2b96dca31919f7a34f1c240180f72e4545d6275788a492338f45eb2c9e",
+    "test_auxiliary_matching.py": "dfa5031df468225dd0d0e0a3c2dd5a7dad1ca249c4b4cf0724bbbd96a3a71b72",
     "test_eatr_positive_auxiliary.py": "9c46f7828a0cd565c87f9cac2e78a53d9d06d7200f3d923a5e1ca0aafa61ab20",
     "test_flash_zero_point_guard.py": "2df9d953da67ab8840f9f59ecfb9f0fc8d81f4d2b55cc1103fe0e1cd3bbaf7c5",
     "test_flash_zero_regression.py": "8bc3732b6ff117b56fa4efa9665ccaac4498a3e96ce43030b90ce7b4daf4134f",
@@ -152,7 +154,8 @@
     "vendor/official_eval/eval_main.py": "6a5a458c6f247964f7a7c7330f6713d5c6d9fea6522e4b21472206e98d7c1cc6",
     "vendor/official_eval/metrics.py": "7f49929789725baca0bfeaaa73517a6baedf608c3b2ff341881a7dee3aefa656",
     "vendor/official_eval/normalization.py": "bdca7a4baf6bd1a1dc4f427da2addb33cd4e223dfe60b70322d8b88c51418254",
-    "vendor/official_eval/utils.py": "58d5d482fde9099de9396fa836f5235feed1a6af38c955a7a7fd466d14cfa42c"
+    "vendor/official_eval/utils.py": "58d5d482fde9099de9396fa836f5235feed1a6af38c955a7a7fd466d14cfa42c",
+    "verify_eatr_matching_gpu.py": "94b82f1bf1c4c3e69c542eb387a3e4144f2c69f1cdca9a235c2cdfe12db7582a"
   },
   "native_factory_equivalence_reports": [
     "reports/native_factory_equivalence_flashvtg.json",

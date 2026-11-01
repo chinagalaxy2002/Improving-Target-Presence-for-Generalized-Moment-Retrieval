@@ -5,6 +5,7 @@ from torch import nn
 from torch.nn import functional as F
 from native_factory import TargetAdapter
 from data import Features
+from auxiliary_matching import hungarian_batch
 
 def load_local(name,file):
  spec=importlib.util.spec_from_file_location(name,KIT/file);m=importlib.util.module_from_spec(spec);sys.modules[name]=m;spec.loader.exec_module(m);return m
@@ -59,15 +60,17 @@ class Adapter:
   mspan=float(self.native.cfg.get("set_cost_span",10));mgiou=float(self.native.cfg.get("set_cost_giou",1));mclass=float(self.native.cfg.get("set_cost_class",4))
   span_labels=targets['span_labels'];positive=None
   if self.native.cfg.get('multi_auxiliary_query_scope')=='positive_only_v1':
-   positive=torch.tensor([len(t['spans'])>0 for t in span_labels],device=self.device,dtype=torch.bool)
-   if not positive.any():
+   positive_rows=[i for i,t in enumerate(span_labels) if len(t['spans'])>0]
+   if not positive_rows:
     self.last_loss_components['aux_total']=total.detach()*0
     return total
-   span_labels=[t for t,keep in zip(span_labels,positive.tolist()) if keep]
+   positive=torch.tensor(positive_rows,device=self.device,dtype=torch.long)
+   span_labels=[span_labels[i] for i in positive_rows]
   for route,pred in out.get('o2m_outputs',{}).items():
    route_total=total.detach()*0
    for p in pred.get('aux_outputs',[])+[pred]:
     z=p['pred_logits'];sp=p['pred_spans'];cls=torch.ones(z.shape[:2],dtype=torch.long,device=z.device);terms=[]
+    pending=[];costs=[]
     if positive is not None:
      z=z[positive];sp=sp[positive];cls=cls[positive]
     for i,t in enumerate(span_labels):
@@ -76,8 +79,14 @@ class Adapter:
       a=_span_xx(sp[i]);b=_span_xx(gt)
       giou=torch.stack([_generalized_iou(a,b[j:j+1].expand_as(a)) for j in range(len(b))],1)
       cost=-mclass*z[i].softmax(-1)[:,0:1]+mspan*torch.cdist(sp[i],gt,p=1)-mgiou*giou
-      ii,jj=linear_sum_assignment(cost.detach().cpu().numpy());cls[i,ii]=0
-      terms.append(cspan*F.l1_loss(sp[i,ii],gt[jj])+cgiou*(1-_generalized_iou(a[ii],b[jj])).mean())
+      if positive is None:
+       ii,jj=linear_sum_assignment(cost.detach().cpu().numpy());cls[i,ii]=0
+       terms.append(cspan*F.l1_loss(sp[i,ii],gt[jj])+cgiou*(1-_generalized_iou(a[ii],b[jj])).mean())
+      else:
+       pending.append((i,gt,a,b));costs.append(cost.detach())
+    for (i,gt,a,b),(ii,jj) in zip(pending,hungarian_batch(costs)):
+     cls[i,ii]=0
+     terms.append(cspan*F.l1_loss(sp[i,ii],gt[jj])+cgiou*(1-_generalized_iou(a[ii],b[jj])).mean())
     aux=cclass*F.cross_entropy(z.transpose(1,2),cls,weight=z.new_tensor([1.,.1]))+(torch.stack(terms).mean() if terms else sp.sum()*0)
     total=total+.15*aux
     route_total=route_total+.15*aux.detach()

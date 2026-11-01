@@ -1,0 +1,83 @@
+{
+  "authorized_by": "user",
+  "instruction": "我修改了Eatr的multi,希望加速，请开始multi的训练。",
+  "time": 1793522923.515774,
+  "archive": "/home/guoxiangyu/ImprovingGeneralizedMomentRetrieval/charades/multiroute_geq_seed2023_20261101/archives/eatr_matching_activation_20261101_164843",
+  "legacy_adapter": "/home/guoxiangyu/ImprovingGeneralizedMomentRetrieval/charades/multiroute_geq_seed2023_20261101/archives/eatr_matching_activation_20261101_164843/adapter_before_transfer_optimization.py",
+  "queue_pid": 2279378,
+  "old_job": {
+    "pid": 2288944,
+    "gpu": 1,
+    "log": "/home/guoxiangyu/ImprovingGeneralizedMomentRetrieval/charades/multiroute_geq_seed2023_20261101/logs/eatr_multi_train_.log"
+  },
+  "other_active_jobs": {
+    "moment_detr/multi_geq_full/train/": {
+      "pid": 2276865,
+      "gpu": 0,
+      "log": "/home/guoxiangyu/ImprovingGeneralizedMomentRetrieval/charades/multiroute_geq_seed2023_20261101/logs/moment_detr_multi_geq_full_train_.log"
+    },
+    "qd_detr/gmr/train/": {
+      "pid": 2288945,
+      "gpu": 0,
+      "log": "/home/guoxiangyu/ImprovingGeneralizedMomentRetrieval/charades/multiroute_geq_seed2023_20261101/logs/qd_detr_gmr_train_.log"
+    },
+    "qd_detr/multi/train/": {
+      "pid": 2288946,
+      "gpu": 1,
+      "log": "/home/guoxiangyu/ImprovingGeneralizedMomentRetrieval/charades/multiroute_geq_seed2023_20261101/logs/qd_detr_multi_train_.log"
+    }
+  },
+  "source_sha256": {
+    "adapter.py": "54d7b66c875ca34bf8b2d615ca641eb689c6c872cb5df960c06504b2ceabf007",
+    "auxiliary_matching.py": "2cd376851a033dcd8869a0aa4729ffde1f0cdfd7372cfd07a14715698dd63a4a"
+  },
+  "resume_checkpoint": {
+    "sha256": "f4fa23d8d660506983b0a4cad1175924ad846506ecc9d98d412b6f9c2021cd40",
+    "epoch": 7,
+    "cursor": 93,
+    "best_epoch": 5,
+    "stale": 1,
+    "optimizer_max_step": 5307,
+    "best_sha256": "70e9d0e8ee8f7558b2d2a6fcce6035575f90f61d27d44bf694543f31ee238123",
+    "history_sha256": "2d048d75cc32647b6ff2bf395be8a499ce7eb6aa80a1166bc6afea21f6268d7f"
+  },
+  "gpu_verification_passed": true,
+  "cpu_tests_passed": 6,
+  "diagnostic_fixed_batch_speed_ratio": 1.0023096088581063,
+  "new_job": {
+    "pid": 2296773,
+    "gpu": 1,
+    "log": "/home/guoxiangyu/ImprovingGeneralizedMomentRetrieval/charades/multiroute_geq_seed2023_20261101/logs/eatr_multi_train_.log"
+  },
+  "formal_training_restarted": true,
+  "verified_status": {
+    "status": "TRAINING",
+    "epoch": 7,
+    "step": 100,
+    "total_steps": 869,
+    "pid": 2296773,
+    "train_loss": 8.787877423422676,
+    "last_batch_loss_parts": {
+      "native_total": 6.807562351226807,
+      "loss_span": 0.08327820897102356,
+      "loss_giou": 0.5391088724136353,
+      "loss_label": 0.05924200639128685,
+      "loss_event_span": 0.03698493912816048,
+      "loss_event_giou": 0.1763092577457428,
+      "loss_span_0": 0.06271480023860931,
+      "loss_giou_0": 0.43848785758018494,
+      "loss_label_0": 0.10269564390182495,
+      "loss_span_1": 0.07848557829856873,
+      "loss_giou_1": 0.4998893141746521,
+      "loss_label_1": 0.06976522505283356,
+      "loss_exist": 0.5200021862983704,
+      "aux_sepffn": 1.1461726427078247,
+      "aux_instruction": 1.1320853233337402,
+      "aux_total": 2.2782578468322754
+    }
+  },
+  "verified_optimizer_max_step": 5314,
+  "time_verified": 1793523063.7835243,
+  "other_training_pids_unchanged": true,
+  "queue_failures": {}
+}
