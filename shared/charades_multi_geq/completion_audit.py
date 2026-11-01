@@ -46,6 +46,7 @@ def audit(checkpoints=False,recompute=False):
     assert [r['epoch'] for r in history]==list(range(1,len(history)+1))
     stage_b='_geq_' in m;best=-math.inf;best_epoch=0;stale=0;best_above=False
     schedule_path=d/'validation_schedule.json';schedule=None
+    continuation=None
     if schedule_path.exists():
      import hashlib
      schedule=json.loads(schedule_path.read_text())
@@ -55,9 +56,25 @@ def audit(checkpoints=False,recompute=False):
      prefix=b''.join((d/'history.jsonl').read_bytes().splitlines(keepends=True)[:n])
      assert (hashlib.sha256(prefix).hexdigest() if n else None)==schedule['legacy_history_sha256'],'Legacy validation history was modified'
      assert cfg['validation_schedule']==schedule and mark['validation_schedule_sha256']==sha(schedule_path)
+     if schedule.get('defer_early_stop_until_epoch'):
+      assert (b,m)==('eatr','multi'),'Continuation authorization is scoped to EaTR Multi'
+      continuation=json.loads((d/'USER_CONTINUE_REQUEST.json').read_text())
+      assert continuation['authorized_by']=='user' and continuation['instruction']=='可以恢复原始全查询multi,继续训练。继续排队。'
+      assert (continuation['backbone'],continuation['method'])==(b,m)
+      assert schedule['user_continue_request_sha256']==sha(d/'USER_CONTINUE_REQUEST.json')
+      assert continuation['after_completed_epoch']==n==33 and continuation['additional_training_window_epochs']==20
+      assert schedule['defer_early_stop_until_epoch']==continuation['defer_early_stop_until_epoch']==n+20
+      assert continuation['history_prefix_sha256']==schedule['legacy_history_sha256']
+      assert continuation['source_checkpoint_sha256']==schedule['resumed_checkpoint_sha256']
+      assert sha(d/'PRIOR_TRAINED.json')==continuation['prior_trained_sha256']
+      prior=json.loads((d/'PRIOR_TRAINED.json').read_text())
+      assert prior['best_epoch']==continuation['prior_best_epoch']==13
+      near(prior['score'],continuation['prior_best_val_map']);assert prior['checkpoint_sha256']==continuation['source_best_sha256']
+      assert cfg['native']['multi_auxiliary_query_scope']=='all_queries'
     baseline=json.loads((OUT/'runs'/b/'gmr/best_val_metrics.json').read_text())['selection_values'] if stage_b else None
     for h in history:
-     assert stale<(6 if stage_b else 20),'Training continued after stopping rule'
+     granted=continuation and continuation['after_completed_epoch']<h['epoch']<=continuation['defer_early_stop_until_epoch']
+     assert stale<(6 if stage_b else 20) or granted,'Training continued after stopping rule without authorization'
      validated=h.get('validated',True)
      if schedule and h['epoch']>=schedule['effective_from_epoch']:
       from validation_schedule import validation_due
@@ -78,6 +95,7 @@ def audit(checkpoints=False,recompute=False):
      if math.isfinite(best):near(h['best'],best)
      else:assert h['best'] is None
     assert len(history)<=(20 if stage_b else 200)
+    if continuation:assert len(history)>=continuation['defer_early_stop_until_epoch'],'Authorized continuation ended before its training window'
     if mark.get('stopped_by_user'):
      assert (b,m)==('moment_detr','multi'),'User stop authorization is scoped to Moment-DETR Multi'
      request=json.loads((d/'USER_STOP_REQUEST.json').read_text())
@@ -111,6 +129,20 @@ def audit(checkpoints=False,recompute=False):
     trained[b+'/'+m]=True
     return dict(best_epoch=best_epoch,last_epoch=len(history),score=best,best_checkpoint_sha256=mark['checkpoint_sha256'])
    run(key+'/training_selection',training_check)
+ additional_training_verified={}
+ policy_path=OUT/'logs/scheduling_policy.json'
+ policy=json.loads(policy_path.read_text()) if policy_path.exists() else {}
+ if policy.get('train_eatr_multi_positive_only',False):
+  extra='eatr/multi_positive_only';directory=OUT/'runs'/extra
+  if not (directory/'TRAINED.json').exists():pending.append(extra+'/additional_ablation_training')
+  else:
+   def ablation_check():
+    authorization=json.loads((directory/'DUAL_VARIANT_AUTHORIZATION.json').read_text())
+    assert authorization['authorized_by']=='user' and authorization['instruction']=='positive-only 版本也可以训练啊'
+    cfg=json.loads((directory/'config.json').read_text());assert cfg['native']['multi_auxiliary_query_scope']=='positive_only_v1'
+    return training_check(d=directory,b='eatr',m='multi_positive_only')
+   run(extra+'/additional_ablation_training',ablation_check)
+   additional_training_verified[extra]=trained.pop(extra,False)
  for b in BACKBONES:
   for m in METHODS:
    for split in ('test_id','test_ood'):
@@ -197,7 +229,7 @@ def audit(checkpoints=False,recompute=False):
  if not (OUT/'logs/PUBLISHED.json').exists():pending.append('verified_final_GitHub_publication')
  if not checkpoints:pending.append('checkpoint_tensor_optimizer_and_parent_checks_not_run')
  if not recompute:pending.append('independent_metrics_recalculation_not_run')
- return dict(time=time.time(),complete=not pending and not errors and len(trained)==24 and len(tested)==48,training_verified=len(trained),tests_verified=len(tested),checks=checks,pending=pending,errors=errors)
+ return dict(time=time.time(),complete=not pending and not errors and len(trained)==24 and len(tested)==48,training_verified=len(trained),additional_training_verified=additional_training_verified,tests_verified=len(tested),checks=checks,pending=pending,errors=errors)
 
 def main():
  p=argparse.ArgumentParser();p.add_argument('--checkpoints',action='store_true');p.add_argument('--recompute',action='store_true');p.add_argument('--require-complete',action='store_true');a=p.parse_args()

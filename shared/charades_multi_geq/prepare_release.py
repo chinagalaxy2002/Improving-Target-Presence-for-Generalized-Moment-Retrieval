@@ -28,7 +28,7 @@ def prepare(worktree=WORKTREE):
  for name in ('protocol.json','source_manifest.json'):copy_file(OUT/name,result/name)
  for p in (OUT/'figures').rglob('*'):
   if p.is_file() and p.suffix in ('.png','.pdf','.svg','.json','.csv','.md'):copy_file(p,result/p.relative_to(OUT/'figures'))
- audit_names=('DEBUG24_READY.json','export_protocol_audit.json','initialization_audit.json','flash_zero_point_guard.json','independent_data_audit.json','independent_metric_contract.json','completion_audit.json','flash_zero_reg_fix_20261101.json','moment_frozen_parent_integrity_20261101.json','moment_frozen_cache_fix_20261101.json','validation_cadence_regression_20261101.json','validation_cadence_restart_20261101.json','auxiliary_matching_batch_transfer_20261101.json','eatr_matching_gpu_verification_20261101.json','eatr_matching_activation_20261101.json','FIGURE_REVIEW.json')
+ audit_names=('DEBUG24_READY.json','export_protocol_audit.json','initialization_audit.json','flash_zero_point_guard.json','independent_data_audit.json','independent_metric_contract.json','completion_audit.json','flash_zero_reg_fix_20261101.json','moment_frozen_parent_integrity_20261101.json','moment_frozen_cache_fix_20261101.json','validation_cadence_regression_20261101.json','validation_cadence_restart_20261101.json','auxiliary_matching_batch_transfer_20261101.json','eatr_matching_gpu_verification_20261101.json','eatr_matching_activation_20261101.json','eatr_original_continuation_regression_20261101.json','eatr_restore_all_queries_20261101.json','FIGURE_REVIEW.json')
  for name in audit_names:
   p=OUT/'reports'/name
   if p.exists():copy_file(p,result/'audit'/name)
@@ -42,7 +42,7 @@ def prepare(worktree=WORKTREE):
  for b in BACKBONES:
   for m in METHODS:
    d=OUT/'runs'/b/m;complete=(d/'TRAINED.json').exists();trained+=complete
-   for name in ('config.json','TRAINED.json','preflight.json','history.jsonl','best_val_metrics.json','PROFILE.json','validation_schedule.json','USER_STOP_REQUEST.json','RETRAIN_PROTOCOL.json','runtime_optimizations.json'):
+   for name in ('config.json','TRAINED.json','preflight.json','history.jsonl','best_val_metrics.json','PROFILE.json','validation_schedule.json','USER_STOP_REQUEST.json','USER_CONTINUE_REQUEST.json','PRIOR_TRAINED.json','RETRAIN_PROTOCOL.json','runtime_optimizations.json'):
     if (d/name).exists():copy_file(d/name,result/'run_metadata'/b/m/name)
    val=json.loads((d/'best_val_metrics.json').read_text()) if (d/'best_val_metrics.json').exists() else None
    label=LABELS[m].replace('Multi','Multi-TQAux') if b=='flashvtg' else LABELS[m]
@@ -57,6 +57,13 @@ def prepare(worktree=WORKTREE):
     with dest.open('wb') as f:
      with gzip.GzipFile(filename='',fileobj=f,mode='wb',mtime=0) as out:out.write((sd/'predictions.jsonl').read_bytes())
  readme=['# Charades GMR + Multi + GEQ (seed 2023)','',f'**Actual completion: {trained}/24 training tasks; {tested}/48 formal test evaluations.** This release remains incomplete until the full audit and remote verification pass.','', 'Test-ID is the primary result. Test-OOD is supplementary and keeps all 7,440 rows, including 2,170 duplicate extra records. Tests never select checkpoints or thresholds. All local positive examples have one GT: mR+ and multi-GT coverage are N/A. Flash Multi uses the **Multi-TQAux structural adaptation**, not the same native query decoder as the other backbones.','', '[Reproduction instructions](../../shared/charades_multi_geq/README.md) · [Protocol](protocol.json) · [Completion audit](audit/completion_audit.json)','', '## Current Val-selected checkpoints','', 'G-mIoU@1 is the mean at presence thresholds 0.4/0.5/0.6, on a 0–1 scale. mAP is ungated, positive-query localization mAP in percent. In-progress rows are provisional and are not final Test results.','', '| Backbone | Method | Status | Val mAP % | Val G-mIoU@1 mean |','|---|---|---|---:|---:|']+table
+ extra=OUT/'runs/eatr/multi_positive_only'
+ if (extra/'DUAL_VARIANT_AUTHORIZATION.json').exists():
+  for name in ('config.json','TRAINED.json','preflight.json','history.jsonl','best_val_metrics.json','validation_schedule.json','RETRAIN_PROTOCOL.json','runtime_optimizations.json','DUAL_VARIANT_AUTHORIZATION.json'):
+   if (extra/name).exists():copy_file(extra/name,result/'run_metadata/eatr/multi_positive_only'/name)
+  val=json.loads((extra/'best_val_metrics.json').read_text()) if (extra/'best_val_metrics.json').exists() else None
+  readme += ['', '## Additional EaTR positive-only ablation','', 'This independently resumed Stage A run is additional to the main24 training tasks and48 formal Test evaluations. It has separate checkpoints and Val history. Its training must finish before final acceptance.','']
+  if val:readme += [f"Val-selected mAP: {val['mAP']:.2f}%; training {'finished' if (extra/'TRAINED.json').exists() else 'in progress'}.",'']
  for b in BACKBONES:
   readme += ['',f'## {b}','',f'[All figures, CSV files and offline snapshots]({b}/README.md)','']
   if (result/b/'test_id/frozen.png').exists():readme += [f'![{b} Test-ID Frozen]({b}/test_id/frozen.png)','']

@@ -1,26 +1,22 @@
 {
-  "revision": "eatr_positive_aux_v1",
+  "revision": "eatr_original_all_queries_user_continuation_20261101",
   "authorized_by": "user",
-  "instruction": "我认为eatr的multi训崩掉了。请你调整并且重新拉起训练。",
-  "source_split_for_diagnosis": "train",
-  "scope": "EaTR Multi and its Full fine-tuning auxiliary localization use positive queries only; existence BCE retains all queries",
-  "old_run_archive": "/home/guoxiangyu/ImprovingGeneralizedMomentRetrieval/charades/multiroute_geq_seed2023_20261101/archives/eatr_multi_all_queries_20261101_155310",
-  "native_init_snapshot_sha256": "219ddef5ced7f53262f1705d7991d431b304acd0f71a16bc208de02834d57b2c",
-  "adapter_sha256": "499826604f834891351a854fa7355b7d35bb315acd849946960ebf2c5dd9656d",
-  "runner_sha256": "59de3a8a8e5658202410551bb7b175b703f124d0203a706d41d07318fce27786",
-  "unchanged": [
-    "seed2023 native initialization",
-    "LR 3e-5",
-    "batch32",
-    "K=2",
-    "24 auxiliary queries per route",
-    "two routes at 0.15 each",
-    "Stage A Val mAP selection",
-    "Stage B Val three-threshold mean selection"
+  "instruction": "可以恢复原始全查询multi,继续训练。继续排队。",
+  "auxiliary_query_scope": "all_queries",
+  "native_localization": "positive queries only",
+  "existence_bce": "all queries",
+  "seed": 2023,
+  "lr": 3e-05,
+  "batch_size": 32,
+  "aux_queries": 24,
+  "o2m_k": 2,
+  "route_weights": [
+    0.15,
+    0.15
   ],
-  "test_used_for_adjustment": false,
-  "cpu_checks_passed": true,
-  "regression_tests_passed": 3,
-  "time": 1793519678.949182,
-  "frozen_logging_without_native_loss_checked": true
+  "resume_from": "Original all-query last at epoch34/cursor0; original optimizer/RNG/sampler retained",
+  "validation_interval_epochs": 5,
+  "user_continue_request_sha256": "4b937c48139addb8c8997f4826110c1759a36f00af17d73c0fc95b0da3a979e3",
+  "positive_only_archive": "/home/guoxiangyu/ImprovingGeneralizedMomentRetrieval/charades/multiroute_geq_seed2023_20261101/archives/eatr_restore_all_queries_20261101_174535/runs/eatr/multi",
+  "test_used_for_adjustment": false
 }

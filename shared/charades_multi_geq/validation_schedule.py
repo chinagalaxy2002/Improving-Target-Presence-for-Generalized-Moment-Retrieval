@@ -26,7 +26,8 @@ def ensure_schedule(directory, stage_b, next_epoch):
 
 def validation_due(epoch, best_epoch, ceiling, schedule):
  return (epoch % schedule['interval_epochs']==0 or epoch==ceiling or
-         best_epoch>0 and epoch-best_epoch>=schedule['patience_epochs'])
+         best_epoch>0 and epoch-best_epoch>=schedule['patience_epochs'] and
+         epoch>=schedule.get('defer_early_stop_until_epoch',0))
 
 
 def advance_selection(epoch, score, above, best, best_epoch, best_above):

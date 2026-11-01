@@ -1,0 +1,171 @@
+{
+  "authorized_by": "user",
+  "instruction": "可以恢复原始全查询multi,继续训练。继续排队。",
+  "time": 1793526335.0339286,
+  "backup": "/home/guoxiangyu/ImprovingGeneralizedMomentRetrieval/charades/multiroute_geq_seed2023_20261101/archives/eatr_restore_all_queries_20261101_174535",
+  "queue_pid": 2279378,
+  "original_archive": "/home/guoxiangyu/ImprovingGeneralizedMomentRetrieval/charades/multiroute_geq_seed2023_20261101/archives/eatr_multi_all_queries_20261101_155310/runs/eatr/multi",
+  "other_active_jobs": {
+    "qd_detr/gmr/train/": {
+      "pid": 2288945,
+      "gpu": 0,
+      "log": "/home/guoxiangyu/ImprovingGeneralizedMomentRetrieval/charades/multiroute_geq_seed2023_20261101/logs/qd_detr_gmr_train_.log"
+    },
+    "qd_detr/multi/train/": {
+      "pid": 2288946,
+      "gpu": 1,
+      "log": "/home/guoxiangyu/ImprovingGeneralizedMomentRetrieval/charades/multiroute_geq_seed2023_20261101/logs/qd_detr_multi_train_.log"
+    },
+    "eatr/gmr_geq_full/profile/": {
+      "pid": 2309408,
+      "gpu": 0,
+      "log": "/home/guoxiangyu/ImprovingGeneralizedMomentRetrieval/charades/multiroute_geq_seed2023_20261101/logs/eatr_gmr_geq_full_profile_.log"
+    }
+  },
+  "old_positive_only_job": {
+    "pid": 2296773,
+    "gpu": 1,
+    "log": "/home/guoxiangyu/ImprovingGeneralizedMomentRetrieval/charades/multiroute_geq_seed2023_20261101/logs/eatr_multi_train_.log"
+  },
+  "positive_only_archive": "/home/guoxiangyu/ImprovingGeneralizedMomentRetrieval/charades/multiroute_geq_seed2023_20261101/archives/eatr_restore_all_queries_20261101_174535/runs/eatr/multi",
+  "restored_original": {
+    "epoch": 34,
+    "cursor": 0,
+    "best_epoch": 13,
+    "best": 27.17,
+    "stale": 20,
+    "optimizer_max_step": 28677,
+    "checkpoint_sha256": "fb2107ca3c94b64d0d28236cb077faf2d3806a64851241671fcae45f2aa2d441",
+    "best_sha256": "2af2d61f94d9fafe50a8acd34fe2cdd465c0403c36e29070c1da5405b2fa120f",
+    "history_sha256": "79c8acef032c53722fdfcd93921537b8236fb1bcdb260938a7675663bbe2e623",
+    "request_sha256": "4b937c48139addb8c8997f4826110c1759a36f00af17d73c0fc95b0da3a979e3"
+  },
+  "restored_at": 1793526444.3262918,
+  "continuation_regression_report": "reports/eatr_original_continuation_regression_20261101.json",
+  "cpu_loss_regressions_passed": 6,
+  "restored_source_sha256": {
+    "adapter.py": "94aea4652f9f243a5e8655f95a4604d4104a5533e1850a26094f4fd45be27d7f",
+    "runner.py": "5944851448dc3e17a0cd825087bb3a8001de1086c3adc40d78ab197f756f5d2c",
+    "validation_schedule.py": "d411e60d24393a98f7b2d0ef905ba8decf48a7ca6d3fc130bea54ce00176dce3",
+    "completion_audit.py": "bc07dd1df968084cb1f5b756d03eb931d98fc862094cbec6d245338bbdde7c5c"
+  },
+  "requeued_at": 1793526577.1858237,
+  "positive_only_independent_ablation": {
+    "authorized_by": "user",
+    "instruction": "positive-only 版本也可以训练啊",
+    "time": 1793526726.500567,
+    "role": "Additional independent Stage A ablation; canonical all-query main experiment remains separate",
+    "backbone": "eatr",
+    "method": "multi",
+    "directory": "multi_positive_only",
+    "auxiliary_query_scope": "positive_only_v1",
+    "source_archive": "/home/guoxiangyu/ImprovingGeneralizedMomentRetrieval/charades/multiroute_geq_seed2023_20261101/archives/eatr_restore_all_queries_20261101_174535/runs/eatr/multi",
+    "resume_checkpoint_sha256": "a1125306672e63682f72f125a621ff9ea68ad0925c9b08bd26ab0a0072487068",
+    "resume_epoch": 13,
+    "resume_cursor": 518,
+    "optimizer_max_step": 10946,
+    "history_prefix_sha256": "cc778d56156474ffaecee17a691291589f9991db137d0b2549520fa9ef0f3646",
+    "best_sha256": "70e9d0e8ee8f7558b2d2a6fcce6035575f90f61d27d44bf694543f31ee238123",
+    "validation_interval_epochs": 5,
+    "patience_epochs": 20,
+    "counts_separate_from_main_24_training_and_48_tests": true
+  },
+  "previous_dispatcher_pid": 2279378,
+  "dual_variant_dispatcher_pid": 2312867,
+  "active_workers_before_dispatcher_replacement": {
+    "qd_detr/gmr/train/": {
+      "pid": 2288945,
+      "gpu": 0,
+      "log": "/home/guoxiangyu/ImprovingGeneralizedMomentRetrieval/charades/multiroute_geq_seed2023_20261101/logs/qd_detr_gmr_train_.log"
+    },
+    "qd_detr/multi/train/": {
+      "pid": 2288946,
+      "gpu": 1,
+      "log": "/home/guoxiangyu/ImprovingGeneralizedMomentRetrieval/charades/multiroute_geq_seed2023_20261101/logs/qd_detr_multi_train_.log"
+    },
+    "eatr/multi/train/": {
+      "pid": 2311317,
+      "gpu": 0,
+      "log": "/home/guoxiangyu/ImprovingGeneralizedMomentRetrieval/charades/multiroute_geq_seed2023_20261101/logs/eatr_multi_train_.log"
+    }
+  },
+  "dual_variant_queue_enabled_at": 1793526792.9051251,
+  "dual_variant_verified_running": {
+    "multi": {
+      "pid": 2311317,
+      "gpu": 0,
+      "epoch": 34,
+      "cursor": 600,
+      "optimizer_max_step": 29277,
+      "auxiliary_query_scope": "all_queries",
+      "status": {
+        "status": "TRAINING",
+        "epoch": 34,
+        "step": 600,
+        "total_steps": 869,
+        "pid": 2311317,
+        "train_loss": 7.314947372277578,
+        "last_batch_loss_parts": {
+          "native_total": 5.173221588134766,
+          "loss_span": 0.05198749527335167,
+          "loss_giou": 0.273414671421051,
+          "loss_label": 0.03702713921666145,
+          "loss_event_span": 0.043207455426454544,
+          "loss_event_giou": 0.2054816037416458,
+          "loss_span_0": 0.052601031959056854,
+          "loss_giou_0": 0.28651732206344604,
+          "loss_label_0": 0.033925533294677734,
+          "loss_span_1": 0.052215754985809326,
+          "loss_giou_1": 0.2747740149497986,
+          "loss_label_1": 0.03541955724358559,
+          "loss_exist": 0.4323155879974365,
+          "aux_sepffn": 0.6637963652610779,
+          "aux_instruction": 0.6656854152679443,
+          "aux_total": 1.3294825553894043
+        }
+      },
+      "best_sha256": "2af2d61f94d9fafe50a8acd34fe2cdd465c0403c36e29070c1da5405b2fa120f"
+    },
+    "multi_positive_only": {
+      "pid": 2312870,
+      "gpu": 1,
+      "epoch": 13,
+      "cursor": 600,
+      "optimizer_max_step": 11028,
+      "auxiliary_query_scope": "positive_only_v1",
+      "status": {
+        "status": "TRAINING",
+        "epoch": 13,
+        "step": 600,
+        "total_steps": 869,
+        "pid": 2312870,
+        "train_loss": 8.562748344933114,
+        "last_batch_loss_parts": {
+          "native_total": 5.218182563781738,
+          "loss_span": 0.049582455307245255,
+          "loss_giou": 0.2644316852092743,
+          "loss_label": 0.06407066434621811,
+          "loss_event_span": 0.04013669863343239,
+          "loss_event_giou": 0.16289910674095154,
+          "loss_span_0": 0.04325209930539131,
+          "loss_giou_0": 0.25068598985671997,
+          "loss_label_0": 0.06558708846569061,
+          "loss_span_1": 0.0467710867524147,
+          "loss_giou_1": 0.26967158913612366,
+          "loss_label_1": 0.06757786870002747,
+          "loss_exist": 0.5555962324142456,
+          "aux_sepffn": 0.9280104041099548,
+          "aux_instruction": 0.9444184303283691,
+          "aux_total": 1.8724288940429688
+        }
+      },
+      "best_sha256": "70e9d0e8ee8f7558b2d2a6fcce6035575f90f61d27d44bf694543f31ee238123"
+    }
+  },
+  "gpu_counts": {
+    "GPU-85e2ee01-eb00-3292-bf43-0082d4151f94": 2,
+    "GPU-80929bc2-0dbf-5ef4-7c7c-f33a8b43add0": 2
+  },
+  "queue_failures": {},
+  "verified_at": 1793526918.933369
+}

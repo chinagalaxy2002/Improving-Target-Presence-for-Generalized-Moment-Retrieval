@@ -33,20 +33,30 @@ def check():
   with contextlib.ExitStack() as stack:
    for p in patches:stack.enter_context(p)
    stack.enter_context(contextlib.redirect_stdout(io.StringIO()))
-   def run(name,interrupted=False,parent=None,existing=None):
+   def run(name,interrupted=False,parent=None,existing=None,continuation=False):
     global calls
     calls=[];d=root/name;d.mkdir();dump(d/'config.json',{})
     torch.manual_seed(2023);model=torch.nn.Linear(1,1);opt=torch.optim.AdamW(model.parameters(),lr=3e-5)
-    args=SimpleNamespace(method='gmr_geq_full' if parent else 'gmr',interrupt_after_steps=1 if interrupted else 0)
+    args=SimpleNamespace(method='multi' if continuation else 'gmr_geq_full' if parent else 'gmr',interrupt_after_steps=1 if interrupted else 0)
     if existing:
      history=[dict(epoch=e,selection=float(e),mAP=float(e),val_values=[0.,0.,0.],best=float(e),best_epoch=e,stale=0) for e in range(1,4)]
      (d/'history.jsonl').write_text(''.join(json.dumps(h)+'\n' for h in history))
      g=torch.Generator().manual_seed(2023)
      state=runner.checkpoint(model,opt,4,0,g.get_state(),3.,3,0,False,sha(root/'data/train.jsonl'))
      save(d/'last.ckpt',state);save(d/'best.ckpt',state)
+    if continuation:
+     from validation_schedule import ensure_schedule
+     history=[dict(epoch=e,selection=float(e) if e<=13 else 1.,mAP=float(e) if e<=13 else 1.,val_values=[0.,0.,0.],best=float(min(e,13)),best_epoch=min(e,13),stale=max(e-13,0)) for e in range(1,34)]
+     (d/'history.jsonl').write_text(''.join(json.dumps(h)+'\n' for h in history))
+     g=torch.Generator().manual_seed(2023)
+     state=runner.checkpoint(model,opt,34,0,g.get_state(),13.,13,20,False,sha(root/'data/train.jsonl'))
+     save(d/'last.ckpt',state);save(d/'best.ckpt',state)
+     request=dict(authorized_by='user',instruction='可以恢复原始全查询multi,继续训练。继续排队。',defer_early_stop_until_epoch=53)
+     dump(d/'USER_CONTINUE_REQUEST.json',request)
+     schedule=ensure_schedule(d,False,34);schedule.update(defer_early_stop_until_epoch=53,user_continue_request_sha256=sha(d/'USER_CONTINUE_REQUEST.json'));dump(d/'validation_schedule.json',schedule)
     runner.STOP=False;runner.train(ad,model,opt,parent,d,args)
     if interrupted:
-     state=torch.load(d/'last.ckpt',weights_only=False);assert state['cursor']==1 and state['epoch']==1
+     state=torch.load(d/'last.ckpt',weights_only=False);assert state['cursor']==1 and state['epoch']==(34 if continuation else 1)
      assert not (d/'TRAINED.json').exists()
      args.interrupt_after_steps=0
      # Reconstruct process state, then let train strictly restore last.
@@ -76,10 +86,24 @@ def check():
    assert events4==list(range(1,8)),events4
    assert sd['best_epoch']==2 and sd['stale']==6,'Equal-score tie must not reset patience'
    assert all(r['validated'] for r in rows(d/'history.jsonl'))
+   ad.name='eatr'
+   e,events5,se=run('continued_original',continuation=True)
+   assert events5==[35,40,45,50,53],events5
+   assert len(rows(e/'history.jsonl'))==53 and se['stale']==40 and se['best_epoch']==13
+   assert rows(e/'history.jsonl')[33]['stale']==21,'Original patience history must not be rewritten'
+   f,events6,sf=run('continued_original_resumed',continuation=True,interrupted=True)
+   assert events6==events5 and sf['stale']==40
+   assert all(torch.equal(v,sf['model'][k]) for k,v in se['model'].items())
+   assert torch.equal(se['rng']['torch'],sf['rng']['torch'])
+   assert torch.equal(se['sampler_epoch_start'],sf['sampler_epoch_start'])
+   for k,v in se['optimizer']['state'].items():
+    assert all(torch.equal(t,sf['optimizer']['state'][k][n]) for n,t in v.items())
   return dict(passed=True,stage_a_validations=events,stage_a_stopped_epoch=25,
    legacy_best_retained=True,legacy_terminal_validation_epoch=23,
    stage_b_validations=events4,stage_b_tie_did_not_reset_patience=True,
-   interrupted_resume_model_optimizer_rng_sampler_equal=True)
+   interrupted_resume_model_optimizer_rng_sampler_equal=True,
+   authorized_continuation_validations=events5,authorized_continuation_stops_at_53_without_improvement=True,
+   authorized_continuation_preserves_old_patience_and_resumes_exactly=True)
 
 
 if __name__=='__main__':print(json.dumps(check(),indent=2))

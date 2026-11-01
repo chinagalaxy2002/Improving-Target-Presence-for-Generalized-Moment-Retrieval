@@ -9,6 +9,8 @@ NAMES={'moment_detr':'Moment-DETR-GMR','eatr':'EaTR-GMR','qd_detr':'QD-DETR-GMR'
 LABELS=dict(zip(METHODS,['GMR','GMR + Multi','GMR + GEQ Frozen','GMR + GEQ Full','GMR + Multi + GEQ Frozen','GMR + Multi + GEQ Full']))
 COLORS=['#64748b','#e69f00','#009e73','#56b4e9','#0072b2','#cc79a7']
 STYLES=dict(zip(METHODS,COLORS))
+LABELS['multi_positive_only']='GMR + Multi (positive-only ablation)'
+STYLES['multi_positive_only']='#dc2626'
 plt.rcParams.update({'font.family':'DejaVu Sans','font.size':10,'axes.spines.top':False,'axes.spines.right':False,'svg.fonttype':'none','pdf.fonttype':42,'svg.hashsalt':'charades-seed2023'})
 
 def save(fig,path):
@@ -68,7 +70,7 @@ def render_selection(snapshot,destination):
 
 def selection_plot(b):
  history={};sources={}
- for m in METHODS:
+ for m in (*METHODS,'multi_positive_only') if b=='eatr' else METHODS:
   p=OUT/'runs'/b/m/'history.jsonl'
   if not p.exists():continue
   payload=p.read_bytes();history[m]=[json.loads(l) for l in payload.decode().splitlines() if l.strip()];sources[m]=hashlib.sha256(payload).hexdigest()

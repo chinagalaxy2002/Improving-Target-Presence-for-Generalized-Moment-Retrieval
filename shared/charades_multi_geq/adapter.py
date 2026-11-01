@@ -10,11 +10,12 @@ from auxiliary_matching import hungarian_batch
 def load_local(name,file):
  spec=importlib.util.spec_from_file_location(name,KIT/file);m=importlib.util.module_from_spec(spec);sys.modules[name]=m;spec.loader.exec_module(m);return m
 class Adapter:
- def __init__(self,name,multi,device='cuda'):
+ def __init__(self,name,multi,device='cuda',auxiliary_query_scope=None):
   load_local("dab_routes_local","dab_routes.py")
   self.name=name;self.native=TargetAdapter(name,device,'charades',seed=2023,config={'enable_pat_select':False})
   if name=='eatr' and multi:
-   self.native.cfg['multi_auxiliary_query_scope']='positive_only_v1'
+   self.native.cfg['multi_auxiliary_query_scope']=auxiliary_query_scope or 'all_queries'
+   assert self.native.cfg['multi_auxiliary_query_scope'] in ('all_queries','positive_only_v1')
   self.opt=self.native.opt;self.opt.num_workers=2;self.opt.seed=2023;self.native.cfg["seed"]=2023
   self.opt.max_v_l=json.loads((OUT/'data/audit.json').read_text())['max_v_l']
   self.bs={'moment_detr':8,'eatr':32,'qd_detr':32,'flashvtg':8}[name]

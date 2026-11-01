@@ -2,6 +2,11 @@
 import os,sys,fcntl,subprocess,time,signal
 from paths import *
 
+def worker_arguments(backbone,directory):
+ if (backbone,directory)==('eatr','multi_positive_only'):
+  return ['--backbone','eatr','--method','multi','--output-suffix','_positive_only','--auxiliary-query-scope','positive_only_v1']
+ return ['--backbone',backbone,'--method',directory]
+
 def compute():
  r=subprocess.run(['nvidia-smi','--query-gpu=index,uuid','--format=csv,noheader'],capture_output=True,text=True,check=True,timeout=10)
  uuid={x.split(',')[1].strip():int(x.split(',')[0]) for x in r.stdout.splitlines()}
@@ -36,7 +41,7 @@ def main():
   pid=job['pid'];b,m=key.split('/')[:2]
   try:
    command=Path(f'/proc/{pid}/cmdline').read_bytes().split(b'\0')
-   expected=[str(KIT/'runner.py').encode(),b'--backbone',b.encode(),b'--method',m.encode()]
+   expected=[str(KIT/'runner.py').encode()]+[x.encode() for x in worker_arguments(b,m)]
    if not all(x in command for x in expected):continue
   except FileNotFoundError:continue
   directory=OUT/'runs'/b/m;parts=key.split('/');completion=directory/('PROFILE.json' if parts[2]=='profile' else 'TRAINED.json') if parts[2]!='test' else directory/parts[3]/'COMPLETE.json'
@@ -80,6 +85,11 @@ def main():
       if not (d/s/'COMPLETE.json').exists():
        if m.endswith('frozen') and not (parent/s/'COMPLETE.json').exists():continue
        candidates.append((b,m,'test',s))
+  extra_enabled=policy.get('train_eatr_multi_positive_only',False)
+  extra_done=(OUT/'runs/eatr/multi_positive_only/TRAINED.json').exists()
+  if extra_enabled and not extra_done and 'eatr/multi_positive_only' not in held_tasks:
+   assert (OUT/'runs/eatr/multi_positive_only/DUAL_VARIANT_AUTHORIZATION.json').exists()
+   candidates.append(('eatr','multi_positive_only','train',None))
   # Fill ready GEQ branches before starting another backbone; do not globally barrier stages.
   def dispatch_priority(x):
    recovery=('/'.join((x[0],x[1],x[2],x[3] or ''))) not in retry
@@ -96,7 +106,7 @@ def main():
     gpu=min(occupation,key=occupation.get)
     if occupation[gpu]>=2:break
     log=(OUT/'logs'/f'{b}_{m}_{mode}_{split or ""}.log').open('a')
-    cmd=[sys.executable,str(KIT/'runner.py'),'--backbone',b,'--method',m,'--mode',mode]+(['--split',split] if split else [])
+    cmd=[sys.executable,str(KIT/'runner.py'),*worker_arguments(b,m),'--mode',mode]+(['--split',split] if split else [])
     p=subprocess.Popen(cmd,env=dict(os.environ,CUDA_VISIBLE_DEVICES=str(gpu),PYTHONUNBUFFERED='1',OMP_NUM_THREADS='4',MKL_NUM_THREADS='4'),stdout=log,stderr=subprocess.STDOUT,start_new_session=True)
     active[key]=(p,gpu,log);print('DISPATCH',key,gpu,p.pid,flush=True)
   if stopping:
@@ -105,8 +115,9 @@ def main():
   trained=sum((OUT/'runs'/b/m/'TRAINED.json').is_file() for b in BACKBONES for m in METHODS)
   tested=sum((OUT/'runs'/b/m/s/'COMPLETE.json').is_file() for b in BACKBONES for m in METHODS for s in ('test_id','test_ood'))
   profiled=sum((OUT/'runs'/b/m/'PROFILE.json').exists() for b in BACKBONES for m in METHODS)
-  dump(OUT/'logs/QUEUE.json',dict(scheduling_policy=policy,flash_deferred=defer_flash,profiled=profiled,required_profiles=24,pid=os.getpid(),time=time.time(),trained=trained,required_training=24,tested=tested,required_testing=48,active={k:dict(pid=p.pid,gpu=g,log=f.name) for k,(p,g,f) in active.items()},failures=failures))
-  if trained==24 and tested==48 and profiled==24:
-   dump(OUT/'logs/GPU_WORK_FINISHED.json',dict(time=time.time(),trained=24,tested=48));return
+  additional_training={'eatr/multi_positive_only':dict(trained=extra_done)} if extra_enabled else {}
+  dump(OUT/'logs/QUEUE.json',dict(scheduling_policy=policy,additional_training=additional_training,flash_deferred=defer_flash,profiled=profiled,required_profiles=24,pid=os.getpid(),time=time.time(),trained=trained,required_training=24,tested=tested,required_testing=48,active={k:dict(pid=p.pid,gpu=g,log=f.name) for k,(p,g,f) in active.items()},failures=failures))
+  if trained==24 and tested==48 and profiled==24 and (not extra_enabled or extra_done):
+   dump(OUT/'logs/GPU_WORK_FINISHED.json',dict(time=time.time(),trained=24,tested=48,additional_training=additional_training));return
   time.sleep(10)
 if __name__=='__main__':main()

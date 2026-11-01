@@ -32,6 +32,7 @@ METHOD_NAMES = {
     "gmr_geq_full": "GMR + GEQ Full",
     "multi_geq_frozen": "GMR + Multi + GEQ Frozen",
     "multi_geq_full": "GMR + Multi + GEQ Full",
+    "multi_positive_only": "EaTR Multi (positive-only)",
 }
 METHOD_COLORS = {
     "gmr": "#252525",
@@ -40,6 +41,7 @@ METHOD_COLORS = {
     "gmr_geq_full": "#0072b2",
     "multi_geq_frozen": "#9b59b6",
     "multi_geq_full": "#d55e00",
+    "multi_positive_only": "#dc2626",
 }
 METHOD_STYLES = {
     "gmr": "-",
@@ -48,6 +50,7 @@ METHOD_STYLES = {
     "gmr_geq_full": (0, (5, 1, 1, 1)),
     "multi_geq_frozen": (0, (3, 1, 1, 1)),
     "multi_geq_full": (0, (7, 1.5)),
+    "multi_positive_only": (0, (2, 1)),
 }
 METHOD_MARKERS = {
     "gmr": "o",
@@ -56,6 +59,7 @@ METHOD_MARKERS = {
     "gmr_geq_full": "D",
     "multi_geq_frozen": "P",
     "multi_geq_full": "X",
+    "multi_positive_only": "v",
 }
 
 
@@ -83,6 +87,7 @@ def short_method_name(backbone, method):
         "gmr_geq_full": "GMR+GEQ-Full",
         "multi_geq_frozen": "Multi+GEQ-F",
         "multi_geq_full": "Multi+GEQ-Full",
+        "multi_positive_only": "Multi (pos-only)",
     }[method]
 
 plt.rcParams.update({
@@ -186,6 +191,7 @@ def load_method(backbone, method, active):
 
 def render(output):
     active = load_queue_active()
+    has_positive_only = (OUT / "runs/eatr/multi_positive_only").is_dir()
     fig = plt.figure(figsize=(16, 9), dpi=160)
     outer = fig.add_gridspec(2, 2, left=0.045, right=0.98, top=0.80, bottom=0.105,
                              hspace=0.34, wspace=0.17)
@@ -195,11 +201,12 @@ def render(output):
         panel = outer[row, column].subgridspec(1, 2, width_ratios=[1.5, 1.3], wspace=0.06)
         axis = fig.add_subplot(panel[0, 0])
         table = fig.add_subplot(panel[0, 1])
-        records = {method: load_method(backbone, method, active) for method in METHODS}
+        methods = (*METHODS, "multi_positive_only") if backbone == "eatr" and has_positive_only else METHODS
+        records = {method: load_method(backbone, method, active) for method in methods}
         completed = sum(records[method]["state"] == "complete" for method in METHODS)
-        running = sum(records[method]["state"] == "running" for method in METHODS)
+        running = sum(records[method]["state"] == "running" for method in methods)
 
-        for method_index, method in enumerate(METHODS):
+        for method_index, method in enumerate(methods):
             record = records[method]
             history = record["history"]
             color = METHOD_COLORS[method]
@@ -221,14 +228,15 @@ def render(output):
                         color=color, edgecolor="#171717", linewidth=0.7, zorder=12,
                     )
 
-        if not any(records[method]["history"] for method in METHODS):
+        if not any(records[method]["history"] for method in methods):
             axis.set_xlim(0, 1)
             axis.set_ylim(0, 100)
             axis.text(0.5, 0.5, "Waiting for first Val epoch", transform=axis.transAxes,
                       ha="center", va="center", color="#64748b", fontsize=10)
 
         axis.set_title(
-            f"{BACKBONE_NAMES[backbone]}  |  {completed}/6 trained  |  {running} running",
+            f"{BACKBONE_NAMES[backbone]}  |  {completed}/6 trained  |  {running} running"
+            + (" (incl. ablation)" if backbone == "eatr" and has_positive_only else ""),
             loc="left", fontsize=12, fontweight="bold", pad=6,
         )
         axis.set_ylabel("Val mAP (%)")
@@ -243,7 +251,7 @@ def render(output):
         table.text(0.01, 0.93, "Method", ha="left", va="center", fontweight="bold", fontsize=9)
         table.text(0.52, 0.93, "State", ha="left", va="center", fontweight="bold", fontsize=8.5)
         table.text(0.70, 0.93, "Last / picked", ha="left", va="center", fontweight="bold", fontsize=8.5)
-        for index, method in enumerate(METHODS):
+        for index, method in enumerate(methods):
             record = records[method]
             latest = "—" if record["latest_map"] is None else f'{record["latest_map"]:.2f}'
             selected = "—" if record["selected_map"] is None else f'{record["selected_map"]:.2f}'
@@ -267,9 +275,9 @@ def render(output):
             linestyle=METHOD_STYLES[method], marker=METHOD_MARKERS[method], markersize=6,
             label=METHOD_NAMES[method],
         )
-        for method in METHODS
+        for method in ((*METHODS, "multi_positive_only") if has_positive_only else METHODS)
     ]
-    fig.legend(handles=legend, loc="upper center", ncol=3, frameon=False,
+    fig.legend(handles=legend, loc="upper center", ncol=4 if has_positive_only else 3, frameon=False,
                bbox_to_anchor=(0.5, 0.91), fontsize=10, columnspacing=2.2,
                handlelength=3, labelspacing=1.0)
     fig.suptitle(
@@ -278,8 +286,10 @@ def render(output):
     )
     fig.text(
         0.5, 0.025,
-        "Lines: completed-epoch Val mAP (%)  |  ★: selected epoch (GEQ uses Val G-mIoU@1)  "
-        "|  Test excluded  |  FlashVTG Multi = Multi-TQAux  |  "
+        "Lines: actual Val epochs, mAP (%)  |  ★: selected epoch (GEQ: maximum Val mean G-mIoU@1 over 0.4/0.5/0.6)  "
+        "|  Test excluded  |  FlashVTG Multi = Multi-TQAux\n"
+        + ("EaTR positive-only: additional ablation  |  " if has_positive_only else "")
+        +
         f"Updated {datetime.now().astimezone().strftime('%Y-%m-%d %H:%M:%S %Z')}",
         ha="center", fontsize=8.5, color="#475569",
     )
