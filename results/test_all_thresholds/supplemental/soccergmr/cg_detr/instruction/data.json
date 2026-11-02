@@ -1,0 +1,63 @@
+{
+  "signature": {
+    "prediction_sha256": "86ad6724a251fd00a0c1f5a24f35deb0188f345ee4e49446037ee95c645ceaeb",
+    "metrics_sha256": "2d60e74815d6f56518167405ff70347a62cd35bbc643a438e2eb178d67f26331",
+    "ground_truth_sha256": "d8c47dee986b3ea87ba3e008ac2f5f34b0ab000337631e324a6ecffd1dea910c",
+    "evaluator_sha256": "7f49929789725baca0bfeaaa73517a6baedf608c3b2ff341881a7dee3aefa656"
+  },
+  "metrics": {
+    "AUROC": 76.96,
+    "Rej-F1@0.4": 38.6,
+    "Acc@0.4": 61.0,
+    "Rej-F1@0.5": 62.16,
+    "Acc@0.5": 66.51,
+    "Rej-F1@0.6": 73.24,
+    "Acc@0.6": 69.11,
+    "G-mIoU@1": 23.6,
+    "G-mIoU@3": 18.06,
+    "G-mIoU@5": 15.97,
+    "mAP": 15.67,
+    "mR@1": 10.72,
+    "mR@3": 17.11,
+    "mR@5": 21.34,
+    "mR+@1": 0.0,
+    "mR+@3": 5.52,
+    "mR+@5": 8.46,
+    "mIoU@1": 28.77,
+    "mIoU@3": 26.47,
+    "mIoU@5": 26.42,
+    "mIoU+@1": 0.0,
+    "mIoU+@3": 11.28,
+    "mIoU+@5": 11.21
+  },
+  "grid": [
+    {
+      "threshold": 0.4,
+      "gmiou_1": 0.23600000000000002,
+      "gmiou_3": 0.18059999999999998,
+      "negative_accuracy": 0.258130081300813,
+      "rejection_f1": 0.386
+    },
+    {
+      "threshold": 0.5,
+      "gmiou_1": 0.37329999999999997,
+      "gmiou_3": 0.321,
+      "negative_accuracy": 0.5792682926829268,
+      "rejection_f1": 0.6215999999999999
+    },
+    {
+      "threshold": 0.6,
+      "gmiou_1": 0.5033,
+      "gmiou_3": 0.45439999999999997,
+      "negative_accuracy": 0.8902439024390244,
+      "rejection_f1": 0.7323999999999999
+    }
+  ],
+  "source_predictions": "/home/guoxiangyu/Improving-Target-Presence-for-Generalized-Moment-Retrieval/backbonefolder/multiroute_gmr/runs/cg_detr/instruction/test_predictions.jsonl",
+  "source_metrics": "/home/guoxiangyu/Improving-Target-Presence-for-Generalized-Moment-Retrieval/backbonefolder/multiroute_gmr/runs/cg_detr/instruction/test_metrics.json",
+  "selection": {},
+  "protocol": "Existing formal Test predictions; official threshold completion only; no new model inference",
+  "queries": 1036,
+  "positive": 544,
+  "negative": 492
+}

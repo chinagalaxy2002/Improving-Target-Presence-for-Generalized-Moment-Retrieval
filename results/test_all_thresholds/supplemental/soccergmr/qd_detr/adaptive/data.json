@@ -1,0 +1,63 @@
+{
+  "signature": {
+    "prediction_sha256": "d326758c90c1b3971aa53ddd7dac2a571167af4b7c19e7a6fad62a70e1a26db8",
+    "metrics_sha256": "645a13b37fd191c916c404611f819b1328a7e9ba0b1b6bc1b6b82351bfd491d3",
+    "ground_truth_sha256": "d8c47dee986b3ea87ba3e008ac2f5f34b0ab000337631e324a6ecffd1dea910c",
+    "evaluator_sha256": "7f49929789725baca0bfeaaa73517a6baedf608c3b2ff341881a7dee3aefa656"
+  },
+  "metrics": {
+    "AUROC": 75.47,
+    "Rej-F1@0.4": 52.66,
+    "Acc@0.4": 63.03,
+    "Rej-F1@0.5": 64.65,
+    "Acc@0.5": 66.22,
+    "Rej-F1@0.6": 73.32,
+    "Acc@0.6": 69.31,
+    "G-mIoU@1": 29.88,
+    "G-mIoU@3": 24.85,
+    "G-mIoU@5": 23.19,
+    "mAP": 14.68,
+    "mR@1": 9.46,
+    "mR@3": 16.7,
+    "mR@5": 20.46,
+    "mR+@1": 0.0,
+    "mR+@3": 4.84,
+    "mR+@5": 6.91,
+    "mIoU@1": 25.9,
+    "mIoU@3": 23.56,
+    "mIoU@5": 23.35,
+    "mIoU+@1": 0.0,
+    "mIoU+@3": 8.91,
+    "mIoU+@5": 8.37
+  },
+  "grid": [
+    {
+      "threshold": 0.4,
+      "gmiou_1": 0.2988,
+      "gmiou_3": 0.24850000000000003,
+      "negative_accuracy": 0.4329268292682927,
+      "rejection_f1": 0.5266
+    },
+    {
+      "threshold": 0.5,
+      "gmiou_1": 0.3918,
+      "gmiou_3": 0.3432,
+      "negative_accuracy": 0.6504065040650406,
+      "rejection_f1": 0.6465000000000001
+    },
+    {
+      "threshold": 0.6,
+      "gmiou_1": 0.49520000000000003,
+      "gmiou_3": 0.45049999999999996,
+      "negative_accuracy": 0.8882113821138211,
+      "rejection_f1": 0.7332
+    }
+  ],
+  "source_predictions": "/home/guoxiangyu/Improving-Target-Presence-for-Generalized-Moment-Retrieval/backbonefolder/multiroute_gmr/runs/qd_detr/adaptive/test_predictions.jsonl",
+  "source_metrics": "/home/guoxiangyu/Improving-Target-Presence-for-Generalized-Moment-Retrieval/backbonefolder/multiroute_gmr/runs/qd_detr/adaptive/test_metrics.json",
+  "selection": {},
+  "protocol": "Existing formal Test predictions; official threshold completion only; no new model inference",
+  "queries": 1036,
+  "positive": 544,
+  "negative": 492
+}

@@ -1,0 +1,69 @@
+{
+  "signature": {
+    "prediction_sha256": "859b82db3dcf9189fdb48ffc5c821b0a492bc3dc0dd1fdeedbb715060373b146",
+    "metrics_sha256": "fa6363715713943de7dfecb05cf05b0c36abafcfaff568510e5cf07b5d53c452",
+    "ground_truth_sha256": "d8c47dee986b3ea87ba3e008ac2f5f34b0ab000337631e324a6ecffd1dea910c",
+    "evaluator_sha256": "7f49929789725baca0bfeaaa73517a6baedf608c3b2ff341881a7dee3aefa656"
+  },
+  "metrics": {
+    "AUROC": 78.01,
+    "Rej-F1@0.4": 65.27,
+    "Acc@0.4": 67.95,
+    "Rej-F1@0.5": 71.98,
+    "Acc@0.5": 69.79,
+    "Rej-F1@0.6": 74.32,
+    "Acc@0.6": 69.98,
+    "G-mIoU@1": 40.5,
+    "G-mIoU@3": 35.13,
+    "G-mIoU@5": 33.24,
+    "mAP": 17.29,
+    "mR@1": 11.56,
+    "mR@3": 18.52,
+    "mR@5": 22.99,
+    "mR+@1": 0.0,
+    "mR+@3": 6.86,
+    "mR+@5": 10.32,
+    "mIoU@1": 29.89,
+    "mIoU@3": 27.95,
+    "mIoU@5": 27.82,
+    "mIoU+@1": 0.0,
+    "mIoU+@3": 11.43,
+    "mIoU+@5": 11.0
+  },
+  "grid": [
+    {
+      "threshold": 0.4,
+      "gmiou_1": 0.405,
+      "gmiou_3": 0.3513,
+      "negative_accuracy": 0.6341463414634146,
+      "rejection_f1": 0.6527
+    },
+    {
+      "threshold": 0.5,
+      "gmiou_1": 0.4772,
+      "gmiou_3": 0.4293,
+      "negative_accuracy": 0.8170731707317073,
+      "rejection_f1": 0.7198
+    },
+    {
+      "threshold": 0.6,
+      "gmiou_1": 0.516,
+      "gmiou_3": 0.4697,
+      "negative_accuracy": 0.9146341463414634,
+      "rejection_f1": 0.7432
+    }
+  ],
+  "source_predictions": "/home/guoxiangyu/Improving-Target-Presence-for-Generalized-Moment-Retrieval/backbonefolder/multiroute_gmr/runs/eatr/adaptive/test_predictions.jsonl",
+  "source_metrics": "/home/guoxiangyu/Improving-Target-Presence-for-Generalized-Moment-Retrieval/backbonefolder/multiroute_gmr/runs/eatr/adaptive/test_metrics.json",
+  "selection": {
+    "best_epoch": 75,
+    "best_val_map": 20.46,
+    "checkpoint_sha256": "99e843e3436221b7a3bd42d7406c65d275a36bea6c5b282b1901499aecbfea06",
+    "existing_formal_test_reused": true,
+    "status": "COMPLETED"
+  },
+  "protocol": "Existing formal Test predictions; official threshold completion only; no new model inference",
+  "queries": 1036,
+  "positive": 544,
+  "negative": 492
+}

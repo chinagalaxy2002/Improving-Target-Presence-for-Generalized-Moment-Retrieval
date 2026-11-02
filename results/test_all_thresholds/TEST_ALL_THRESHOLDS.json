@@ -1,0 +1,4664 @@
+[
+  {
+    "dataset": "SoccerGMR",
+    "split": "Standard Test",
+    "protocol": "current_val_selection",
+    "backbone": "moment_detr",
+    "method": "gmr",
+    "label": "GMR",
+    "parent": "gmr",
+    "common": {
+      "AUROC": 68.8,
+      "mAP": 5.91,
+      "mR@1": 3.68,
+      "mR@5": 7.98,
+      "mR+@5": 1.16
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 0.0,
+        "Rej-F1": 0.0,
+        "G-mIoU@1": 0.057699999999999994,
+        "G-mIoU@3": 0.022000000000000002
+      },
+      "0.5": {
+        "N-acc": 100.0,
+        "Rej-F1": 75.0,
+        "G-mIoU@1": 0.5239,
+        "G-mIoU@3": 0.49119999999999997
+      },
+      "0.6": {
+        "N-acc": 100.0,
+        "Rej-F1": 75.0,
+        "G-mIoU@1": 0.5239,
+        "G-mIoU@3": 0.49119999999999997
+      }
+    },
+    "source": "results/geq_val_selection/moment_detr/full_comparison_baseline_data.json"
+  },
+  {
+    "dataset": "SoccerGMR",
+    "split": "Standard Test",
+    "protocol": "current_val_selection",
+    "backbone": "moment_detr",
+    "method": "gmr_geq_frozen",
+    "label": "GMR + GEQ Frozen",
+    "parent": "gmr",
+    "common": {
+      "AUROC": 68.18,
+      "mAP": 5.91,
+      "mR@1": 3.68,
+      "mR@5": 7.98,
+      "mR+@5": 1.16
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 100.0,
+        "Rej-F1": 75.0,
+        "G-mIoU@1": 0.5239,
+        "G-mIoU@3": 0.49119999999999997
+      },
+      "0.5": {
+        "N-acc": 100.0,
+        "Rej-F1": 75.0,
+        "G-mIoU@1": 0.5239,
+        "G-mIoU@3": 0.49119999999999997
+      },
+      "0.6": {
+        "N-acc": 100.0,
+        "Rej-F1": 75.0,
+        "G-mIoU@1": 0.5239,
+        "G-mIoU@3": 0.49119999999999997
+      }
+    },
+    "source": "results/geq_val_selection/moment_detr/frozen_comparison_baseline_geq_data.json"
+  },
+  {
+    "dataset": "SoccerGMR",
+    "split": "Standard Test",
+    "protocol": "current_val_selection",
+    "backbone": "moment_detr",
+    "method": "gmr_geq_full",
+    "label": "GMR + GEQ Full",
+    "parent": "gmr",
+    "common": {
+      "AUROC": 68.96,
+      "mAP": 6.09,
+      "mR@1": 3.77,
+      "mR@5": 8.19,
+      "mR+@5": 0.66
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 99.59349593495935,
+        "Rej-F1": 74.81,
+        "G-mIoU@1": 0.5243,
+        "G-mIoU@3": 0.4901
+      },
+      "0.5": {
+        "N-acc": 100.0,
+        "Rej-F1": 75.0,
+        "G-mIoU@1": 0.5263,
+        "G-mIoU@3": 0.49200000000000005
+      },
+      "0.6": {
+        "N-acc": 100.0,
+        "Rej-F1": 75.0,
+        "G-mIoU@1": 0.5263,
+        "G-mIoU@3": 0.49200000000000005
+      }
+    },
+    "source": "results/geq_val_selection/moment_detr/full_comparison_baseline_geq_data.json"
+  },
+  {
+    "dataset": "SoccerGMR",
+    "split": "Standard Test",
+    "protocol": "current_val_selection",
+    "backbone": "moment_detr",
+    "method": "multi",
+    "label": "GMR + Multi",
+    "parent": "gmr",
+    "common": {
+      "AUROC": 70.14,
+      "mAP": 7.27,
+      "mR@1": 4.71,
+      "mR@5": 10.04,
+      "mR+@5": 0.28
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 83.53658536585365,
+        "Rej-F1": 69.6,
+        "G-mIoU@1": 0.4421,
+        "G-mIoU@3": 0.41359999999999997
+      },
+      "0.5": {
+        "N-acc": 100.0,
+        "Rej-F1": 75.0,
+        "G-mIoU@1": 0.5188,
+        "G-mIoU@3": 0.48950000000000005
+      },
+      "0.6": {
+        "N-acc": 100.0,
+        "Rej-F1": 75.0,
+        "G-mIoU@1": 0.5188,
+        "G-mIoU@3": 0.48950000000000005
+      }
+    },
+    "source": "results/geq_val_selection/moment_detr/multi_full_frozen_baseline_data.json"
+  },
+  {
+    "dataset": "SoccerGMR",
+    "split": "Standard Test",
+    "protocol": "current_val_selection",
+    "backbone": "moment_detr",
+    "method": "multi_geq_frozen",
+    "label": "GMR + Multi + GEQ Frozen",
+    "parent": "multi",
+    "common": {
+      "AUROC": 69.25,
+      "mAP": 7.27,
+      "mR@1": 4.71,
+      "mR@5": 10.04,
+      "mR+@5": 0.28
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 90.65040650406505,
+        "Rej-F1": 72.11,
+        "G-mIoU@1": 0.47490000000000004,
+        "G-mIoU@3": 0.4456
+      },
+      "0.5": {
+        "N-acc": 100.0,
+        "Rej-F1": 75.0,
+        "G-mIoU@1": 0.5188,
+        "G-mIoU@3": 0.48950000000000005
+      },
+      "0.6": {
+        "N-acc": 100.0,
+        "Rej-F1": 75.0,
+        "G-mIoU@1": 0.5188,
+        "G-mIoU@3": 0.48950000000000005
+      }
+    },
+    "source": "results/geq_val_selection/moment_detr/multi_full_frozen_frozen_data.json"
+  },
+  {
+    "dataset": "SoccerGMR",
+    "split": "Standard Test",
+    "protocol": "current_val_selection",
+    "backbone": "moment_detr",
+    "method": "multi_geq_full",
+    "label": "GMR + Multi + GEQ Full",
+    "parent": "multi",
+    "common": {
+      "AUROC": 69.83,
+      "mAP": 7.72,
+      "mR@1": 4.06,
+      "mR@5": 12.48,
+      "mR+@5": 0.83
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 81.91056910569105,
+        "Rej-F1": 68.89,
+        "G-mIoU@1": 0.4395,
+        "G-mIoU@3": 0.40700000000000003
+      },
+      "0.5": {
+        "N-acc": 100.0,
+        "Rej-F1": 75.0,
+        "G-mIoU@1": 0.5236999999999999,
+        "G-mIoU@3": 0.49119999999999997
+      },
+      "0.6": {
+        "N-acc": 100.0,
+        "Rej-F1": 75.0,
+        "G-mIoU@1": 0.5236999999999999,
+        "G-mIoU@3": 0.49119999999999997
+      }
+    },
+    "source": "results/geq_val_selection/moment_detr/multi_full_frozen_full_data.json"
+  },
+  {
+    "dataset": "SoccerGMR",
+    "split": "Standard Test",
+    "protocol": "current_val_selection",
+    "backbone": "eatr",
+    "method": "gmr",
+    "label": "GMR",
+    "parent": "gmr",
+    "common": {
+      "AUROC": 76.56,
+      "mAP": 16.2,
+      "mR@1": 10.64,
+      "mR@5": 21.38,
+      "mR+@5": 9.59
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 48.577235772357724,
+        "Rej-F1": 57.10999999999999,
+        "G-mIoU@1": 0.3332,
+        "G-mIoU@3": 0.2834
+      },
+      "0.5": {
+        "N-acc": 66.66666666666666,
+        "Rej-F1": 65.6,
+        "G-mIoU@1": 0.40850000000000003,
+        "G-mIoU@3": 0.36
+      },
+      "0.6": {
+        "N-acc": 87.1951219512195,
+        "Rej-F1": 73.46,
+        "G-mIoU@1": 0.49560000000000004,
+        "G-mIoU@3": 0.4486
+      }
+    },
+    "source": "results/geq_val_selection/eatr/full_comparison_baseline_data.json"
+  },
+  {
+    "dataset": "SoccerGMR",
+    "split": "Standard Test",
+    "protocol": "current_val_selection",
+    "backbone": "eatr",
+    "method": "gmr_geq_frozen",
+    "label": "GMR + GEQ Frozen",
+    "parent": "gmr",
+    "common": {
+      "AUROC": 75.17,
+      "mAP": 16.2,
+      "mR@1": 10.64,
+      "mR@5": 21.38,
+      "mR+@5": 9.59
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 63.82113821138211,
+        "Rej-F1": 64.02,
+        "G-mIoU@1": 0.3911,
+        "G-mIoU@3": 0.3452
+      },
+      "0.5": {
+        "N-acc": 87.60162601626016,
+        "Rej-F1": 72.93,
+        "G-mIoU@1": 0.49329999999999996,
+        "G-mIoU@3": 0.4489
+      },
+      "0.6": {
+        "N-acc": 96.7479674796748,
+        "Rej-F1": 74.9,
+        "G-mIoU@1": 0.5315,
+        "G-mIoU@3": 0.4858
+      }
+    },
+    "source": "results/geq_val_selection/eatr/frozen_comparison_baseline_geq_data.json"
+  },
+  {
+    "dataset": "SoccerGMR",
+    "split": "Standard Test",
+    "protocol": "current_val_selection",
+    "backbone": "eatr",
+    "method": "gmr_geq_full",
+    "label": "GMR + GEQ Full",
+    "parent": "gmr",
+    "common": {
+      "AUROC": 75.26,
+      "mAP": 17.15,
+      "mR@1": 11.47,
+      "mR@5": 22.84,
+      "mR+@5": 10.79
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 64.22764227642277,
+        "Rej-F1": 64.29,
+        "G-mIoU@1": 0.39880000000000004,
+        "G-mIoU@3": 0.3482
+      },
+      "0.5": {
+        "N-acc": 90.65040650406505,
+        "Rej-F1": 74.77,
+        "G-mIoU@1": 0.5111,
+        "G-mIoU@3": 0.4635
+      },
+      "0.6": {
+        "N-acc": 98.17073170731707,
+        "Rej-F1": 75.23,
+        "G-mIoU@1": 0.5402,
+        "G-mIoU@3": 0.4921
+      }
+    },
+    "source": "results/geq_val_selection/eatr/full_comparison_baseline_geq_data.json"
+  },
+  {
+    "dataset": "SoccerGMR",
+    "split": "Standard Test",
+    "protocol": "current_val_selection",
+    "backbone": "eatr",
+    "method": "multi",
+    "label": "GMR + Multi",
+    "parent": "gmr",
+    "common": {
+      "AUROC": 77.11,
+      "mAP": 17.52,
+      "mR@1": 11.64,
+      "mR@5": 23.7,
+      "mR+@5": 11.77
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 44.918699186991866,
+        "Rej-F1": 55.17999999999999,
+        "G-mIoU@1": 0.33049999999999996,
+        "G-mIoU@3": 0.2702
+      },
+      "0.5": {
+        "N-acc": 61.58536585365854,
+        "Rej-F1": 63.79,
+        "G-mIoU@1": 0.39880000000000004,
+        "G-mIoU@3": 0.34240000000000004
+      },
+      "0.6": {
+        "N-acc": 75.40650406504065,
+        "Rej-F1": 69.15,
+        "G-mIoU@1": 0.4575,
+        "G-mIoU@3": 0.4012
+      }
+    },
+    "source": "results/geq_val_selection/eatr/multi_full_frozen_baseline_data.json"
+  },
+  {
+    "dataset": "SoccerGMR",
+    "split": "Standard Test",
+    "protocol": "current_val_selection",
+    "backbone": "eatr",
+    "method": "multi_geq_frozen",
+    "label": "GMR + Multi + GEQ Frozen",
+    "parent": "multi",
+    "common": {
+      "AUROC": 76.69,
+      "mAP": 17.52,
+      "mR@1": 11.64,
+      "mR@5": 23.7,
+      "mR+@5": 11.77
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 69.51219512195121,
+        "Rej-F1": 68.13,
+        "G-mIoU@1": 0.4277,
+        "G-mIoU@3": 0.3738
+      },
+      "0.5": {
+        "N-acc": 81.5040650406504,
+        "Rej-F1": 71.04,
+        "G-mIoU@1": 0.4738,
+        "G-mIoU@3": 0.4243
+      },
+      "0.6": {
+        "N-acc": 89.63414634146342,
+        "Rej-F1": 73.01,
+        "G-mIoU@1": 0.5058,
+        "G-mIoU@3": 0.4571
+      }
+    },
+    "source": "results/geq_val_selection/eatr/multi_full_frozen_frozen_data.json"
+  },
+  {
+    "dataset": "SoccerGMR",
+    "split": "Standard Test",
+    "protocol": "current_val_selection",
+    "backbone": "eatr",
+    "method": "multi_geq_full",
+    "label": "GMR + Multi + GEQ Full",
+    "parent": "multi",
+    "common": {
+      "AUROC": 77.27,
+      "mAP": 19.88,
+      "mR@1": 14.05,
+      "mR@5": 25.31,
+      "mR+@5": 12.24
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 68.90243902439023,
+        "Rej-F1": 67.6,
+        "G-mIoU@1": 0.4318,
+        "G-mIoU@3": 0.3741
+      },
+      "0.5": {
+        "N-acc": 81.30081300813008,
+        "Rej-F1": 71.05,
+        "G-mIoU@1": 0.4796,
+        "G-mIoU@3": 0.426
+      },
+      "0.6": {
+        "N-acc": 90.65040650406505,
+        "Rej-F1": 73.48,
+        "G-mIoU@1": 0.5165,
+        "G-mIoU@3": 0.4632
+      }
+    },
+    "source": "results/geq_val_selection/eatr/multi_full_frozen_full_data.json"
+  },
+  {
+    "dataset": "SoccerGMR",
+    "split": "Standard Test",
+    "protocol": "current_val_selection",
+    "backbone": "qd_detr",
+    "method": "gmr",
+    "label": "GMR",
+    "parent": "gmr",
+    "common": {
+      "AUROC": 77.66,
+      "mAP": 15.08,
+      "mR@1": 10.04,
+      "mR@5": 20.11,
+      "mR+@5": 9.62
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 53.45528455284553,
+        "Rej-F1": 59.84,
+        "G-mIoU@1": 0.3533,
+        "G-mIoU@3": 0.3035
+      },
+      "0.5": {
+        "N-acc": 90.04065040650406,
+        "Rej-F1": 73.77,
+        "G-mIoU@1": 0.5058,
+        "G-mIoU@3": 0.4611
+      },
+      "0.6": {
+        "N-acc": 97.5609756097561,
+        "Rej-F1": 75.29,
+        "G-mIoU@1": 0.5355,
+        "G-mIoU@3": 0.4901
+      }
+    },
+    "source": "results/geq_val_selection/qd_detr/full_comparison_baseline_data.json"
+  },
+  {
+    "dataset": "SoccerGMR",
+    "split": "Standard Test",
+    "protocol": "current_val_selection",
+    "backbone": "qd_detr",
+    "method": "gmr_geq_frozen",
+    "label": "GMR + GEQ Frozen",
+    "parent": "gmr",
+    "common": {
+      "AUROC": 77.42,
+      "mAP": 15.08,
+      "mR@1": 10.04,
+      "mR@5": 20.11,
+      "mR+@5": 9.62
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 77.23577235772358,
+        "Rej-F1": 70.11,
+        "G-mIoU@1": 0.4559,
+        "G-mIoU@3": 0.40700000000000003
+      },
+      "0.5": {
+        "N-acc": 92.47967479674797,
+        "Rej-F1": 74.47,
+        "G-mIoU@1": 0.5161,
+        "G-mIoU@3": 0.4711
+      },
+      "0.6": {
+        "N-acc": 96.95121951219512,
+        "Rej-F1": 74.88,
+        "G-mIoU@1": 0.5322,
+        "G-mIoU@3": 0.4868
+      }
+    },
+    "source": "results/geq_val_selection/qd_detr/frozen_comparison_baseline_geq_data.json"
+  },
+  {
+    "dataset": "SoccerGMR",
+    "split": "Standard Test",
+    "protocol": "current_val_selection",
+    "backbone": "qd_detr",
+    "method": "gmr_geq_full",
+    "label": "GMR + GEQ Full",
+    "parent": "gmr",
+    "common": {
+      "AUROC": 77.66,
+      "mAP": 16.54,
+      "mR@1": 11.48,
+      "mR@5": 22.09,
+      "mR+@5": 10.14
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 80.48780487804879,
+        "Rej-F1": 71.35,
+        "G-mIoU@1": 0.4727,
+        "G-mIoU@3": 0.4232
+      },
+      "0.5": {
+        "N-acc": 93.90243902439023,
+        "Rej-F1": 74.52,
+        "G-mIoU@1": 0.5241,
+        "G-mIoU@3": 0.4769
+      },
+      "0.6": {
+        "N-acc": 98.17073170731707,
+        "Rej-F1": 75.23,
+        "G-mIoU@1": 0.5418999999999999,
+        "G-mIoU@3": 0.49420000000000003
+      }
+    },
+    "source": "results/geq_val_selection/qd_detr/full_comparison_baseline_geq_data.json"
+  },
+  {
+    "dataset": "SoccerGMR",
+    "split": "Standard Test",
+    "protocol": "current_val_selection",
+    "backbone": "qd_detr",
+    "method": "multi",
+    "label": "GMR + Multi",
+    "parent": "gmr",
+    "common": {
+      "AUROC": 75.56,
+      "mAP": 14.67,
+      "mR@1": 9.95,
+      "mR@5": 19.5,
+      "mR+@5": 5.6
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 53.86178861788618,
+        "Rej-F1": 58.37,
+        "G-mIoU@1": 0.34850000000000003,
+        "G-mIoU@3": 0.2985
+      },
+      "0.5": {
+        "N-acc": 91.66666666666666,
+        "Rej-F1": 74.92,
+        "G-mIoU@1": 0.5157,
+        "G-mIoU@3": 0.469
+      },
+      "0.6": {
+        "N-acc": 96.54471544715447,
+        "Rej-F1": 75.28,
+        "G-mIoU@1": 0.5307999999999999,
+        "G-mIoU@3": 0.48460000000000003
+      }
+    },
+    "source": "results/geq_val_selection/qd_detr/multi_full_frozen_baseline_data.json"
+  },
+  {
+    "dataset": "SoccerGMR",
+    "split": "Standard Test",
+    "protocol": "current_val_selection",
+    "backbone": "qd_detr",
+    "method": "multi_geq_frozen",
+    "label": "GMR + Multi + GEQ Frozen",
+    "parent": "multi",
+    "common": {
+      "AUROC": 74.92,
+      "mAP": 14.67,
+      "mR@1": 9.95,
+      "mR@5": 19.5,
+      "mR+@5": 5.6
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 74.59349593495935,
+        "Rej-F1": 68.41,
+        "G-mIoU@1": 0.43799999999999994,
+        "G-mIoU@3": 0.3917
+      },
+      "0.5": {
+        "N-acc": 94.51219512195121,
+        "Rej-F1": 74.82,
+        "G-mIoU@1": 0.5224,
+        "G-mIoU@3": 0.4772
+      },
+      "0.6": {
+        "N-acc": 97.96747967479675,
+        "Rej-F1": 74.67,
+        "G-mIoU@1": 0.532,
+        "G-mIoU@3": 0.4886
+      }
+    },
+    "source": "results/geq_val_selection/qd_detr/multi_full_frozen_frozen_data.json"
+  },
+  {
+    "dataset": "SoccerGMR",
+    "split": "Standard Test",
+    "protocol": "current_val_selection",
+    "backbone": "qd_detr",
+    "method": "multi_geq_full",
+    "label": "GMR + Multi + GEQ Full",
+    "parent": "multi",
+    "common": {
+      "AUROC": 74.79,
+      "mAP": 13.71,
+      "mR@1": 9.21,
+      "mR@5": 18.42,
+      "mR+@5": 6.44
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 94.3089430894309,
+        "Rej-F1": 74.72,
+        "G-mIoU@1": 0.5194,
+        "G-mIoU@3": 0.4756
+      },
+      "0.5": {
+        "N-acc": 98.98373983739837,
+        "Rej-F1": 75.15,
+        "G-mIoU@1": 0.5367999999999999,
+        "G-mIoU@3": 0.4932
+      },
+      "0.6": {
+        "N-acc": 99.59349593495935,
+        "Rej-F1": 74.87,
+        "G-mIoU@1": 0.5387,
+        "G-mIoU@3": 0.4951
+      }
+    },
+    "source": "results/geq_val_selection/qd_detr/multi_full_frozen_full_data.json"
+  },
+  {
+    "dataset": "SoccerGMR",
+    "split": "Standard Test",
+    "protocol": "current_val_selection",
+    "backbone": "cg_detr",
+    "method": "gmr",
+    "label": "GMR",
+    "parent": "gmr",
+    "common": {
+      "AUROC": 75.97,
+      "mAP": 16.09,
+      "mR@1": 10.76,
+      "mR@5": 22.12,
+      "mR+@5": 9.48
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 96.7479674796748,
+        "Rej-F1": 75.68,
+        "G-mIoU@1": 0.5382,
+        "G-mIoU@3": 0.489
+      },
+      "0.5": {
+        "N-acc": 99.1869918699187,
+        "Rej-F1": 75.84,
+        "G-mIoU@1": 0.5465,
+        "G-mIoU@3": 0.4975
+      },
+      "0.6": {
+        "N-acc": 99.59349593495935,
+        "Rej-F1": 75.91,
+        "G-mIoU@1": 0.5484,
+        "G-mIoU@3": 0.49939999999999996
+      }
+    },
+    "source": "results/geq_val_selection/cg_detr/full_comparison_baseline_data.json"
+  },
+  {
+    "dataset": "SoccerGMR",
+    "split": "Standard Test",
+    "protocol": "current_val_selection",
+    "backbone": "cg_detr",
+    "method": "gmr_geq_frozen",
+    "label": "GMR + GEQ Frozen",
+    "parent": "gmr",
+    "common": {
+      "AUROC": 76.39,
+      "mAP": 16.09,
+      "mR@1": 10.76,
+      "mR@5": 22.12,
+      "mR+@5": 9.48
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 75.0,
+        "Rej-F1": 69.04,
+        "G-mIoU@1": 0.4457,
+        "G-mIoU@3": 0.3969
+      },
+      "0.5": {
+        "N-acc": 92.47967479674797,
+        "Rej-F1": 74.23,
+        "G-mIoU@1": 0.5189,
+        "G-mIoU@3": 0.4698
+      },
+      "0.6": {
+        "N-acc": 99.1869918699187,
+        "Rej-F1": 75.95,
+        "G-mIoU@1": 0.5463,
+        "G-mIoU@3": 0.4976
+      }
+    },
+    "source": "results/geq_val_selection/cg_detr/frozen_comparison_baseline_geq_data.json"
+  },
+  {
+    "dataset": "SoccerGMR",
+    "split": "Standard Test",
+    "protocol": "current_val_selection",
+    "backbone": "cg_detr",
+    "method": "gmr_geq_full",
+    "label": "GMR + GEQ Full",
+    "parent": "gmr",
+    "common": {
+      "AUROC": 74.83,
+      "mAP": 16.58,
+      "mR@1": 11.12,
+      "mR@5": 22.6,
+      "mR+@5": 10.97
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 75.0,
+        "Rej-F1": 68.59,
+        "G-mIoU@1": 0.4439,
+        "G-mIoU@3": 0.3933
+      },
+      "0.5": {
+        "N-acc": 97.35772357723577,
+        "Rej-F1": 75.55,
+        "G-mIoU@1": 0.5381,
+        "G-mIoU@3": 0.4889
+      },
+      "0.6": {
+        "N-acc": 99.79674796747967,
+        "Rej-F1": 75.42,
+        "G-mIoU@1": 0.5446,
+        "G-mIoU@3": 0.4978
+      }
+    },
+    "source": "results/geq_val_selection/cg_detr/full_comparison_baseline_geq_data.json"
+  },
+  {
+    "dataset": "SoccerGMR",
+    "split": "Standard Test",
+    "protocol": "current_val_selection",
+    "backbone": "cg_detr",
+    "method": "multi",
+    "label": "GMR + Multi",
+    "parent": "gmr",
+    "common": {
+      "AUROC": 77.4,
+      "mAP": 16.59,
+      "mR@1": 11.21,
+      "mR@5": 21.77,
+      "mR+@5": 8.14
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 46.95121951219512,
+        "Rej-F1": 56.2,
+        "G-mIoU@1": 0.3369,
+        "G-mIoU@3": 0.2783
+      },
+      "0.5": {
+        "N-acc": 75.40650406504065,
+        "Rej-F1": 69.61,
+        "G-mIoU@1": 0.4542,
+        "G-mIoU@3": 0.40049999999999997
+      },
+      "0.6": {
+        "N-acc": 90.4471544715447,
+        "Rej-F1": 74.23,
+        "G-mIoU@1": 0.5167,
+        "G-mIoU@3": 0.46409999999999996
+      }
+    },
+    "source": "results/geq_val_selection/cg_detr/multi_full_frozen_baseline_data.json"
+  },
+  {
+    "dataset": "SoccerGMR",
+    "split": "Standard Test",
+    "protocol": "current_val_selection",
+    "backbone": "cg_detr",
+    "method": "multi_geq_frozen",
+    "label": "GMR + Multi + GEQ Frozen",
+    "parent": "multi",
+    "common": {
+      "AUROC": 75.95,
+      "mAP": 16.59,
+      "mR@1": 11.21,
+      "mR@5": 21.77,
+      "mR+@5": 8.14
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 70.32520325203252,
+        "Rej-F1": 67.32,
+        "G-mIoU@1": 0.431,
+        "G-mIoU@3": 0.37579999999999997
+      },
+      "0.5": {
+        "N-acc": 85.16260162601627,
+        "Rej-F1": 72.68,
+        "G-mIoU@1": 0.4938,
+        "G-mIoU@3": 0.44170000000000004
+      },
+      "0.6": {
+        "N-acc": 92.6829268292683,
+        "Rej-F1": 73.91,
+        "G-mIoU@1": 0.5197999999999999,
+        "G-mIoU@3": 0.47009999999999996
+      }
+    },
+    "source": "results/geq_val_selection/cg_detr/multi_full_frozen_frozen_data.json"
+  },
+  {
+    "dataset": "SoccerGMR",
+    "split": "Standard Test",
+    "protocol": "current_val_selection",
+    "backbone": "cg_detr",
+    "method": "multi_geq_full",
+    "label": "GMR + Multi + GEQ Full",
+    "parent": "multi",
+    "common": {
+      "AUROC": 75.77,
+      "mAP": 18.59,
+      "mR@1": 12.31,
+      "mR@5": 24.98,
+      "mR+@5": 12.13
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 59.14634146341463,
+        "Rej-F1": 62.72,
+        "G-mIoU@1": 0.3884,
+        "G-mIoU@3": 0.33039999999999997
+      },
+      "0.5": {
+        "N-acc": 81.30081300813008,
+        "Rej-F1": 71.43,
+        "G-mIoU@1": 0.47840000000000005,
+        "G-mIoU@3": 0.42460000000000003
+      },
+      "0.6": {
+        "N-acc": 93.90243902439023,
+        "Rej-F1": 74.04,
+        "G-mIoU@1": 0.5244,
+        "G-mIoU@3": 0.475
+      }
+    },
+    "source": "results/geq_val_selection/cg_detr/multi_full_frozen_full_data.json"
+  },
+  {
+    "dataset": "Charades",
+    "split": "test_id",
+    "protocol": "current_val_selection",
+    "backbone": "moment_detr",
+    "method": "gmr",
+    "label": "GMR",
+    "parent": "gmr",
+    "common": {
+      "AUROC": 84.84,
+      "mAP": 30.99,
+      "mR@1": 25.31,
+      "mR@5": 38.44,
+      "mR+@5": null
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 76.34408602150538,
+        "Rej-F1": 76.77750743444174,
+        "G-mIoU@1": 0.5624879508132985,
+        "G-mIoU@3": 0.4419762703427841
+      },
+      "0.5": {
+        "N-acc": 80.53763440860216,
+        "Rej-F1": 77.55630339114677,
+        "G-mIoU@1": 0.5739105422138837,
+        "G-mIoU@3": 0.4597622954333017
+      },
+      "0.6": {
+        "N-acc": 84.48924731182795,
+        "Rej-F1": 77.49969177659968,
+        "G-mIoU@1": 0.5805901790204837,
+        "G-mIoU@3": 0.4751608840462544
+      }
+    },
+    "source": "results/charades_multi_geq/run_metadata/moment_detr/gmr/test_id/metrics.json"
+  },
+  {
+    "dataset": "Charades",
+    "split": "test_id",
+    "protocol": "current_val_selection",
+    "backbone": "moment_detr",
+    "method": "gmr_geq_frozen",
+    "label": "GMR + GEQ Frozen",
+    "parent": "gmr",
+    "common": {
+      "AUROC": 84.5,
+      "mAP": 30.99,
+      "mR@1": 25.31,
+      "mR@5": 38.44,
+      "mR+@5": null
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 71.93548387096774,
+        "Rej-F1": 75.42277339346111,
+        "G-mIoU@1": 0.5449200192844211,
+        "G-mIoU@3": 0.4214249526646995
+      },
+      "0.5": {
+        "N-acc": 74.11290322580645,
+        "Rej-F1": 75.89814177563662,
+        "G-mIoU@1": 0.5514794435347997,
+        "G-mIoU@3": 0.43086949193095475
+      },
+      "0.6": {
+        "N-acc": 76.58602150537635,
+        "Rej-F1": 76.49348905893409,
+        "G-mIoU@1": 0.5584763386688626,
+        "G-mIoU@3": 0.441445517907542
+      }
+    },
+    "source": "results/charades_multi_geq/run_metadata/moment_detr/gmr_geq_frozen/test_id/metrics.json"
+  },
+  {
+    "dataset": "Charades",
+    "split": "test_id",
+    "protocol": "current_val_selection",
+    "backbone": "moment_detr",
+    "method": "gmr_geq_full",
+    "label": "GMR + GEQ Full",
+    "parent": "gmr",
+    "common": {
+      "AUROC": 85.63,
+      "mAP": 31.12,
+      "mR@1": 25.15,
+      "mR@5": 38.59,
+      "mR+@5": null
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 69.46236559139784,
+        "Rej-F1": 75.07263219058686,
+        "G-mIoU@1": 0.5385679629142063,
+        "G-mIoU@3": 0.4110638729427283
+      },
+      "0.5": {
+        "N-acc": 73.06451612903226,
+        "Rej-F1": 76.43419572553431,
+        "G-mIoU@1": 0.5517434995703134,
+        "G-mIoU@3": 0.42746288695354534
+      },
+      "0.6": {
+        "N-acc": 76.20967741935483,
+        "Rej-F1": 77.21639656816015,
+        "G-mIoU@1": 0.560625017961375,
+        "G-mIoU@3": 0.4409072640516411
+      }
+    },
+    "source": "results/charades_multi_geq/run_metadata/moment_detr/gmr_geq_full/test_id/metrics.json"
+  },
+  {
+    "dataset": "Charades",
+    "split": "test_id",
+    "protocol": "current_val_selection",
+    "backbone": "moment_detr",
+    "method": "multi",
+    "label": "GMR + Multi",
+    "parent": "gmr",
+    "common": {
+      "AUROC": 85.8,
+      "mAP": 31.83,
+      "mR@1": 26.14,
+      "mR@5": 38.56,
+      "mR+@5": null
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 81.29032258064515,
+        "Rej-F1": 78.65782286383146,
+        "G-mIoU@1": 0.5884821550555228,
+        "G-mIoU@3": 0.46712846028732485
+      },
+      "0.5": {
+        "N-acc": 83.76344086021506,
+        "Rej-F1": 78.82620794333418,
+        "G-mIoU@1": 0.5944946804696524,
+        "G-mIoU@3": 0.4773763630239343
+      },
+      "0.6": {
+        "N-acc": 85.75268817204301,
+        "Rej-F1": 78.41691248770894,
+        "G-mIoU@1": 0.5955371460946625,
+        "G-mIoU@3": 0.4843546759383642
+      }
+    },
+    "source": "results/charades_multi_geq/run_metadata/moment_detr/multi/test_id/metrics.json"
+  },
+  {
+    "dataset": "Charades",
+    "split": "test_id",
+    "protocol": "current_val_selection",
+    "backbone": "moment_detr",
+    "method": "multi_geq_frozen",
+    "label": "GMR + Multi + GEQ Frozen",
+    "parent": "multi",
+    "common": {
+      "AUROC": 85.83,
+      "mAP": 31.83,
+      "mR@1": 26.14,
+      "mR@5": 38.56,
+      "mR+@5": null
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 80.10752688172043,
+        "Rej-F1": 79.15006640106242,
+        "G-mIoU@1": 0.5849148512186049,
+        "G-mIoU@3": 0.46199670667860304
+      },
+      "0.5": {
+        "N-acc": 80.40322580645162,
+        "Rej-F1": 79.18983320095315,
+        "G-mIoU@1": 0.5857703239997968,
+        "G-mIoU@3": 0.463267527354771
+      },
+      "0.6": {
+        "N-acc": 80.75268817204301,
+        "Rej-F1": 79.19852359609808,
+        "G-mIoU@1": 0.5866159612883881,
+        "G-mIoU@3": 0.4647142810029394
+      }
+    },
+    "source": "results/charades_multi_geq/run_metadata/moment_detr/multi_geq_frozen/test_id/metrics.json"
+  },
+  {
+    "dataset": "Charades",
+    "split": "test_id",
+    "protocol": "current_val_selection",
+    "backbone": "moment_detr",
+    "method": "multi_geq_full",
+    "label": "GMR + Multi + GEQ Full",
+    "parent": "multi",
+    "common": {
+      "AUROC": 86.51,
+      "mAP": 31.65,
+      "mR@1": 25.75,
+      "mR@5": 38.55,
+      "mR+@5": null
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 74.19354838709677,
+        "Rej-F1": 77.56076998735423,
+        "G-mIoU@1": 0.5624091777729155,
+        "G-mIoU@3": 0.4347815538812944
+      },
+      "0.5": {
+        "N-acc": 76.93548387096774,
+        "Rej-F1": 78.48621966269025,
+        "G-mIoU@1": 0.5722239824289977,
+        "G-mIoU@3": 0.4471929403795584
+      },
+      "0.6": {
+        "N-acc": 79.11290322580645,
+        "Rej-F1": 78.78463391781555,
+        "G-mIoU@1": 0.579374889078447,
+        "G-mIoU@3": 0.45683464044550387
+      }
+    },
+    "source": "results/charades_multi_geq/run_metadata/moment_detr/multi_geq_full/test_id/metrics.json"
+  },
+  {
+    "dataset": "Charades",
+    "split": "test_id",
+    "protocol": "current_val_selection",
+    "backbone": "eatr",
+    "method": "gmr",
+    "label": "GMR",
+    "parent": "gmr",
+    "common": {
+      "AUROC": 82.3,
+      "mAP": 34.59,
+      "mR@1": 27.81,
+      "mR@5": 42.84,
+      "mR+@5": null
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 61.424731182795696,
+        "Rej-F1": 69.47400425661296,
+        "G-mIoU@1": 0.5071785936774241,
+        "G-mIoU@3": 0.37380863516846036
+      },
+      "0.5": {
+        "N-acc": 70.3225806451613,
+        "Rej-F1": 73.08283279787679,
+        "G-mIoU@1": 0.5385264409768976,
+        "G-mIoU@3": 0.41391741580950353
+      },
+      "0.6": {
+        "N-acc": 79.5967741935484,
+        "Rej-F1": 75.3243449503943,
+        "G-mIoU@1": 0.5662776613531393,
+        "G-mIoU@3": 0.4540818010962077
+      }
+    },
+    "source": "results/charades_multi_geq/run_metadata/eatr/gmr/test_id/metrics.json"
+  },
+  {
+    "dataset": "Charades",
+    "split": "test_id",
+    "protocol": "current_val_selection",
+    "backbone": "eatr",
+    "method": "gmr_geq_frozen",
+    "label": "GMR + GEQ Frozen",
+    "parent": "gmr",
+    "common": {
+      "AUROC": 82.44,
+      "mAP": 34.59,
+      "mR@1": 27.81,
+      "mR@5": 42.84,
+      "mR+@5": null
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 58.84408602150538,
+        "Rej-F1": 68.47044103847357,
+        "G-mIoU@1": 0.49922266690205186,
+        "G-mIoU@3": 0.3625545090390352
+      },
+      "0.5": {
+        "N-acc": 67.44623655913978,
+        "Rej-F1": 72.27423304047241,
+        "G-mIoU@1": 0.5304316287366122,
+        "G-mIoU@3": 0.40163133144267
+      },
+      "0.6": {
+        "N-acc": 76.72043010752688,
+        "Rej-F1": 74.6436511050085,
+        "G-mIoU@1": 0.5561402780599701,
+        "G-mIoU@3": 0.44111485971174635
+      }
+    },
+    "source": "results/charades_multi_geq/run_metadata/eatr/gmr_geq_frozen/test_id/metrics.json"
+  },
+  {
+    "dataset": "Charades",
+    "split": "test_id",
+    "protocol": "current_val_selection",
+    "backbone": "eatr",
+    "method": "gmr_geq_full",
+    "label": "GMR + GEQ Full",
+    "parent": "gmr",
+    "common": {
+      "AUROC": 82.03,
+      "mAP": 34.44,
+      "mR@1": 27.69,
+      "mR@5": 42.26,
+      "mR+@5": null
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 53.65591397849462,
+        "Rej-F1": 65.53932030865211,
+        "G-mIoU@1": 0.4784761957697523,
+        "G-mIoU@3": 0.3383451118515662
+      },
+      "0.5": {
+        "N-acc": 62.526881720430104,
+        "Rej-F1": 70.19767617323073,
+        "G-mIoU@1": 0.5125859879392858,
+        "G-mIoU@3": 0.3792849350478623
+      },
+      "0.6": {
+        "N-acc": 71.72043010752688,
+        "Rej-F1": 73.40762140597056,
+        "G-mIoU@1": 0.5417685740739107,
+        "G-mIoU@3": 0.4196576250497265
+      }
+    },
+    "source": "results/charades_multi_geq/run_metadata/eatr/gmr_geq_full/test_id/metrics.json"
+  },
+  {
+    "dataset": "Charades",
+    "split": "test_id",
+    "protocol": "current_val_selection",
+    "backbone": "eatr",
+    "method": "multi",
+    "label": "GMR + Multi",
+    "parent": "gmr",
+    "common": {
+      "AUROC": 82.76,
+      "mAP": 32.38,
+      "mR@1": 26.71,
+      "mR@5": 39.24,
+      "mR+@5": null
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 59.946236559139784,
+        "Rej-F1": 69.48122760554604,
+        "G-mIoU@1": 0.5045945800821491,
+        "G-mIoU@3": 0.3680189818911823
+      },
+      "0.5": {
+        "N-acc": 66.93548387096774,
+        "Rej-F1": 72.66890412957828,
+        "G-mIoU@1": 0.5310637970791346,
+        "G-mIoU@3": 0.4001395452629373
+      },
+      "0.6": {
+        "N-acc": 73.6021505376344,
+        "Rej-F1": 74.58458185780441,
+        "G-mIoU@1": 0.5522506617361154,
+        "G-mIoU@3": 0.4294240557041532
+      }
+    },
+    "source": "results/charades_multi_geq/run_metadata/eatr/multi/test_id/metrics.json"
+  },
+  {
+    "dataset": "Charades",
+    "split": "test_id",
+    "protocol": "current_val_selection",
+    "backbone": "eatr",
+    "method": "multi_geq_frozen",
+    "label": "GMR + Multi + GEQ Frozen",
+    "parent": "multi",
+    "common": {
+      "AUROC": 82.12,
+      "mAP": 32.38,
+      "mR@1": 26.71,
+      "mR@5": 39.24,
+      "mR+@5": null
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 56.37096774193549,
+        "Rej-F1": 67.42765273311898,
+        "G-mIoU@1": 0.4902536304651044,
+        "G-mIoU@3": 0.3513211026281531
+      },
+      "0.5": {
+        "N-acc": 63.17204301075269,
+        "Rej-F1": 70.8578320518619,
+        "G-mIoU@1": 0.5152386406465201,
+        "G-mIoU@3": 0.38231969025134904
+      },
+      "0.6": {
+        "N-acc": 70.29569892473118,
+        "Rej-F1": 73.06510198379435,
+        "G-mIoU@1": 0.5366718844149734,
+        "G-mIoU@3": 0.4132096245540951
+      }
+    },
+    "source": "results/charades_multi_geq/run_metadata/eatr/multi_geq_frozen/test_id/metrics.json"
+  },
+  {
+    "dataset": "Charades",
+    "split": "test_id",
+    "protocol": "current_val_selection",
+    "backbone": "eatr",
+    "method": "multi_geq_full",
+    "label": "GMR + Multi + GEQ Full",
+    "parent": "multi",
+    "common": {
+      "AUROC": 82.01,
+      "mAP": 31.25,
+      "mR@1": 25.93,
+      "mR@5": 37.75,
+      "mR+@5": null
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 53.575268817204304,
+        "Rej-F1": 66.09185872989553,
+        "G-mIoU@1": 0.47567166404509836,
+        "G-mIoU@3": 0.3371414507390471
+      },
+      "0.5": {
+        "N-acc": 60.24193548387097,
+        "Rej-F1": 69.6178937558248,
+        "G-mIoU@1": 0.5005970442558487,
+        "G-mIoU@3": 0.3676721330315194
+      },
+      "0.6": {
+        "N-acc": 66.50537634408602,
+        "Rej-F1": 71.91860465116278,
+        "G-mIoU@1": 0.5205327623061414,
+        "G-mIoU@3": 0.39519550858233393
+      }
+    },
+    "source": "results/charades_multi_geq/run_metadata/eatr/multi_geq_full/test_id/metrics.json"
+  },
+  {
+    "dataset": "Charades",
+    "split": "test_id",
+    "protocol": "current_val_selection",
+    "backbone": "eatr",
+    "method": "multi_positive_only",
+    "label": "GMR + Multi (positive-only)",
+    "parent": "multi",
+    "common": {
+      "AUROC": 82.51,
+      "mAP": 33.84,
+      "mR@1": 27.92,
+      "mR@5": 41.05,
+      "mR+@5": null
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 56.263440860215056,
+        "Rej-F1": 67.19101123595506,
+        "G-mIoU@1": 0.4901188721108344,
+        "G-mIoU@3": 0.3509177602376617
+      },
+      "0.5": {
+        "N-acc": 65.64516129032259,
+        "Rej-F1": 71.62340519137703,
+        "G-mIoU@1": 0.5262084734865523,
+        "G-mIoU@3": 0.3942200287965927
+      },
+      "0.6": {
+        "N-acc": 75.53763440860214,
+        "Rej-F1": 74.80367363237056,
+        "G-mIoU@1": 0.5578984046685894,
+        "G-mIoU@3": 0.4377582495848703
+      }
+    },
+    "source": "results/test_all_thresholds/supplemental/charades/eatr/multi_positive_only/test_id/metrics.json"
+  },
+  {
+    "dataset": "Charades",
+    "split": "test_id",
+    "protocol": "current_val_selection",
+    "backbone": "qd_detr",
+    "method": "gmr",
+    "label": "GMR",
+    "parent": "gmr",
+    "common": {
+      "AUROC": 84.72,
+      "mAP": 34.17,
+      "mR@1": 28.74,
+      "mR@5": 40.16,
+      "mR+@5": null
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 68.68279569892472,
+        "Rej-F1": 74.1869918699187,
+        "G-mIoU@1": 0.5489215410771113,
+        "G-mIoU@3": 0.4119164993554529
+      },
+      "0.5": {
+        "N-acc": 75.24193548387098,
+        "Rej-F1": 76.15290436675282,
+        "G-mIoU@1": 0.5702909575259193,
+        "G-mIoU@3": 0.44090343745487637
+      },
+      "0.6": {
+        "N-acc": 80.96774193548387,
+        "Rej-F1": 77.1417595082597,
+        "G-mIoU@1": 0.585305703573397,
+        "G-mIoU@3": 0.4649943743094119
+      }
+    },
+    "source": "results/charades_multi_geq/run_metadata/qd_detr/gmr/test_id/metrics.json"
+  },
+  {
+    "dataset": "Charades",
+    "split": "test_id",
+    "protocol": "current_val_selection",
+    "backbone": "qd_detr",
+    "method": "gmr_geq_frozen",
+    "label": "GMR + GEQ Frozen",
+    "parent": "gmr",
+    "common": {
+      "AUROC": 84.59,
+      "mAP": 34.17,
+      "mR@1": 28.74,
+      "mR@5": 40.16,
+      "mR+@5": null
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 74.05913978494624,
+        "Rej-F1": 76.03146129432868,
+        "G-mIoU@1": 0.5665275247302268,
+        "G-mIoU@3": 0.43570630752656303
+      },
+      "0.5": {
+        "N-acc": 79.00537634408602,
+        "Rej-F1": 77.08852459016393,
+        "G-mIoU@1": 0.5811844681262373,
+        "G-mIoU@3": 0.45707941052236584
+      },
+      "0.6": {
+        "N-acc": 83.30645161290322,
+        "Rej-F1": 77.40726863994006,
+        "G-mIoU@1": 0.5917003196165032,
+        "G-mIoU@3": 0.47492161191517845
+      }
+    },
+    "source": "results/charades_multi_geq/run_metadata/qd_detr/gmr_geq_frozen/test_id/metrics.json"
+  },
+  {
+    "dataset": "Charades",
+    "split": "test_id",
+    "protocol": "current_val_selection",
+    "backbone": "qd_detr",
+    "method": "gmr_geq_full",
+    "label": "GMR + GEQ Full",
+    "parent": "gmr",
+    "common": {
+      "AUROC": 85.17,
+      "mAP": 34.38,
+      "mR@1": 29.14,
+      "mR@5": 40.41,
+      "mR+@5": null
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 66.63978494623656,
+        "Rej-F1": 73.39748334566988,
+        "G-mIoU@1": 0.54153227288267,
+        "G-mIoU@3": 0.40264337411501183
+      },
+      "0.5": {
+        "N-acc": 72.04301075268818,
+        "Rej-F1": 75.51422936038321,
+        "G-mIoU@1": 0.5615016254125765,
+        "G-mIoU@3": 0.42731057764648606
+      },
+      "0.6": {
+        "N-acc": 78.17204301075269,
+        "Rej-F1": 77.38158594997338,
+        "G-mIoU@1": 0.5826107487101122,
+        "G-mIoU@3": 0.45477705960587966
+      }
+    },
+    "source": "results/charades_multi_geq/run_metadata/qd_detr/gmr_geq_full/test_id/metrics.json"
+  },
+  {
+    "dataset": "Charades",
+    "split": "test_id",
+    "protocol": "current_val_selection",
+    "backbone": "qd_detr",
+    "method": "multi",
+    "label": "GMR + Multi",
+    "parent": "gmr",
+    "common": {
+      "AUROC": 83.77,
+      "mAP": 35.21,
+      "mR@1": 29.34,
+      "mR@5": 43.61,
+      "mR+@5": null
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 66.02150537634408,
+        "Rej-F1": 72.42701268062518,
+        "G-mIoU@1": 0.5407216405009927,
+        "G-mIoU@3": 0.4003122314214778
+      },
+      "0.5": {
+        "N-acc": 72.39247311827957,
+        "Rej-F1": 74.88876529477196,
+        "G-mIoU@1": 0.5624942248961065,
+        "G-mIoU@3": 0.42880631869296737
+      },
+      "0.6": {
+        "N-acc": 78.44086021505376,
+        "Rej-F1": 76.1184296334942,
+        "G-mIoU@1": 0.5790105082525279,
+        "G-mIoU@3": 0.4544730368010218
+      }
+    },
+    "source": "results/charades_multi_geq/run_metadata/qd_detr/multi/test_id/metrics.json"
+  },
+  {
+    "dataset": "Charades",
+    "split": "test_id",
+    "protocol": "current_val_selection",
+    "backbone": "qd_detr",
+    "method": "multi_geq_frozen",
+    "label": "GMR + Multi + GEQ Frozen",
+    "parent": "multi",
+    "common": {
+      "AUROC": 83.84,
+      "mAP": 35.21,
+      "mR@1": 29.34,
+      "mR@5": 43.61,
+      "mR+@5": null
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 66.85483870967742,
+        "Rej-F1": 73.03964757709251,
+        "G-mIoU@1": 0.5439092645351162,
+        "G-mIoU@3": 0.40415255054396354
+      },
+      "0.5": {
+        "N-acc": 73.19892473118279,
+        "Rej-F1": 75.31461761858664,
+        "G-mIoU@1": 0.5654360832361448,
+        "G-mIoU@3": 0.43247511018265755
+      },
+      "0.6": {
+        "N-acc": 79.56989247311827,
+        "Rej-F1": 76.75353299624011,
+        "G-mIoU@1": 0.5837881660140289,
+        "G-mIoU@3": 0.45982903024840394
+      }
+    },
+    "source": "results/charades_multi_geq/run_metadata/qd_detr/multi_geq_frozen/test_id/metrics.json"
+  },
+  {
+    "dataset": "Charades",
+    "split": "test_id",
+    "protocol": "current_val_selection",
+    "backbone": "qd_detr",
+    "method": "multi_geq_full",
+    "label": "GMR + Multi + GEQ Full",
+    "parent": "multi",
+    "common": {
+      "AUROC": 84.02,
+      "mAP": 35.57,
+      "mR@1": 29.26,
+      "mR@5": 44.34,
+      "mR+@5": null
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 62.526881720430104,
+        "Rej-F1": 71.37158637618901,
+        "G-mIoU@1": 0.5271903234123095,
+        "G-mIoU@3": 0.38415304687220353
+      },
+      "0.5": {
+        "N-acc": 69.6774193548387,
+        "Rej-F1": 74.31192660550458,
+        "G-mIoU@1": 0.5527731650391231,
+        "G-mIoU@3": 0.41651578619583673
+      },
+      "0.6": {
+        "N-acc": 76.20967741935483,
+        "Rej-F1": 75.97480905801956,
+        "G-mIoU@1": 0.5721729220979109,
+        "G-mIoU@3": 0.4447565654304864
+      }
+    },
+    "source": "results/charades_multi_geq/run_metadata/qd_detr/multi_geq_full/test_id/metrics.json"
+  },
+  {
+    "dataset": "Charades",
+    "split": "test_id",
+    "protocol": "current_val_selection",
+    "backbone": "flashvtg",
+    "method": "gmr",
+    "label": "GMR",
+    "parent": "gmr",
+    "common": {
+      "AUROC": 86.14,
+      "mAP": 41.4,
+      "mR@1": 31.85,
+      "mR@5": 54.52,
+      "mR+@5": null
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 73.52150537634408,
+        "Rej-F1": 76.99887387387388,
+        "G-mIoU@1": 0.5807260969403338,
+        "G-mIoU@3": 0.43864705023459155
+      },
+      "0.5": {
+        "N-acc": 78.65591397849462,
+        "Rej-F1": 77.95390968429466,
+        "G-mIoU@1": 0.5941529455396903,
+        "G-mIoU@3": 0.46023736177487884
+      },
+      "0.6": {
+        "N-acc": 83.76344086021506,
+        "Rej-F1": 78.19322459222083,
+        "G-mIoU@1": 0.6042377547535364,
+        "G-mIoU@3": 0.48062405445189565
+      }
+    },
+    "source": "results/charades_multi_geq/run_metadata/flashvtg/gmr/test_id/metrics.json"
+  },
+  {
+    "dataset": "Charades",
+    "split": "test_id",
+    "protocol": "current_val_selection",
+    "backbone": "flashvtg",
+    "method": "gmr_geq_frozen",
+    "label": "GMR + GEQ Frozen",
+    "parent": "gmr",
+    "common": {
+      "AUROC": 86.06,
+      "mAP": 41.4,
+      "mR@1": 31.85,
+      "mR@5": 54.52,
+      "mR+@5": null
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 72.04301075268818,
+        "Rej-F1": 76.44038790644609,
+        "G-mIoU@1": 0.5756083764649267,
+        "G-mIoU@3": 0.4320128279972695
+      },
+      "0.5": {
+        "N-acc": 75.88709677419355,
+        "Rej-F1": 77.46981339187707,
+        "G-mIoU@1": 0.5872784985891425,
+        "G-mIoU@3": 0.448716488777026
+      },
+      "0.6": {
+        "N-acc": 79.70430107526882,
+        "Rej-F1": 78.11882492425241,
+        "G-mIoU@1": 0.5966659938668654,
+        "G-mIoU@3": 0.46456966820651785
+      }
+    },
+    "source": "results/charades_multi_geq/run_metadata/flashvtg/gmr_geq_frozen/test_id/metrics.json"
+  },
+  {
+    "dataset": "Charades",
+    "split": "test_id",
+    "protocol": "current_val_selection",
+    "backbone": "flashvtg",
+    "method": "gmr_geq_full",
+    "label": "GMR + GEQ Full",
+    "parent": "gmr",
+    "common": {
+      "AUROC": 86.47,
+      "mAP": 41.7,
+      "mR@1": 32.19,
+      "mR@5": 55.02,
+      "mR+@5": null
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 66.20967741935485,
+        "Rej-F1": 74.51217667523824,
+        "G-mIoU@1": 0.5601893447483701,
+        "G-mIoU@3": 0.4074287063139728
+      },
+      "0.5": {
+        "N-acc": 72.23118279569893,
+        "Rej-F1": 76.99140401146131,
+        "G-mIoU@1": 0.5816262676274887,
+        "G-mIoU@3": 0.43464603186149264
+      },
+      "0.6": {
+        "N-acc": 77.41935483870968,
+        "Rej-F1": 78.17589576547232,
+        "G-mIoU@1": 0.5966719922444256,
+        "G-mIoU@3": 0.4569551802105074
+      }
+    },
+    "source": "results/charades_multi_geq/run_metadata/flashvtg/gmr_geq_full/test_id/metrics.json"
+  },
+  {
+    "dataset": "Charades",
+    "split": "test_id",
+    "protocol": "current_val_selection",
+    "backbone": "flashvtg",
+    "method": "multi",
+    "label": "GMR + Multi-TQAux",
+    "parent": "gmr",
+    "common": {
+      "AUROC": 86.47,
+      "mAP": 41.37,
+      "mR@1": 32.1,
+      "mR@5": 54.16,
+      "mR+@5": null
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 75.77956989247312,
+        "Rej-F1": 77.829928216455,
+        "G-mIoU@1": 0.5901245988019159,
+        "G-mIoU@3": 0.44930676590888236
+      },
+      "0.5": {
+        "N-acc": 80.64516129032258,
+        "Rej-F1": 78.65757734661773,
+        "G-mIoU@1": 0.602019547306078,
+        "G-mIoU@3": 0.46949038673643456
+      },
+      "0.6": {
+        "N-acc": 84.97311827956989,
+        "Rej-F1": 78.80827723759661,
+        "G-mIoU@1": 0.6101840608831072,
+        "G-mIoU@3": 0.48663841455960205
+      }
+    },
+    "source": "results/charades_multi_geq/run_metadata/flashvtg/multi/test_id/metrics.json"
+  },
+  {
+    "dataset": "Charades",
+    "split": "test_id",
+    "protocol": "current_val_selection",
+    "backbone": "flashvtg",
+    "method": "multi_geq_frozen",
+    "label": "GMR + Multi-TQAux + GEQ Frozen",
+    "parent": "multi",
+    "common": {
+      "AUROC": 86.57,
+      "mAP": 41.37,
+      "mR@1": 32.1,
+      "mR@5": 54.16,
+      "mR+@5": null
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 76.23655913978494,
+        "Rej-F1": 78.27767043886283,
+        "G-mIoU@1": 0.5940004968677415,
+        "G-mIoU@3": 0.4521220294218637
+      },
+      "0.5": {
+        "N-acc": 77.36559139784947,
+        "Rej-F1": 78.46237731733915,
+        "G-mIoU@1": 0.5964720296590219,
+        "G-mIoU@3": 0.45670931454583885
+      },
+      "0.6": {
+        "N-acc": 78.6021505376344,
+        "Rej-F1": 78.6761738194538,
+        "G-mIoU@1": 0.5990312142300203,
+        "G-mIoU@3": 0.4616842398687881
+      }
+    },
+    "source": "results/charades_multi_geq/run_metadata/flashvtg/multi_geq_frozen/test_id/metrics.json"
+  },
+  {
+    "dataset": "Charades",
+    "split": "test_id",
+    "protocol": "current_val_selection",
+    "backbone": "flashvtg",
+    "method": "multi_geq_full",
+    "label": "GMR + Multi-TQAux + GEQ Full",
+    "parent": "multi",
+    "common": {
+      "AUROC": 87.47,
+      "mAP": 41.4,
+      "mR@1": 32.52,
+      "mR@5": 53.65,
+      "mR+@5": null
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 71.82795698924731,
+        "Rej-F1": 77.51668117203366,
+        "G-mIoU@1": 0.5859465052029947,
+        "G-mIoU@3": 0.43474202503182263
+      },
+      "0.5": {
+        "N-acc": 74.2741935483871,
+        "Rej-F1": 78.13914027149322,
+        "G-mIoU@1": 0.5935698816195928,
+        "G-mIoU@3": 0.44543727236782127
+      },
+      "0.6": {
+        "N-acc": 77.63440860215054,
+        "Rej-F1": 79.16666666666666,
+        "G-mIoU@1": 0.6051924132961201,
+        "G-mIoU@3": 0.46051216643920845
+      }
+    },
+    "source": "results/charades_multi_geq/run_metadata/flashvtg/multi_geq_full/test_id/metrics.json"
+  },
+  {
+    "dataset": "Charades",
+    "split": "test_ood",
+    "protocol": "current_val_selection",
+    "backbone": "moment_detr",
+    "method": "gmr",
+    "label": "GMR",
+    "parent": "gmr",
+    "common": {
+      "AUROC": 99.99,
+      "mAP": 30.99,
+      "mR@1": 25.31,
+      "mR@5": 38.44,
+      "mR+@5": null
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 100.0,
+        "Rej-F1": 89.87678183136023,
+        "G-mIoU@1": 0.6807675207057715,
+        "G-mIoU@3": 0.5602558402352572
+      },
+      "0.5": {
+        "N-acc": 100.0,
+        "Rej-F1": 88.04733727810651,
+        "G-mIoU@1": 0.671222370170873,
+        "G-mIoU@3": 0.557074123390291
+      },
+      "0.6": {
+        "N-acc": 100.0,
+        "Rej-F1": 85.6353591160221,
+        "G-mIoU@1": 0.6581439424613439,
+        "G-mIoU@3": 0.5527146474871146
+      }
+    },
+    "source": "results/charades_multi_geq/run_metadata/moment_detr/gmr/test_ood/metrics.json"
+  },
+  {
+    "dataset": "Charades",
+    "split": "test_ood",
+    "protocol": "current_val_selection",
+    "backbone": "moment_detr",
+    "method": "gmr_geq_frozen",
+    "label": "GMR + GEQ Frozen",
+    "parent": "gmr",
+    "common": {
+      "AUROC": 99.88,
+      "mAP": 30.99,
+      "mR@1": 25.31,
+      "mR@5": 38.44,
+      "mR+@5": null
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 100.0,
+        "Rej-F1": 91.4004914004914,
+        "G-mIoU@1": 0.6852425999295824,
+        "G-mIoU@3": 0.5617475333098608
+      },
+      "0.5": {
+        "N-acc": 100.0,
+        "Rej-F1": 90.4229460379193,
+        "G-mIoU@1": 0.6809149274057674,
+        "G-mIoU@3": 0.5603049758019225
+      },
+      "0.6": {
+        "N-acc": 100.0,
+        "Rej-F1": 89.42307692307693,
+        "G-mIoU@1": 0.6755462311419809,
+        "G-mIoU@3": 0.5585154103806603
+      }
+    },
+    "source": "results/charades_multi_geq/run_metadata/moment_detr/gmr_geq_frozen/test_ood/metrics.json"
+  },
+  {
+    "dataset": "Charades",
+    "split": "test_ood",
+    "protocol": "current_val_selection",
+    "backbone": "moment_detr",
+    "method": "gmr_geq_full",
+    "label": "GMR + GEQ Full",
+    "parent": "gmr",
+    "common": {
+      "AUROC": 100.0,
+      "mAP": 31.12,
+      "mR@1": 25.15,
+      "mR@5": 38.59,
+      "mR+@5": null
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 100.0,
+        "Rej-F1": 92.76807980049875,
+        "G-mIoU@1": 0.691256134957217,
+        "G-mIoU@3": 0.563752044985739
+      },
+      "0.5": {
+        "N-acc": 100.0,
+        "Rej-F1": 91.69336948484101,
+        "G-mIoU@1": 0.6864209189251522,
+        "G-mIoU@3": 0.5621403063083841
+      },
+      "0.6": {
+        "N-acc": 100.0,
+        "Rej-F1": 90.4229460379193,
+        "G-mIoU@1": 0.6795766308646007,
+        "G-mIoU@3": 0.5598588769548669
+      }
+    },
+    "source": "results/charades_multi_geq/run_metadata/moment_detr/gmr_geq_full/test_ood/metrics.json"
+  },
+  {
+    "dataset": "Charades",
+    "split": "test_ood",
+    "protocol": "current_val_selection",
+    "backbone": "moment_detr",
+    "method": "multi",
+    "label": "GMR + Multi",
+    "parent": "gmr",
+    "common": {
+      "AUROC": 100.0,
+      "mAP": 31.83,
+      "mR@1": 26.14,
+      "mR@5": 38.56,
+      "mR+@5": null
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 100.0,
+        "Rej-F1": 88.72987477638641,
+        "G-mIoU@1": 0.6820305421522971,
+        "G-mIoU@3": 0.560676847384099
+      },
+      "0.5": {
+        "N-acc": 100.0,
+        "Rej-F1": 87.42655699177439,
+        "G-mIoU@1": 0.6756774761685771,
+        "G-mIoU@3": 0.558559158722859
+      },
+      "0.6": {
+        "N-acc": 100.0,
+        "Rej-F1": 85.8527579044542,
+        "G-mIoU@1": 0.6667737052344475,
+        "G-mIoU@3": 0.5555912350781491
+      }
+    },
+    "source": "results/charades_multi_geq/run_metadata/moment_detr/multi/test_ood/metrics.json"
+  },
+  {
+    "dataset": "Charades",
+    "split": "test_ood",
+    "protocol": "current_val_selection",
+    "backbone": "moment_detr",
+    "method": "multi_geq_frozen",
+    "label": "GMR + Multi + GEQ Frozen",
+    "parent": "multi",
+    "common": {
+      "AUROC": 99.96,
+      "mAP": 31.83,
+      "mR@1": 26.14,
+      "mR@5": 38.56,
+      "mR+@5": null
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 100.0,
+        "Rej-F1": 89.96372430471584,
+        "G-mIoU@1": 0.6843772168100027,
+        "G-mIoU@3": 0.5614590722700009
+      },
+      "0.5": {
+        "N-acc": 100.0,
+        "Rej-F1": 89.82252806954001,
+        "G-mIoU@1": 0.6837541949675388,
+        "G-mIoU@3": 0.5612513983225129
+      },
+      "0.6": {
+        "N-acc": 100.0,
+        "Rej-F1": 89.61695976873042,
+        "G-mIoU@1": 0.682852520428173,
+        "G-mIoU@3": 0.5609508401427244
+      }
+    },
+    "source": "results/charades_multi_geq/run_metadata/moment_detr/multi_geq_frozen/test_ood/metrics.json"
+  },
+  {
+    "dataset": "Charades",
+    "split": "test_ood",
+    "protocol": "current_val_selection",
+    "backbone": "moment_detr",
+    "method": "multi_geq_full",
+    "label": "GMR + Multi + GEQ Full",
+    "parent": "multi",
+    "common": {
+      "AUROC": 100.0,
+      "mAP": 31.65,
+      "mR@1": 25.75,
+      "mR@5": 38.55,
+      "mR+@5": null
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 100.0,
+        "Rej-F1": 92.1134084437291,
+        "G-mIoU@1": 0.6914414358374317,
+        "G-mIoU@3": 0.5638138119458106
+      },
+      "0.5": {
+        "N-acc": 100.0,
+        "Rej-F1": 91.27714390872286,
+        "G-mIoU@1": 0.6875465630741591,
+        "G-mIoU@3": 0.5625155210247197
+      },
+      "0.6": {
+        "N-acc": 100.0,
+        "Rej-F1": 90.20368574199806,
+        "G-mIoU@1": 0.6838103729494148,
+        "G-mIoU@3": 0.5612701243164717
+      }
+    },
+    "source": "results/charades_multi_geq/run_metadata/moment_detr/multi_geq_full/test_ood/metrics.json"
+  },
+  {
+    "dataset": "Charades",
+    "split": "test_ood",
+    "protocol": "current_val_selection",
+    "backbone": "eatr",
+    "method": "gmr",
+    "label": "GMR",
+    "parent": "gmr",
+    "common": {
+      "AUROC": 100.0,
+      "mAP": 34.59,
+      "mR@1": 27.81,
+      "mR@5": 42.84,
+      "mR+@5": null
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 100.0,
+        "Rej-F1": 92.84912017970798,
+        "G-mIoU@1": 0.7000950736654766,
+        "G-mIoU@3": 0.5666983578884922
+      },
+      "0.5": {
+        "N-acc": 100.0,
+        "Rej-F1": 90.03993706886119,
+        "G-mIoU@1": 0.6869536736531223,
+        "G-mIoU@3": 0.5623178912177075
+      },
+      "0.6": {
+        "N-acc": 100.0,
+        "Rej-F1": 86.30089316784596,
+        "G-mIoU@1": 0.6683339262874284,
+        "G-mIoU@3": 0.556111308762476
+      }
+    },
+    "source": "results/charades_multi_geq/run_metadata/eatr/gmr/test_ood/metrics.json"
+  },
+  {
+    "dataset": "Charades",
+    "split": "test_ood",
+    "protocol": "current_val_selection",
+    "backbone": "eatr",
+    "method": "gmr_geq_frozen",
+    "label": "GMR + GEQ Frozen",
+    "parent": "gmr",
+    "common": {
+      "AUROC": 100.0,
+      "mAP": 34.59,
+      "mR@1": 27.81,
+      "mR@5": 42.84,
+      "mR+@5": null
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 100.0,
+        "Rej-F1": 93.8801261829653,
+        "G-mIoU@1": 0.705042372696556,
+        "G-mIoU@3": 0.5683474575655186
+      },
+      "0.5": {
+        "N-acc": 100.0,
+        "Rej-F1": 91.24356144223694,
+        "G-mIoU@1": 0.6932405818429442,
+        "G-mIoU@3": 0.5644135272809814
+      },
+      "0.6": {
+        "N-acc": 100.0,
+        "Rej-F1": 87.3957476800188,
+        "G-mIoU@1": 0.6725782634243669,
+        "G-mIoU@3": 0.5575260878081222
+      }
+    },
+    "source": "results/charades_multi_geq/run_metadata/eatr/gmr_geq_frozen/test_ood/metrics.json"
+  },
+  {
+    "dataset": "Charades",
+    "split": "test_ood",
+    "protocol": "current_val_selection",
+    "backbone": "eatr",
+    "method": "gmr_geq_full",
+    "label": "GMR + GEQ Full",
+    "parent": "gmr",
+    "common": {
+      "AUROC": 100.0,
+      "mAP": 34.44,
+      "mR@1": 27.69,
+      "mR@5": 42.25,
+      "mR+@5": null
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 100.0,
+        "Rej-F1": 95.20153550863724,
+        "G-mIoU@1": 0.7101966258772792,
+        "G-mIoU@3": 0.570065541959093
+      },
+      "0.5": {
+        "N-acc": 100.0,
+        "Rej-F1": 92.75651415035531,
+        "G-mIoU@1": 0.6999515793371353,
+        "G-mIoU@3": 0.5666505264457118
+      },
+      "0.6": {
+        "N-acc": 100.0,
+        "Rej-F1": 89.41233024876819,
+        "G-mIoU@1": 0.6831664235362762,
+        "G-mIoU@3": 0.5610554745120921
+      }
+    },
+    "source": "results/charades_multi_geq/run_metadata/eatr/gmr_geq_full/test_ood/metrics.json"
+  },
+  {
+    "dataset": "Charades",
+    "split": "test_ood",
+    "protocol": "current_val_selection",
+    "backbone": "eatr",
+    "method": "multi",
+    "label": "GMR + Multi",
+    "parent": "gmr",
+    "common": {
+      "AUROC": 100.0,
+      "mAP": 32.38,
+      "mR@1": 26.71,
+      "mR@5": 39.24,
+      "mR+@5": null
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 100.0,
+        "Rej-F1": 94.07004678214692,
+        "G-mIoU@1": 0.7048633972864502,
+        "G-mIoU@3": 0.5682877990954834
+      },
+      "0.5": {
+        "N-acc": 100.0,
+        "Rej-F1": 92.0450327848571,
+        "G-mIoU@1": 0.6963863777242959,
+        "G-mIoU@3": 0.5654621259080986
+      },
+      "0.6": {
+        "N-acc": 100.0,
+        "Rej-F1": 89.38010571840461,
+        "G-mIoU@1": 0.6842399090479433,
+        "G-mIoU@3": 0.5614133030159811
+      }
+    },
+    "source": "results/charades_multi_geq/run_metadata/eatr/multi/test_ood/metrics.json"
+  },
+  {
+    "dataset": "Charades",
+    "split": "test_ood",
+    "protocol": "current_val_selection",
+    "backbone": "eatr",
+    "method": "multi_geq_frozen",
+    "label": "GMR + Multi + GEQ Frozen",
+    "parent": "multi",
+    "common": {
+      "AUROC": 99.99,
+      "mAP": 32.38,
+      "mR@1": 26.71,
+      "mR@5": 39.24,
+      "mR+@5": null
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 100.0,
+        "Rej-F1": 94.86166007905138,
+        "G-mIoU@1": 0.708398791755427,
+        "G-mIoU@3": 0.5694662639184757
+      },
+      "0.5": {
+        "N-acc": 100.0,
+        "Rej-F1": 92.96513807322255,
+        "G-mIoU@1": 0.6993784255927568,
+        "G-mIoU@3": 0.5664594751975855
+      },
+      "0.6": {
+        "N-acc": 100.0,
+        "Rej-F1": 90.03993706886119,
+        "G-mIoU@1": 0.6851933897913175,
+        "G-mIoU@3": 0.5617311299304392
+      }
+    },
+    "source": "results/charades_multi_geq/run_metadata/eatr/multi_geq_frozen/test_ood/metrics.json"
+  },
+  {
+    "dataset": "Charades",
+    "split": "test_ood",
+    "protocol": "current_val_selection",
+    "backbone": "eatr",
+    "method": "multi_geq_full",
+    "label": "GMR + Multi + GEQ Full",
+    "parent": "multi",
+    "common": {
+      "AUROC": 99.99,
+      "mAP": 31.25,
+      "mR@1": 25.93,
+      "mR@5": 37.75,
+      "mR+@5": null
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 100.0,
+        "Rej-F1": 95.90100541376644,
+        "G-mIoU@1": 0.7077953199590767,
+        "G-mIoU@3": 0.5692651066530257
+      },
+      "0.5": {
+        "N-acc": 100.0,
+        "Rej-F1": 93.97499052671466,
+        "G-mIoU@1": 0.6993873668364939,
+        "G-mIoU@3": 0.5664624556121646
+      },
+      "0.6": {
+        "N-acc": 100.0,
+        "Rej-F1": 91.55796209697267,
+        "G-mIoU@1": 0.6880058805857113,
+        "G-mIoU@3": 0.5626686268619038
+      }
+    },
+    "source": "results/charades_multi_geq/run_metadata/eatr/multi_geq_full/test_ood/metrics.json"
+  },
+  {
+    "dataset": "Charades",
+    "split": "test_ood",
+    "protocol": "current_val_selection",
+    "backbone": "eatr",
+    "method": "multi_positive_only",
+    "label": "GMR + Multi (positive-only)",
+    "parent": "multi",
+    "common": {
+      "AUROC": 100.0,
+      "mAP": 33.84,
+      "mR@1": 27.92,
+      "mR@5": 41.05,
+      "mR+@5": null
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 100.0,
+        "Rej-F1": 94.692630775105,
+        "G-mIoU@1": 0.7088016678097592,
+        "G-mIoU@3": 0.5696005559365864
+      },
+      "0.5": {
+        "N-acc": 100.0,
+        "Rej-F1": 91.88588366061504,
+        "G-mIoU@1": 0.6979826670349394,
+        "G-mIoU@3": 0.5659942223449799
+      },
+      "0.6": {
+        "N-acc": 100.0,
+        "Rej-F1": 88.32957378606197,
+        "G-mIoU@1": 0.6802102326255787,
+        "G-mIoU@3": 0.5600700775418596
+      }
+    },
+    "source": "results/test_all_thresholds/supplemental/charades/eatr/multi_positive_only/test_ood/metrics.json"
+  },
+  {
+    "dataset": "Charades",
+    "split": "test_ood",
+    "protocol": "current_val_selection",
+    "backbone": "qd_detr",
+    "method": "gmr",
+    "label": "GMR",
+    "parent": "gmr",
+    "common": {
+      "AUROC": 100.0,
+      "mAP": 34.17,
+      "mR@1": 28.74,
+      "mR@5": 40.16,
+      "mR+@5": null
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 100.0,
+        "Rej-F1": 92.38792996398858,
+        "G-mIoU@1": 0.7055075625824877,
+        "G-mIoU@3": 0.5685025208608292
+      },
+      "0.5": {
+        "N-acc": 100.0,
+        "Rej-F1": 89.94197292069632,
+        "G-mIoU@1": 0.6940812801065646,
+        "G-mIoU@3": 0.5646937600355215
+      },
+      "0.6": {
+        "N-acc": 100.0,
+        "Rej-F1": 87.35470235998591,
+        "G-mIoU@1": 0.6804669938959776,
+        "G-mIoU@3": 0.5601556646319925
+      }
+    },
+    "source": "results/charades_multi_geq/run_metadata/qd_detr/gmr/test_ood/metrics.json"
+  },
+  {
+    "dataset": "Charades",
+    "split": "test_ood",
+    "protocol": "current_val_selection",
+    "backbone": "qd_detr",
+    "method": "gmr_geq_frozen",
+    "label": "GMR + GEQ Frozen",
+    "parent": "gmr",
+    "common": {
+      "AUROC": 99.91,
+      "mAP": 34.17,
+      "mR@1": 28.74,
+      "mR@5": 40.16,
+      "mR+@5": null
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 100.0,
+        "Rej-F1": 90.59912323429128,
+        "G-mIoU@1": 0.6962318258054956,
+        "G-mIoU@3": 0.5654106086018318
+      },
+      "0.5": {
+        "N-acc": 100.0,
+        "Rej-F1": 88.50820842255531,
+        "G-mIoU@1": 0.6861575864058072,
+        "G-mIoU@3": 0.5620525288019357
+      },
+      "0.6": {
+        "N-acc": 100.0,
+        "Rej-F1": 86.23087621696801,
+        "G-mIoU@1": 0.675168061551987,
+        "G-mIoU@3": 0.5583893538506624
+      }
+    },
+    "source": "results/charades_multi_geq/run_metadata/qd_detr/gmr_geq_frozen/test_ood/metrics.json"
+  },
+  {
+    "dataset": "Charades",
+    "split": "test_ood",
+    "protocol": "current_val_selection",
+    "backbone": "qd_detr",
+    "method": "gmr_geq_full",
+    "label": "GMR + GEQ Full",
+    "parent": "gmr",
+    "common": {
+      "AUROC": 99.99,
+      "mAP": 34.38,
+      "mR@1": 29.14,
+      "mR@5": 40.41,
+      "mR+@5": null
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 100.0,
+        "Rej-F1": 93.04652326163082,
+        "G-mIoU@1": 0.7083333481514873,
+        "G-mIoU@3": 0.569444449383829
+      },
+      "0.5": {
+        "N-acc": 100.0,
+        "Rej-F1": 91.42295404276236,
+        "G-mIoU@1": 0.7012865716491358,
+        "G-mIoU@3": 0.5670955238830452
+      },
+      "0.6": {
+        "N-acc": 100.0,
+        "Rej-F1": 89.33717579250721,
+        "G-mIoU@1": 0.6917505336563488,
+        "G-mIoU@3": 0.5639168445521163
+      }
+    },
+    "source": "results/charades_multi_geq/run_metadata/qd_detr/gmr_geq_full/test_ood/metrics.json"
+  },
+  {
+    "dataset": "Charades",
+    "split": "test_ood",
+    "protocol": "current_val_selection",
+    "backbone": "qd_detr",
+    "method": "multi",
+    "label": "GMR + Multi",
+    "parent": "gmr",
+    "common": {
+      "AUROC": 100.0,
+      "mAP": 35.21,
+      "mR@1": 29.34,
+      "mR@5": 43.61,
+      "mR+@5": null
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 100.0,
+        "Rej-F1": 92.46830723340791,
+        "G-mIoU@1": 0.7106141136192723,
+        "G-mIoU@3": 0.5702047045397574
+      },
+      "0.5": {
+        "N-acc": 100.0,
+        "Rej-F1": 90.5219613091617,
+        "G-mIoU@1": 0.7005318593047086,
+        "G-mIoU@3": 0.5668439531015695
+      },
+      "0.6": {
+        "N-acc": 100.0,
+        "Rej-F1": 87.84980517180304,
+        "G-mIoU@1": 0.686806207177259,
+        "G-mIoU@3": 0.562268735725753
+      }
+    },
+    "source": "results/charades_multi_geq/run_metadata/qd_detr/multi/test_ood/metrics.json"
+  },
+  {
+    "dataset": "Charades",
+    "split": "test_ood",
+    "protocol": "current_val_selection",
+    "backbone": "qd_detr",
+    "method": "multi_geq_frozen",
+    "label": "GMR + Multi + GEQ Frozen",
+    "parent": "multi",
+    "common": {
+      "AUROC": 100.0,
+      "mAP": 35.21,
+      "mR@1": 29.34,
+      "mR@5": 43.61,
+      "mR+@5": null
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 100.0,
+        "Rej-F1": 92.50279746363297,
+        "G-mIoU@1": 0.7096350709867292,
+        "G-mIoU@3": 0.5698783569955764
+      },
+      "0.5": {
+        "N-acc": 100.0,
+        "Rej-F1": 90.4229460379193,
+        "G-mIoU@1": 0.6994414595802309,
+        "G-mIoU@3": 0.5664804865267437
+      },
+      "0.6": {
+        "N-acc": 100.0,
+        "Rej-F1": 87.80833234981706,
+        "G-mIoU@1": 0.6859387036484376,
+        "G-mIoU@3": 0.5619795678828126
+      }
+    },
+    "source": "results/charades_multi_geq/run_metadata/qd_detr/multi_geq_frozen/test_ood/metrics.json"
+  },
+  {
+    "dataset": "Charades",
+    "split": "test_ood",
+    "protocol": "current_val_selection",
+    "backbone": "qd_detr",
+    "method": "multi_geq_full",
+    "label": "GMR + Multi + GEQ Full",
+    "parent": "multi",
+    "common": {
+      "AUROC": 100.0,
+      "mAP": 35.57,
+      "mR@1": 29.26,
+      "mR@5": 44.34,
+      "mR+@5": null
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 100.0,
+        "Rej-F1": 94.03437815975732,
+        "G-mIoU@1": 0.714555914810159,
+        "G-mIoU@3": 0.571518638270053
+      },
+      "0.5": {
+        "N-acc": 100.0,
+        "Rej-F1": 91.80651530108588,
+        "G-mIoU@1": 0.7043860682649296,
+        "G-mIoU@3": 0.5681286894216432
+      },
+      "0.6": {
+        "N-acc": 100.0,
+        "Rej-F1": 89.12314326784858,
+        "G-mIoU@1": 0.6911245350011367,
+        "G-mIoU@3": 0.5637081783337122
+      }
+    },
+    "source": "results/charades_multi_geq/run_metadata/qd_detr/multi_geq_full/test_ood/metrics.json"
+  },
+  {
+    "dataset": "Charades",
+    "split": "test_ood",
+    "protocol": "current_val_selection",
+    "backbone": "flashvtg",
+    "method": "gmr",
+    "label": "GMR",
+    "parent": "gmr",
+    "common": {
+      "AUROC": 100.0,
+      "mAP": 41.4,
+      "mR@1": 31.85,
+      "mR@5": 54.52,
+      "mR+@5": null
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 100.0,
+        "Rej-F1": 91.97675856100878,
+        "G-mIoU@1": 0.7131185700586135,
+        "G-mIoU@3": 0.5710395233528711
+      },
+      "0.5": {
+        "N-acc": 100.0,
+        "Rej-F1": 89.62775569208529,
+        "G-mIoU@1": 0.7008733756472172,
+        "G-mIoU@3": 0.5669577918824057
+      },
+      "0.6": {
+        "N-acc": 100.0,
+        "Rej-F1": 86.77396780965711,
+        "G-mIoU@1": 0.6854205504524611,
+        "G-mIoU@3": 0.5618068501508203
+      }
+    },
+    "source": "results/charades_multi_geq/run_metadata/flashvtg/gmr/test_ood/metrics.json"
+  },
+  {
+    "dataset": "Charades",
+    "split": "test_ood",
+    "protocol": "current_val_selection",
+    "backbone": "flashvtg",
+    "method": "gmr_geq_frozen",
+    "label": "GMR + GEQ Frozen",
+    "parent": "gmr",
+    "common": {
+      "AUROC": 99.99,
+      "mAP": 41.4,
+      "mR@1": 31.85,
+      "mR@5": 54.52,
+      "mR+@5": null
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 100.0,
+        "Rej-F1": 92.39940387481371,
+        "G-mIoU@1": 0.7153933227014858,
+        "G-mIoU@3": 0.5717977742338286
+      },
+      "0.5": {
+        "N-acc": 100.0,
+        "Rej-F1": 90.89798411728772,
+        "G-mIoU@1": 0.7078430147181748,
+        "G-mIoU@3": 0.5692810049060583
+      },
+      "0.6": {
+        "N-acc": 100.0,
+        "Rej-F1": 89.14450035945363,
+        "G-mIoU@1": 0.6981444884905212,
+        "G-mIoU@3": 0.5660481628301738
+      }
+    },
+    "source": "results/charades_multi_geq/run_metadata/flashvtg/gmr_geq_frozen/test_ood/metrics.json"
+  },
+  {
+    "dataset": "Charades",
+    "split": "test_ood",
+    "protocol": "current_val_selection",
+    "backbone": "flashvtg",
+    "method": "gmr_geq_full",
+    "label": "GMR + GEQ Full",
+    "parent": "gmr",
+    "common": {
+      "AUROC": 99.99,
+      "mAP": 41.7,
+      "mR@1": 32.19,
+      "mR@5": 55.02,
+      "mR+@5": null
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 100.0,
+        "Rej-F1": 94.56024402643621,
+        "G-mIoU@1": 0.7291409576515959,
+        "G-mIoU@3": 0.5763803192171987
+      },
+      "0.5": {
+        "N-acc": 100.0,
+        "Rej-F1": 92.84912017970798,
+        "G-mIoU@1": 0.7204703536489941,
+        "G-mIoU@3": 0.573490117882998
+      },
+      "0.6": {
+        "N-acc": 100.0,
+        "Rej-F1": 90.64327485380117,
+        "G-mIoU@1": 0.7095752180508772,
+        "G-mIoU@3": 0.569858406016959
+      }
+    },
+    "source": "results/charades_multi_geq/run_metadata/flashvtg/gmr_geq_full/test_ood/metrics.json"
+  },
+  {
+    "dataset": "Charades",
+    "split": "test_ood",
+    "protocol": "current_val_selection",
+    "backbone": "flashvtg",
+    "method": "multi",
+    "label": "GMR + Multi-TQAux",
+    "parent": "gmr",
+    "common": {
+      "AUROC": 100.0,
+      "mAP": 41.37,
+      "mR@1": 32.1,
+      "mR@5": 54.16,
+      "mR+@5": null
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 100.0,
+        "Rej-F1": 91.34438305709024,
+        "G-mIoU@1": 0.7112267493395503,
+        "G-mIoU@3": 0.5704089164465168
+      },
+      "0.5": {
+        "N-acc": 100.0,
+        "Rej-F1": 89.12314326784858,
+        "G-mIoU@1": 0.6987937408544651,
+        "G-mIoU@3": 0.5662645802848217
+      },
+      "0.6": {
+        "N-acc": 100.0,
+        "Rej-F1": 86.70318144738376,
+        "G-mIoU@1": 0.6853184694852578,
+        "G-mIoU@3": 0.5617728231617526
+      }
+    },
+    "source": "results/charades_multi_geq/run_metadata/flashvtg/multi/test_ood/metrics.json"
+  },
+  {
+    "dataset": "Charades",
+    "split": "test_ood",
+    "protocol": "current_val_selection",
+    "backbone": "flashvtg",
+    "method": "multi_geq_frozen",
+    "label": "GMR + Multi-TQAux + GEQ Frozen",
+    "parent": "multi",
+    "common": {
+      "AUROC": 100.0,
+      "mAP": 41.37,
+      "mR@1": 32.1,
+      "mR@5": 54.16,
+      "mR+@5": null
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 100.0,
+        "Rej-F1": 91.5129151291513,
+        "G-mIoU@1": 0.7128177011688167,
+        "G-mIoU@3": 0.570939233722939
+      },
+      "0.5": {
+        "N-acc": 100.0,
+        "Rej-F1": 90.975788701394,
+        "G-mIoU@1": 0.7096440726697746,
+        "G-mIoU@3": 0.5698813575565915
+      },
+      "0.6": {
+        "N-acc": 100.0,
+        "Rej-F1": 90.4119577105359,
+        "G-mIoU@1": 0.7060204615418482,
+        "G-mIoU@3": 0.568673487180616
+      }
+    },
+    "source": "results/charades_multi_geq/run_metadata/flashvtg/multi_geq_frozen/test_ood/metrics.json"
+  },
+  {
+    "dataset": "Charades",
+    "split": "test_ood",
+    "protocol": "current_val_selection",
+    "backbone": "flashvtg",
+    "method": "multi_geq_full",
+    "label": "GMR + Multi-TQAux + GEQ Full",
+    "parent": "multi",
+    "common": {
+      "AUROC": 100.0,
+      "mAP": 41.4,
+      "mR@1": 32.52,
+      "mR@5": 53.65,
+      "mR+@5": null
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 100.0,
+        "Rej-F1": 93.67917401158398,
+        "G-mIoU@1": 0.7268067202567582,
+        "G-mIoU@3": 0.575602240085586
+      },
+      "0.5": {
+        "N-acc": 100.0,
+        "Rej-F1": 92.66409266409266,
+        "G-mIoU@1": 0.7221989138776573,
+        "G-mIoU@3": 0.5740663046258858
+      },
+      "0.6": {
+        "N-acc": 100.0,
+        "Rej-F1": 91.53543307086615,
+        "G-mIoU@1": 0.7170203702853674,
+        "G-mIoU@3": 0.5723401234284557
+      }
+    },
+    "source": "results/charades_multi_geq/run_metadata/flashvtg/multi_geq_full/test_ood/metrics.json"
+  },
+  {
+    "dataset": "SoccerGMR",
+    "split": "Standard Test",
+    "protocol": "current_val_selection",
+    "backbone": "moment_detr",
+    "method": "shared",
+    "label": "GMR + Shared",
+    "parent": "gmr",
+    "common": {
+      "AUROC": 69.08,
+      "mAP": 7.28,
+      "mR@1": 2.95,
+      "mR@5": 12.75,
+      "mR+@5": 1.0
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 89.22764227642277,
+        "Rej-F1": 72.14,
+        "G-mIoU@1": 0.4632,
+        "G-mIoU@3": 0.43770000000000003
+      },
+      "0.5": {
+        "N-acc": 92.6829268292683,
+        "Rej-F1": 73.02,
+        "G-mIoU@1": 0.47859999999999997,
+        "G-mIoU@3": 0.4532
+      },
+      "0.6": {
+        "N-acc": 94.3089430894309,
+        "Rej-F1": 73.24,
+        "G-mIoU@1": 0.4863,
+        "G-mIoU@3": 0.4608
+      }
+    },
+    "source": "results/geq_val_selection/moment_detr/shared_full_frozen_baseline_data.json"
+  },
+  {
+    "dataset": "SoccerGMR",
+    "split": "Standard Test",
+    "protocol": "current_val_selection",
+    "backbone": "moment_detr",
+    "method": "shared_geq_frozen",
+    "label": "GMR + Shared + GEQ Frozen",
+    "parent": "shared",
+    "common": {
+      "AUROC": 68.63,
+      "mAP": 7.28,
+      "mR@1": 2.95,
+      "mR@5": 12.75,
+      "mR+@5": 1.0
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 100.0,
+        "Rej-F1": 75.0,
+        "G-mIoU@1": 0.5128,
+        "G-mIoU@3": 0.4875
+      },
+      "0.5": {
+        "N-acc": 100.0,
+        "Rej-F1": 75.0,
+        "G-mIoU@1": 0.5128,
+        "G-mIoU@3": 0.4875
+      },
+      "0.6": {
+        "N-acc": 100.0,
+        "Rej-F1": 75.0,
+        "G-mIoU@1": 0.5128,
+        "G-mIoU@3": 0.4875
+      }
+    },
+    "source": "results/geq_val_selection/moment_detr/shared_full_frozen_frozen_data.json"
+  },
+  {
+    "dataset": "SoccerGMR",
+    "split": "Standard Test",
+    "protocol": "current_val_selection",
+    "backbone": "moment_detr",
+    "method": "shared_geq_full",
+    "label": "GMR + Shared + GEQ Full",
+    "parent": "shared",
+    "common": {
+      "AUROC": 68.75,
+      "mAP": 6.92,
+      "mR@1": 3.73,
+      "mR@5": 10.6,
+      "mR+@5": 0.57
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 94.71544715447155,
+        "Rej-F1": 73.73,
+        "G-mIoU@1": 0.4982,
+        "G-mIoU@3": 0.46619999999999995
+      },
+      "0.5": {
+        "N-acc": 100.0,
+        "Rej-F1": 75.0,
+        "G-mIoU@1": 0.5231,
+        "G-mIoU@3": 0.491
+      },
+      "0.6": {
+        "N-acc": 100.0,
+        "Rej-F1": 75.0,
+        "G-mIoU@1": 0.5231,
+        "G-mIoU@3": 0.491
+      }
+    },
+    "source": "results/geq_val_selection/moment_detr/shared_full_frozen_full_data.json"
+  },
+  {
+    "dataset": "SoccerGMR",
+    "split": "Standard Test",
+    "protocol": "current_val_selection",
+    "backbone": "moment_detr",
+    "method": "sepffn",
+    "label": "GMR + SepFFN",
+    "parent": "gmr",
+    "common": {
+      "AUROC": 69.92,
+      "mAP": 7.51,
+      "mR@1": 4.76,
+      "mR@5": 10.2,
+      "mR+@5": 1.05
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 100.0,
+        "Rej-F1": 75.0,
+        "G-mIoU@1": 0.5217,
+        "G-mIoU@3": 0.4905
+      },
+      "0.5": {
+        "N-acc": 100.0,
+        "Rej-F1": 75.0,
+        "G-mIoU@1": 0.5217,
+        "G-mIoU@3": 0.4905
+      },
+      "0.6": {
+        "N-acc": 100.0,
+        "Rej-F1": 75.0,
+        "G-mIoU@1": 0.5217,
+        "G-mIoU@3": 0.4905
+      }
+    },
+    "source": "results/test_all_thresholds/supplemental/soccergmr/moment_detr/sepffn/data.json"
+  },
+  {
+    "dataset": "SoccerGMR",
+    "split": "Standard Test",
+    "protocol": "current_val_selection",
+    "backbone": "moment_detr",
+    "method": "instruction",
+    "label": "GMR + Instruction",
+    "parent": "gmr",
+    "common": {
+      "AUROC": 70.33,
+      "mAP": 5.81,
+      "mR@1": 3.85,
+      "mR@5": 8.21,
+      "mR+@5": 0.97
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 72.96747967479675,
+        "Rej-F1": 65.93,
+        "G-mIoU@1": 0.3947,
+        "G-mIoU@3": 0.36460000000000004
+      },
+      "0.5": {
+        "N-acc": 100.0,
+        "Rej-F1": 75.0,
+        "G-mIoU@1": 0.5214,
+        "G-mIoU@3": 0.4904
+      },
+      "0.6": {
+        "N-acc": 100.0,
+        "Rej-F1": 75.0,
+        "G-mIoU@1": 0.5214,
+        "G-mIoU@3": 0.4904
+      }
+    },
+    "source": "results/test_all_thresholds/supplemental/soccergmr/moment_detr/instruction/data.json"
+  },
+  {
+    "dataset": "SoccerGMR",
+    "split": "Standard Test",
+    "protocol": "current_val_selection",
+    "backbone": "moment_detr",
+    "method": "adaptive",
+    "label": "GMR + Adaptive",
+    "parent": "gmr",
+    "common": {
+      "AUROC": 68.58,
+      "mAP": 7.09,
+      "mR@1": 4.38,
+      "mR@5": 10.0,
+      "mR+@5": 1.47
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 0.0,
+        "Rej-F1": 0.0,
+        "G-mIoU@1": 0.062,
+        "G-mIoU@3": 0.0268
+      },
+      "0.5": {
+        "N-acc": 100.0,
+        "Rej-F1": 75.0,
+        "G-mIoU@1": 0.5218,
+        "G-mIoU@3": 0.4905
+      },
+      "0.6": {
+        "N-acc": 100.0,
+        "Rej-F1": 75.0,
+        "G-mIoU@1": 0.5218,
+        "G-mIoU@3": 0.4905
+      }
+    },
+    "source": "results/test_all_thresholds/supplemental/soccergmr/moment_detr/adaptive/data.json"
+  },
+  {
+    "dataset": "SoccerGMR",
+    "split": "Standard Test",
+    "protocol": "current_val_selection",
+    "backbone": "eatr",
+    "method": "shared",
+    "label": "GMR + Shared",
+    "parent": "gmr",
+    "common": {
+      "AUROC": 77.57,
+      "mAP": 16.65,
+      "mR@1": 11.2,
+      "mR@5": 23.55,
+      "mR+@5": 8.6
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 55.6910569105691,
+        "Rej-F1": 61.23,
+        "G-mIoU@1": 0.3682,
+        "G-mIoU@3": 0.3139
+      },
+      "0.5": {
+        "N-acc": 65.4471544715447,
+        "Rej-F1": 65.92,
+        "G-mIoU@1": 0.40850000000000003,
+        "G-mIoU@3": 0.35509999999999997
+      },
+      "0.6": {
+        "N-acc": 74.59349593495935,
+        "Rej-F1": 69.84,
+        "G-mIoU@1": 0.4473,
+        "G-mIoU@3": 0.3953
+      }
+    },
+    "source": "results/geq_val_selection/eatr/shared_full_frozen_baseline_data.json"
+  },
+  {
+    "dataset": "SoccerGMR",
+    "split": "Standard Test",
+    "protocol": "current_val_selection",
+    "backbone": "eatr",
+    "method": "shared_geq_frozen",
+    "label": "GMR + Shared + GEQ Frozen",
+    "parent": "shared",
+    "common": {
+      "AUROC": 76.58,
+      "mAP": 16.65,
+      "mR@1": 11.2,
+      "mR@5": 23.55,
+      "mR+@5": 8.6
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 60.36585365853659,
+        "Rej-F1": 62.86000000000001,
+        "G-mIoU@1": 0.38130000000000003,
+        "G-mIoU@3": 0.33039999999999997
+      },
+      "0.5": {
+        "N-acc": 72.76422764227642,
+        "Rej-F1": 68.13,
+        "G-mIoU@1": 0.43329999999999996,
+        "G-mIoU@3": 0.3847
+      },
+      "0.6": {
+        "N-acc": 82.3170731707317,
+        "Rej-F1": 71.55,
+        "G-mIoU@1": 0.47229999999999994,
+        "G-mIoU@3": 0.42590000000000006
+      }
+    },
+    "source": "results/geq_val_selection/eatr/shared_full_frozen_frozen_data.json"
+  },
+  {
+    "dataset": "SoccerGMR",
+    "split": "Standard Test",
+    "protocol": "current_val_selection",
+    "backbone": "eatr",
+    "method": "shared_geq_full",
+    "label": "GMR + Shared + GEQ Full",
+    "parent": "shared",
+    "common": {
+      "AUROC": 76.26,
+      "mAP": 17.15,
+      "mR@1": 11.84,
+      "mR@5": 23.36,
+      "mR+@5": 9.48
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 56.30081300813008,
+        "Rej-F1": 61.419999999999995,
+        "G-mIoU@1": 0.37070000000000003,
+        "G-mIoU@3": 0.31629999999999997
+      },
+      "0.5": {
+        "N-acc": 69.91869918699187,
+        "Rej-F1": 67.12,
+        "G-mIoU@1": 0.42469999999999997,
+        "G-mIoU@3": 0.37420000000000003
+      },
+      "0.6": {
+        "N-acc": 79.47154471544715,
+        "Rej-F1": 70.64,
+        "G-mIoU@1": 0.466,
+        "G-mIoU@3": 0.4165
+      }
+    },
+    "source": "results/geq_val_selection/eatr/shared_full_frozen_full_data.json"
+  },
+  {
+    "dataset": "SoccerGMR",
+    "split": "Standard Test",
+    "protocol": "current_val_selection",
+    "backbone": "eatr",
+    "method": "sepffn",
+    "label": "GMR + SepFFN",
+    "parent": "gmr",
+    "common": {
+      "AUROC": 77.75,
+      "mAP": 17.06,
+      "mR@1": 11.32,
+      "mR@5": 22.59,
+      "mR+@5": 9.21
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 44.71544715447154,
+        "Rej-F1": 54.93,
+        "G-mIoU@1": 0.3243,
+        "G-mIoU@3": 0.2655
+      },
+      "0.5": {
+        "N-acc": 66.869918699187,
+        "Rej-F1": 66.87,
+        "G-mIoU@1": 0.41259999999999997,
+        "G-mIoU@3": 0.3615
+      },
+      "0.6": {
+        "N-acc": 86.1788617886179,
+        "Rej-F1": 72.91,
+        "G-mIoU@1": 0.4901,
+        "G-mIoU@3": 0.4425
+      }
+    },
+    "source": "results/test_all_thresholds/supplemental/soccergmr/eatr/sepffn/data.json"
+  },
+  {
+    "dataset": "SoccerGMR",
+    "split": "Standard Test",
+    "protocol": "current_val_selection",
+    "backbone": "eatr",
+    "method": "instruction",
+    "label": "GMR + Instruction",
+    "parent": "gmr",
+    "common": {
+      "AUROC": 77.02,
+      "mAP": 17.48,
+      "mR@1": 11.52,
+      "mR@5": 23.82,
+      "mR+@5": 11.14
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 56.70731707317073,
+        "Rej-F1": 61.39,
+        "G-mIoU@1": 0.375,
+        "G-mIoU@3": 0.31829999999999997
+      },
+      "0.5": {
+        "N-acc": 69.71544715447155,
+        "Rej-F1": 67.25,
+        "G-mIoU@1": 0.42719999999999997,
+        "G-mIoU@3": 0.3741
+      },
+      "0.6": {
+        "N-acc": 83.53658536585365,
+        "Rej-F1": 72.36,
+        "G-mIoU@1": 0.483,
+        "G-mIoU@3": 0.4339
+      }
+    },
+    "source": "results/test_all_thresholds/supplemental/soccergmr/eatr/instruction/data.json"
+  },
+  {
+    "dataset": "SoccerGMR",
+    "split": "Standard Test",
+    "protocol": "current_val_selection",
+    "backbone": "eatr",
+    "method": "adaptive",
+    "label": "GMR + Adaptive",
+    "parent": "gmr",
+    "common": {
+      "AUROC": 78.01,
+      "mAP": 17.29,
+      "mR@1": 11.56,
+      "mR@5": 22.99,
+      "mR+@5": 10.32
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 63.41463414634146,
+        "Rej-F1": 65.27,
+        "G-mIoU@1": 0.405,
+        "G-mIoU@3": 0.3513
+      },
+      "0.5": {
+        "N-acc": 81.70731707317073,
+        "Rej-F1": 71.98,
+        "G-mIoU@1": 0.4772,
+        "G-mIoU@3": 0.4293
+      },
+      "0.6": {
+        "N-acc": 91.46341463414635,
+        "Rej-F1": 74.32,
+        "G-mIoU@1": 0.516,
+        "G-mIoU@3": 0.4697
+      }
+    },
+    "source": "results/test_all_thresholds/supplemental/soccergmr/eatr/adaptive/data.json"
+  },
+  {
+    "dataset": "SoccerGMR",
+    "split": "Standard Test",
+    "protocol": "current_val_selection",
+    "backbone": "qd_detr",
+    "method": "shared",
+    "label": "GMR + Shared",
+    "parent": "gmr",
+    "common": {
+      "AUROC": 77.13,
+      "mAP": 15.24,
+      "mR@1": 10.64,
+      "mR@5": 20.0,
+      "mR+@5": 9.78
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 59.959349593495936,
+        "Rej-F1": 63.36999999999999,
+        "G-mIoU@1": 0.38439999999999996,
+        "G-mIoU@3": 0.33340000000000003
+      },
+      "0.5": {
+        "N-acc": 72.76422764227642,
+        "Rej-F1": 68.78,
+        "G-mIoU@1": 0.43920000000000003,
+        "G-mIoU@3": 0.3887
+      },
+      "0.6": {
+        "N-acc": 82.52032520325203,
+        "Rej-F1": 71.86,
+        "G-mIoU@1": 0.47950000000000004,
+        "G-mIoU@3": 0.43079999999999996
+      }
+    },
+    "source": "results/geq_val_selection/qd_detr/shared_full_frozen_baseline_data.json"
+  },
+  {
+    "dataset": "SoccerGMR",
+    "split": "Standard Test",
+    "protocol": "current_val_selection",
+    "backbone": "qd_detr",
+    "method": "shared_geq_frozen",
+    "label": "GMR + Shared + GEQ Frozen",
+    "parent": "shared",
+    "common": {
+      "AUROC": 76.29,
+      "mAP": 15.24,
+      "mR@1": 10.64,
+      "mR@5": 20.0,
+      "mR+@5": 9.78
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 65.65040650406505,
+        "Rej-F1": 65.06,
+        "G-mIoU@1": 0.4056,
+        "G-mIoU@3": 0.3557
+      },
+      "0.5": {
+        "N-acc": 73.78048780487805,
+        "Rej-F1": 68.23,
+        "G-mIoU@1": 0.4379,
+        "G-mIoU@3": 0.3896
+      },
+      "0.6": {
+        "N-acc": 83.94308943089432,
+        "Rej-F1": 72.08,
+        "G-mIoU@1": 0.4817,
+        "G-mIoU@3": 0.43420000000000003
+      }
+    },
+    "source": "results/geq_val_selection/qd_detr/shared_full_frozen_frozen_data.json"
+  },
+  {
+    "dataset": "SoccerGMR",
+    "split": "Standard Test",
+    "protocol": "current_val_selection",
+    "backbone": "qd_detr",
+    "method": "shared_geq_full",
+    "label": "GMR + Shared + GEQ Full",
+    "parent": "shared",
+    "common": {
+      "AUROC": 76.31,
+      "mAP": 15.69,
+      "mR@1": 10.71,
+      "mR@5": 20.15,
+      "mR+@5": 10.42
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 66.46341463414635,
+        "Rej-F1": 65.01,
+        "G-mIoU@1": 0.40909999999999996,
+        "G-mIoU@3": 0.35960000000000003
+      },
+      "0.5": {
+        "N-acc": 74.79674796747967,
+        "Rej-F1": 68.4,
+        "G-mIoU@1": 0.44409999999999994,
+        "G-mIoU@3": 0.3957
+      },
+      "0.6": {
+        "N-acc": 84.34959349593495,
+        "Rej-F1": 72.36,
+        "G-mIoU@1": 0.4866,
+        "G-mIoU@3": 0.4382
+      }
+    },
+    "source": "results/geq_val_selection/qd_detr/shared_full_frozen_full_data.json"
+  },
+  {
+    "dataset": "SoccerGMR",
+    "split": "Standard Test",
+    "protocol": "current_val_selection",
+    "backbone": "qd_detr",
+    "method": "sepffn",
+    "label": "GMR + SepFFN",
+    "parent": "gmr",
+    "common": {
+      "AUROC": 75.57,
+      "mAP": 11.03,
+      "mR@1": 7.34,
+      "mR@5": 15.36,
+      "mR+@5": 4.16
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 72.96747967479675,
+        "Rej-F1": 68.25,
+        "G-mIoU@1": 0.41850000000000004,
+        "G-mIoU@3": 0.37829999999999997
+      },
+      "0.5": {
+        "N-acc": 83.73983739837398,
+        "Rej-F1": 71.78,
+        "G-mIoU@1": 0.4642,
+        "G-mIoU@3": 0.42560000000000003
+      },
+      "0.6": {
+        "N-acc": 93.08943089430895,
+        "Rej-F1": 74.11,
+        "G-mIoU@1": 0.5025999999999999,
+        "G-mIoU@3": 0.4653
+      }
+    },
+    "source": "results/test_all_thresholds/supplemental/soccergmr/qd_detr/sepffn/data.json"
+  },
+  {
+    "dataset": "SoccerGMR",
+    "split": "Standard Test",
+    "protocol": "current_val_selection",
+    "backbone": "qd_detr",
+    "method": "instruction",
+    "label": "GMR + Instruction",
+    "parent": "gmr",
+    "common": {
+      "AUROC": 76.25,
+      "mAP": 14.46,
+      "mR@1": 9.99,
+      "mR@5": 19.26,
+      "mR+@5": 6.84
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 54.0650406504065,
+        "Rej-F1": 60.18,
+        "G-mIoU@1": 0.3515,
+        "G-mIoU@3": 0.3035
+      },
+      "0.5": {
+        "N-acc": 79.26829268292683,
+        "Rej-F1": 70.52,
+        "G-mIoU@1": 0.46009999999999995,
+        "G-mIoU@3": 0.4138
+      },
+      "0.6": {
+        "N-acc": 90.2439024390244,
+        "Rej-F1": 74.0,
+        "G-mIoU@1": 0.5064,
+        "G-mIoU@3": 0.46009999999999995
+      }
+    },
+    "source": "results/test_all_thresholds/supplemental/soccergmr/qd_detr/instruction/data.json"
+  },
+  {
+    "dataset": "SoccerGMR",
+    "split": "Standard Test",
+    "protocol": "current_val_selection",
+    "backbone": "qd_detr",
+    "method": "adaptive",
+    "label": "GMR + Adaptive",
+    "parent": "gmr",
+    "common": {
+      "AUROC": 75.47,
+      "mAP": 14.68,
+      "mR@1": 9.46,
+      "mR@5": 20.46,
+      "mR+@5": 6.91
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 43.292682926829265,
+        "Rej-F1": 52.66,
+        "G-mIoU@1": 0.2988,
+        "G-mIoU@3": 0.24850000000000003
+      },
+      "0.5": {
+        "N-acc": 65.04065040650406,
+        "Rej-F1": 64.65,
+        "G-mIoU@1": 0.3918,
+        "G-mIoU@3": 0.3432
+      },
+      "0.6": {
+        "N-acc": 88.8211382113821,
+        "Rej-F1": 73.32,
+        "G-mIoU@1": 0.49520000000000003,
+        "G-mIoU@3": 0.45049999999999996
+      }
+    },
+    "source": "results/test_all_thresholds/supplemental/soccergmr/qd_detr/adaptive/data.json"
+  },
+  {
+    "dataset": "SoccerGMR",
+    "split": "Standard Test",
+    "protocol": "current_val_selection",
+    "backbone": "cg_detr",
+    "method": "shared",
+    "label": "GMR + Shared",
+    "parent": "gmr",
+    "common": {
+      "AUROC": 77.44,
+      "mAP": 15.09,
+      "mR@1": 9.92,
+      "mR@5": 20.57,
+      "mR+@5": 9.66
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 39.22764227642276,
+        "Rej-F1": 50.2,
+        "G-mIoU@1": 0.2883,
+        "G-mIoU@3": 0.2379
+      },
+      "0.5": {
+        "N-acc": 69.51219512195121,
+        "Rej-F1": 67.72,
+        "G-mIoU@1": 0.4189,
+        "G-mIoU@3": 0.3725
+      },
+      "0.6": {
+        "N-acc": 88.21138211382113,
+        "Rej-F1": 73.68,
+        "G-mIoU@1": 0.4965,
+        "G-mIoU@3": 0.4507
+      }
+    },
+    "source": "results/geq_val_selection/cg_detr/shared_full_frozen_baseline_data.json"
+  },
+  {
+    "dataset": "SoccerGMR",
+    "split": "Standard Test",
+    "protocol": "current_val_selection",
+    "backbone": "cg_detr",
+    "method": "shared_geq_frozen",
+    "label": "GMR + Shared + GEQ Frozen",
+    "parent": "shared",
+    "common": {
+      "AUROC": 77.32,
+      "mAP": 15.09,
+      "mR@1": 9.92,
+      "mR@5": 20.57,
+      "mR+@5": 9.66
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 70.1219512195122,
+        "Rej-F1": 67.32,
+        "G-mIoU@1": 0.41840000000000005,
+        "G-mIoU@3": 0.3722
+      },
+      "0.5": {
+        "N-acc": 85.36585365853658,
+        "Rej-F1": 72.41,
+        "G-mIoU@1": 0.48340000000000005,
+        "G-mIoU@3": 0.4382
+      },
+      "0.6": {
+        "N-acc": 93.4959349593496,
+        "Rej-F1": 74.19,
+        "G-mIoU@1": 0.5151,
+        "G-mIoU@3": 0.4708
+      }
+    },
+    "source": "results/geq_val_selection/cg_detr/shared_full_frozen_frozen_data.json"
+  },
+  {
+    "dataset": "SoccerGMR",
+    "split": "Standard Test",
+    "protocol": "current_val_selection",
+    "backbone": "cg_detr",
+    "method": "shared_geq_full",
+    "label": "GMR + Shared + GEQ Full",
+    "parent": "shared",
+    "common": {
+      "AUROC": 75.79,
+      "mAP": 14.22,
+      "mR@1": 9.28,
+      "mR@5": 19.39,
+      "mR+@5": 9.22
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 74.59349593495935,
+        "Rej-F1": 68.34,
+        "G-mIoU@1": 0.4318,
+        "G-mIoU@3": 0.38909999999999995
+      },
+      "0.5": {
+        "N-acc": 92.6829268292683,
+        "Rej-F1": 74.33,
+        "G-mIoU@1": 0.5113,
+        "G-mIoU@3": 0.4667
+      },
+      "0.6": {
+        "N-acc": 97.15447154471545,
+        "Rej-F1": 75.04,
+        "G-mIoU@1": 0.5288,
+        "G-mIoU@3": 0.48460000000000003
+      }
+    },
+    "source": "results/geq_val_selection/cg_detr/shared_full_frozen_full_data.json"
+  },
+  {
+    "dataset": "SoccerGMR",
+    "split": "Standard Test",
+    "protocol": "current_val_selection",
+    "backbone": "cg_detr",
+    "method": "sepffn",
+    "label": "GMR + SepFFN",
+    "parent": "gmr",
+    "common": {
+      "AUROC": 75.52,
+      "mAP": 15.04,
+      "mR@1": 10.65,
+      "mR@5": 20.22,
+      "mR+@5": 4.62
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 53.45528455284553,
+        "Rej-F1": 59.37,
+        "G-mIoU@1": 0.35600000000000004,
+        "G-mIoU@3": 0.30219999999999997
+      },
+      "0.5": {
+        "N-acc": 91.05691056910568,
+        "Rej-F1": 73.87,
+        "G-mIoU@1": 0.5133,
+        "G-mIoU@3": 0.4632
+      },
+      "0.6": {
+        "N-acc": 98.17073170731707,
+        "Rej-F1": 75.71,
+        "G-mIoU@1": 0.5437,
+        "G-mIoU@3": 0.4936
+      }
+    },
+    "source": "results/test_all_thresholds/supplemental/soccergmr/cg_detr/sepffn/data.json"
+  },
+  {
+    "dataset": "SoccerGMR",
+    "split": "Standard Test",
+    "protocol": "current_val_selection",
+    "backbone": "cg_detr",
+    "method": "instruction",
+    "label": "GMR + Instruction",
+    "parent": "gmr",
+    "common": {
+      "AUROC": 76.96,
+      "mAP": 15.67,
+      "mR@1": 10.72,
+      "mR@5": 21.34,
+      "mR+@5": 8.46
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 25.8130081300813,
+        "Rej-F1": 38.6,
+        "G-mIoU@1": 0.23600000000000002,
+        "G-mIoU@3": 0.18059999999999998
+      },
+      "0.5": {
+        "N-acc": 57.92682926829268,
+        "Rej-F1": 62.16,
+        "G-mIoU@1": 0.37329999999999997,
+        "G-mIoU@3": 0.321
+      },
+      "0.6": {
+        "N-acc": 89.02439024390245,
+        "Rej-F1": 73.24,
+        "G-mIoU@1": 0.5033,
+        "G-mIoU@3": 0.45439999999999997
+      }
+    },
+    "source": "results/test_all_thresholds/supplemental/soccergmr/cg_detr/instruction/data.json"
+  },
+  {
+    "dataset": "SoccerGMR",
+    "split": "Standard Test",
+    "protocol": "current_val_selection",
+    "backbone": "cg_detr",
+    "method": "adaptive",
+    "label": "GMR + Adaptive",
+    "parent": "gmr",
+    "common": {
+      "AUROC": 77.27,
+      "mAP": 18.79,
+      "mR@1": 12.89,
+      "mR@5": 24.39,
+      "mR+@5": 13.06
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 64.83739837398373,
+        "Rej-F1": 65.1,
+        "G-mIoU@1": 0.4107,
+        "G-mIoU@3": 0.3579
+      },
+      "0.5": {
+        "N-acc": 87.60162601626016,
+        "Rej-F1": 73.42,
+        "G-mIoU@1": 0.5045000000000001,
+        "G-mIoU@3": 0.4531
+      },
+      "0.6": {
+        "N-acc": 96.95121951219512,
+        "Rej-F1": 75.89,
+        "G-mIoU@1": 0.5404,
+        "G-mIoU@3": 0.4915
+      }
+    },
+    "source": "results/test_all_thresholds/supplemental/soccergmr/cg_detr/adaptive/data.json"
+  },
+  {
+    "dataset": "SoccerGMR",
+    "split": "Standard Test",
+    "protocol": "historical_main_e1",
+    "backbone": "moment_detr",
+    "method": "gmr",
+    "label": "GMR",
+    "parent": "gmr",
+    "common": {
+      "AUROC": 70.2,
+      "mAP": 6.68,
+      "mR@1": 4.64,
+      "mR@5": 9.44,
+      "mR+@5": 0.88
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 0.0,
+        "Rej-F1": 0.0,
+        "G-mIoU@1": 0.0583,
+        "G-mIoU@3": 0.024300000000000002
+      },
+      "0.5": {
+        "N-acc": 79.26829268292683,
+        "Rej-F1": 67.94,
+        "G-mIoU@1": 0.425,
+        "G-mIoU@3": 0.39390000000000003
+      },
+      "0.6": {
+        "N-acc": 100.0,
+        "Rej-F1": 74.94,
+        "G-mIoU@1": 0.5202,
+        "G-mIoU@3": 0.49
+      }
+    },
+    "source": "results/geq_epoch_study/moment_detr/full_frozen_comparison_baseline_data.json"
+  },
+  {
+    "dataset": "SoccerGMR",
+    "split": "Standard Test",
+    "protocol": "historical_main_e1",
+    "backbone": "moment_detr",
+    "method": "gmr_geq_frozen",
+    "label": "GMR + GEQ Frozen",
+    "parent": "gmr",
+    "common": {
+      "AUROC": 69.36,
+      "mAP": 6.68,
+      "mR@1": 4.64,
+      "mR@5": 9.44,
+      "mR+@5": 0.88
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 97.76422764227642,
+        "Rej-F1": 74.23,
+        "G-mIoU@1": 0.5099,
+        "G-mIoU@3": 0.4796
+      },
+      "0.5": {
+        "N-acc": 100.0,
+        "Rej-F1": 75.0,
+        "G-mIoU@1": 0.5202,
+        "G-mIoU@3": 0.49
+      },
+      "0.6": {
+        "N-acc": 100.0,
+        "Rej-F1": 75.0,
+        "G-mIoU@1": 0.5202,
+        "G-mIoU@3": 0.49
+      }
+    },
+    "source": "results/geq_epoch_study/moment_detr/full_frozen_comparison_frozen_data.json"
+  },
+  {
+    "dataset": "SoccerGMR",
+    "split": "Standard Test",
+    "protocol": "historical_main_e1",
+    "backbone": "moment_detr",
+    "method": "gmr_geq_full",
+    "label": "GMR + GEQ Full",
+    "parent": "gmr",
+    "common": {
+      "AUROC": 70.21,
+      "mAP": 5.77,
+      "mR@1": 3.64,
+      "mR@5": 8.36,
+      "mR+@5": 1.23
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 89.02439024390245,
+        "Rej-F1": 71.8,
+        "G-mIoU@1": 0.46990000000000004,
+        "G-mIoU@3": 0.4395
+      },
+      "0.5": {
+        "N-acc": 100.0,
+        "Rej-F1": 75.0,
+        "G-mIoU@1": 0.5211,
+        "G-mIoU@3": 0.4903
+      },
+      "0.6": {
+        "N-acc": 100.0,
+        "Rej-F1": 75.0,
+        "G-mIoU@1": 0.5211,
+        "G-mIoU@3": 0.4903
+      }
+    },
+    "source": "results/geq_epoch_study/moment_detr/full_frozen_comparison_full_data.json"
+  },
+  {
+    "dataset": "SoccerGMR",
+    "split": "Standard Test",
+    "protocol": "historical_main_e1",
+    "backbone": "eatr",
+    "method": "gmr",
+    "label": "GMR",
+    "parent": "gmr",
+    "common": {
+      "AUROC": 76.56,
+      "mAP": 16.49,
+      "mR@1": 10.86,
+      "mR@5": 21.73,
+      "mR+@5": 9.59
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 48.577235772357724,
+        "Rej-F1": 57.10999999999999,
+        "G-mIoU@1": 0.33409999999999995,
+        "G-mIoU@3": 0.2837
+      },
+      "0.5": {
+        "N-acc": 66.66666666666666,
+        "Rej-F1": 65.6,
+        "G-mIoU@1": 0.4094,
+        "G-mIoU@3": 0.3604
+      },
+      "0.6": {
+        "N-acc": 87.1951219512195,
+        "Rej-F1": 73.46,
+        "G-mIoU@1": 0.4966,
+        "G-mIoU@3": 0.4489
+      }
+    },
+    "source": "results/geq_epoch_study/eatr/full_frozen_comparison_baseline_data.json"
+  },
+  {
+    "dataset": "SoccerGMR",
+    "split": "Standard Test",
+    "protocol": "historical_main_e1",
+    "backbone": "eatr",
+    "method": "gmr_geq_frozen",
+    "label": "GMR + GEQ Frozen",
+    "parent": "gmr",
+    "common": {
+      "AUROC": 75.17,
+      "mAP": 16.49,
+      "mR@1": 10.86,
+      "mR@5": 21.73,
+      "mR+@5": 9.59
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 63.82113821138211,
+        "Rej-F1": 64.02,
+        "G-mIoU@1": 0.3921,
+        "G-mIoU@3": 0.3455
+      },
+      "0.5": {
+        "N-acc": 87.60162601626016,
+        "Rej-F1": 72.93,
+        "G-mIoU@1": 0.4943,
+        "G-mIoU@3": 0.44920000000000004
+      },
+      "0.6": {
+        "N-acc": 96.7479674796748,
+        "Rej-F1": 74.9,
+        "G-mIoU@1": 0.5324,
+        "G-mIoU@3": 0.4861
+      }
+    },
+    "source": "results/geq_epoch_study/eatr/full_frozen_comparison_frozen_data.json"
+  },
+  {
+    "dataset": "SoccerGMR",
+    "split": "Standard Test",
+    "protocol": "historical_main_e1",
+    "backbone": "eatr",
+    "method": "gmr_geq_full",
+    "label": "GMR + GEQ Full",
+    "parent": "gmr",
+    "common": {
+      "AUROC": 75.26,
+      "mAP": 17.48,
+      "mR@1": 11.69,
+      "mR@5": 23.3,
+      "mR+@5": 10.79
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 64.22764227642277,
+        "Rej-F1": 64.29,
+        "G-mIoU@1": 0.3995,
+        "G-mIoU@3": 0.34840000000000004
+      },
+      "0.5": {
+        "N-acc": 90.65040650406505,
+        "Rej-F1": 74.77,
+        "G-mIoU@1": 0.5119,
+        "G-mIoU@3": 0.46380000000000005
+      },
+      "0.6": {
+        "N-acc": 98.17073170731707,
+        "Rej-F1": 75.23,
+        "G-mIoU@1": 0.5409,
+        "G-mIoU@3": 0.4924
+      }
+    },
+    "source": "results/geq_epoch_study/eatr/full_frozen_comparison_full_data.json"
+  },
+  {
+    "dataset": "SoccerGMR",
+    "split": "Standard Test",
+    "protocol": "historical_main_e1",
+    "backbone": "qd_detr",
+    "method": "gmr",
+    "label": "GMR",
+    "parent": "gmr",
+    "common": {
+      "AUROC": 77.01,
+      "mAP": 14.62,
+      "mR@1": 9.47,
+      "mR@5": 20.17,
+      "mR+@5": 7.43
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 56.70731707317073,
+        "Rej-F1": 61.73,
+        "G-mIoU@1": 0.3651,
+        "G-mIoU@3": 0.3147
+      },
+      "0.5": {
+        "N-acc": 79.47154471544715,
+        "Rej-F1": 71.48,
+        "G-mIoU@1": 0.46490000000000004,
+        "G-mIoU@3": 0.4147
+      },
+      "0.6": {
+        "N-acc": 90.65040650406505,
+        "Rej-F1": 73.29,
+        "G-mIoU@1": 0.5068,
+        "G-mIoU@3": 0.4604
+      }
+    },
+    "source": "results/geq_epoch_study/qd_detr/full_frozen_comparison_baseline_data.json"
+  },
+  {
+    "dataset": "SoccerGMR",
+    "split": "Standard Test",
+    "protocol": "historical_main_e1",
+    "backbone": "qd_detr",
+    "method": "gmr_geq_frozen",
+    "label": "GMR + GEQ Frozen",
+    "parent": "gmr",
+    "common": {
+      "AUROC": 76.32,
+      "mAP": 14.62,
+      "mR@1": 9.47,
+      "mR@5": 20.17,
+      "mR+@5": 7.43
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 76.01626016260163,
+        "Rej-F1": 69.26,
+        "G-mIoU@1": 0.44630000000000003,
+        "G-mIoU@3": 0.3986
+      },
+      "0.5": {
+        "N-acc": 90.04065040650406,
+        "Rej-F1": 73.04,
+        "G-mIoU@1": 0.5029,
+        "G-mIoU@3": 0.4572
+      },
+      "0.6": {
+        "N-acc": 97.15447154471545,
+        "Rej-F1": 75.28,
+        "G-mIoU@1": 0.5339,
+        "G-mIoU@3": 0.4878
+      }
+    },
+    "source": "results/geq_epoch_study/qd_detr/full_frozen_comparison_frozen_data.json"
+  },
+  {
+    "dataset": "SoccerGMR",
+    "split": "Standard Test",
+    "protocol": "historical_main_e1",
+    "backbone": "qd_detr",
+    "method": "gmr_geq_full",
+    "label": "GMR + GEQ Full",
+    "parent": "gmr",
+    "common": {
+      "AUROC": 75.98,
+      "mAP": 14.83,
+      "mR@1": 10.1,
+      "mR@5": 19.44,
+      "mR+@5": 8.3
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 84.95934959349594,
+        "Rej-F1": 71.76,
+        "G-mIoU@1": 0.4841,
+        "G-mIoU@3": 0.4379
+      },
+      "0.5": {
+        "N-acc": 95.1219512195122,
+        "Rej-F1": 74.34,
+        "G-mIoU@1": 0.5255,
+        "G-mIoU@3": 0.4806
+      },
+      "0.6": {
+        "N-acc": 98.78048780487805,
+        "Rej-F1": 75.06,
+        "G-mIoU@1": 0.5395,
+        "G-mIoU@3": 0.49450000000000005
+      }
+    },
+    "source": "results/geq_epoch_study/qd_detr/full_frozen_comparison_full_data.json"
+  },
+  {
+    "dataset": "SoccerGMR",
+    "split": "Standard Test",
+    "protocol": "historical_main_e1",
+    "backbone": "cg_detr",
+    "method": "gmr",
+    "label": "GMR",
+    "parent": "gmr",
+    "common": {
+      "AUROC": 76.4,
+      "mAP": 18.65,
+      "mR@1": 12.65,
+      "mR@5": 24.9,
+      "mR+@5": 11.98
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 23.170731707317074,
+        "Rej-F1": 35.46,
+        "G-mIoU@1": 0.2284,
+        "G-mIoU@3": 0.1707
+      },
+      "0.5": {
+        "N-acc": 50.40650406504065,
+        "Rej-F1": 57.47,
+        "G-mIoU@1": 0.3435,
+        "G-mIoU@3": 0.2914
+      },
+      "0.6": {
+        "N-acc": 78.45528455284553,
+        "Rej-F1": 71.09,
+        "G-mIoU@1": 0.46659999999999996,
+        "G-mIoU@3": 0.4153
+      }
+    },
+    "source": "results/geq_epoch_study/cg_detr/full_frozen_comparison_baseline_data.json"
+  },
+  {
+    "dataset": "SoccerGMR",
+    "split": "Standard Test",
+    "protocol": "historical_main_e1",
+    "backbone": "cg_detr",
+    "method": "gmr_geq_frozen",
+    "label": "GMR + GEQ Frozen",
+    "parent": "gmr",
+    "common": {
+      "AUROC": 74.78,
+      "mAP": 18.65,
+      "mR@1": 12.65,
+      "mR@5": 24.9,
+      "mR+@5": 11.98
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 77.23577235772358,
+        "Rej-F1": 69.34,
+        "G-mIoU@1": 0.4512,
+        "G-mIoU@3": 0.40159999999999996
+      },
+      "0.5": {
+        "N-acc": 93.69918699186992,
+        "Rej-F1": 74.24,
+        "G-mIoU@1": 0.5205,
+        "G-mIoU@3": 0.47340000000000004
+      },
+      "0.6": {
+        "N-acc": 99.1869918699187,
+        "Rej-F1": 75.43,
+        "G-mIoU@1": 0.5428000000000001,
+        "G-mIoU@3": 0.49579999999999996
+      }
+    },
+    "source": "results/geq_epoch_study/cg_detr/full_frozen_comparison_frozen_data.json"
+  },
+  {
+    "dataset": "SoccerGMR",
+    "split": "Standard Test",
+    "protocol": "historical_main_e1",
+    "backbone": "cg_detr",
+    "method": "gmr_geq_full",
+    "label": "GMR + GEQ Full",
+    "parent": "gmr",
+    "common": {
+      "AUROC": 74.51,
+      "mAP": 18.71,
+      "mR@1": 12.75,
+      "mR@5": 23.98,
+      "mR+@5": 10.41
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 63.82113821138211,
+        "Rej-F1": 64.02,
+        "G-mIoU@1": 0.40009999999999996,
+        "G-mIoU@3": 0.3489
+      },
+      "0.5": {
+        "N-acc": 90.85365853658537,
+        "Rej-F1": 73.52,
+        "G-mIoU@1": 0.511,
+        "G-mIoU@3": 0.4618
+      },
+      "0.6": {
+        "N-acc": 98.98373983739837,
+        "Rej-F1": 75.21,
+        "G-mIoU@1": 0.5444,
+        "G-mIoU@3": 0.49560000000000004
+      }
+    },
+    "source": "results/geq_epoch_study/cg_detr/full_frozen_comparison_full_data.json"
+  },
+  {
+    "dataset": "SoccerGMR",
+    "split": "Standard Test",
+    "protocol": "historical_fixed_four_epochs",
+    "backbone": "moment_detr",
+    "method": "gmr",
+    "label": "GMR",
+    "parent": "gmr",
+    "common": {
+      "AUROC": 68.8,
+      "mAP": 5.91,
+      "mR@1": 3.68,
+      "mR@5": 7.98,
+      "mR+@5": 1.16
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 0.0,
+        "Rej-F1": 0.0,
+        "G-mIoU@1": 0.057699999999999994,
+        "G-mIoU@3": 0.022000000000000002
+      },
+      "0.5": {
+        "N-acc": 100.0,
+        "Rej-F1": 75.0,
+        "G-mIoU@1": 0.5239,
+        "G-mIoU@3": 0.49119999999999997
+      },
+      "0.6": {
+        "N-acc": 100.0,
+        "Rej-F1": 75.0,
+        "G-mIoU@1": 0.5239,
+        "G-mIoU@3": 0.49119999999999997
+      }
+    },
+    "source": "results/geq_finetune/moment_detr/four_way_comparison_data.json#series/baseline"
+  },
+  {
+    "dataset": "SoccerGMR",
+    "split": "Standard Test",
+    "protocol": "historical_fixed_four_epochs",
+    "backbone": "moment_detr",
+    "method": "gmr_geq_frozen",
+    "label": "GMR + GEQ Frozen",
+    "parent": "gmr",
+    "common": {
+      "AUROC": 68.45,
+      "mAP": 5.91,
+      "mR@1": 3.68,
+      "mR@5": 7.98,
+      "mR+@5": 1.16
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 9.75609756097561,
+        "Rej-F1": 16.55,
+        "G-mIoU@1": 0.1018,
+        "G-mIoU@3": 0.0672
+      },
+      "0.5": {
+        "N-acc": 99.79674796747967,
+        "Rej-F1": 74.9,
+        "G-mIoU@1": 0.523,
+        "G-mIoU@3": 0.4903
+      },
+      "0.6": {
+        "N-acc": 100.0,
+        "Rej-F1": 75.0,
+        "G-mIoU@1": 0.5239,
+        "G-mIoU@3": 0.49119999999999997
+      }
+    },
+    "source": "results/geq_finetune/moment_detr/four_way_comparison_data.json#series/baseline_geq"
+  },
+  {
+    "dataset": "SoccerGMR",
+    "split": "Standard Test",
+    "protocol": "historical_fixed_four_epochs",
+    "backbone": "moment_detr",
+    "method": "multi_geq_frozen",
+    "label": "GMR + Multi + GEQ Frozen",
+    "parent": "multi",
+    "common": {
+      "AUROC": 69.12,
+      "mAP": 7.27,
+      "mR@1": 4.71,
+      "mR@5": 10.04,
+      "mR+@5": 0.28
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 37.60162601626016,
+        "Rej-F1": 46.02,
+        "G-mIoU@1": 0.2327,
+        "G-mIoU@3": 0.20120000000000002
+      },
+      "0.5": {
+        "N-acc": 99.39024390243902,
+        "Rej-F1": 74.71,
+        "G-mIoU@1": 0.5159,
+        "G-mIoU@3": 0.4866
+      },
+      "0.6": {
+        "N-acc": 100.0,
+        "Rej-F1": 75.0,
+        "G-mIoU@1": 0.5188,
+        "G-mIoU@3": 0.48950000000000005
+      }
+    },
+    "source": "results/geq_finetune/moment_detr/four_way_comparison_data.json#series/multi_geq"
+  },
+  {
+    "dataset": "SoccerGMR",
+    "split": "Standard Test",
+    "protocol": "historical_fixed_four_epochs",
+    "backbone": "moment_detr",
+    "method": "shared_geq_frozen",
+    "label": "GMR + Shared + GEQ Frozen",
+    "parent": "shared",
+    "common": {
+      "AUROC": 68.3,
+      "mAP": 7.28,
+      "mR@1": 2.95,
+      "mR@5": 12.75,
+      "mR+@5": 1.0
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 20.528455284552845,
+        "Rej-F1": 30.28,
+        "G-mIoU@1": 0.14279999999999998,
+        "G-mIoU@3": 0.1165
+      },
+      "0.5": {
+        "N-acc": 100.0,
+        "Rej-F1": 75.0,
+        "G-mIoU@1": 0.5128,
+        "G-mIoU@3": 0.4875
+      },
+      "0.6": {
+        "N-acc": 100.0,
+        "Rej-F1": 75.0,
+        "G-mIoU@1": 0.5128,
+        "G-mIoU@3": 0.4875
+      }
+    },
+    "source": "results/geq_finetune/moment_detr/four_way_comparison_data.json#series/shared_geq"
+  },
+  {
+    "dataset": "SoccerGMR",
+    "split": "Standard Test",
+    "protocol": "historical_fixed_four_epochs",
+    "backbone": "eatr",
+    "method": "gmr",
+    "label": "GMR",
+    "parent": "gmr",
+    "common": {
+      "AUROC": 76.56,
+      "mAP": 16.2,
+      "mR@1": 10.64,
+      "mR@5": 21.38,
+      "mR+@5": 9.59
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 48.577235772357724,
+        "Rej-F1": 57.10999999999999,
+        "G-mIoU@1": 0.3332,
+        "G-mIoU@3": 0.2834
+      },
+      "0.5": {
+        "N-acc": 66.66666666666666,
+        "Rej-F1": 65.6,
+        "G-mIoU@1": 0.40850000000000003,
+        "G-mIoU@3": 0.36
+      },
+      "0.6": {
+        "N-acc": 87.1951219512195,
+        "Rej-F1": 73.46,
+        "G-mIoU@1": 0.49560000000000004,
+        "G-mIoU@3": 0.4486
+      }
+    },
+    "source": "results/geq_finetune/eatr/four_way_comparison_data.json#series/baseline"
+  },
+  {
+    "dataset": "SoccerGMR",
+    "split": "Standard Test",
+    "protocol": "historical_fixed_four_epochs",
+    "backbone": "eatr",
+    "method": "gmr_geq_frozen",
+    "label": "GMR + GEQ Frozen",
+    "parent": "gmr",
+    "common": {
+      "AUROC": 75.17,
+      "mAP": 16.2,
+      "mR@1": 10.64,
+      "mR@5": 21.38,
+      "mR+@5": 9.59
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 63.82113821138211,
+        "Rej-F1": 64.02,
+        "G-mIoU@1": 0.3911,
+        "G-mIoU@3": 0.3452
+      },
+      "0.5": {
+        "N-acc": 87.60162601626016,
+        "Rej-F1": 72.93,
+        "G-mIoU@1": 0.49329999999999996,
+        "G-mIoU@3": 0.4489
+      },
+      "0.6": {
+        "N-acc": 96.7479674796748,
+        "Rej-F1": 74.9,
+        "G-mIoU@1": 0.5315,
+        "G-mIoU@3": 0.4858
+      }
+    },
+    "source": "results/geq_finetune/eatr/four_way_comparison_data.json#series/baseline_geq"
+  },
+  {
+    "dataset": "SoccerGMR",
+    "split": "Standard Test",
+    "protocol": "historical_fixed_four_epochs",
+    "backbone": "eatr",
+    "method": "multi_geq_frozen",
+    "label": "GMR + Multi + GEQ Frozen",
+    "parent": "multi",
+    "common": {
+      "AUROC": 76.69,
+      "mAP": 17.52,
+      "mR@1": 11.64,
+      "mR@5": 23.7,
+      "mR+@5": 11.77
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 69.51219512195121,
+        "Rej-F1": 68.13,
+        "G-mIoU@1": 0.4277,
+        "G-mIoU@3": 0.3738
+      },
+      "0.5": {
+        "N-acc": 81.5040650406504,
+        "Rej-F1": 71.04,
+        "G-mIoU@1": 0.4738,
+        "G-mIoU@3": 0.4243
+      },
+      "0.6": {
+        "N-acc": 89.63414634146342,
+        "Rej-F1": 73.01,
+        "G-mIoU@1": 0.5058,
+        "G-mIoU@3": 0.4571
+      }
+    },
+    "source": "results/geq_finetune/eatr/four_way_comparison_data.json#series/multi_geq"
+  },
+  {
+    "dataset": "SoccerGMR",
+    "split": "Standard Test",
+    "protocol": "historical_fixed_four_epochs",
+    "backbone": "eatr",
+    "method": "shared_geq_frozen",
+    "label": "GMR + Shared + GEQ Frozen",
+    "parent": "shared",
+    "common": {
+      "AUROC": 76.49,
+      "mAP": 16.65,
+      "mR@1": 11.2,
+      "mR@5": 23.55,
+      "mR+@5": 8.6
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 62.398373983739845,
+        "Rej-F1": 64.5,
+        "G-mIoU@1": 0.3882,
+        "G-mIoU@3": 0.3383
+      },
+      "0.5": {
+        "N-acc": 73.3739837398374,
+        "Rej-F1": 68.63,
+        "G-mIoU@1": 0.4351,
+        "G-mIoU@3": 0.3864
+      },
+      "0.6": {
+        "N-acc": 81.30081300813008,
+        "Rej-F1": 70.55,
+        "G-mIoU@1": 0.4673,
+        "G-mIoU@3": 0.4205
+      }
+    },
+    "source": "results/geq_finetune/eatr/four_way_comparison_data.json#series/shared_geq"
+  },
+  {
+    "dataset": "SoccerGMR",
+    "split": "Standard Test",
+    "protocol": "historical_fixed_four_epochs",
+    "backbone": "qd_detr",
+    "method": "gmr",
+    "label": "GMR",
+    "parent": "gmr",
+    "common": {
+      "AUROC": 77.66,
+      "mAP": 15.08,
+      "mR@1": 10.04,
+      "mR@5": 20.11,
+      "mR+@5": 9.62
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 53.45528455284553,
+        "Rej-F1": 59.84,
+        "G-mIoU@1": 0.3533,
+        "G-mIoU@3": 0.3035
+      },
+      "0.5": {
+        "N-acc": 90.04065040650406,
+        "Rej-F1": 73.77,
+        "G-mIoU@1": 0.5058,
+        "G-mIoU@3": 0.4611
+      },
+      "0.6": {
+        "N-acc": 97.5609756097561,
+        "Rej-F1": 75.29,
+        "G-mIoU@1": 0.5355,
+        "G-mIoU@3": 0.4901
+      }
+    },
+    "source": "results/geq_finetune/qd_detr/four_way_comparison_data.json#series/baseline"
+  },
+  {
+    "dataset": "SoccerGMR",
+    "split": "Standard Test",
+    "protocol": "historical_fixed_four_epochs",
+    "backbone": "qd_detr",
+    "method": "gmr_geq_frozen",
+    "label": "GMR + GEQ Frozen",
+    "parent": "gmr",
+    "common": {
+      "AUROC": 77.42,
+      "mAP": 15.08,
+      "mR@1": 10.04,
+      "mR@5": 20.11,
+      "mR+@5": 9.62
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 77.23577235772358,
+        "Rej-F1": 70.11,
+        "G-mIoU@1": 0.4559,
+        "G-mIoU@3": 0.40700000000000003
+      },
+      "0.5": {
+        "N-acc": 92.47967479674797,
+        "Rej-F1": 74.47,
+        "G-mIoU@1": 0.5161,
+        "G-mIoU@3": 0.4711
+      },
+      "0.6": {
+        "N-acc": 96.95121951219512,
+        "Rej-F1": 74.88,
+        "G-mIoU@1": 0.5322,
+        "G-mIoU@3": 0.4868
+      }
+    },
+    "source": "results/geq_finetune/qd_detr/four_way_comparison_data.json#series/baseline_geq"
+  },
+  {
+    "dataset": "SoccerGMR",
+    "split": "Standard Test",
+    "protocol": "historical_fixed_four_epochs",
+    "backbone": "qd_detr",
+    "method": "multi_geq_frozen",
+    "label": "GMR + Multi + GEQ Frozen",
+    "parent": "multi",
+    "common": {
+      "AUROC": 74.92,
+      "mAP": 14.67,
+      "mR@1": 9.95,
+      "mR@5": 19.5,
+      "mR+@5": 5.6
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 74.59349593495935,
+        "Rej-F1": 68.41,
+        "G-mIoU@1": 0.43799999999999994,
+        "G-mIoU@3": 0.3917
+      },
+      "0.5": {
+        "N-acc": 94.51219512195121,
+        "Rej-F1": 74.82,
+        "G-mIoU@1": 0.5224,
+        "G-mIoU@3": 0.4772
+      },
+      "0.6": {
+        "N-acc": 97.96747967479675,
+        "Rej-F1": 74.67,
+        "G-mIoU@1": 0.532,
+        "G-mIoU@3": 0.4886
+      }
+    },
+    "source": "results/geq_finetune/qd_detr/four_way_comparison_data.json#series/multi_geq"
+  },
+  {
+    "dataset": "SoccerGMR",
+    "split": "Standard Test",
+    "protocol": "historical_fixed_four_epochs",
+    "backbone": "qd_detr",
+    "method": "shared_geq_frozen",
+    "label": "GMR + Shared + GEQ Frozen",
+    "parent": "shared",
+    "common": {
+      "AUROC": 76.29,
+      "mAP": 15.24,
+      "mR@1": 10.64,
+      "mR@5": 20.0,
+      "mR+@5": 9.78
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 65.65040650406505,
+        "Rej-F1": 65.06,
+        "G-mIoU@1": 0.4056,
+        "G-mIoU@3": 0.3557
+      },
+      "0.5": {
+        "N-acc": 73.78048780487805,
+        "Rej-F1": 68.23,
+        "G-mIoU@1": 0.4379,
+        "G-mIoU@3": 0.3896
+      },
+      "0.6": {
+        "N-acc": 83.94308943089432,
+        "Rej-F1": 72.08,
+        "G-mIoU@1": 0.4817,
+        "G-mIoU@3": 0.43420000000000003
+      }
+    },
+    "source": "results/geq_finetune/qd_detr/four_way_comparison_data.json#series/shared_geq"
+  },
+  {
+    "dataset": "SoccerGMR",
+    "split": "Standard Test",
+    "protocol": "historical_fixed_four_epochs",
+    "backbone": "cg_detr",
+    "method": "gmr",
+    "label": "GMR",
+    "parent": "gmr",
+    "common": {
+      "AUROC": 75.97,
+      "mAP": 16.09,
+      "mR@1": 10.76,
+      "mR@5": 22.12,
+      "mR+@5": 9.48
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 96.7479674796748,
+        "Rej-F1": 75.68,
+        "G-mIoU@1": 0.5382,
+        "G-mIoU@3": 0.489
+      },
+      "0.5": {
+        "N-acc": 99.1869918699187,
+        "Rej-F1": 75.84,
+        "G-mIoU@1": 0.5465,
+        "G-mIoU@3": 0.4975
+      },
+      "0.6": {
+        "N-acc": 99.59349593495935,
+        "Rej-F1": 75.91,
+        "G-mIoU@1": 0.5484,
+        "G-mIoU@3": 0.49939999999999996
+      }
+    },
+    "source": "results/geq_finetune/cg_detr/four_way_comparison_data.json#series/baseline"
+  },
+  {
+    "dataset": "SoccerGMR",
+    "split": "Standard Test",
+    "protocol": "historical_fixed_four_epochs",
+    "backbone": "cg_detr",
+    "method": "gmr_geq_frozen",
+    "label": "GMR + GEQ Frozen",
+    "parent": "gmr",
+    "common": {
+      "AUROC": 76.39,
+      "mAP": 16.09,
+      "mR@1": 10.76,
+      "mR@5": 22.12,
+      "mR+@5": 9.48
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 75.0,
+        "Rej-F1": 69.04,
+        "G-mIoU@1": 0.4457,
+        "G-mIoU@3": 0.3969
+      },
+      "0.5": {
+        "N-acc": 92.47967479674797,
+        "Rej-F1": 74.23,
+        "G-mIoU@1": 0.5189,
+        "G-mIoU@3": 0.4698
+      },
+      "0.6": {
+        "N-acc": 99.1869918699187,
+        "Rej-F1": 75.95,
+        "G-mIoU@1": 0.5463,
+        "G-mIoU@3": 0.4976
+      }
+    },
+    "source": "results/geq_finetune/cg_detr/four_way_comparison_data.json#series/baseline_geq"
+  },
+  {
+    "dataset": "SoccerGMR",
+    "split": "Standard Test",
+    "protocol": "historical_fixed_four_epochs",
+    "backbone": "cg_detr",
+    "method": "multi_geq_frozen",
+    "label": "GMR + Multi + GEQ Frozen",
+    "parent": "multi",
+    "common": {
+      "AUROC": 77.32,
+      "mAP": 16.59,
+      "mR@1": 11.21,
+      "mR@5": 21.77,
+      "mR+@5": 8.14
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 61.382113821138205,
+        "Rej-F1": 63.97999999999999,
+        "G-mIoU@1": 0.3971,
+        "G-mIoU@3": 0.34009999999999996
+      },
+      "0.5": {
+        "N-acc": 79.0650406504065,
+        "Rej-F1": 71.18,
+        "G-mIoU@1": 0.4705,
+        "G-mIoU@3": 0.41729999999999995
+      },
+      "0.6": {
+        "N-acc": 89.43089430894308,
+        "Rej-F1": 73.58,
+        "G-mIoU@1": 0.5109,
+        "G-mIoU@3": 0.4592
+      }
+    },
+    "source": "results/geq_finetune/cg_detr/four_way_comparison_data.json#series/multi_geq"
+  },
+  {
+    "dataset": "SoccerGMR",
+    "split": "Standard Test",
+    "protocol": "historical_fixed_four_epochs",
+    "backbone": "cg_detr",
+    "method": "shared_geq_frozen",
+    "label": "GMR + Shared + GEQ Frozen",
+    "parent": "shared",
+    "common": {
+      "AUROC": 77.32,
+      "mAP": 15.09,
+      "mR@1": 9.92,
+      "mR@5": 20.57,
+      "mR+@5": 9.66
+    },
+    "thresholds": {
+      "0.4": {
+        "N-acc": 70.1219512195122,
+        "Rej-F1": 67.32,
+        "G-mIoU@1": 0.41840000000000005,
+        "G-mIoU@3": 0.3722
+      },
+      "0.5": {
+        "N-acc": 85.36585365853658,
+        "Rej-F1": 72.41,
+        "G-mIoU@1": 0.48340000000000005,
+        "G-mIoU@3": 0.4382
+      },
+      "0.6": {
+        "N-acc": 93.4959349593496,
+        "Rej-F1": 74.19,
+        "G-mIoU@1": 0.5151,
+        "G-mIoU@3": 0.4708
+      }
+    },
+    "source": "results/geq_finetune/cg_detr/four_way_comparison_data.json#series/shared_geq"
+  }
+]

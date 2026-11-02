@@ -1,0 +1,63 @@
+{
+  "signature": {
+    "prediction_sha256": "802d72229a8397c6afdd376ac6059596072f5ec9205e7d49d43b223be0941f16",
+    "metrics_sha256": "5b4d851e95e2e869d7ab1fa208761a4e35a50a21672dfe1e654bef81574099b0",
+    "ground_truth_sha256": "d8c47dee986b3ea87ba3e008ac2f5f34b0ab000337631e324a6ecffd1dea910c",
+    "evaluator_sha256": "7f49929789725baca0bfeaaa73517a6baedf608c3b2ff341881a7dee3aefa656"
+  },
+  "metrics": {
+    "AUROC": 77.02,
+    "Rej-F1@0.4": 61.39,
+    "Acc@0.4": 66.12,
+    "Rej-F1@0.5": 67.25,
+    "Acc@0.5": 67.76,
+    "Rej-F1@0.6": 72.36,
+    "Acc@0.6": 69.69,
+    "G-mIoU@1": 37.5,
+    "G-mIoU@3": 31.83,
+    "G-mIoU@5": 29.96,
+    "mAP": 17.48,
+    "mR@1": 11.52,
+    "mR@3": 19.57,
+    "mR@5": 23.82,
+    "mR+@1": 0.0,
+    "mR+@3": 6.16,
+    "mR+@5": 11.14,
+    "mIoU@1": 30.42,
+    "mIoU@3": 27.0,
+    "mIoU@5": 26.92,
+    "mIoU+@1": 0.0,
+    "mIoU+@3": 10.14,
+    "mIoU+@5": 10.25
+  },
+  "grid": [
+    {
+      "threshold": 0.4,
+      "gmiou_1": 0.375,
+      "gmiou_3": 0.31829999999999997,
+      "negative_accuracy": 0.5670731707317073,
+      "rejection_f1": 0.6139
+    },
+    {
+      "threshold": 0.5,
+      "gmiou_1": 0.42719999999999997,
+      "gmiou_3": 0.3741,
+      "negative_accuracy": 0.6971544715447154,
+      "rejection_f1": 0.6725
+    },
+    {
+      "threshold": 0.6,
+      "gmiou_1": 0.483,
+      "gmiou_3": 0.4339,
+      "negative_accuracy": 0.8353658536585366,
+      "rejection_f1": 0.7236
+    }
+  ],
+  "source_predictions": "/home/guoxiangyu/Improving-Target-Presence-for-Generalized-Moment-Retrieval/backbonefolder/multiroute_gmr/runs/eatr/instruction/test_predictions.jsonl",
+  "source_metrics": "/home/guoxiangyu/Improving-Target-Presence-for-Generalized-Moment-Retrieval/backbonefolder/multiroute_gmr/runs/eatr/instruction/test_metrics.json",
+  "selection": {},
+  "protocol": "Existing formal Test predictions; official threshold completion only; no new model inference",
+  "queries": 1036,
+  "positive": 544,
+  "negative": 492
+}

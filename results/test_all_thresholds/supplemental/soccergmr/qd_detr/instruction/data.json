@@ -1,0 +1,63 @@
+{
+  "signature": {
+    "prediction_sha256": "1ee01d9d9265518c4341a71e0a37e0c8e2a7a3ab0fd27358eebf3c17238cd09d",
+    "metrics_sha256": "a04ac34b86b97b01da223f3ea72127d7a0cbaf5fb35bb9019da9a1db220d08b4",
+    "ground_truth_sha256": "d8c47dee986b3ea87ba3e008ac2f5f34b0ab000337631e324a6ecffd1dea910c",
+    "evaluator_sha256": "7f49929789725baca0bfeaaa73517a6baedf608c3b2ff341881a7dee3aefa656"
+  },
+  "metrics": {
+    "AUROC": 76.25,
+    "Rej-F1@0.4": 60.18,
+    "Acc@0.4": 66.02,
+    "Rej-F1@0.5": 70.52,
+    "Acc@0.5": 68.53,
+    "Rej-F1@0.6": 74.0,
+    "Acc@0.6": 69.88,
+    "G-mIoU@1": 35.15,
+    "G-mIoU@3": 30.35,
+    "G-mIoU@5": 28.57,
+    "mAP": 14.46,
+    "mR@1": 9.99,
+    "mR@3": 15.82,
+    "mR@5": 19.26,
+    "mR+@1": 0.0,
+    "mR+@3": 4.0,
+    "mR+@5": 6.84,
+    "mIoU@1": 26.57,
+    "mIoU@3": 25.7,
+    "mIoU@5": 25.5,
+    "mIoU+@1": 0.0,
+    "mIoU+@3": 10.15,
+    "mIoU+@5": 9.56
+  },
+  "grid": [
+    {
+      "threshold": 0.4,
+      "gmiou_1": 0.3515,
+      "gmiou_3": 0.3035,
+      "negative_accuracy": 0.540650406504065,
+      "rejection_f1": 0.6018
+    },
+    {
+      "threshold": 0.5,
+      "gmiou_1": 0.46009999999999995,
+      "gmiou_3": 0.4138,
+      "negative_accuracy": 0.7926829268292683,
+      "rejection_f1": 0.7051999999999999
+    },
+    {
+      "threshold": 0.6,
+      "gmiou_1": 0.5064,
+      "gmiou_3": 0.46009999999999995,
+      "negative_accuracy": 0.9024390243902439,
+      "rejection_f1": 0.74
+    }
+  ],
+  "source_predictions": "/home/guoxiangyu/Improving-Target-Presence-for-Generalized-Moment-Retrieval/backbonefolder/multiroute_gmr/runs/qd_detr/instruction/test_predictions.jsonl",
+  "source_metrics": "/home/guoxiangyu/Improving-Target-Presence-for-Generalized-Moment-Retrieval/backbonefolder/multiroute_gmr/runs/qd_detr/instruction/test_metrics.json",
+  "selection": {},
+  "protocol": "Existing formal Test predictions; official threshold completion only; no new model inference",
+  "queries": 1036,
+  "positive": 544,
+  "negative": 492
+}

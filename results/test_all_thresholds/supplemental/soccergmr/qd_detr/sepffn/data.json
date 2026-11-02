@@ -1,0 +1,63 @@
+{
+  "signature": {
+    "prediction_sha256": "1fd57398237fb113766a5f9238f725039600b2f9bb616bdf02e506c9de4370a3",
+    "metrics_sha256": "bd960af576d36cebcf3ee0c752b391ab64be0b8a6ea4044d07889353ea18ce46",
+    "ground_truth_sha256": "d8c47dee986b3ea87ba3e008ac2f5f34b0ab000337631e324a6ecffd1dea910c",
+    "evaluator_sha256": "7f49929789725baca0bfeaaa73517a6baedf608c3b2ff341881a7dee3aefa656"
+  },
+  "metrics": {
+    "AUROC": 75.57,
+    "Rej-F1@0.4": 68.25,
+    "Acc@0.4": 67.76,
+    "Rej-F1@0.5": 71.78,
+    "Acc@0.5": 68.73,
+    "Rej-F1@0.6": 74.11,
+    "Acc@0.6": 69.11,
+    "G-mIoU@1": 41.85,
+    "G-mIoU@3": 37.83,
+    "G-mIoU@5": 36.61,
+    "mAP": 11.03,
+    "mR@1": 7.34,
+    "mR@3": 11.83,
+    "mR@5": 15.36,
+    "mR+@1": 0.0,
+    "mR+@3": 1.97,
+    "mR+@5": 4.16,
+    "mIoU@1": 22.03,
+    "mIoU@3": 19.7,
+    "mIoU@5": 19.6,
+    "mIoU+@1": 0.0,
+    "mIoU+@3": 5.22,
+    "mIoU+@5": 5.08
+  },
+  "grid": [
+    {
+      "threshold": 0.4,
+      "gmiou_1": 0.41850000000000004,
+      "gmiou_3": 0.37829999999999997,
+      "negative_accuracy": 0.7296747967479674,
+      "rejection_f1": 0.6825
+    },
+    {
+      "threshold": 0.5,
+      "gmiou_1": 0.4642,
+      "gmiou_3": 0.42560000000000003,
+      "negative_accuracy": 0.8373983739837398,
+      "rejection_f1": 0.7178
+    },
+    {
+      "threshold": 0.6,
+      "gmiou_1": 0.5025999999999999,
+      "gmiou_3": 0.4653,
+      "negative_accuracy": 0.9308943089430894,
+      "rejection_f1": 0.7411
+    }
+  ],
+  "source_predictions": "/home/guoxiangyu/Improving-Target-Presence-for-Generalized-Moment-Retrieval/backbonefolder/multiroute_gmr/runs/qd_detr/sepffn/test_predictions.jsonl",
+  "source_metrics": "/home/guoxiangyu/Improving-Target-Presence-for-Generalized-Moment-Retrieval/backbonefolder/multiroute_gmr/runs/qd_detr/sepffn/test_metrics.json",
+  "selection": {},
+  "protocol": "Existing formal Test predictions; official threshold completion only; no new model inference",
+  "queries": 1036,
+  "positive": 544,
+  "negative": 492
+}

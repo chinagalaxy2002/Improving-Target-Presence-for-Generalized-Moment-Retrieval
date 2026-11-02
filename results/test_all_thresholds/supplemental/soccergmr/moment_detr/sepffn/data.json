@@ -1,0 +1,63 @@
+{
+  "signature": {
+    "prediction_sha256": "21f4ae380fa5133f2f7bf1dd05410ddbb2ed4a9d9e2ab8283709ab503ca47ca2",
+    "metrics_sha256": "5e7f21875cc41674bbdd2dcd65da8ea471755602b83bc1782e2ba416d464f315",
+    "ground_truth_sha256": "d8c47dee986b3ea87ba3e008ac2f5f34b0ab000337631e324a6ecffd1dea910c",
+    "evaluator_sha256": "7f49929789725baca0bfeaaa73517a6baedf608c3b2ff341881a7dee3aefa656"
+  },
+  "metrics": {
+    "AUROC": 69.92,
+    "Rej-F1@0.4": 75.0,
+    "Acc@0.4": 68.34,
+    "Rej-F1@0.5": 75.0,
+    "Acc@0.5": 68.34,
+    "Rej-F1@0.6": 75.0,
+    "Acc@0.6": 68.34,
+    "G-mIoU@1": 52.17,
+    "G-mIoU@3": 49.05,
+    "G-mIoU@5": 48.43,
+    "mAP": 7.51,
+    "mR@1": 4.76,
+    "mR@3": 8.29,
+    "mR@5": 10.2,
+    "mR+@1": 0.0,
+    "mR+@3": 0.86,
+    "mR+@5": 1.05,
+    "mIoU@1": 13.0,
+    "mIoU@3": 12.78,
+    "mIoU@5": 12.71,
+    "mIoU+@1": 0.0,
+    "mIoU+@3": 1.51,
+    "mIoU+@5": 1.4
+  },
+  "grid": [
+    {
+      "threshold": 0.4,
+      "gmiou_1": 0.5217,
+      "gmiou_3": 0.4905,
+      "negative_accuracy": 1.0,
+      "rejection_f1": 0.75
+    },
+    {
+      "threshold": 0.5,
+      "gmiou_1": 0.5217,
+      "gmiou_3": 0.4905,
+      "negative_accuracy": 1.0,
+      "rejection_f1": 0.75
+    },
+    {
+      "threshold": 0.6,
+      "gmiou_1": 0.5217,
+      "gmiou_3": 0.4905,
+      "negative_accuracy": 1.0,
+      "rejection_f1": 0.75
+    }
+  ],
+  "source_predictions": "/home/guoxiangyu/ImprovingGeneralizedMomentRetrieval/mr_experiments/sepffn/test/submission.jsonl",
+  "source_metrics": "/home/guoxiangyu/ImprovingGeneralizedMomentRetrieval/mr_experiments/sepffn/test/metrics_gmiou_0.4.json",
+  "selection": {},
+  "protocol": "Existing formal Test predictions; official threshold completion only; no new model inference",
+  "queries": 1036,
+  "positive": 544,
+  "negative": 492
+}
