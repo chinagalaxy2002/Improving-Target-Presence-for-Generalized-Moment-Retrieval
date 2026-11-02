@@ -129,3 +129,5 @@ PYTHONPATH=src python scripts/verify_real_data.py --config configs/experiments/m
 真实数据验收只抽取明示的小样本，执行中断恢复、连续训练对照、GEQ 联合更新和两套 Test。它验证流程可运行，不验证收敛性能。
 
 新增骨干从[扩展契约](docs/EXTENDING.md)开始。主入口在 [`src/soccergmr`](src/soccergmr/)，架构配置在 [`configs/backbones`](configs/backbones/)，实验配置在 [`configs/experiments`](configs/experiments/)；原生代码快照有[来源与哈希清单](src/soccergmr/backbones/SOURCE_MANIFEST.json)。
+
+新增骨干的[调研文档与新会话入口](docs/backbone_expansion/START_HERE.md)已准备，首批建议 BM-DETR、BAM-DETR、UVCOM。本次仅完成调研和交接文档，尚未适配或启动这些新骨干的训练。

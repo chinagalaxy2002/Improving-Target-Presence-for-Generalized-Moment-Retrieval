@@ -18,3 +18,8 @@ Future formal experiments must use explicit immutable labels/features and fresh 
 ## Paired historical Test figures added
 
 `results/test_thresholds` now contains five-backbone Standard and Full Test figures comparing GMR with GEQ Full. Twenty complete Test runs use identical checkpoint hashes across the two splits; all ten Standard runs reproduce the historical metrics exactly, and the matching Full runs are newly evaluated. The old example Full figure used different initializations and must not supply values for this paired comparison. These remain historical six-patience checkpoints with legacy 75-token inputs. Full-Decodable coverage is 2970/2986. No training or Test selection occurred. Source scripts, predictions, official metrics, 101-point CSV and oracle diagnostics accompany the figures. The current ten-patience training protocol still has no new converged benchmark results.
+
+
+## Next-session backbone expansion documents
+
+The user requested research and a reusable prompt, and will clear context before implementation. **This documentation turn did not start new-backbone training or alter model code.** Read `docs/backbone_expansion/START_HERE.md`, `REPORT.md`, `SOURCES.json` and `NEXT_SESSION_PROMPT.md`. The first proposed batch is BM-DETR, BAM-DETR and UVCOM. Other surveyed models remain reserves. The full prompt contains the future execution instructions; execute it when the user asks in the new session. The research provides source availability and static interface analysis, not a claim that these models have already been ported or trained. The canonical independent checkout is `/home/guoxiangyu/SoccerGMR-GEQ`.
