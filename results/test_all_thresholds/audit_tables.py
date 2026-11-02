@@ -79,9 +79,37 @@ def main():
         assert new['common']['mAP'] == float(old['mAP'])
         assert new['common']['AUROC'] == float(old['AUROC'])
     checks['historical_fixed_four_epoch_rows_matched'] = 16
-    frozen = [r for r in csv_rows(HERE / 'MAP_DELTAS.csv') if 'Frozen' in r['method']]
-    assert all(float(r['delta_vs_parent_pp']) == 0 for r in frozen)
-    checks['frozen_mAP_unchanged_rows'] = len(frozen)
+    map_deltas = csv_rows(HERE / 'MAP_DELTAS.csv')
+    assert len(map_deltas) == 126
+    assert not any('parent' in col.lower() for col in map_deltas[0])
+    for row, change in zip(data, map_deltas):
+        baseline = index[(row['dataset'], row['split'], row['protocol'], row['backbone'], 'gmr')]
+        assert float(change['GMR_mAP_percent']) == baseline['common']['mAP']
+        assert math.isclose(float(change['delta_vs_GMR_pp']), row['common']['mAP']-baseline['common']['mAP'], abs_tol=1e-12)
+    checks['all_126_mAP_deltas_use_GMR_baseline'] = True
+    metric_deltas = csv_rows(HERE / 'TEST_DELTAS_VS_GMR.csv')
+    assert len(metric_deltas) == 126*17
+    for d in metric_deltas:
+        row = index[(d['dataset'], d['split'], d['protocol'], d['backbone'], d['method'])]
+        baseline = index[(d['dataset'], d['split'], d['protocol'], d['backbone'], 'gmr')]
+        metric, tau = d['metric'], d['threshold']
+        value = row['thresholds'][tau][metric] if tau else row['common'][metric]
+        reference = baseline['thresholds'][tau][metric] if tau else baseline['common'][metric]
+        assert d['baseline_source'] == baseline['source']
+        if value is None:
+            assert d['delta_vs_GMR'] == d['display_delta'] == ''
+            continue
+        expected = value-reference
+        assert float(d['GMR_baseline']) == reference
+        assert math.isclose(float(d['delta_vs_GMR']), expected, abs_tol=1e-12)
+        assert float(d['display_delta']) == round(expected, 4 if metric.startswith('G-mIoU') else 2)
+    # These two cases distinguish a GMR reference from a Multi parent reference.
+    for dataset, split, expected in [('SoccerGMR','Standard Test',3.68),('Charades','test_id',-3.34)]:
+        d = next(r for r in metric_deltas if r['dataset']==dataset and r['split']==split and
+                 r['protocol']=='current_val_selection' and r['backbone']=='eatr' and
+                 r['method']=='multi_geq_full' and r['metric']=='mAP')
+        assert float(d['display_delta']) == expected
+    checks['all_2142_metric_comparisons_use_matching_GMR'] = True
     for r in data:
         for tau in ('0.4','0.5','0.6'):
             p = r['thresholds'][tau]
@@ -146,8 +174,21 @@ def main():
         for line in p.read_text().splitlines():
             if line.endswith(r' \\') and not line.startswith(r'\multicolumn'):
                 assert line.count('&') == 18, (p.name, line)
+        assert r'\usepackage{booktabs,graphicx,xcolor}' in p.read_text()
+        assert 'GMR (baseline)' in p.read_text()
+        colored = re.findall(r'\\textcolor\{(GMRGain|GMRLoss|GMRZero)\}\{\(([+-]?[0-9.]+)\)\}', p.read_text())
+        assert colored, p.name
+        for color, value in colored:
+            number = float(value)
+            assert (color=='GMRGain' and number>0) or (color=='GMRLoss' and number<0) or (color=='GMRZero' and number==0)
         artifacts[p.name] = sha(p)
     checks['six_tables_pdf_png_tex_verified'] = True
+    checks['positive_delta_green_negative_red_zero_gray'] = True
+    review = load(HERE / 'VISUAL_REVIEW.json')
+    assert review['approved']
+    assert len(review['reviewed_pngs']) == 6
+    assert all(sha(HERE / name) == expected for name, expected in review['reviewed_pngs'].items())
+    checks['visual_review_matches_current_six_tables'] = True
     # Check local links in both entry points. HTTP links are validated by Git
     # publication separately; directory links are allowed.
     for p in (HERE / 'README.md', REPO / 'README.md'):

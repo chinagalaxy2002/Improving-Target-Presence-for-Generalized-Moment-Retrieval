@@ -4,6 +4,20 @@
 [**完整结果与 mAP 增减对比**](results/test_all_thresholds/README.md) · [**六页表格 PDF**](results/test_all_thresholds/TEST_ALL_THRESHOLDS.pdf) · [**LaTeX**](results/test_all_thresholds/TEST_ALL_THRESHOLDS.tex) · [**CSV**](results/test_all_thresholds/TEST_ALL_THRESHOLDS.csv)
 
 SoccerGMR Standard Test 48 条、Charades Test-ID/OOD 各 25 条，另附历史协议。公共指标只列一次，存在性阈值 0.4/0.5/0.6 的 N-acc、Rej-F1、G-mIoU 单列；全部为正式 Test。已补齐 EaTR Adaptive 的已完成 Test 同步、Charades EaTR positive-only 的两组正式 Test，以及旧路线的阈值指标。G-mIoU 使用 0–1，其他指标使用百分数。
+
+**以下主表统一报告相对 GMR baseline 的增减：每格上方为 Test 原值，下方括号为“方法 − 同数据集、同划分、同协议、同骨干 GMR”。正增益绿色，下降红色，持平灰色；浅蓝加粗行是 GMR baseline。**
+
+### SoccerGMR Standard Test：相对 GMR
+
+![SoccerGMR Test values and deltas versus GMR](results/test_all_thresholds/SOCCERGMR_TEST.png)
+
+### Charades Test-ID：相对 GMR
+
+![Charades Test-ID values and deltas versus GMR](results/test_all_thresholds/CHARADES_TEST_ID.png)
+
+### Charades Test-OOD：相对 GMR
+
+![Charades Test-OOD values and deltas versus GMR](results/test_all_thresholds/CHARADES_TEST_OOD.png)
 <!-- TEST_ALL_THRESHOLDS_END -->
 
 <!-- CHARADES_MULTI_GEQ_BEGIN -->
