@@ -1,0 +1,26 @@
+{
+  "core_method_equivalent": true,
+  "shared_head_strict_state_load": true,
+  "shared_head_synthetic_forward_bitwise_equal": true,
+  "E1_EvidenceRead_forward_AST_equal": true,
+  "objective": "full: original native GMR loss + GEQ BCE; frozen: GEQ BCE only",
+  "lr_native": 1e-05,
+  "lr_geq": 3e-05,
+  "weight_decay": 0.0001,
+  "gradient_clip": 0.1,
+  "validation_selection": "Standard Val G-mIoU@1 mean at 0.4 / 0.5 / 0.6",
+  "source_kind": "Sim-DETR native GMR initialization; not one of the four historical main E1 checkpoints",
+  "adaptation": "Shared GEQ depth 2; first encoder pass before repeated HD2MR encoder call",
+  "differences": {
+    "native_backbone": "Sim-DETR",
+    "native_batch": 8,
+    "native_checkpoint_epoch_raw": 136,
+    "inference": "Preserved Sim native foreground * IoU-quality scoring; canonical frozen candidate reuse"
+  },
+  "files_sha256": {
+    "/home/guoxiangyu/simdetr_gmr_multiroute_geq/geq_simdetr.py": "479111463aaf1c723dc1bf00ea3f3d5ff487987d912eec400719cab72aff8f1d",
+    "/home/guoxiangyu/simdetr_gmr_multiroute_geq/run_pipeline.py": "22ce574e2842ab9971340458557cb5e332507531f2e4a34e8a5912048d644424",
+    "/home/guoxiangyu/charades-multi-geq-worktree/shared/geq_protocol/geq_model.py": "6f9b37f6c89b4dee672541cbc254b90f8bd84898ba6e7ca0843e46a70bb55b7e",
+    "/home/guoxiangyu/Improving-Target-Presence-for-Generalized-Moment-Retrieval/ablations/global_hard_roi_20261023/code/model.py": "6ee6afd522c8d769824b55421a0963554d8b7ee866981e1033fa685d7ac7bdc8"
+  }
+}

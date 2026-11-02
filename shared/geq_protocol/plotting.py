@@ -12,7 +12,7 @@ from matplotlib.lines import Line2D
 from matplotlib.ticker import MaxNLocator, MultipleLocator
 import numpy as np
 
-NAMES = {"moment_detr": "Moment-DETR", "eatr": "EaTR", "qd_detr": "QD-DETR", "cg_detr": "CG-DETR"}
+NAMES = {"moment_detr": "Moment-DETR", "eatr": "EaTR", "qd_detr": "QD-DETR", "cg_detr": "CG-DETR", "sim_detr": "Sim-DETR"}
 METHODS = ()
 LABELS = {}
 STYLES = {}
@@ -40,7 +40,8 @@ def save(figure, destination):
     for suffix in ("png", "pdf", "svg"):
         path = destination.with_suffix("." + suffix)
         temporary = path.with_name(path.stem + ".tmp" + path.suffix)
-        figure.savefig(temporary, dpi=220, bbox_inches="tight", pad_inches=0.12)
+        metadata = {"CreationDate": None, "ModDate": None} if suffix == "pdf" else {"Date": None} if suffix == "svg" else None
+        figure.savefig(temporary, dpi=220, bbox_inches="tight", pad_inches=0.12, metadata=metadata)
         if suffix == "svg":
             temporary.write_text("\n".join(line.rstrip() for line in temporary.read_text().splitlines()) + "\n")
         temporary.replace(path)
@@ -130,6 +131,6 @@ def render(backbone, data, output):
         ax.axvline(0.4, color="#94A3B8", linestyle=":", linewidth=0.7)
     figure.suptitle(NAMES[backbone] + " | " + data["subtitle"], fontsize=12, y=0.995)
     figure.legend(handles=handles, loc="upper center", bbox_to_anchor=(0.5, 0.935), ncol=2, fontsize=9, frameon=False)
-    figure.text(0.5, 0.005, "Val-selected Standard Test | 101 thresholds | all G-mIoU axes span 0–1", ha="center", fontsize=9)
+    figure.text(0.5, 0.005, "SoccerGMR Standard Test | Val selected | 101 thresholds | G-mIoU: 0–1", ha="center", fontsize=9)
     save(figure, output / backbone / (data["figure_name"] + "_gmiou_1_3"))
 

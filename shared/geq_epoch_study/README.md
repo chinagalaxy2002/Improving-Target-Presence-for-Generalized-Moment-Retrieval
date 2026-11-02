@@ -27,3 +27,14 @@ python shared/geq_protocol/plot_snapshot.py \
 
 旧队列名保留在启动脚本的兼容迁移记录中；当前调度是full/frozen共同排队，
 不是全量阶段全部完成后才运行冻结。当前八组已完成，重复运行不会重新训练。
+
+## Sim-DETR 的 SoccerGMR Standard 扩展
+
+新增[`sim_detr_extension.py`](sim_detr_extension.py)与[`sim_detr_report.py`](sim_detr_report.py)，
+通过[`backbones/sim_detr/adapter.py`](../../backbones/sim_detr/adapter.py)复用公共GEQ头，
+并复用`geq_protocol/report.py`的官方指标校验及`plotting.py`的现有六面板图。
+原四骨干八组的初始化和计数不变。Sim-DETR使用自身GMR best，仅在SoccerGMR
+Standard验证GMR/GEQ Full/Frozen三种方法，没有运行Charades。
+
+[结果与复现命令](../../results/geq_epoch_study/sim_detr/README.md) ·
+[数据和骨干适配范围](../../backbones/sim_detr/README.md)

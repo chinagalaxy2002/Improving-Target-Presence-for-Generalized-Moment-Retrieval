@@ -123,6 +123,20 @@ full保留原路线GMR/O2M损失并加GEQ BCE；frozen冻结原模型，仅训�
 
 ![cg_detr full/frozen GEQ](results/geq_epoch_study/cg_detr/full_frozen_comparison.png)
 
+<!-- SIMDETR_SOCCERGMR_GEQ_BEGIN -->
+## Sim-DETR：SoccerGMR Standard 的 GEQ 方法扩展
+
+**本节是 SoccerGMR Standard Test（1036条），不是 Charades。** GEQ核心实现与上面的main E1对照一致，已复用共享GEQ头及六面板绘图器；Sim使用自身原生GMR初始化，作为骨干扩展单列，不改变原四骨干八组计数。本次只评测已有GMR/GEQ Full/Frozen三种模型。
+
+| Backbone | GMR mAP (%) | GEQ Full mAP (%) | ΔFull vs GMR (pp) | GEQ Frozen mAP (%) | GMR G1均值 | Full G1均值 | Frozen G1均值 |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| Sim-DETR | 20.73 | 22.26 | **+1.53** | 20.73 | 0.4735 | 0.5433 | 0.5212 |
+
+![Sim-DETR SoccerGMR Standard GEQ comparison](results/geq_epoch_study/sim_detr/full_frozen_comparison.png)
+
+[完整Standard指标与来源审计](results/geq_epoch_study/sim_detr/README.md) · [PDF](results/geq_epoch_study/sim_detr/full_frozen_comparison.pdf) · [SVG](results/geq_epoch_study/sim_detr/full_frozen_comparison.svg) · [101点及相对GMR CSV](results/geq_epoch_study/sim_detr/full_frozen_comparison_sweep.csv) · [已接入代码](backbones/sim_detr/README.md)
+<!-- SIMDETR_SOCCERGMR_GEQ_END -->
+
 ## 历史结果
 
 - [固定四轮GEQ的12组结果与四曲线](results/geq_finetune/README.md)：旧协议，保留供追溯。

@@ -44,3 +44,19 @@
 ![cg_detr Test](cg_detr/full_frozen_comparison.png)
 
 ![cg_detr Val](cg_detr/validation_selection.png)
+
+<!-- SIMDETR_SOCCERGMR_GEQ_BEGIN -->
+## Sim-DETR：同类方法扩展，SoccerGMR Standard
+
+原四骨干八组结果保持不变；新增Sim自己的GMR起点及GEQ Full/Frozen，单列扩展。
+
+| 方法 | mAP (%) | ΔmAP vs GMR (pp) | AUROC (%) | G1@0.4 | G1@0.5 | G1@0.6 | G1均值 | ΔG1均值 vs GMR |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| GMR baseline | 20.73 | +0.00 | 72.97 | 0.3315 | 0.5424 | 0.5467 | 0.4735 | +0.0000 |
+| GMR + GEQ Full | 22.26 | +1.53 | 76.23 | 0.5316 | 0.5481 | 0.5501 | 0.5433 | +0.0697 |
+| GMR + GEQ Frozen | 20.73 | +0.00 | 76.43 | 0.4931 | 0.5264 | 0.5440 | 0.5212 | +0.0476 |
+
+![Sim-DETR SoccerGMR Standard](sim_detr/full_frozen_comparison.png)
+
+[完整指标、代码接入与来源](sim_detr/README.md)
+<!-- SIMDETR_SOCCERGMR_GEQ_END -->
