@@ -1,6 +1,22 @@
 # SoccerGMR: GMR baselines and GEQ Full
 
-本分支的当前主线是在 **SoccerGMR Standard 上训练**多个 DETR 骨干：先训练 GMR baseline，再从其 Val 最优模型初始化 GEQ Full；两阶段选出的固定模型分别评测 **Standard Test 与 Full Test**。Full 不参与训练、选模或调参。
+本分支的当前主线是在 **SoccerGMR Standard 上训练**多个 DETR 骨干：先训练 GMR baseline，再从其 Val 最优模型初始化 GEQ Full；两阶段选出的固定模型分别评测 **Standard Test 与 Full Test**。Full Test 不参与训练、选模或调参。
+
+## 算法目的：同时判断“是否存在”和“在哪里”
+
+SoccerGMR 中，一条查询描述的事件可能出现在视频中，也可能不存在。我们的目标是在保留 GMR baseline 定位能力的同时，改善事件存在性判断：有目标时返回正确时间区间，无目标时输出空集，减少空查询误返回和真实事件误拒绝，提升综合检索表现。
+
+**GMR baseline 已有存在性 head。GEQ 的改进思路是让一个专用的全局事件查询读取更明确的文本与视频证据。** DETR 定位查询产生的候选分数反映候选相关性；即使视频中没有目标，也可能产生一个相对最像的片段。因此，我们另外学习一个 GEQ token：先通过注意力读取查询文本，再依次读取各层 encoder 的视频证据，最后输出事件存在性分数。定位区间仍由原生骨干产生，存在性决策决定保留候选还是输出空集。
+
+## 为什么先训练 GMR，再做 GEQ Full
+
+先按 Val mAP 选择 GMR，为微调提供有定位能力的起点；再以“原 GMR 损失 + GEQ 存在性 BCE”联合更新骨干与 GEQ，使视频表示可以适应存在性判断，同时保留原生任务约束。GEQ 阶段按 Val 三点 G-mIoU@1 均值选模，使选择依据同时考虑定位与拒识。这里 **GEQ Full 指联合微调原模型参数，与 Full Test 数据划分含义不同**。
+
+## 已观察到什么效果
+
+归档的 SoccerGMR Standard Test 历史对照中，五个骨干的三点 G-mIoU@1 均值相对各自 GMR 均提高，按 0–100 单位计算，增益约为 **6.97–16.95 个百分点**；mAP 有升有降，例如 Sim-DETR 为 **+1.53**，Moment-DETR 为 **−0.91** 个百分点。这个现象说明需要同时检查综合检索和定位代价，不能将 GEQ 描述成所有指标都会提升。
+
+这些是**旧六轮早停协议的 Test 观察**。当前十轮早停协议完成了功能验证，正式性能结果仍待训练；历史数据也不足以把所有增益单独归因于 GEQ 结构。[算法说明与证据表](docs/ALGORITHM.md)给出处理流程、损失、指标含义、同骨干相对 GMR 的全部增减及来源。当前评测的 mAP 使用正查询未门控候选，因此只改变拒识门控不会使 mAP 改变；Full 微调改变骨干参数后，mAP 才可能随定位输出变化。
 
 原始 README 及全部旧实验已保存为[历史归档](archive/README.md)，其中 [README 副本](archive/legacy_20261102/README.md)保留原字节与[哈希记录](archive/legacy_20261102/BACKUP_MANIFEST.json)。Charades 仅通过[文件夹索引](archive/charades/README.md)访问。
 
