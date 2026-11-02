@@ -1,0 +1,99 @@
+{
+  "standard_train": {
+    "labels": "data/labels/standard_train.jsonl",
+    "rows": 4138,
+    "positive": 2136,
+    "negative": 2002,
+    "sha256": "2936ba7b39dc3d8a1759f42ef17500207d18d14c18aa695aecfb739d9e284d91"
+  },
+  "standard_val": {
+    "labels": "data/labels/standard_val.jsonl",
+    "rows": 465,
+    "positive": 255,
+    "negative": 210,
+    "sha256": "218537b2fccd604d795c3237a1b351e7288c2ff909a722f1f23b82d1082240a0"
+  },
+  "standard_test": {
+    "labels": "data/labels/standard_test.jsonl",
+    "rows": 1036,
+    "positive": 544,
+    "negative": 492,
+    "sha256": "d8c47dee986b3ea87ba3e008ac2f5f34b0ab000337631e324a6ecffd1dea910c"
+  },
+  "full_decodable": {
+    "labels": "data/labels/full_decodable_test.jsonl",
+    "rows": 2970,
+    "positive": 1633,
+    "negative": 1337,
+    "sha256": "271951cd2ae87d93959e0abc9c67f5243a033e36bdab155c5981064891517851",
+    "raw_vid_strings": 1008,
+    "normalized_video_stems": 823
+  },
+  "full_original": {
+    "labels": "data/labels/full_original_test.jsonl",
+    "rows": 2986,
+    "positive": 1638,
+    "negative": 1348,
+    "sha256": "fc7955218d02a7269fc2a7885a0f004bbd696be42e95d009441573a6b1a365fc",
+    "raw_vid_strings": 1010,
+    "normalized_video_stems": 825
+  },
+  "full_feature_protocol": "soccer_full_lighthouse_standard_bn45_v1",
+  "feature_manifest_sha256": "a56bea0061a65076b05e9556f15b4496ef5d0839ce3ef02a7195009e43a69a8b",
+  "overlap": {
+    "train": {
+      "shared_videos": 0,
+      "shared_video_query_pairs": 0,
+      "note": "qid namespaces differ; use normalized video stem plus query"
+    },
+    "val": {
+      "shared_videos": 0,
+      "shared_video_query_pairs": 0,
+      "note": "qid namespaces differ; use normalized video stem plus query"
+    },
+    "test": {
+      "shared_videos": 461,
+      "shared_video_query_pairs": 1036,
+      "note": "qid namespaces differ; use normalized video stem plus query"
+    }
+  },
+  "full_temporal_caveats": {
+    "over_75_steps": [
+      {
+        "vid": "X6VNTk-Vl5w__26_987.mp4",
+        "steps": 104,
+        "qids": [
+          20825
+        ]
+      },
+      {
+        "vid": "X0we8220k74__20_1473.mp4",
+        "steps": 94,
+        "qids": [
+          21093
+        ]
+      }
+    ],
+    "temporal_mismatches_gt_vs_features": [
+      {
+        "vid": "AC_Milan_PSG_MLZcP6BO_1_2660s_2810s.mkv",
+        "feature_steps": 70,
+        "feature_seconds": 140,
+        "label_duration": 150.0
+      },
+      {
+        "vid": "WC2022_3869253_1_2940s_3090s.mp4",
+        "feature_steps": 41,
+        "feature_seconds": 82,
+        "label_duration": 150.0
+      },
+      {
+        "vid": "AC_Ajaccio_Lens_QsKULW3B_1_140s_290s.mkv",
+        "feature_steps": 48,
+        "feature_seconds": 96,
+        "label_duration": 150.0
+      }
+    ],
+    "native_truncation": "Preserve original maximum 75 video steps; truncate each stream before concatenation; retain original duration scaling and native postprocessing. No query is dropped."
+  }
+}

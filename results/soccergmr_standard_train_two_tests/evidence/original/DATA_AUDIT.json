@@ -1,0 +1,365 @@
+{
+  "original_test": {
+    "path": "/home/guoxiangyu/ImprovingGeneralizedMomentRetrieval/generalized-moment-retrieval/data/label/Full/test.jsonl",
+    "sha256": "fc7955218d02a7269fc2a7885a0f004bbd696be42e95d009441573a6b1a365fc",
+    "rows": 2986,
+    "unique_qids": 2986,
+    "unique_videos": 825,
+    "positive": 1638,
+    "negative": 1348
+  },
+  "available_decodable_test": {
+    "path": "/home/guoxiangyu/GMR_Unseen_s4_minus_fusion_baseline_20261019/experiments/gmr-Global-Eventquery/data/full_decodable/Full/test.jsonl",
+    "sha256": "271951cd2ae87d93959e0abc9c67f5243a033e36bdab155c5981064891517851",
+    "rows": 2970,
+    "unique_qids": 2970,
+    "unique_videos": 823,
+    "positive": 1633,
+    "negative": 1337
+  },
+  "excluded_test_rows": [
+    {
+      "qid": 19877,
+      "vid": "WC2022_3869685_1_2240s_2390s.mp4",
+      "match_info": {
+        "teams": "Argentina vs France",
+        "date": "2022-12-18"
+      },
+      "query": "Identify block moments.",
+      "duration": 150,
+      "moment": {
+        "type": "timestamps",
+        "value": [
+          105,
+          134
+        ]
+      },
+      "action_type": "block",
+      "dataset_source": "worldcup2022",
+      "relevant_windows": [
+        [
+          99,
+          107
+        ],
+        [
+          128,
+          136
+        ]
+      ]
+    },
+    {
+      "qid": 20318,
+      "vid": "WC2022_3869685_1_2240s_2390s.mp4",
+      "match_info": {
+        "teams": "Argentina vs France",
+        "date": "2022-12-18"
+      },
+      "query": "Identify all dribble moments performed by players from Argentina.",
+      "duration": 150,
+      "moment": {
+        "type": "timestamps",
+        "value": []
+      },
+      "action_type": "dribble",
+      "dataset_source": "worldcup2022",
+      "relevant_windows": []
+    },
+    {
+      "qid": 20345,
+      "vid": "AC_Ajaccio_Lens_QsKULW3B_1_1960s_2110s.mkv",
+      "match_info": {
+        "teams": "AC Ajaccio vs Lens",
+        "date": "2022-08-14"
+      },
+      "query": "Locate shot off target moments.",
+      "duration": 150,
+      "moment": {
+        "type": "timestamps",
+        "value": []
+      },
+      "dataset_source": "SoccerReplay1988",
+      "action_type": "shot off target",
+      "relevant_windows": []
+    },
+    {
+      "qid": 20356,
+      "vid": "WC2022_3869685_1_2240s_2390s.mp4",
+      "match_info": {
+        "teams": "Argentina vs France",
+        "date": "2022-12-18"
+      },
+      "query": "Identify all interception moments performed by players from Argentina.",
+      "duration": 150,
+      "moment": {
+        "type": "timestamps",
+        "value": []
+      },
+      "action_type": "interception",
+      "dataset_source": "worldcup2022",
+      "relevant_windows": []
+    },
+    {
+      "qid": 20739,
+      "vid": "WC2022_3869685_1_2240s_2390s.mp4",
+      "match_info": {
+        "teams": "Argentina vs France",
+        "date": "2022-12-18"
+      },
+      "query": "Find clearance moments performed by players from Argentina.",
+      "duration": 150,
+      "moment": {
+        "type": "timestamps",
+        "value": []
+      },
+      "action_type": "clearance",
+      "dataset_source": "worldcup2022",
+      "relevant_windows": []
+    },
+    {
+      "qid": 20911,
+      "vid": "WC2022_3869685_1_2240s_2390s.mp4",
+      "match_info": {
+        "teams": "Argentina vs France",
+        "date": "2022-12-18"
+      },
+      "query": "Locate all interception actions performed by players from France.",
+      "duration": 150,
+      "moment": {
+        "type": "timestamps",
+        "value": []
+      },
+      "action_type": "interception",
+      "dataset_source": "worldcup2022",
+      "relevant_windows": []
+    },
+    {
+      "qid": 20984,
+      "vid": "WC2022_3869685_1_2240s_2390s.mp4",
+      "match_info": {
+        "teams": "Argentina vs France",
+        "date": "2022-12-18"
+      },
+      "query": "Locate foul committed moments performed by players from Argentina.",
+      "duration": 150,
+      "moment": {
+        "type": "timestamps",
+        "value": []
+      },
+      "action_type": "foul committed",
+      "dataset_source": "worldcup2022",
+      "relevant_windows": []
+    },
+    {
+      "qid": 21080,
+      "vid": "WC2022_3869685_1_2240s_2390s.mp4",
+      "match_info": {
+        "teams": "Argentina vs France",
+        "date": "2022-12-18"
+      },
+      "query": "Locate substitution moments by players from France.",
+      "duration": 150,
+      "moment": {
+        "type": "timestamps",
+        "value": []
+      },
+      "action_type": "substitution",
+      "dataset_source": "worldcup2022",
+      "relevant_windows": []
+    },
+    {
+      "qid": 21099,
+      "vid": "WC2022_3869685_1_2240s_2390s.mp4",
+      "match_info": {
+        "teams": "Argentina vs France",
+        "date": "2022-12-18"
+      },
+      "query": "Find the block moment performed by players from France.",
+      "duration": 150,
+      "moment": {
+        "type": "timestamps",
+        "value": [
+          134
+        ]
+      },
+      "action_type": "block",
+      "dataset_source": "worldcup2022",
+      "relevant_windows": [
+        [
+          128,
+          136
+        ]
+      ]
+    },
+    {
+      "qid": 21322,
+      "vid": "WC2022_3869685_1_2240s_2390s.mp4",
+      "match_info": {
+        "teams": "Argentina vs France",
+        "date": "2022-12-18"
+      },
+      "query": "Find all shot moments performed by players from Argentina.",
+      "duration": 150,
+      "moment": {
+        "type": "timestamps",
+        "value": []
+      },
+      "action_type": "shot",
+      "dataset_source": "worldcup2022",
+      "relevant_windows": []
+    },
+    {
+      "qid": 21456,
+      "vid": "AC_Ajaccio_Lens_QsKULW3B_1_1960s_2110s.mkv",
+      "match_info": {
+        "teams": "AC Ajaccio vs Lens",
+        "date": "2022-08-14"
+      },
+      "query": "Locate yellow card moments.",
+      "duration": 150,
+      "moment": {
+        "type": "timestamps",
+        "value": [
+          130
+        ]
+      },
+      "dataset_source": "SoccerReplay1988",
+      "action_type": "yellow card",
+      "relevant_windows": [
+        [
+          128,
+          136
+        ]
+      ]
+    },
+    {
+      "qid": 21499,
+      "vid": "WC2022_3869685_1_2240s_2390s.mp4",
+      "match_info": {
+        "teams": "Argentina vs France",
+        "date": "2022-12-18"
+      },
+      "query": "Find clearance moments performed by players from France.",
+      "duration": 150,
+      "moment": {
+        "type": "timestamps",
+        "value": []
+      },
+      "action_type": "clearance",
+      "dataset_source": "worldcup2022",
+      "relevant_windows": []
+    },
+    {
+      "qid": 21559,
+      "vid": "WC2022_3869685_1_2240s_2390s.mp4",
+      "match_info": {
+        "teams": "Argentina vs France",
+        "date": "2022-12-18"
+      },
+      "query": "Locate foul committed moments by players from France.",
+      "duration": 150,
+      "moment": {
+        "type": "timestamps",
+        "value": [
+          31
+        ]
+      },
+      "action_type": "foul committed",
+      "dataset_source": "worldcup2022",
+      "relevant_windows": [
+        [
+          25,
+          33
+        ]
+      ]
+    },
+    {
+      "qid": 21731,
+      "vid": "WC2022_3869685_1_2240s_2390s.mp4",
+      "match_info": {
+        "teams": "Argentina vs France",
+        "date": "2022-12-18"
+      },
+      "query": "Identify block moments performed by players from Argentina.",
+      "duration": 150,
+      "moment": {
+        "type": "timestamps",
+        "value": [
+          105
+        ]
+      },
+      "action_type": "block",
+      "dataset_source": "worldcup2022",
+      "relevant_windows": [
+        [
+          99,
+          107
+        ]
+      ]
+    },
+    {
+      "qid": 21747,
+      "vid": "WC2022_3869685_1_2240s_2390s.mp4",
+      "match_info": {
+        "teams": "Argentina vs France",
+        "date": "2022-12-18"
+      },
+      "query": "Locate the dribble action by players from France.",
+      "duration": 150,
+      "moment": {
+        "type": "timestamps",
+        "value": []
+      },
+      "action_type": "dribble",
+      "dataset_source": "worldcup2022",
+      "relevant_windows": []
+    },
+    {
+      "qid": 21798,
+      "vid": "AC_Ajaccio_Lens_QsKULW3B_1_1960s_2110s.mkv",
+      "match_info": {
+        "teams": "AC Ajaccio vs Lens",
+        "date": "2022-08-14"
+      },
+      "query": "Find save moments.",
+      "duration": 150,
+      "moment": {
+        "type": "timestamps",
+        "value": []
+      },
+      "dataset_source": "SoccerReplay1988",
+      "action_type": "save",
+      "relevant_windows": []
+    }
+  ],
+  "feature_root": "/home/guoxiangyu/VLMbasedIter_momentretrival/generalized-moment-retrieval/Soccergmr/Full_features",
+  "feature_protocol": "soccer_full_lighthouse_standard_bn45_v1",
+  "feature_manifest": "/home/guoxiangyu/VLMbasedIter_momentretrival/generalized-moment-retrieval/Soccergmr/Full_features/.extraction/MANIFEST.json",
+  "feature_manifest_sha256": "a56bea0061a65076b05e9556f15b4496ef5d0839ce3ef02a7195009e43a69a8b",
+  "feature_verification": "/home/guoxiangyu/VLMbasedIter_momentretrival/generalized-moment-retrieval/Soccergmr/Full_features/.extraction/VERIFIED.json",
+  "feature_verification_sha256": "570ee072680c71b7d6ecf33dde69e860e8ad50ef49a1b4fd28092b7a629f90ab",
+  "feature_exclusions": "/home/guoxiangyu/VLMbasedIter_momentretrival/generalized-moment-retrieval/Soccergmr/Full_features/.extraction/EXCLUSIONS.json",
+  "feature_exclusions_sha256": "f0f3e537328657525051af09f45b0ead9ccc68c688c2888ef3e569bdaca9a986",
+  "available_test_feature_files_checked": 8910,
+  "missing_available_test_feature_files": [],
+  "source_feature_verification_passed": true,
+  "array_values_not_revalidated_in_this_handoff": true,
+  "standard_overlap": {
+    "train": {
+      "shared_videos": 0,
+      "shared_video_query_pairs": 0,
+      "note": "qid namespaces differ; use normalized video stem plus query"
+    },
+    "val": {
+      "shared_videos": 0,
+      "shared_video_query_pairs": 0,
+      "note": "qid namespaces differ; use normalized video stem plus query"
+    },
+    "test": {
+      "shared_videos": 461,
+      "shared_video_query_pairs": 1036,
+      "note": "qid namespaces differ; use normalized video stem plus query"
+    }
+  },
+  "full_test_inference_started": false,
+  "evaluation_label": "Standard-trained checkpoints evaluated on Full-Decodable Test (2970); original Full Test (2986) remains distinct"
+}

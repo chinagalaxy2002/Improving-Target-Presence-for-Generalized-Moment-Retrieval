@@ -1,0 +1,52 @@
+{
+  "status": "COMPLETED",
+  "backbone": "cg_detr",
+  "variant": "baseline",
+  "mode": "frozen",
+  "best_epoch": 4,
+  "selection": {
+    "epoch": 4,
+    "thresholds": [
+      "0.4",
+      "0.5",
+      "0.6"
+    ],
+    "metric": "G-mIoU@1",
+    "values": [
+      0.4111,
+      0.48219999999999996,
+      0.5114
+    ],
+    "mean": 0.46823333333333333,
+    "baseline_values": [
+      0.1375,
+      0.19079999999999997,
+      0.2498
+    ],
+    "baseline_mean": 0.19269999999999998,
+    "mean_gain": 0.27553333333333335,
+    "per_threshold_gain": [
+      0.2736,
+      0.2914,
+      0.26159999999999994
+    ],
+    "all_three_above_baseline": true,
+    "save_best": true,
+    "best_epoch": 4,
+    "best_mean": 0.46823333333333333,
+    "best_all_three_above_baseline": true,
+    "stale_epochs": 0,
+    "stop": false,
+    "stop_rule": "strictly more than 5 consecutive epochs without mean improvement"
+  },
+  "selection_split": "val",
+  "test_used_for_selection": false,
+  "native_changed": false,
+  "geq_updated": true,
+  "checkpoint_sha256": "48c1faec97443b8e539709c2a3a789220e953cf6ea21e434d829b7921d4162d1",
+  "source_checkpoint_sha256": "e65fe3447d2167ee013c6a8dbaaa5313bd06ee8aacaa5b335a84cfc4fd52463a",
+  "test_samples": 1036,
+  "val_samples": 465,
+  "source_matches_original_route": true,
+  "protocol_matches_baseline_epoch_study": true
+}

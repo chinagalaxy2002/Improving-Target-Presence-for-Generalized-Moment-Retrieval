@@ -1,0 +1,50 @@
+{
+  "backbone": "qd_detr",
+  "variant": "multi",
+  "mode": "frozen",
+  "seed": 2023,
+  "batch_size": 32,
+  "max_epochs": 20,
+  "num_workers": 2,
+  "lr_base": 0,
+  "lr_geq": 3e-05,
+  "wd": 0.0001,
+  "gradient_clip": 0.1,
+  "amp": false,
+  "loss": "GEQ BCE only",
+  "initialization": {
+    "checkpoint": "/home/guoxiangyu/Improving-Target-Presence-for-Generalized-Moment-Retrieval/backbonefolder/multiroute_gmr/runs/qd_detr/multi/best.ckpt",
+    "sha256": "67d277154b71d525f42ce664409ca2690251994dd419593d1d863b1b074a955e",
+    "epoch_raw": 49
+  },
+  "initial_base_sha256": "1cf3f1c6318f388ed1cd2ef909b090cb264e464da8345c8d669270d18b5efda4",
+  "initial_geq_sha256": "f1517f2fbc54c616a217c1e12e949e30d91b265f188e904f9fef2cd87e8619a3",
+  "actual_video_feature_order": [
+    "/home/guoxiangyu/VLMbasedIter_momentretrival/generalized-moment-retrieval/Soccergmr/slowfast",
+    "/home/guoxiangyu/VLMbasedIter_momentretrival/generalized-moment-retrieval/Soccergmr/clip"
+  ],
+  "preserve_original_source_feature_order": true,
+  "metric": "Val mean G-mIoU@1 at thresholds 0.4/0.5/0.6",
+  "gmiou_unit": "0–1",
+  "early_stop": "strictly more than 5 consecutive non-improving epochs (6)",
+  "test_used_for_selection": false,
+  "all_three_above_baseline_recorded": true,
+  "code_sha256": {
+    "study_paths.py": "5f1e249bb1f6812f39b80a6054a7881b4886056bfafc365f61a69907c8065d61",
+    "plotting.py": "de1199d8dd3a2ba879746ae4717e7746143bdc669d315aa28db54955dfe8bfb9",
+    "validation_selection.py": "e553f15573e0bdf45e1f3b810024cbbd3d1ca87ff7ec94ffb461e42f82ac2675",
+    "run_study.py": "d3bb3aad63a3fcd78c6c3c5444ffa9f557d228b15e7a544d561134f30b765627",
+    "publish.py": "eec0de4f3ec0656d82e99f266c933a72ede62d92fd7c4e47fbc36b5fa7ab0fb3",
+    "geq_model.py": "6f9b37f6c89b4dee672541cbc254b90f8bd84898ba6e7ca0843e46a70bb55b7e",
+    "native_adapter.py": "3c4d5989da994ecc9c7fb6a5141d951b663e6e492b67dd71c2b1db5541f836d6",
+    "report.py": "dbd12362f7826798ca1f47679f730ae70a3258b692909086b366bef66af04c47",
+    "launch_queue.py": "eb00876f2009acc5ec5c87a6bafcce31ecc051f190014197813b66446675643d",
+    "plot_snapshot.py": "f3f50e6904ae9ea8eae7288390ccc139d84ee8f0291760dc3bae822594db5000"
+  },
+  "native_source_sha256": {
+    "/home/guoxiangyu/Improving-Target-Presence-for-Generalized-Moment-Retrieval/backbonefolder/multiroute_gmr/run.py": "a92bac20ae81cb45011b79da266720766b5f45ecb5023b7a7581ac7349185000",
+    "/home/guoxiangyu/Improving-Target-Presence-for-Generalized-Moment-Retrieval/backbonefolder/multiroute_gmr/multiroute.py": "e5f0443c87ea17569a90bae48f1a98a4e648e5621fcd18d3d5a2749719d1ef61",
+    "/home/guoxiangyu/ImprovingGeneralizedMomentRetrieval/gmr_multiroute_kit/run_train.py": "ecadd7f04b8962b4aaf1eeb955d70ea09f7a4ea2907fce2ef6c4b3adf1606286",
+    "/home/guoxiangyu/ImprovingGeneralizedMomentRetrieval/gmr_multiroute_kit/multiroute.py": "67e06175a544caf1324b7cb00c4680d35aca9a828b53ddb48a14fe09c256fd76"
+  }
+}

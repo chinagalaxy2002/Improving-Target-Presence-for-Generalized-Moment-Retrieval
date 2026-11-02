@@ -1,0 +1,52 @@
+{
+  "status": "COMPLETED",
+  "backbone": "qd_detr",
+  "variant": "baseline",
+  "mode": "frozen",
+  "best_epoch": 4,
+  "selection": {
+    "epoch": 4,
+    "thresholds": [
+      "0.4",
+      "0.5",
+      "0.6"
+    ],
+    "metric": "G-mIoU@1",
+    "values": [
+      0.4042,
+      0.47479999999999994,
+      0.49700000000000005
+    ],
+    "mean": 0.4586666666666666,
+    "baseline_values": [
+      0.3625,
+      0.4697,
+      0.4986
+    ],
+    "baseline_mean": 0.4436,
+    "mean_gain": 0.015066666666666617,
+    "per_threshold_gain": [
+      0.041700000000000015,
+      0.005099999999999938,
+      -0.0015999999999999348
+    ],
+    "all_three_above_baseline": false,
+    "save_best": true,
+    "best_epoch": 4,
+    "best_mean": 0.4586666666666666,
+    "best_all_three_above_baseline": false,
+    "stale_epochs": 0,
+    "stop": false,
+    "stop_rule": "strictly more than 5 consecutive epochs without mean improvement"
+  },
+  "selection_split": "val",
+  "test_used_for_selection": false,
+  "native_changed": false,
+  "geq_updated": true,
+  "checkpoint_sha256": "89b8045325abc46f3635d2debc96e93d6375689b6902c2da0228698d6dcdfd4f",
+  "source_checkpoint_sha256": "46c3c6962c20ee707464a2e2888af777722837da4762f4dd6376bb2bb1bf9059",
+  "test_samples": 1036,
+  "val_samples": 465,
+  "source_matches_original_route": true,
+  "protocol_matches_baseline_epoch_study": true
+}
