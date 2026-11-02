@@ -1,0 +1,89 @@
+{
+  "passed": true,
+  "scope": "functional reproduction only; no formal retraining or benchmark claims",
+  "branch": "soccergmr-standard-geq-full",
+  "backbones": {
+    "moment_detr": {
+      "passed": true,
+      "source_sha256": "626070edd69a82cca74db80990b3523f0c1cde737063cb2d1f09fb8b7f5b3ad6",
+      "training_rows": 7,
+      "validation_rows": 8,
+      "test_rows": {
+        "test_standard": 8,
+        "test_full": 4
+      },
+      "formal_retraining": false
+    },
+    "eatr": {
+      "passed": true,
+      "source_sha256": "626070edd69a82cca74db80990b3523f0c1cde737063cb2d1f09fb8b7f5b3ad6",
+      "training_rows": 7,
+      "validation_rows": 8,
+      "test_rows": {
+        "test_standard": 8,
+        "test_full": 4
+      },
+      "formal_retraining": false
+    },
+    "qd_detr": {
+      "passed": true,
+      "source_sha256": "626070edd69a82cca74db80990b3523f0c1cde737063cb2d1f09fb8b7f5b3ad6",
+      "training_rows": 7,
+      "validation_rows": 8,
+      "test_rows": {
+        "test_standard": 8,
+        "test_full": 4
+      },
+      "formal_retraining": false
+    },
+    "cg_detr": {
+      "passed": true,
+      "source_sha256": "626070edd69a82cca74db80990b3523f0c1cde737063cb2d1f09fb8b7f5b3ad6",
+      "training_rows": 7,
+      "validation_rows": 8,
+      "test_rows": {
+        "test_standard": 8,
+        "test_full": 4
+      },
+      "formal_retraining": false
+    },
+    "sim_detr": {
+      "passed": true,
+      "source_sha256": "626070edd69a82cca74db80990b3523f0c1cde737063cb2d1f09fb8b7f5b3ad6",
+      "training_rows": 7,
+      "validation_rows": 8,
+      "test_rows": {
+        "test_standard": 8,
+        "test_full": 4
+      },
+      "formal_retraining": false
+    }
+  },
+  "unit_tests": {
+    "passed": 6,
+    "failed": 0
+  },
+  "data_audit": "data_audit.json",
+  "wheel_native_sources_included": true,
+  "cpu_geq_forward_from_wheel": {
+    "moment_detr": "PASS",
+    "eatr": "PASS",
+    "qd_detr": "PASS",
+    "cg_detr": "PASS",
+    "sim_detr": "PASS"
+  },
+  "clean_copy_without_archive": true,
+  "external_project_python_imports": false,
+  "checkpoint_resume": "Exact tensor and selector equality versus uninterrupted two-epoch training, all five backbones",
+  "old_results_archived": true,
+  "official_metrics_units": "0-100",
+  "user_authorized_full_retraining": false,
+  "environment": {
+    "python": "3.10.20",
+    "torch": "2.5.1+cu121",
+    "torchvision": "0.20.1+cu121",
+    "numpy": "2.2.6",
+    "scipy": "1.15.3",
+    "gpu": "NVIDIA GeForce RTX 3090"
+  }
+}

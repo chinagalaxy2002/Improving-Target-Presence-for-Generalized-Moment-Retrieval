@@ -1,0 +1,115 @@
+{
+  "source_commit": "3858d7d9f49265f09bfa6c1dd1edbab6f35866a3",
+  "backbones": {
+    "moment_detr": {
+      "origin": "backbones/moment_detr/source",
+      "sources": {
+        "LICENSE": "8fb1e1bb52507334fc2e00989ce5d2035e9c79eacf7928217876623639d8043a",
+        "models/moment_detr_gmr/gmr_adapter.py": "0e1235c8425f9c61883e88a57a8a1feec2c9ceb15046aeecd83563deb3cefc67",
+        "models/moment_detr_gmr/moment_transformer.py": "fa872ec00e7053aef2668e14e38c7c4b97f7615e6c4f1e3e940567894d504e56",
+        "models/moment_detr_gmr/moment_detr.py": "c2e86f6157a13a36fbde4f297951582f6c3ffe22655e84d05793bc415df25f0b",
+        "models/moment_detr_gmr/__init__.py": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+        "models/moment_detr_gmr/matcher.py": "8b07afe4a76b955e215f18ff72d303e807a63fa56d0f6ab839d6cf28c5784d3c",
+        "models/moment_detr_gmr/misc.py": "58ec43442128ad370d3b08cb677a378b51e017db3f25b2bbb68bc5910c353bca",
+        "models/moment_detr_gmr/position_encoding.py": "4e5087a96dc0e4794ea9efa747808ac632e170c3366b69e66e9603cdad57e911",
+        "models/moment_detr_gmr/utils/span_utils.py": "82d769f160355d23cc68dfb520732eee806540a6192442d9815b992bfcb37126",
+        "models/moment_detr_gmr/utils/__init__.py": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+      }
+    },
+    "eatr": {
+      "origin": "backbones/eatr/source",
+      "sources": {
+        "__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "LICENSE": "7e46ea42ece13fd153d63c72bef744b1ec0a378dcf008b075b8a989e640825eb",
+        "utils/span_utils.py": "1452aeef29e6fb976a79e3c47d1a3d1891fc26e31401f9899c10c498d2489f02",
+        "models/criterion.py": "1b03e1eaf467262b7269d46038c656211b32960f2a95434c31086b21cff669c0",
+        "models/attention.py": "235bcbe8fad34e59bcf1ba809e0e67b59ba322346041dd924d7513a80a775c9f",
+        "models/module.py": "8f51663185ee678bd3246c664e892ed401e30baeafe60405a55ee2be5d64cb66",
+        "models/build_model.py": "479b32cd0ea1cf923b8cacd4a2b7d430f32b6e0be026fd1beaee8ca1f69c86a9",
+        "models/transformer.py": "fcafe685bbc44e5a03530d78598c51155c02b3dd502e1c427f61c16652cfef0d",
+        "models/matcher.py": "11db02152cf5a3961bcf51fa4f177499a3424427e5a9aa93063aa13fc8d8bc1c",
+        "models/position_encoding.py": "2b3f6f022a9973a2e33f099428de40c001c6f9516a784dde888a237e1e2baadb",
+        "models/model.py": "ea1403e985efd093341efb03a68046a284cca3c9ea03642537326ac75666302e",
+        "misc.py": "93875fbb1c654143fa442d90fe8c12e940bd82956b23071e586cf08294bcd8c7"
+      }
+    },
+    "qd_detr": {
+      "origin": "backbones/qd_detr/source/gmr_deployment",
+      "sources": {
+        "LICENSE": "fbcba2881b59ec257000a5e3422dcfe36dbd208e794dafe6781bd2709f77c73c",
+        "qd_detr/gmr_adapter.py": "2187c53403e8c0410989b38fc7a05854d971baf812ad9da00fcf38998472eb14",
+        "qd_detr/attention.py": "61fe42107e07f1c179238df6514f05a5ec0f8d8b347937f2fda7dc9712570378",
+        "qd_detr/span_utils.py": "82ec89bdaca05cfb6382551597c3c60d2b79733e7e721b69eacb2cd02c6e001c",
+        "qd_detr/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "qd_detr/transformer.py": "ecaaf55acc3c93a77d7a0b2a53f24652d9d1378ef57db05900c11952444c00ac",
+        "qd_detr/matcher.py": "0ee46a4d133965131a4bc4c9599e297c017feabf059e0457344d36bf3cce5751",
+        "qd_detr/misc.py": "dcb02d459d0db988f7bec7f2ef11320274456688ef19725b6e1aab68bd2ad8eb",
+        "qd_detr/position_encoding.py": "73b08a01db79c44dacd6859514d504b943a76a3d3ac3067a1505ee41034ffa6d",
+        "qd_detr/model.py": "e5c58dd7b6c56215491d2471e4d90be7b2f509a9fde445d049c73d2d21f551ca"
+      },
+      "local_patches": {
+        "qd_detr/transformer.py": {
+          "reason": "Allocate on the input device instead of hard-coded default CUDA device",
+          "sha256": "9c7b250df1b9763f59538d1afb8955ea9b6a412622d071016217c9435a20781a"
+        }
+      }
+    },
+    "cg_detr": {
+      "origin": "backbones/cg_detr/source/gmr_source",
+      "sources": {
+        "LICENSE": "85b11fb3367d16a35ef5111539a96ea4a0c084ea4943792544c2280d59a8892b",
+        "cg_detr/attention.py": "61fe42107e07f1c179238df6514f05a5ec0f8d8b347937f2fda7dc9712570378",
+        "cg_detr/span_utils.py": "82ec89bdaca05cfb6382551597c3c60d2b79733e7e721b69eacb2cd02c6e001c",
+        "cg_detr/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "cg_detr/transformer.py": "af381705de31bbb78fac1336fd62fb645ca1400f7ce58711a11296accd68fccf",
+        "cg_detr/matcher.py": "89a61444fca44fa4a93d8cc1f063fb87004cce5b1b6f7bfb6da7932481b344cb",
+        "cg_detr/crossattention.py": "f80e869d8d7ae6f15e2612f454cabbc466a15d04ad0772dee24d661a4340d107",
+        "cg_detr/misc.py": "dcb02d459d0db988f7bec7f2ef11320274456688ef19725b6e1aab68bd2ad8eb",
+        "cg_detr/position_encoding.py": "c189c35832fa536e757688b9469ce2bbcf6398b46c9afd6fc1f56e94ba6ca315",
+        "cg_detr/model.py": "596077405b5ac231e4b4b72b4dddb3775e9344528a4f7eb2acd3fdc493a723fa"
+      },
+      "local_patches": {
+        "cg_detr/transformer.py": {
+          "reason": "Allocate on the input device instead of hard-coded default CUDA device",
+          "sha256": "78f563460c77d8301db27c81b2ad2eddfdfd203202466c36a778425366587221"
+        },
+        "cg_detr/model.py": {
+          "reason": "Allocate on the input device instead of hard-coded default CUDA device",
+          "sha256": "14f13603edd38e253d0517febfd64317ef7a775406d85bfb3024a39d9dc5edbb"
+        }
+      }
+    },
+    "sim_detr": {
+      "origin": "backbones/sim_detr/source",
+      "sources": {
+        "LICENSE": "fbcba2881b59ec257000a5e3422dcfe36dbd208e794dafe6781bd2709f77c73c",
+        "sim_detr/attention.py": "3fabee545afb43f119a6b894aa8003f70da275436e9edc14f5a0a60909221831",
+        "sim_detr/span_utils.py": "82ec89bdaca05cfb6382551597c3c60d2b79733e7e721b69eacb2cd02c6e001c",
+        "sim_detr/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "sim_detr/transformer.py": "0d61bc672da6b529fa798c9a5ac8e8c0dc923d7be79ae5f8bba453d7423e1d27",
+        "sim_detr/matcher.py": "aa1688ebaee319e2f6a17451aa3202d3826558bf5ad73086b0febc011322a1d9",
+        "sim_detr/misc.py": "dcb02d459d0db988f7bec7f2ef11320274456688ef19725b6e1aab68bd2ad8eb",
+        "sim_detr/position_encoding.py": "73b08a01db79c44dacd6859514d504b943a76a3d3ac3067a1505ee41034ffa6d",
+        "sim_detr/model.py": "61edbde5d75f8a527e30ada7a38fb32f09cc347cb4656506afce017a17e29720",
+        "sim_detr/semantic_calibration/semantic_model.py": "cb66f248ce80097db93f13818aa758ac0b5e1d69c5f4729003ac22a2579ce99f",
+        "sim_detr/semantic_calibration/semantic_calibrator.py": "a9e040a3b05216ba0521547acdbcaf4f6eac9cc3af199ab0cd7788c591871989",
+        "sim_detr/semantic_calibration/__init__.py": "c1cd67b3cfd8244d19fa1978c40f282203fa8b44efea46da15e92ee06e161cc9",
+        "sim_detr/semantic_calibration/transformer_capture.py": "7621f51e0409240e22eea03538c75c4154e4a31ff001109bcda574c201067dcd",
+        "sim_detr/semantic_calibration/diagnostics.py": "c0dd21894b9c58bcadf25f1d0875fd135dfc60f641f83041e2db79004757a0d9",
+        "sim_detr/interaction/test_CQA.py": "a97b6cdb5d0475b11e203a2364d3f442fe68793d97f0c61b31975e134ae2d111",
+        "sim_detr/soccer_gmr_csc/gmr_adapter.py": "9657fdc1b7bb736d505e1bb5be0e5215ac611270e1ee2c1e8b9c3bf69e740d4b",
+        "sim_detr/soccer_gmr_csc/criterion.py": "09d378fd2d516fbe04a893ef8627819b8bd9cf9e83d66ed8ada6e2bbbac7c973",
+        "sim_detr/soccer_gmr_csc/binding_loss.py": "b13d5c136756e8efe562ca1d19e207c0c0450aeb7b39a801af93e47d33c74da6",
+        "sim_detr/soccer_gmr_csc/attention_capture.py": "ea4c652081dd52c9cbdeff31895f997aa55364221d50084dfd5ecb66d4a43471",
+        "sim_detr/soccer_gmr_csc/model_builder.py": "26997bc526325e274562d447b15cf50a3e3091a9ac2fd52956d3ba6bfad6b6ae",
+        "sim_detr/soccer_gmr_csc/__init__.py": "f6bd3c5d3a5b27fb7a70ba7e46b2293fbfbf4b797066d9351a3fd1daa0d28873"
+      },
+      "local_patches": {
+        "sim_detr/transformer.py": {
+          "reason": "Allocate on the input device instead of hard-coded default CUDA device",
+          "sha256": "ab8e09bbd4306a9d411be1764e2a043002866789fc5918c83e7de414d066443a"
+        }
+      }
+    }
+  }
+}
