@@ -45,6 +45,32 @@
 
 [代码审查与验证报告](docs/REVIEW.md)记录真实数据验证范围、断点恢复证据和限制。按本次授权，**暂不重训全部正式实验**。旧结果按原协议归档，没有将旧早停结果改名为当前 10 轮协议的成绩；功能验证的少量样本分数也不作为性能结果。
 
+## 五骨干正式 Test 曲线
+
+以下两图只比较 **GMR baseline 与 GMR＋GEQ Full**，每个骨干在 Standard／Full 上使用同一组固定、已由 Standard Val 选定的检查点。它们是**旧六轮早停协议的既有模型评测**，不是当前十轮早停协议的新训练结果。本次重跑 Standard 正式 Test，关键指标与归档逐项一致，再补齐对应 Full Test；没有训练、重新选模或 Test 调参。示例中的旧四骨干 Full 图用了另一组初始化，本处已重新配对，不能混用其中数值。
+
+每行左图为 G-mIoU@1，右图为 @3，图例报告各方法 mAP。行下方标出相对 GMR 的 ΔmAP、0.4／0.5／0.6 三点 G1／G3 均值增减：**增益绿色、下降红色、持平灰色**。曲线使用 0–1；增减标注使用百分点。横向虚线是两个展示方法的最大 oracle-presence 诊断值，每个方法保留自己的定位候选，并非可部署成绩。
+
+### Standard Test：1,036 条
+
+五个骨干的三点 G-mIoU@1 均值相对 GMR 均提高 **6.97–16.95 个百分点**；mAP 有升有降，保留 Moment-DETR 的负增益。
+
+![五骨干 SoccerGMR Standard Test 曲线](results/test_thresholds/STANDARD_TEST.png)
+
+[PDF](results/test_thresholds/STANDARD_TEST.pdf) · [SVG](results/test_thresholds/STANDARD_TEST.svg) · [每骨干单页](results/test_thresholds/STANDARD_BY_BACKBONE.pdf)
+
+### Full Test：Full-Decodable 2,970／2,986 条
+
+同一组检查点的三点 G-mIoU@1 均值在五个骨干上均提高 **3.73–15.60 个百分点**；mAP 相对 GMR 为 **0.00 至 +1.40 个百分点**。具体阈值上仍可能下降，完整曲线保留这些变化。
+
+![五骨干 SoccerGMR Full Test 曲线](results/test_thresholds/FULL_TEST.png)
+
+[PDF](results/test_thresholds/FULL_TEST.pdf) · [SVG](results/test_thresholds/FULL_TEST.svg) · [每骨干单页](results/test_thresholds/FULL_BY_BACKBONE.pdf)
+
+Full 沿用已有可解码子集，16 条未覆盖；历史 75-token 视频上限也保持不变，两段 94／104 步视频截断到 75 步后仍按原 duration 缩放。本图未替换为新训练入口的 128-token 协议。Standard 与 Full Test 存在重叠样本；这两图不代表相互独立的测试样本。
+
+[完整协议与复现](results/test_thresholds/README.md) · [20 组正式 Test 审计](results/test_thresholds/AUDIT.json) · [数值与相对 GMR 增减](results/test_thresholds/METRICS.csv) · [101 点曲线](results/test_thresholds/CURVES.csv) · [绘图脚本](scripts/plot_test_thresholds.py)
+
 ## 安装与数据
 
 ```bash

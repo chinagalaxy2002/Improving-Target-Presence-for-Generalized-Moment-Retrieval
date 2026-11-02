@@ -13,3 +13,8 @@ These are bounded functional tests (7 Train / 8 Val, 8 Standard Test / 4 Full Te
 Fixed selection: Standard Val positive-query mAP for GMR; mean Standard Val G-mIoU@1 at existence thresholds 0.4/0.5/0.6 for GEQ Full; ten consecutive non-improving epochs for GEQ, ties count. Never select or tune on Test. Old six-patience results retain original labels in archive.
 
 Future formal experiments must use explicit immutable labels/features and fresh output directories. Do not resume legacy checkpoints as new-protocol `last.pt`. Use the README commands and record new metrics only after complete Train/Val-selected runs. The protected local untracked `smoke_build.py` is unrelated and must not be staged.
+
+
+## Paired historical Test figures added
+
+`results/test_thresholds` now contains five-backbone Standard and Full Test figures comparing GMR with GEQ Full. Twenty complete Test runs use identical checkpoint hashes across the two splits; all ten Standard runs reproduce the historical metrics exactly, and the matching Full runs are newly evaluated. The old example Full figure used different initializations and must not supply values for this paired comparison. These remain historical six-patience checkpoints with legacy 75-token inputs. Full-Decodable coverage is 2970/2986. No training or Test selection occurred. Source scripts, predictions, official metrics, 101-point CSV and oracle diagnostics accompany the figures. The current ten-patience training protocol still has no new converged benchmark results.

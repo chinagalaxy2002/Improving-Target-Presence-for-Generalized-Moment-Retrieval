@@ -1,0 +1,79 @@
+{
+  "backbones": {
+    "moment_detr": {
+      "batch_size": 8,
+      "gmr": {
+        "path": "checkpoints/moment_detr.gmr.ckpt",
+        "sha256": "c69fc1bdc6b7187c471bb0272cca5e7bb1087c175f10c646dad30fca1295ca1f",
+        "standard_metrics": "results/test_thresholds/references/moment_detr/gmr.json"
+      },
+      "geq_full": {
+        "path": "checkpoints/moment_detr.geq_full.ckpt",
+        "sha256": "06145a116ffd6ae722e397a72e2d74107adc11a057960c698fe611d82f833bcf",
+        "standard_metrics": "results/test_thresholds/references/moment_detr/geq_full.json"
+      }
+    },
+    "eatr": {
+      "batch_size": 32,
+      "gmr": {
+        "path": "checkpoints/eatr.gmr.ckpt",
+        "sha256": "3d7f6f6cb8c62cfee30db2d48fee5d1e62e5d69604cc7ab484075ab4979606c0",
+        "standard_metrics": "results/test_thresholds/references/eatr/gmr.json"
+      },
+      "geq_full": {
+        "path": "checkpoints/eatr.geq_full.ckpt",
+        "sha256": "b1a6cd36dac8406c670af9ad0ebf3edb8acd0757ef27f678f8ff2893eea97347",
+        "standard_metrics": "results/test_thresholds/references/eatr/geq_full.json"
+      }
+    },
+    "qd_detr": {
+      "batch_size": 32,
+      "gmr": {
+        "path": "checkpoints/qd_detr.gmr.ckpt",
+        "sha256": "03011c48168532bc8a99cee669d0d0489d0919f8fb127474107ed705e88b43c0",
+        "standard_metrics": "results/test_thresholds/references/qd_detr/gmr.json"
+      },
+      "geq_full": {
+        "path": "checkpoints/qd_detr.geq_full.ckpt",
+        "sha256": "144d36e9c0e84d1afbe45bd55ee17a141189cd3bc255d059a062eb0962ade8fb",
+        "standard_metrics": "results/test_thresholds/references/qd_detr/geq_full.json"
+      }
+    },
+    "cg_detr": {
+      "batch_size": 32,
+      "gmr": {
+        "path": "checkpoints/cg_detr.gmr.ckpt",
+        "sha256": "200f2f200bea257b1704f3bf285aecd50cf1722eb7fa7390e0763042f5a9b1d8",
+        "standard_metrics": "results/test_thresholds/references/cg_detr/gmr.json"
+      },
+      "geq_full": {
+        "path": "checkpoints/cg_detr.geq_full.ckpt",
+        "sha256": "d06de66b24b5b161e0dfc0910520b772784c44f6a0058deb1155b86be7e6e159",
+        "standard_metrics": "results/test_thresholds/references/cg_detr/geq_full.json"
+      }
+    },
+    "sim_detr": {
+      "batch_size": 8,
+      "gmr": {
+        "path": "checkpoints/sim_detr.gmr.ckpt",
+        "sha256": "c237601599d5e257f02481751956bfeabeb51253e6e3fc26da40277c3a95bd1c",
+        "standard_metrics": "results/test_thresholds/references/sim_detr/gmr.json"
+      },
+      "geq_full": {
+        "path": "checkpoints/sim_detr.geq_full.ckpt",
+        "sha256": "931bc5d075b0835da324a1559498511ffb87ab083d927f004b9d00f45321f643",
+        "standard_metrics": "results/test_thresholds/references/sim_detr/geq_full.json"
+      }
+    }
+  },
+  "data": {
+    "standard": {
+      "labels": "assets/labels/Standard/test.jsonl",
+      "features": "assets/standard_features"
+    },
+    "full": {
+      "labels": "assets/labels/Full/test.jsonl",
+      "features": "assets/full_features"
+    }
+  }
+}
