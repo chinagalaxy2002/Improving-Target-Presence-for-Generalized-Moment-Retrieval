@@ -153,3 +153,10 @@ Moment-DETR 的同配方已有结果直接保留原始源码身份与哈希，�
 运行：`PYTHONPATH=src python scripts/run_e3_eleven.py`（须先通过 `scripts/verify_e3_eleven.py --backbone NAME`、提交并执行 `scripts/freeze_e3_eleven.py`）。队列状态在 `runs/e3_eleven/formal/queue_state.json`；全11骨干训练图在该目录 `monitor/training_val_panel.png`；最终指标/101点G1/G3曲线/子集/审计在 `results/e3_eleven/`。两张卡每卡最多3个任务，统计外部占用，支持完整 last.pt 断点恢复。所有新骨干 Val 选择固定后才统一 Test。
 
 远程基础分支只含5个可运行adapter，因此另外6个从已验收的本地第二批扩展源码导入；上游license、SOURCE_MANIFEST、实际导入SHA256均保留。验收明确检查重复encoder调用、global-token offset、TaskWeave两种epoch路由、LD动量队列、BAM质量排序、空查询梯度、head继承更新和精确恢复。该工作没有重新派发其它会话已暂停的训练。
+
+
+### 展示名称约定
+
+按用户要求，当前11骨干训练图及结果表中的第一阶段统一标注为 **GMR baseline**，第二阶段为 **GEQ + aux**，不再将第一阶段显示为“GMR + E3”。此变更仅涉及图表名称；第一阶段仍使用当前已固定的辅助监督配置，不能据这个简称将其误解为历史“完全没有辅助监督”的原始 GMR 对照。具体损失和实验溯源仍完整保留在方法说明及配置中。
+
+实时图由 `scripts/plot_training_labels.py` 更新；原冻结的训练、绘图和报告脚本均保留原哈希，避免展示名称调整打断正在运行的训练队列。
