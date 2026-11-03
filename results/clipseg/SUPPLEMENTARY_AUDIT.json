@@ -1,0 +1,33 @@
+{
+  "passed": true,
+  "primary_audit_sha256": "ec1b3cde67705e85f74f0e1b2c4c48c92f2167e7a74ebacaf5eb94a54ead0ab2",
+  "additional_gmr": {
+    "C_03": {
+      "best_epoch": 17,
+      "completed_epoch": 37,
+      "best_val_map": 8.15,
+      "best_sha256": "da2cbcb89fe109573f7c789a8256733f2c02362c6e460d756d7a2ff8623563d4"
+    },
+    "C_10": {
+      "best_epoch": 20,
+      "completed_epoch": 40,
+      "best_val_map": 8.6,
+      "best_sha256": "6b4bcd49bca2517732e44e6f0a370f385d90a11549f99a910dc49b74b7bc1e1e"
+    }
+  },
+  "migration": {
+    "status": "complete",
+    "old_pid": 3638879,
+    "coordinator_pid": 3638864,
+    "from_gpu": 0,
+    "to_gpu": 1,
+    "checkpoint": "/home/guoxiangyu/SoccerGMR-GEQ-clipseg/runs/clipseg/formal/C_10/gmr/last.pt",
+    "pid": 3647041,
+    "log": "/home/guoxiangyu/SoccerGMR-GEQ-clipseg/runs/clipseg/formal/logs/C_10_gmr_gpu1.log"
+  },
+  "training_stages_total": 10,
+  "test_evaluations": 12,
+  "device_protocol": "Initial GPU1. User then authorized both GPUs, up to 3 tasks/card; C GMR ran on GPU0, C_10 resumed on GPU1, C/D GEQ ran on GPU0.",
+  "audit_history": "Original GPU1-only auditor rejected missing GPU1 observations for C/D. Updated two-GPU auditor preserved core source/assets/metric checks and passed; original failure log retained.",
+  "supplementary_gmr_selection": "C_03/C_10 GMR candidates were trained speculatively per user request. Final lambda remained chosen only from B Standard Val, never from Test."
+}

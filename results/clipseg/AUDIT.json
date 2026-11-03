@@ -1,0 +1,95 @@
+{
+  "passed": true,
+  "source": "af295843e6d527970850cf4cd46e931dbc476b2be519c6b56fce10b8e955fb79",
+  "selection": {
+    "chosen": {
+      "name": "B_01",
+      "weight": 0.1,
+      "val_g1": 48.79999999999999,
+      "val_map": 6.68,
+      "checkpoint_sha256": "6f82cb625aa8f9eb884711afbbb51905e9960e15a79bc73c9769b0a57997c14f"
+    },
+    "candidates": [
+      {
+        "name": "B_01",
+        "weight": 0.1,
+        "val_g1": 48.79999999999999,
+        "val_map": 6.68,
+        "checkpoint_sha256": "6f82cb625aa8f9eb884711afbbb51905e9960e15a79bc73c9769b0a57997c14f"
+      },
+      {
+        "name": "B_03",
+        "weight": 0.3,
+        "val_g1": 48.580000000000005,
+        "val_map": 5.33,
+        "checkpoint_sha256": "8d43148b241a9f839115a0813554a1b7d05e420a2ec770f61fafbea4708e86df"
+      },
+      {
+        "name": "B_10",
+        "weight": 1.0,
+        "val_g1": 48.77,
+        "val_map": 6.26,
+        "checkpoint_sha256": "d0d4ef2849608e3daea7b6694823405691d92e82f83c6be422affb2ddcefb1cb"
+      }
+    ],
+    "rule": "Maximize Standard Val mean G-mIoU@1 at .4/.5/.6; ties choose lower lambda; C/D reuse selected lambda",
+    "test_used": false
+  },
+  "parents": {
+    "A": "02bd02cddc5f3dcbb892e9670520f9af68fa141391ed40ed2c2f7beb1c35d12a",
+    "B": "02bd02cddc5f3dcbb892e9670520f9af68fa141391ed40ed2c2f7beb1c35d12a",
+    "C": "7267c52030d1dba108a19478661adde19b1d23d6ebf4b9744fcbe8dd8097873d",
+    "D": "7267c52030d1dba108a19478661adde19b1d23d6ebf4b9744fcbe8dd8097873d"
+  },
+  "evaluations": {
+    "A/test_standard": {
+      "rows": 1036,
+      "checkpoint_sha256": "c46ed23fd285f62ab3d52c2ffec421b5504140b32efb2723ce1c7efe6375f338",
+      "predictions_sha256": "73fc9e26c2040630846c53a0812ef7a37a2b282b2612104ddff545dae407e2fc",
+      "metrics_sha256": "0aa215ea8e485f3a666950386ad65229bc76bc78a4f6bdb4db84712c85e8188a"
+    },
+    "A/test_full": {
+      "rows": 2970,
+      "checkpoint_sha256": "c46ed23fd285f62ab3d52c2ffec421b5504140b32efb2723ce1c7efe6375f338",
+      "predictions_sha256": "7fa4523ebc5dbe61660ac70ef97749dff097f69dc2e5fc9451a6cb92e475139f",
+      "metrics_sha256": "e21e51ad6add899a52e3963612748b36feebcd792929aa9681200bbbcf43c82f"
+    },
+    "B/test_standard": {
+      "rows": 1036,
+      "checkpoint_sha256": "6f82cb625aa8f9eb884711afbbb51905e9960e15a79bc73c9769b0a57997c14f",
+      "predictions_sha256": "d25e7341680e1715c48d975c5c1f2f231ca03fde6951f78e08d885d2a375154f",
+      "metrics_sha256": "fe92c84949d80e6568ade69df3c9a916e811e1dde624804ceb9e2f586c0d119c"
+    },
+    "B/test_full": {
+      "rows": 2970,
+      "checkpoint_sha256": "6f82cb625aa8f9eb884711afbbb51905e9960e15a79bc73c9769b0a57997c14f",
+      "predictions_sha256": "a3468c4b58a8ff7bd14ebb155bb39e6866b2adf572d875de4de62b6f42630b7e",
+      "metrics_sha256": "9763b12fd6efffcfd97338d91dc74959f9babf370e784332aff115dc0d41247b"
+    },
+    "C/test_standard": {
+      "rows": 1036,
+      "checkpoint_sha256": "8d726e5de357edeb3e40e798725d2733f4b1de33bee9444aede63d9080f68461",
+      "predictions_sha256": "6b3a288e02f2f16105c76d3cf1672d6617f1444ffc4366950c43a897129cf33d",
+      "metrics_sha256": "e3ac24d7edc55b813e362f18ebae1939ad0da3645193be79acf00c9260476c23"
+    },
+    "C/test_full": {
+      "rows": 2970,
+      "checkpoint_sha256": "8d726e5de357edeb3e40e798725d2733f4b1de33bee9444aede63d9080f68461",
+      "predictions_sha256": "1d0ccadfab8380c09d95635a433021bcab5687c15fd187a101262a9c4fd6c74a",
+      "metrics_sha256": "b1dd4e9527ba9fcc1f245c8119613eebfbe60428b200618103b7f90b25a10f4d"
+    },
+    "D/test_standard": {
+      "rows": 1036,
+      "checkpoint_sha256": "c0e31ac1f1e5d47627bb8ee8be7576f2fabf5163542bd5cc84ebc76762457e40",
+      "predictions_sha256": "7abce1cb205a1a186bc37b54410e58881e5d0b65f4837224d91deff6ccdefa6d",
+      "metrics_sha256": "3fe5f84c62a13f7fd555aab79f123c1d965cb57863cc1626b13561b512aa785e"
+    },
+    "D/test_full": {
+      "rows": 2970,
+      "checkpoint_sha256": "c0e31ac1f1e5d47627bb8ee8be7576f2fabf5163542bd5cc84ebc76762457e40",
+      "predictions_sha256": "d90affe781495d9ab3e0862884da4c8a5ba5c7ca90641c3f3481011d81d06ae1",
+      "metrics_sha256": "c6955a7bed0b7297b89434dcfef72d7c355506434470d09eafdc4401d165bc58"
+    }
+  },
+  "test_used_for_selection": false
+}

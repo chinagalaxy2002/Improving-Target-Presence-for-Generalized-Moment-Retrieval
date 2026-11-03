@@ -1,0 +1,25 @@
+{
+  "backbone": "moment_detr",
+  "description": "Standard train/Val; fixed best evaluated on Standard and Full Test",
+  "data": {
+    "splits": {
+      "train": "${SOCCERGMR_LABEL_ROOT}/Standard/train.jsonl",
+      "val": "${SOCCERGMR_LABEL_ROOT}/Standard/val.jsonl",
+      "test_standard": "${SOCCERGMR_LABEL_ROOT}/Standard/test.jsonl",
+      "test_full": "${SOCCERGMR_LABEL_ROOT}/Full/test.jsonl"
+    },
+    "features": {
+      "standard": "${SOCCERGMR_STANDARD_FEATURES}",
+      "full": "${SOCCERGMR_FULL_FEATURES}"
+    },
+    "full_label": "Full Test (supply exact coverage in run manifest)",
+    "max_video_tokens": 128,
+    "max_text_tokens": 32
+  },
+  "protocol": {},
+  "clip": {
+    "gmr_weight": 1.0,
+    "geq_weight": 0.0
+  },
+  "architecture": "../backbones/moment_detr.json"
+}
