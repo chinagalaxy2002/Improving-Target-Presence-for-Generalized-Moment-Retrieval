@@ -26,7 +26,10 @@ def main():
  limit=max(.65,np.ceil((max(s['oracle'][str(k)] for split in snapshot['splits'].values() for pair in split['backbones'].values() for s in pair.values() for k in [1,3])+.035)*10)/10)
  metadata={'CreationDate':None,'ModDate':None}
  def save(fig,stem):
-  for ext in ['png','pdf','svg']:fig.savefig(dest/(stem+'.'+ext),dpi=180,facecolor='white',**({'metadata':metadata} if ext=='pdf' else {}))
+  for ext in ['png','pdf','svg']:
+   target=dest/(stem+'.'+ext)
+   fig.savefig(target,dpi=180,facecolor='white',**({'metadata':metadata} if ext=='pdf' else {}))
+   if ext=='svg':target.write_text('\n'.join(line.rstrip() for line in target.read_text().splitlines())+'\n')
  with PdfPages(dest/'BOTH_TESTS.pdf',metadata=metadata) as combined:
   for split_name,split in snapshot['splits'].items():
    fig=plt.figure(figsize=(12.4,36.8));grid=fig.add_gridspec(11,1,left=.075,right=.985,top=.947,bottom=.035,hspace=.38)

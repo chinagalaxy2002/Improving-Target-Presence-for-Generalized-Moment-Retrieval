@@ -85,7 +85,7 @@ def main():
  for name in NAMES:
   for method in ['gmr','geq_full']:assert snapshot['splits']['standard']['backbones'][name][method]['checkpoint_sha256']==snapshot['splits']['full']['backbones'][name][method]['checkpoint_sha256']
  for file,rows in [('METRICS.csv',metrics),('CURVES.csv',curves),('ORACLE.csv',oracle_rows)]:
-  with (dest/file).open('w') as f:w=csv.DictWriter(f,fieldnames=list(rows[0]));w.writeheader();w.writerows(rows)
+  with (dest/file).open('w') as f:w=csv.DictWriter(f,fieldnames=list(rows[0]),lineterminator="\n");w.writeheader();w.writerows(rows)
  dump_json(dest/'PLOT_DATA.json',snapshot);dump_json(dest/'AUDIT.json',{'passed':True,'runs':len(audit),'backbones':11,'no_test_selection':True,'checks':audit});dump_json(dest/'TRAINING_LINEAGE.json',lineage)
  print('44 Test evaluations audited; 11 backbone pairs on each split',flush=True)
 if __name__=='__main__':main()
