@@ -1,6 +1,6 @@
 {
   "backbone": "moment_detr",
-  "description": "E6: GMR auxiliary native; unmodified GEQ; seed 2023",
+  "description": "E6 new GEQ finetune with inherited unfrozen auxiliary supervision; same GMR parent",
   "data": {
     "splits": {
       "train": "/home/guoxiangyu/ImprovingGeneralizedMomentRetrieval/soccergmr_standard/d_gmr_two_stage/dataset/data/label/Standard/train.jsonl",
@@ -17,7 +17,7 @@
     "max_text_tokens": 32
   },
   "protocol": {},
-  "architecture": "/home/guoxiangyu/SoccerGMR-GEQ-clip-v2/configs/backbones/moment_detr.json",
+  "architecture": "/home/guoxiangyu/SoccerGMR-GEQ-clip-v2-joint/configs/backbones/moment_detr.json",
   "clip": {
     "method": "native",
     "loss_weight": 0.1,
@@ -25,6 +25,7 @@
     "dice_weight": 0.2,
     "rank_weight": 0.2,
     "margin": 0.5,
-    "topk": 5
+    "topk": 5,
+    "geq_weight": 0.1
   }
 }

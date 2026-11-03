@@ -53,6 +53,6 @@ def test_focal_dice_and_topk_numerical_definitions():
  assert torch.allclose(dice,expected)
 
 
-@pytest.mark.parametrize('bad',[{'method':'unknown'},{'method':'balanced','topk':1.5},{'method':'balanced','gamma':float('nan')},{'method':'balanced','geq_weight':.1}])
+@pytest.mark.parametrize('bad',[{'method':'unknown'},{'method':'balanced','topk':1.5},{'method':'balanced','gamma':float('nan')},{'method':'balanced','freeze_aux':1}])
 def test_config_rejects_invalid(bad):
  with pytest.raises(ValueError):validate_clip_v2(bad)

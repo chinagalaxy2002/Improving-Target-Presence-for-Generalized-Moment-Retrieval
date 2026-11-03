@@ -58,7 +58,7 @@ def _train(config,directory,stage,device,baseline,resume):
         if initial['identity']!=expected:raise ValueError('GMR initialization does not match this experiment')
         if initial['source'] != source or initial['train_val_assets'] != assets or completion['identity'] != initial['identity']:
             raise ValueError('GMR parent source/data/completion mismatch')
-        if 'method' in config.get('clip',{}):
+        if 'method' in config.get('clip',{}) and not config['clip'].get('geq_weight',0):
             model=load_native_gmr(model,spec,config,initial['model']).to(device)
         else:
             model=wrap_gmr(model,spec,config).to(device)
@@ -68,7 +68,7 @@ def _train(config,directory,stage,device,baseline,resume):
             inherited=model.clip_head
             model.close()
             model=model.base
-        model=GEQFull(model,spec,clip_head=clip_enabled(config) and 'method' not in config.get('clip',{})).to(device)
+        model=GEQFull(model,spec,clip_head=clip_enabled(config)).to(device)
         if inherited is not None:model.clip_head.load_state_dict(inherited.state_dict(),strict=True)
         if model.clip_head is not None:
             model.clip_head.requires_grad_(config['clip']['geq_weight'] > 0)
@@ -119,7 +119,7 @@ def _train(config,directory,stage,device,baseline,resume):
                     loss=loss+F.binary_cross_entropy_with_logits(outputs['geq_logit'],targets['exist_label'])
                 clip_weight=config.get('clip',{}).get('gmr_weight' if stage=='gmr' else 'geq_weight',0)
                 if 'method' in config.get('clip',{}):
-                    clip_weight=config['clip']['loss_weight'] if stage=='gmr' else 0
+                    clip_weight=config['clip']['loss_weight'] if stage=='gmr' else config['clip'].get('geq_weight',0)
                 if clip_weight>0:
                     if 'method' in config.get('clip',{}):
                         key='saliency_scores' if config['clip']['method']=='native' else 'clip_logits'

@@ -94,7 +94,9 @@ def wrap_gmr(base, spec, config):
 
 
 def clip_enabled(config):
-    return any(config.get('clip', {}).get(k, 0) > 0 for k in ('gmr_weight', 'geq_weight'))
+    c=config.get('clip',{})
+    if 'method' in c:return c['method']!='native' and c.get('geq_weight',0)>0
+    return any(c.get(k,0)>0 for k in ('gmr_weight','geq_weight'))
 
 
 def balanced_reduce(losses, positive, valid):

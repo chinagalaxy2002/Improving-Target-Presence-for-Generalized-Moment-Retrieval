@@ -101,7 +101,7 @@ def stage_config_identity(config, stage):
 
 def validate_clip_v2(raw):
     defaults = dict(method='balanced', loss_weight=0.1, gamma=2., dice_weight=0.2,
-                    rank_weight=0.2, margin=0.5, topk=5)
+                    rank_weight=0.2, margin=0.5, topk=5, geq_weight=0.)
     if set(raw)-set(defaults):raise ValueError('Unknown v2 clip configuration')
     c = dict(defaults, **raw)
     if c['method'] not in ('balanced','focal','dice','ranking','soft','native'):
