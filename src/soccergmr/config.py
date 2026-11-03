@@ -74,10 +74,12 @@ def load_config(path):
     config = dict(backbone=raw['backbone'], data=data, protocol=protocol, architecture=architecture)
     if 'clip' in raw:
         clip = dict({'gmr_weight': 0., 'geq_weight': 0.}, **raw['clip'])
-        if set(clip) != {'gmr_weight', 'geq_weight'}:
+        if 'method' in clip:
+            clip = validate_clip_v2(raw['clip'])
+        if 'method' not in clip and set(clip) != {'gmr_weight', 'geq_weight'}:
             raise ValueError('Unknown clip configuration keys')
         import math
-        if any(not isinstance(v, (int, float)) or not math.isfinite(v) or v < 0 for v in clip.values()):
+        if any(not isinstance(v, (int, float)) or not math.isfinite(v) or v < 0 for v in clip.values() if not isinstance(v, str)):
             raise ValueError('Clip weights must be finite and nonnegative')
         config['clip'] = clip
     config['identity'] = fingerprint(config)
@@ -90,8 +92,22 @@ def stage_config_identity(config, stage):
     All source/data/native protocol/architecture and Stage 1 clip settings remain
     bound. This permits A/B and C/D to share audited, strictly loaded parents.
     """
-    if stage != 'gmr' or 'clip' not in config:
+    if stage != 'gmr' or 'clip' not in config or 'method' in config['clip']:
         return config['identity']
     projected = {k: v for k, v in config.items() if k != 'identity'}
     projected['clip'] = {'gmr_weight': config['clip']['gmr_weight']}
     return fingerprint({'schema': 'clip-stage-identity-v1', 'config': projected})
+
+
+def validate_clip_v2(raw):
+    defaults = dict(method='balanced', loss_weight=0.1, gamma=2., dice_weight=0.2,
+                    rank_weight=0.2, margin=0.5, topk=5)
+    if set(raw)-set(defaults):raise ValueError('Unknown v2 clip configuration')
+    c = dict(defaults, **raw)
+    if c['method'] not in ('balanced','focal','dice','ranking','soft','native'):
+        raise ValueError('Unknown clip method')
+    import math
+    if any(isinstance(v,bool) or not isinstance(v,(int,float)) or not math.isfinite(v) or v < 0 for k,v in c.items() if k!='method'):
+        raise ValueError('Invalid clip numeric setting')
+    if not isinstance(c['topk'],int) or c['topk']<1:raise ValueError('topk must be a positive integer')
+    return c

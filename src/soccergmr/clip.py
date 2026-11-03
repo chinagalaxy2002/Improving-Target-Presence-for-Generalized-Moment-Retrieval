@@ -88,8 +88,65 @@ class GMRWithClipHead(nn.Module):
 
 
 def wrap_gmr(base, spec, config):
-    return GMRWithClipHead(base, spec) if config.get('clip', {}).get('gmr_weight', 0) > 0 else base
+    c=config.get('clip', {})
+    enabled=(c.get('loss_weight',0)>0 and c.get('method')!='native') if 'method' in c else c.get('gmr_weight',0)>0
+    return GMRWithClipHead(base, spec) if enabled else base
 
 
 def clip_enabled(config):
     return any(config.get('clip', {}).get(k, 0) > 0 for k in ('gmr_weight', 'geq_weight'))
+
+
+def balanced_reduce(losses, positive, valid):
+    """Each video has unit weight; average only nonempty region groups."""
+    valid=valid.bool(); positive=positive.bool() & valid; negative=~positive & valid
+    np_=positive.sum(1); nn_=negative.sum(1)
+    pos=(losses*positive).sum(1)/np_.clamp_min(1)
+    neg=(losses*negative).sum(1)/nn_.clamp_min(1)
+    groups=(np_>0).to(losses.dtype)+(nn_>0).to(losses.dtype)
+    return ((pos+neg)/groups.clamp_min(1)).mean()
+
+
+def clip_auxiliary_loss(logits, targets, valid, settings):
+    method=settings['method']
+    hard=targets['saliency_all_labels']
+    labels=targets['clip_soft_labels'] if method=='soft' else hard
+    if logits.shape!=labels.shape or valid.shape!=labels.shape:raise ValueError('Clip loss dimensions')
+    positive=labels>0
+    losses=F.binary_cross_entropy_with_logits(logits,labels,reduction='none')
+    prob=logits.sigmoid()
+    if method=='focal':
+        pt=torch.where(positive,prob,1-prob)
+        losses=losses*(1-pt).pow(settings['gamma'])
+    balanced=balanced_reduce(losses,positive,valid)
+    total=balanced; dice=logits.sum()*0; rank=logits.sum()*0
+    if method=='dice':
+        mask=valid.to(prob.dtype); active=(hard.bool() & valid.bool()).any(1)
+        intersection=(prob*hard*mask).sum(1)
+        d=1-(2*intersection+1e-6)/((prob*mask).sum(1)+(hard*mask).sum(1)+1e-6)
+        dice=d[active].mean() if active.any() else logits.sum()*0
+        total=total+settings['dice_weight']*dice
+    if method=='ranking':
+        terms=[]
+        for z,y,v in zip(logits,hard,valid.bool()):
+            pos=z[(y>0)&v];neg=z[(y==0)&v]
+            if pos.numel() and neg.numel():
+                hardest=neg.topk(min(settings['topk'],neg.numel())).values
+                terms.append(F.softplus(settings['margin']-pos.mean()+hardest.mean()))
+        rank=torch.stack(terms).mean() if terms else logits.sum()*0
+        total=total+settings['rank_weight']*rank
+    return total, dict(balanced=balanced.detach(),dice=dice.detach(),ranking=rank.detach())
+
+
+def load_native_gmr(base, spec, config, state):
+    """Strictly validate the entire Stage-1 state, then discard auxiliary head.
+
+    No identity bypass and no strict=False. Temporary auxiliary construction
+    preserves RNG; no auxiliary module survives into GEQ.
+    """
+    wrapped=wrap_gmr(base,spec,config)
+    wrapped.load_state_dict(state,strict=True)
+    if isinstance(wrapped,GMRWithClipHead):
+        wrapped.close()
+        return wrapped.base
+    return wrapped

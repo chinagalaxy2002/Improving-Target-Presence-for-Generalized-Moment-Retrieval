@@ -11,7 +11,7 @@ from .backbones.registry import build,get_spec,forward
 from .data import SoccerDataset,collate,move
 from .evaluation import evaluate
 from .geq import GEQFull
-from .clip import wrap_gmr, clip_enabled, masked_clip_loss
+from .clip import wrap_gmr, clip_enabled, masked_clip_loss, clip_auxiliary_loss, load_native_gmr
 from .config import stage_config_identity
 from .io import dump_json,dump_jsonl,fingerprint,sha256
 from .predict import predict
@@ -58,14 +58,17 @@ def _train(config,directory,stage,device,baseline,resume):
         if initial['identity']!=expected:raise ValueError('GMR initialization does not match this experiment')
         if initial['source'] != source or initial['train_val_assets'] != assets or completion['identity'] != initial['identity']:
             raise ValueError('GMR parent source/data/completion mismatch')
-        model=wrap_gmr(model,spec,config).to(device)
-        model.load_state_dict(initial['model'],strict=True)
+        if 'method' in config.get('clip',{}):
+            model=load_native_gmr(model,spec,config,initial['model']).to(device)
+        else:
+            model=wrap_gmr(model,spec,config).to(device)
+            model.load_state_dict(initial['model'],strict=True)
         inherited=None
         if hasattr(model,'clip_head'):
             inherited=model.clip_head
             model.close()
             model=model.base
-        model=GEQFull(model,spec,clip_head=clip_enabled(config)).to(device)
+        model=GEQFull(model,spec,clip_head=clip_enabled(config) and 'method' not in config.get('clip',{})).to(device)
         if inherited is not None:model.clip_head.load_state_dict(inherited.state_dict(),strict=True)
         if model.clip_head is not None:
             model.clip_head.requires_grad_(config['clip']['geq_weight'] > 0)
@@ -115,8 +118,14 @@ def _train(config,directory,stage,device,baseline,resume):
                 if stage=='geq_full':
                     loss=loss+F.binary_cross_entropy_with_logits(outputs['geq_logit'],targets['exist_label'])
                 clip_weight=config.get('clip',{}).get('gmr_weight' if stage=='gmr' else 'geq_weight',0)
+                if 'method' in config.get('clip',{}):
+                    clip_weight=config['clip']['loss_weight'] if stage=='gmr' else 0
                 if clip_weight>0:
-                    clip_loss=masked_clip_loss(outputs['clip_logits'],targets['saliency_all_labels'],inputs['src_vid_mask'])
+                    if 'method' in config.get('clip',{}):
+                        key='saliency_scores' if config['clip']['method']=='native' else 'clip_logits'
+                        clip_loss,_=clip_auxiliary_loss(outputs[key],targets,inputs['src_vid_mask'],config['clip'])
+                    else:
+                        clip_loss=masked_clip_loss(outputs['clip_logits'],targets['saliency_all_labels'],inputs['src_vid_mask'])
                     loss=loss+clip_weight*clip_loss
                     total_clip+=float(clip_loss.detach())
                 if not torch.isfinite(loss):raise FloatingPointError('Nonfinite training loss')

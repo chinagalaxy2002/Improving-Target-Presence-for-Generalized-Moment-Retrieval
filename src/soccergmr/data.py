@@ -12,6 +12,21 @@ from torch.utils.data import Dataset
 from .io import read_jsonl, sha256, dump_json
 
 
+def soft_clip_labels(windows, duration, length):
+    # Exact temporal union, including overlapping GT; actual duration/T grid.
+    merged=[]
+    for start,end in sorted(windows):
+        if merged and start<=merged[-1][1]:merged[-1][1]=max(end,merged[-1][1])
+        else:merged.append([start,end])
+    width=float(duration)/length
+    values=[]
+    for t in range(length):
+        a,b=t*width,(t+1)*width
+        overlap=sum(max(0.,min(b,e)-max(a,s)) for s,e in merged)
+        values.append(min(1.,max(0.,overlap/width)))
+    return torch.tensor(values,dtype=torch.float32)
+
+
 def normalize(array):
     return array/(np.linalg.norm(array, axis=-1, keepdims=True)+1e-5)
 
@@ -79,6 +94,8 @@ class SoccerDataset(Dataset):
         ni=([neg[0],neg[-1]] if neg else pi)
         item = dict(meta=row,video=torch.from_numpy(video),query=torch.from_numpy(query),
                     spans=spans,masks=masks,saliency=saliency,pos=pi,neg=ni)
+        if self.config.get('clip',{}).get('method')=='soft':
+            item['clip_soft']=soft_clip_labels(row['relevant_windows'],row['duration'],length)
         return item
 
 
@@ -110,6 +127,7 @@ def collate(items):
         saliency_neg_labels=torch.tensor([x['neg'] for x in items]),
         saliency_pair_mask=torch.tensor([bool(x['saliency'].any()) and bool((x['saliency']==0).any()) for x in items],dtype=torch.float32),
         mask_labels=masks)
+    if 'clip_soft' in items[0]:targets['clip_soft_labels']=pad_sequence([x['clip_soft'] for x in items],batch_first=True)
     return metas,inputs,targets
 
 
