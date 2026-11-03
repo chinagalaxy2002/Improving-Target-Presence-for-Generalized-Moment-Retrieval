@@ -6,6 +6,7 @@ from .backbones.registry import build,get_spec
 from .data import SoccerDataset
 from .evaluation import evaluate
 from .geq import GEQFull
+from .clip import wrap_gmr, clip_enabled
 from .io import dump_json,dump_jsonl,fingerprint,sha256,read_jsonl
 from .predict import predict
 
@@ -21,7 +22,8 @@ def test(config,checkpoint,output,device='cuda:0'):
         if saved['config']['identity']!=config['identity']:raise ValueError('Test configuration differs from the training configuration')
         if saved['source']!=ck.source_identity():raise ValueError('Source code differs from the training checkpoint')
         model,_=build(config,device)
-        if saved['stage']=='geq_full':model=GEQFull(model,get_spec(config['backbone'])).to(device)
+        if saved['stage']=='geq_full':model=GEQFull(model,get_spec(config['backbone']),clip_head=clip_enabled(config)).to(device)
+        else:model=wrap_gmr(model,get_spec(config['backbone']),config).to(device)
         model.load_state_dict(saved['model'],strict=True)
         results={}
         for split in ('test_standard','test_full'):

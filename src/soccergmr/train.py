@@ -11,6 +11,8 @@ from .backbones.registry import build,get_spec,forward
 from .data import SoccerDataset,collate,move
 from .evaluation import evaluate
 from .geq import GEQFull
+from .clip import wrap_gmr, clip_enabled, masked_clip_loss, clip_auxiliary_loss, load_native_gmr
+from .config import stage_config_identity
 from .io import dump_json,dump_jsonl,fingerprint,sha256
 from .predict import predict
 from .selection import Selector,score
@@ -30,7 +32,7 @@ def _train(config,directory,stage,device,baseline,resume):
     if {Path(r['vid']).stem for r in training.data}&{Path(r['vid']).stem for r in validation.data}:
         raise ValueError('Train/Val video leakage')
     source=ck.source_identity();assets=ck.asset_identity([training,validation])
-    identity=fingerprint(dict(config=config['identity'],source=source,train_val_assets=assets,stage=stage))
+    identity=fingerprint(dict(config=stage_config_identity(config,stage),source=source,train_val_assets=assets,stage=stage))
     if (directory/'complete.json').exists():
         completed=json.loads((directory/'complete.json').read_text())
         if completed['identity']!=identity:raise ValueError('Completed run has a different identity')
@@ -43,6 +45,7 @@ def _train(config,directory,stage,device,baseline,resume):
     ck.seed_all(p['seed'])
     model,criterion=build(config,device)
     baseline_sha=None
+    native_epoch_offset=0
     if stage=='geq_full':
         if baseline is None:raise ValueError('GEQ Full requires a finalized GMR best.pt')
         baseline=Path(baseline).resolve()
@@ -50,12 +53,31 @@ def _train(config,directory,stage,device,baseline,resume):
         baseline_sha=sha256(baseline)
         if completion['stage']!='gmr' or completion['best_sha256']!=baseline_sha:raise ValueError('GMR checkpoint is not the finalized selected best')
         initial=ck.load(baseline,stage='gmr')
-        expected=fingerprint(dict(config=config['identity'],source=source,train_val_assets=assets,stage='gmr'))
+        native_epoch_offset=initial['epoch']
+        expected=fingerprint(dict(config=stage_config_identity(config,'gmr'),source=source,train_val_assets=assets,stage='gmr'))
         if initial['identity']!=expected:raise ValueError('GMR initialization does not match this experiment')
-        model.load_state_dict(initial['model'],strict=True)
-        model=GEQFull(model,spec).to(device)
+        if initial['source'] != source or initial['train_val_assets'] != assets or completion['identity'] != initial['identity']:
+            raise ValueError('GMR parent source/data/completion mismatch')
+        if 'method' in config.get('clip',{}) and not config['clip'].get('geq_weight',0):
+            model=load_native_gmr(model,spec,config,initial['model']).to(device)
+        else:
+            model=wrap_gmr(model,spec,config).to(device)
+            model.load_state_dict(initial['model'],strict=True)
+        inherited=None
+        if hasattr(model,'clip_head'):
+            inherited=model.clip_head
+            model.close()
+            model=model.base
+        model=GEQFull(model,spec,clip_head=clip_enabled(config)).to(device)
+        if inherited is not None:model.clip_head.load_state_dict(inherited.state_dict(),strict=True)
+        if model.clip_head is not None:
+            model.clip_head.requires_grad_(config['clip']['geq_weight'] > 0)
         groups=[dict(params=model.base.parameters(),lr=p['geq_lr_native']),dict(params=model.geq.parameters(),lr=p['geq_lr_head'])]
-    else:groups=[dict(params=model.parameters(),lr=p['learning_rate'])]
+    else:
+        model=wrap_gmr(model,spec,config).to(device)
+        groups=[dict(params=model.parameters(),lr=p['learning_rate'])]
+    if stage=='geq_full' and model.clip_head is not None and config['clip']['geq_weight']>0:
+        groups.append(dict(params=model.clip_head.parameters(),lr=p['geq_lr_head']))
     optimizer=torch.optim.AdamW(groups,weight_decay=p['weight_decay'])
     # Constant learning rate is explicit; no hidden native scheduler/defaults.
     generator=torch.Generator().manual_seed(p['seed'])
@@ -85,16 +107,27 @@ def _train(config,directory,stage,device,baseline,resume):
     try:
         while epoch<maximum and selector.stale<selector.patience:
             model.train();optimizer.zero_grad(set_to_none=True)
-            total_loss=0.;batches=len(loader)
+            total_loss=0.;total_clip=0.;batches=len(loader)
             for batch_index,(metas,inputs,targets) in enumerate(loader):
                 if stop_requested:
                     # last.pt describes the previous COMPLETE epoch, including RNG.
                     return dict(status='interrupted',resume_from=str(directory/'last.pt'),completed_epoch=epoch)
                 inputs,targets=move(inputs,device),move(targets,device)
-                outputs=forward(model,config['backbone'],inputs,targets,metas)
+                outputs=forward(model,config['backbone'],inputs,targets,metas,epoch=native_epoch_offset+epoch,batch_idx=batch_index,train_loader_length=batches)
                 loss,_=criterion(outputs.get('native_output',outputs),targets,epoch)
                 if stage=='geq_full':
                     loss=loss+F.binary_cross_entropy_with_logits(outputs['geq_logit'],targets['exist_label'])
+                clip_weight=config.get('clip',{}).get('gmr_weight' if stage=='gmr' else 'geq_weight',0)
+                if 'method' in config.get('clip',{}):
+                    clip_weight=config['clip']['loss_weight'] if stage=='gmr' else config['clip'].get('geq_weight',0)
+                if clip_weight>0:
+                    if 'method' in config.get('clip',{}):
+                        key='saliency_scores' if config['clip']['method']=='native' else 'clip_logits'
+                        clip_loss,_=clip_auxiliary_loss(outputs[key],targets,inputs['src_vid_mask'],config['clip'])
+                    else:
+                        clip_loss=masked_clip_loss(outputs['clip_logits'],targets['saliency_all_labels'],inputs['src_vid_mask'])
+                    loss=loss+clip_weight*clip_loss
+                    total_clip+=float(clip_loss.detach())
                 if not torch.isfinite(loss):raise FloatingPointError('Nonfinite training loss')
                 window_start=(batch_index//p['accumulation'])*p['accumulation']
                 window_size=min(p['accumulation'],batches-window_start)
@@ -108,7 +141,7 @@ def _train(config,directory,stage,device,baseline,resume):
             value=score(stage,metrics)
             decision=selector.update(epoch,value)
             improved=decision['improved']
-            history.append(dict(epoch=epoch,loss=total_loss/batches,selection_score=value,
+            history.append(dict(epoch=epoch,loss=total_loss/batches,clip_loss=total_clip/batches,selection_score=value,
                                 improved=improved,stale=selector.stale,metrics=metrics))
             state=payload()
             if improved:

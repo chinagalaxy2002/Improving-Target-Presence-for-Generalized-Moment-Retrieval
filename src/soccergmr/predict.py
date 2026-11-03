@@ -6,6 +6,7 @@ from .backbones.registry import forward
 
 def export(outputs,metas):
     foreground=outputs['pred_logits'].softmax(-1)[...,0]
+    if 'pred_quality' in outputs:foreground=outputs['pred_quality'].squeeze(-1)
     if 'iou_scores' in outputs:foreground=foreground*outputs['iou_scores'].squeeze(-1).sigmoid()
     spans=outputs['pred_spans']
     logit=outputs.get('pred_exist_logits',outputs.get('pred_exist_logit')).reshape(-1)

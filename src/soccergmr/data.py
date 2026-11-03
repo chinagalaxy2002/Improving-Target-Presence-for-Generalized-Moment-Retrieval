@@ -1,6 +1,7 @@
 """Common SoccerGMR assets and targets, with explicit backbone feature profiles."""
 from __future__ import annotations
 import math
+import random
 from pathlib import Path
 
 import numpy as np
@@ -9,6 +10,21 @@ from torch.nn.utils.rnn import pad_sequence
 from torch.utils.data import Dataset
 
 from .io import read_jsonl, sha256, dump_json
+
+
+def soft_clip_labels(windows, duration, length):
+    # Exact temporal union, including overlapping GT; actual duration/T grid.
+    merged=[]
+    for start,end in sorted(windows):
+        if merged and start<=merged[-1][1]:merged[-1][1]=max(end,merged[-1][1])
+        else:merged.append([start,end])
+    width=float(duration)/length
+    values=[]
+    for t in range(length):
+        a,b=t*width,(t+1)*width
+        overlap=sum(max(0.,min(b,e)-max(a,s)) for s,e in merged)
+        values.append(min(1.,max(0.,overlap/width)))
+    return torch.tensor(values,dtype=torch.float32)
 
 
 def normalize(array):
@@ -20,6 +36,8 @@ class SoccerDataset(Dataset):
         self.config, self.split, self.spec = config, split, spec
         self.path = Path(config['data']['splits'][split])
         self.data = read_jsonl(self.path)
+        if spec.name == 'bm_detr' and split == 'train' and len({r['vid'] for r in self.data}) < 2:
+            raise ValueError('BM synthetic pairing requires at least two videos')
         self.feature_root = Path(config['data']['features']['full' if split=='test_full' else 'standard'])
         ids = [r['qid'] for r in self.data]
         if len(ids)!=len(set(ids)):
@@ -76,8 +94,21 @@ class SoccerDataset(Dataset):
         # Deterministic GT-derived pair labels do not consume evaluation/training RNG.
         pi=([pos[0],pos[-1]] if pos else [0,0])
         ni=([neg[0],neg[-1]] if neg else pi)
-        return dict(meta=row,video=torch.from_numpy(video),query=torch.from_numpy(query),
+        item = dict(meta=row,video=torch.from_numpy(video),query=torch.from_numpy(query),
                     spans=spans,masks=masks,saliency=saliency,pos=pi,neg=ni)
+        if self.spec.name == 'bm_detr' and self.split == 'train':
+            # Upstream BM samples a query from another video as a synthetic
+            # negative. This is not a verified real-null label and is used only
+            # by the native probability modulation, never existence BCE.
+            other = random.choice(self.data)
+            while other['vid'] == row['vid']:
+                other = random.choice(self.data)
+            with np.load(self.feature_root/'clip_text'/('qid'+str(other['qid'])+'.npz')) as archive:
+                negative = archive['last_hidden_state'].astype(np.float32)[:self.config['data']['max_text_tokens']]
+            if negative.ndim != 2 or negative.shape[1] != 512 or not len(negative) or not np.isfinite(negative).all():
+                raise ValueError('Invalid BM synthetic negative text features')
+            item['negative_query'] = torch.from_numpy(normalize(negative))
+        return item
 
 
 def collate(items):
@@ -92,9 +123,16 @@ def collate(items):
         padded[:,:item['masks'].shape[1]]=item['masks']
         masks.append(padded)
     saliency=pad_sequence([x['saliency'] for x in items],batch_first=True)
+    video_ids = {vid: i for i, vid in enumerate(dict.fromkeys(m['vid'] for m in metas))}
     inputs=dict(src_vid=pad_sequence(videos,batch_first=True),src_vid_mask=vm.float(),
                 src_txt=pad_sequence(queries,batch_first=True),src_txt_mask=tm.float())
+    if 'negative_query' in items[0]:
+        negatives = [x['negative_query'] for x in items]
+        inputs['neg_src_txt'] = pad_sequence(negatives,batch_first=True)
+        inputs['neg_src_txt_mask'] = pad_sequence([torch.ones(len(q)) for q in negatives],batch_first=True)
     targets=dict(span_labels=[dict(spans=x['spans']) for x in items],
+        logit_mask=vm.float(),
+        video_group=torch.tensor([video_ids[m['vid']] for m in metas]),
         exist_label=torch.tensor([bool(m['relevant_windows']) for m in metas],dtype=torch.float32),
         saliency_all_labels=saliency,relevant_clips=saliency,src_pos_mask=saliency,
         saliency_pos_labels=torch.tensor([x['pos'] for x in items]),

@@ -141,3 +141,15 @@ PYTHONPATH=src python scripts/verify_real_data.py --config configs/experiments/m
 新增骨干从[扩展契约](docs/EXTENDING.md)开始。主入口在 [`src/soccergmr`](src/soccergmr/)，架构配置在 [`configs/backbones`](configs/backbones/)，实验配置在 [`configs/experiments`](configs/experiments/)；原生代码快照有[来源与哈希清单](src/soccergmr/backbones/SOURCE_MANIFEST.json)。
 
 新增骨干的[调研文档与新会话入口](docs/backbone_expansion/START_HERE.md)已准备，首批建议 BM-DETR、BAM-DETR、UVCOM。首两批六骨干现已完成训练、微调和两套Test，配对结果见上方11骨干图。后续新骨干接入在独立副本中进行，不计入本次已完成结果。
+
+## 新队列：11 骨干 E3 → GEQ＋aux
+
+本工作分支 `soccergmr-e3-aux-11` 按指定11骨干列表扩展：Moment-DETR、EaTR、QD-DETR、CG-DETR、Sim-DETR、BM-DETR、BAM-DETR、UVCOM、TR-DETR、TaskWeave、LD-DETR。方法来源和训练细节见 [E3 统一协议](E3_ELEVEN_PROTOCOL.md) 与 [原生代码导入清单](BACKBONE_IMPORT.json)；它是本项目 GEQ＋Query-aware Clip Head＋Balanced BCE/Mask Dice 的组合，不是外部同名完整算法的复现。
+
+每个骨干采用相同 E3 配方：GMR 阶段 `L_native+0.1*(Balanced BCE+0.2*Dice)`；继承主干与辅助头后，GEQ 阶段 `L_native+L_GEQ_BCE+0.1*(Balanced BCE+0.2*Dice)`，辅助头可训练。Clip 分数不改变推理门控、候选排序或边界；保留各主干的原生损失和证据读取适配。seed2023、batch8、video128/text32、GMR/GEQ上限200、patience20/10，统一 Val 选模和 Standard1036/Full-Decodable2970/2986 固定评测。
+
+Moment-DETR 的同配方已有结果直接保留原始源码身份与哈希，不重新训练；其余10个骨干为20个新训练阶段。每个骨干两阶段 best 都评测两套 Test：总44组（40组新评测＋4组 Moment 既有评测）。历史无aux baseline 单独保留其75/128-token和patience6/10差异，不冒充同预算对照。当前正式性能仍待队列完成。
+
+运行：`PYTHONPATH=src python scripts/run_e3_eleven.py`（须先通过 `scripts/verify_e3_eleven.py --backbone NAME`、提交并执行 `scripts/freeze_e3_eleven.py`）。队列状态在 `runs/e3_eleven/formal/queue_state.json`；全11骨干训练图在该目录 `monitor/training_val_panel.png`；最终指标/101点G1/G3曲线/子集/审计在 `results/e3_eleven/`。两张卡每卡最多3个任务，统计外部占用，支持完整 last.pt 断点恢复。所有新骨干 Val 选择固定后才统一 Test。
+
+远程基础分支只含5个可运行adapter，因此另外6个从已验收的本地第二批扩展源码导入；上游license、SOURCE_MANIFEST、实际导入SHA256均保留。验收明确检查重复encoder调用、global-token offset、TaskWeave两种epoch路由、LD动量队列、BAM质量排序、空查询梯度、head继承更新和精确恢复。该工作没有重新派发其它会话已暂停的训练。

@@ -1,5 +1,5 @@
 """Shared differentiable GEQ Full evidence head; native localization stays intact."""
-from contextlib import nullcontext
+from .clip import GMRWithClipHead
 import torch
 from torch import nn
 
@@ -45,39 +45,14 @@ class GlobalEventQueryHead(nn.Module):
 
 
 
-class GEQFull(nn.Module):
-    def __init__(self, base, spec):
-        super().__init__()
-        from .backbones.registry import encoder_root
-        self.base=base.requires_grad_(True)
-        self.spec=spec
-        root=encoder_root(base,spec.name)
-        layers=root.transformer.encoder.layers
-        self.geq=GlobalEventQueryHead(len(layers))
-        self.context=None
-        self.handles=[root.input_txt_proj.register_forward_hook(self.capture_text)]
-        self.handles.extend(layer.register_forward_hook(self.capture_video) for layer in layers)
-    def capture_text(self,module,args,output):
-        if self.context is not None and 'text' not in self.context:
-            self.context['text']=output
-    def capture_video(self,module,args,output):
-        if self.context is not None:
-            start=self.spec.encoder_offset
-            self.context['video'].append(output.transpose(0,1)[:,start:start+self.video_length])
+class GEQFull(GMRWithClipHead):
+    def __init__(self, base, spec, clip_head=False):
+        super().__init__(base.requires_grad_(True), spec, clip_head=clip_head)
+        self.geq = GlobalEventQueryHead(self.depth)
+
     def forward(self, **inputs):
-        if self.context is not None:raise RuntimeError('Reentrant GEQ forward')
-        self.video_length=inputs['src_vid_mask'].shape[1]
-        context={'video':[]};self.context=context
-        try:native=self.base(**inputs)
-        finally:self.context=None
-        depth=len(self.geq.video_reads)
-        if len(context['video'])!=depth*self.spec.encoder_passes:
-            raise RuntimeError(f"Unexpected encoder passes: {len(context['video'])}/{depth}")
-        video=context['video'][:depth]
-        if any(x.shape[:2]!=inputs['src_vid_mask'].shape for x in video):
-            raise RuntimeError('Incorrect encoder evidence dimensions')
-        logit=self.geq(context['text'],inputs['src_txt_mask'],video,inputs['src_vid_mask'])
-        return {**native,'native_output':native,'geq_logit':logit,
-                'pred_exist_logits':logit,'pred_exist_logit':logit}
-    def close(self):
-        for handle in self.handles:handle.remove()
+        native, text, video = self.evidence(inputs)
+        logit = self.geq(text, inputs['src_txt_mask'], video, inputs['src_vid_mask'])
+        return {**native, 'native_output': native, 'geq_logit': logit,
+                'pred_exist_logits': logit, 'pred_exist_logit': logit,
+                **self.clip_output(text, video, inputs)}
