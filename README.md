@@ -1,3 +1,25 @@
+# 当前版本：E1–E6 与 GEQ＋aux 微调结果
+
+**所有训练和自动队列已按用户要求暂停。** 六组新 GEQ＋aux 训练已完成，全部 checkpoint 留在本机；本分支上传代码、Val 结果、训练图及已经完成的固定 Test 结果，不上传模型权重或特征。
+
+- [当前结果快照与暂停说明](results/clip_joint_snapshot/README.md)
+- [E3 GEQ＋aux 与 baseline 的 Standard / Full Test 对比](results/E3_baseline_comparison/README.md)
+- [E3 对比指标 CSV](results/E3_baseline_comparison/METRICS.csv) · [0–1、步长0.01的 G-mIoU@1 曲线 CSV](results/E3_baseline_comparison/CURVES.csv)
+- [上一轮 E1–E6（GMR-only 辅助监督）的完整结果与审计](results/clip_v2/REPORT.md)
+- [新微调方案](EXPERIMENT_JOINT.md) · [父 GMR 兼容迁移及训练验收](scripts/verify_joint.py)
+
+![全部训练进度](results/clip_joint_snapshot/training_val_panel.png)
+
+![E3 与 baseline 阈值曲线](results/E3_baseline_comparison/G1_THRESHOLDS.png)
+
+E3 GEQ＋aux 的 Standard / Full mAP 为 **7.47 / 6.44**，原始 GMR baseline 为 **6.10 / 5.19**；三阈值 G1 均值为 **51.80 / 48.46**，原始 GMR baseline 为 **35.89 / 33.69**。同时保留原始 GMR→GEQ 控制（mAP **6.05 / 5.26**，G1 **52.77 / 49.12**）和同一 E3 GMR 起点的无辅助 GEQ（mAP **6.33 / 5.81**，G1 **52.45 / 48.95**）。因此，aux 的 mAP 提高，但对比 GEQ 控制时 G1 略降，不应宣称整体指标全面提升。
+
+mAP 使用未门控正查询候选；G1 三点均值对应固定存在性阈值0.4/0.5/0.6。曲线阈值扫描只用于展示，不用于 Test 选参。Standard1036条；Full-Decodable2970/2986条。两个 Test 集存在重叠；单 seed=2023，实际早停时长不同。旧 A/B/C/D、上一轮 E1–E6 和新轮 GEQ＋aux 的训练源码身份分别保留，未重训已有 GMR 或关闭身份检查。
+
+本次复现：六种辅助损失只用于 GMR 的训练提交为 `d6cc259`；保留可训练辅助头并在 GEQ 中加入0.1辅助损失的提交为 `d782d85`。后续发布提交仅补充结果、脚本和文档，不修改以上已经训练的源文件。自动队列已关闭；恢复须由用户另行明确启动，使用原配置、原父模型及完整 last.pt，不从 best.pt 冒充续训。
+
+---
+
 # Moment-DETR + Query-conditioned Clip Supervision
 
 本分支只包含 **逐 clip 辅助监督**的 Moment-DETR 实现、必要的 GMR/GEQ 基础组件，以及 A/B/C/D 实验。它研究：训练时逐段判断“这个视频片段是否属于文字查询描述的事件”，能否改善最终时间定位。

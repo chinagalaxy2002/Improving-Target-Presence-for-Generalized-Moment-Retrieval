@@ -1,0 +1,62 @@
+{
+  "status": "paused",
+  "pid": 3876551,
+  "source": "457b59503b805ae1c510346c4babde04f7d0aae77f847efe33303cfc1848eda1",
+  "commit": "d782d85eca792df1d54b9086b55f9f10a1ded581",
+  "running": {
+    "E1/diagnostics": {
+      "pid": 3912865,
+      "gpu": 0
+    },
+    "E1/geq_full_test": {
+      "pid": 3912872,
+      "gpu": 0
+    },
+    "E2/diagnostics": {
+      "pid": 3913034,
+      "gpu": 0
+    },
+    "E4/diagnostics": {
+      "pid": 3913182,
+      "gpu": 1
+    },
+    "E4/geq_full_test": {
+      "pid": 3913334,
+      "gpu": 1
+    },
+    "E5/diagnostics": {
+      "pid": 3913489,
+      "gpu": 1
+    }
+  },
+  "completed": [
+    "E5/geq_full",
+    "E2/geq_full",
+    "E3/geq_full",
+    "E6/geq_full",
+    "E1/geq_full",
+    "E4/geq_full"
+  ],
+  "failures": [],
+  "phase": "fixed_evaluation",
+  "max_tasks_per_gpu": 3,
+  "resources": {
+    "0": {
+      "pids": [
+        3912865,
+        3912872,
+        3913034
+      ],
+      "free_mib": 23700
+    },
+    "1": {
+      "pids": [
+        3913182,
+        3913334
+      ],
+      "free_mib": 23717
+    }
+  },
+  "paused_at": "2026-11-03T20:53:19.215583",
+  "pause_reason": "User requested all training paused; E3 fixed Test evaluation authorized separately"
+}
