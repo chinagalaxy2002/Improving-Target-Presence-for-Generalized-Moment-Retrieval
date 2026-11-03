@@ -18,7 +18,7 @@
 
 归档的 SoccerGMR Standard Test 历史对照中，五个骨干的三点 G-mIoU@1 均值相对各自 GMR 均提高，按 0–100 单位计算，增益约为 **6.97–16.95 个百分点**；mAP 有升有降，例如 Sim-DETR 为 **+1.53**，Moment-DETR 为 **−0.91** 个百分点。这个现象说明需要同时检查综合检索和定位代价，不能将 GEQ 描述成所有指标都会提升。
 
-这些结果为“在多个骨干上缓解存在性误判相关的 G-mIoU 损失”提供初步支持；增益中具体有多少来自误判减少，仍需结合错误统计与固定候选分析确认。它们是**旧六轮早停协议的 Test 观察**。当前十轮早停协议完成了功能验证，正式性能结果仍待训练；历史数据也不足以把所有增益单独归因于 GEQ 结构。[算法说明与证据表](docs/ALGORITHM.md)给出处理流程、损失、指标含义、同骨干相对 GMR 的全部增减及来源。当前评测的 mAP 使用正查询未门控候选，因此只改变拒识门控不会使 mAP 改变；Full 微调改变骨干参数后，mAP 才可能随定位输出变化。
+这些结果为“在多个骨干上缓解存在性误判相关的 G-mIoU 损失”提供初步支持；增益中具体有多少来自误判减少，仍需结合错误统计与固定候选分析确认。它们是**旧六轮早停协议的 Test 观察**。新增六个骨干现已完成十轮早停协议的正式训练与配对Test，见下方11骨干图；历史数据也不足以把所有增益单独归因于 GEQ 结构。[算法说明与证据表](docs/ALGORITHM.md)给出处理流程、损失、指标含义、同骨干相对 GMR 的全部增减及来源。当前评测的 mAP 使用正查询未门控候选，因此只改变拒识门控不会使 mAP 改变；Full 微调改变骨干参数后，mAP 才可能随定位输出变化。
 
 原始 README 及全部旧实验已保存为[历史归档](archive/README.md)，其中 [README 副本](archive/legacy_20261102/README.md)保留原字节与[哈希记录](archive/legacy_20261102/BACKUP_MANIFEST.json)。Charades 仅通过[文件夹索引](archive/charades/README.md)访问。
 
@@ -33,7 +33,7 @@
 
 新实现的训练与验证入口只加载 Train / Val。Test 命令只接受已完成阶段、经 Val 选择且哈希匹配的 `best.pt`，同一个 checkpoint 依次评测两种 Test。恢复使用 `last.pt` 中完整 epoch 的模型、优化器、随机数、数据打乱状态和早停计数；中断的未完成 epoch 会重做。目录锁阻止同一输出目录被重复派发。
 
-## 骨干和验证状态
+## 训练入口与结果状态
 
 | 骨干 | GMR → GEQ Full | Standard / Full Test 入口 | 当前数值状态 |
 |---|---|---|---|
@@ -42,34 +42,34 @@
 | QD-DETR | 已接入 | 已接入 | 同上 |
 | CG-DETR | 已接入 | 已接入 | 同上 |
 | Sim-DETR | 已接入 | 已接入 | 同上 |
+| BM-DETR、BAM-DETR、UVCOM | 本地冻结版本已完成 | 两套均完成 | 新十轮协议；结果已发布 |
+| TR-DETR、TaskWeave、LD-DETR | 独立工作区冻结版本已完成 | 两套均完成 | 新十轮协议；结果已发布；训练源码未自动迁入本次发布 |
 
-[代码审查与验证报告](docs/REVIEW.md)记录真实数据验证范围、断点恢复证据和限制。按本次授权，**暂不重训全部正式实验**。旧结果按原协议归档，没有将旧早停结果改名为当前 10 轮协议的成绩；功能验证的少量样本分数也不作为性能结果。
+[代码审查与验证报告](docs/REVIEW.md)记录真实数据验证范围、断点恢复证据和限制。原有五个历史骨干没有作为新协议重新训练；新增六个已按新协议完成正式实验。旧结果按原协议归档，没有将旧早停结果改名为当前 10 轮协议的成绩；功能验证的少量样本分数也不作为性能结果。
 
-## 五骨干正式 Test 曲线
+## 11 骨干配对 Test 曲线
 
-以下两图只比较 **GMR baseline 与 GMR＋GEQ Full**，每个骨干在 Standard／Full 上使用同一组固定、已由 Standard Val 选定的检查点。它们是**旧六轮早停协议的既有模型评测**，不是当前十轮早停协议的新训练结果。本次重跑 Standard 正式 Test，关键指标与归档逐项一致，再补齐对应 Full Test；没有训练、重新选模或 Test 调参。示例中的旧四骨干 Full 图用了另一组初始化，本处已重新配对，不能混用其中数值。
+目前已汇总 **11 个骨干 × GMR/GEQ Full × Standard/Full，共44组完整Test**：原有5个历史骨干，加上新完成的BM-DETR、BAM-DETR、UVCOM、TR-DETR、TaskWeave、LD-DETR。每行左侧G-mIoU@1、右侧@3，行下显示mAP与相对本骨干GMR的变化；**绿色提高、红色下降**，负结果全部保留。
 
-每行左图为 G-mIoU@1，右图为 @3，图例报告各方法 mAP。行下方标出相对 GMR 的 ΔmAP、0.4／0.5／0.6 三点 G1／G3 均值增减：**增益绿色、下降红色、持平灰色**。曲线使用 0–1；增减标注使用百分点。横向虚线是两个展示方法的最大 oracle-presence 诊断值，每个方法保留自己的定位候选，并非可部署成绩。
+**协议分组明确保留：历史5个为GEQ六轮早停、75-token；新增6个为GEQ十轮早停、128-token。** 新6个均完成Standard训练、Val选模、GEQ Full微调及两套固定best的Test。这是各骨干内部配对比较，不是统一训练预算下的11骨干排名。正查询mAP使用未门控候选；GEQ Full联合更新会改变定位，不能把所有收益都归因于拒识。
 
 ### Standard Test：1,036 条
 
-五个骨干的三点 G-mIoU@1 均值相对 GMR 均提高 **6.97–16.95 个百分点**；mAP 有升有降，保留 Moment-DETR 的负增益。
+![11骨干 SoccerGMR Standard Test 曲线](results/test_thresholds_11_backbones/STANDARD_TEST.png)
 
-![五骨干 SoccerGMR Standard Test 曲线](results/test_thresholds/STANDARD_TEST.png)
+[PDF](results/test_thresholds_11_backbones/STANDARD_TEST.pdf) · [SVG](results/test_thresholds_11_backbones/STANDARD_TEST.svg) · [逐骨干PDF](results/test_thresholds_11_backbones/STANDARD_BY_BACKBONE.pdf)
 
-[PDF](results/test_thresholds/STANDARD_TEST.pdf) · [SVG](results/test_thresholds/STANDARD_TEST.svg) · [每骨干单页](results/test_thresholds/STANDARD_BY_BACKBONE.pdf)
+### Full-Decodable Test：2,970／2,986 条
 
-### Full Test：Full-Decodable 2,970／2,986 条
+![11骨干 SoccerGMR Full Test 曲线](results/test_thresholds_11_backbones/FULL_TEST.png)
 
-同一组检查点的三点 G-mIoU@1 均值在五个骨干上均提高 **3.73–15.60 个百分点**；mAP 相对 GMR 为 **0.00 至 +1.40 个百分点**。具体阈值上仍可能下降，完整曲线保留这些变化。
+[PDF](results/test_thresholds_11_backbones/FULL_TEST.pdf) · [SVG](results/test_thresholds_11_backbones/FULL_TEST.svg) · [逐骨干PDF](results/test_thresholds_11_backbones/FULL_BY_BACKBONE.pdf)
 
-![五骨干 SoccerGMR Full Test 曲线](results/test_thresholds/FULL_TEST.png)
+图中G-mIoU为0–1，Δ为百分点；G1/G3均值取存在性阈值.4/.5/.6。虚线为两模型各自固定候选的最大oracle-presence诊断值，不是可部署成绩。Full有16条未覆盖；历史组的75-token截断保留，新增组完整处理94/104-token长视频。两套Test存在样本重叠。
 
-[PDF](results/test_thresholds/FULL_TEST.pdf) · [SVG](results/test_thresholds/FULL_TEST.svg) · [每骨干单页](results/test_thresholds/FULL_BY_BACKBONE.pdf)
+[完整协议、两套11骨干数值表和复现](results/test_thresholds_11_backbones/README.md) · [44组审计](results/test_thresholds_11_backbones/AUDIT.json) · [全部指标与错误分析](results/test_thresholds_11_backbones/METRICS.csv) · [101点曲线](results/test_thresholds_11_backbones/CURVES.csv) · [两套总图PDF](results/test_thresholds_11_backbones/BOTH_TESTS.pdf)
 
-Full 沿用已有可解码子集，16 条未覆盖；历史 75-token 视频上限也保持不变，两段 94／104 步视频截断到 75 步后仍按原 duration 缩放。本图未替换为新训练入口的 128-token 协议。Standard 与 Full Test 存在重叠样本；这两图不代表相互独立的测试样本。
-
-[完整协议与复现](results/test_thresholds/README.md) · [20 组正式 Test 审计](results/test_thresholds/AUDIT.json) · [数值与相对 GMR 增减](results/test_thresholds/METRICS.csv) · [101 点曲线](results/test_thresholds/CURVES.csv) · [绘图脚本](scripts/plot_test_thresholds.py)
+[原有五骨干结果与历史协议](results/test_thresholds/README.md)继续保留。发布包未自动迁入其它会话未提交的训练adapter，新增六个训练源码的冻结identity与血缘见结果包；当前远程可用训练adapter以registry为准。
 
 ## 安装与数据
 
@@ -130,4 +130,4 @@ PYTHONPATH=src python scripts/verify_real_data.py --config configs/experiments/m
 
 新增骨干从[扩展契约](docs/EXTENDING.md)开始。主入口在 [`src/soccergmr`](src/soccergmr/)，架构配置在 [`configs/backbones`](configs/backbones/)，实验配置在 [`configs/experiments`](configs/experiments/)；原生代码快照有[来源与哈希清单](src/soccergmr/backbones/SOURCE_MANIFEST.json)。
 
-新增骨干的[调研文档与新会话入口](docs/backbone_expansion/START_HERE.md)已准备，首批建议 BM-DETR、BAM-DETR、UVCOM。本次仅完成调研和交接文档，尚未适配或启动这些新骨干的训练。
+新增骨干的[调研文档与新会话入口](docs/backbone_expansion/START_HERE.md)已准备，首批建议 BM-DETR、BAM-DETR、UVCOM。首两批六骨干现已完成训练、微调和两套Test，配对结果见上方11骨干图。后续新骨干接入在独立副本中进行，不计入本次已完成结果。

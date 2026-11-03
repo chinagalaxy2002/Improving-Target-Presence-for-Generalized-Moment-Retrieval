@@ -1,0 +1,86 @@
+{
+  "backbone": "bam_detr",
+  "data": {
+    "splits": {
+      "train": "${SOCCERGMR_LABEL_ROOT}/Standard/train.jsonl",
+      "val": "${SOCCERGMR_LABEL_ROOT}/Standard/val.jsonl",
+      "test_standard": "${SOCCERGMR_LABEL_ROOT}/Standard/test.jsonl",
+      "test_full": "${SOCCERGMR_LABEL_ROOT}/Full/test.jsonl"
+    },
+    "features": {
+      "standard": "${SOCCERGMR_STANDARD_FEATURES}",
+      "full": "${SOCCERGMR_FULL_FEATURES}"
+    },
+    "full_label": "Full-Decodable 2970/2986",
+    "max_video_tokens": 128,
+    "max_text_tokens": 32,
+    "clip_seconds": 2.0
+  },
+  "protocol": {
+    "seed": 2023,
+    "batch_size": 8,
+    "eval_batch_size": 8,
+    "accumulation": 1,
+    "workers": 2,
+    "max_epochs": 200,
+    "patience": 20,
+    "validation_every": 1,
+    "learning_rate": 3e-05,
+    "weight_decay": 0.0001,
+    "gradient_clip": 0.1,
+    "geq_max_epochs": 200,
+    "geq_patience": 10,
+    "geq_lr_native": 1e-05,
+    "geq_lr_head": 3e-05,
+    "thresholds": [
+      0.4,
+      0.5,
+      0.6
+    ],
+    "amp": false
+  },
+  "architecture": {
+    "t_feat_dim": 512,
+    "v_feat_dim": 2818,
+    "a_feat_dir": null,
+    "dset_name": "hl",
+    "position_embedding": "sine",
+    "enc_layers": 2,
+    "dec_layers": 2,
+    "dim_feedforward": 1024,
+    "hidden_dim": 256,
+    "input_dropout": 0.5,
+    "dropout": 0.1,
+    "use_txt_pos": false,
+    "nheads": 8,
+    "num_queries": 10,
+    "pre_norm": false,
+    "n_input_proj": 2,
+    "aux_loss": true,
+    "quality_loss": true,
+    "span_loss_type": "l1",
+    "set_cost_span": 10,
+    "set_cost_giou": 1,
+    "set_cost_class": 0,
+    "span_loss_coef": 10,
+    "giou_loss_coef": 1,
+    "label_loss_coef": 0,
+    "quality_loss_coef": 2,
+    "boundary_loss_coef": 1,
+    "eos_coef": 0.1,
+    "lw_saliency": 1,
+    "saliency_margin": 0.2,
+    "train_path": null,
+    "eval_path": null,
+    "test_path": null,
+    "v_feat_dirs": null,
+    "t_feat_dir": null,
+    "results_dir": null,
+    "resume": null,
+    "ckpt_filepath": null
+  },
+  "published_path_remapping": {
+    "original_config_identity": "4a922b7c87f993340b9e0f88538df6af6c7772ed79e178793ec9f4e9751c555c",
+    "note": "Only filesystem paths remapped for documentation; not a legal identity-equivalent resume configuration"
+  }
+}
