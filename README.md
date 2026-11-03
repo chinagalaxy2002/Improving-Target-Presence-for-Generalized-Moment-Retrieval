@@ -22,6 +22,16 @@
 
 原始 README 及全部旧实验已保存为[历史归档](archive/README.md)，其中 [README 副本](archive/legacy_20261102/README.md)保留原字节与[哈希记录](archive/legacy_20261102/BACKUP_MANIFEST.json)。Charades 仅通过[文件夹索引](archive/charades/README.md)访问。
 
+## 高事件保留率场景：六骨干分析
+
+[分析文档与完整数值](results/high_retention/README.md) · [逐骨干CSV](results/high_retention/METRICS.csv) · [主图PDF](results/high_retention/PRIMARY.pdf) · [精确阈值复核](results/high_retention/EXACT_THRESHOLDS.pdf)
+
+各模型分别在 Standard Val 上选择满足**正查询保留率至少95%**的最大存在性阈值，再固定用于两套 Test。主报 G-mIoU@1；Moment-DETR、Sim-DETR、BM-DETR、UVCOM、TaskWeave、LD-DETR 在本分析的两种阈值搜索下均观察到配对提升。0.01网格下，六骨干平均得分在 Standard／Full 上分别相对提高 **34.52%／30.10%**（绝对 **+2.507／+2.164 个百分点**）。
+
+![高事件保留率场景六骨干G-mIoU@1](results/high_retention/PRIMARY.png)
+
+这是根据已有结果识别的**探索性六骨干稳定子集**，结论限定在该场景及范围内。Val保留率约束不保证Test满足同一比例；实际保留率、误返回率、历史／新协议差异及复核证据见分析文档。
+
 ## 当前协议
 
 | 阶段 | 初始化 | 训练集 | best 的选择依据 | 早停 |
