@@ -18,6 +18,19 @@ mAP 使用未门控正查询候选；G1 三点均值对应固定存在性阈值0
 
 本次复现：六种辅助损失只用于 GMR 的训练提交为 `d6cc259`；保留可训练辅助头并在 GEQ 中加入0.1辅助损失的提交为 `d782d85`。后续发布提交仅补充结果、脚本和文档，不修改以上已经训练的源文件。自动队列已关闭；恢复须由用户另行明确启动，使用原配置、原父模型及完整 last.pt，不从 best.pt 冒充续训。
 
+## GEQ＋aux 的方法溯源（本文 E3 版本）
+
+这里的 **GEQ＋aux 是本仓库的训练组合名称，不是某篇论文中同名完整算法的复现**。组成与演进如下：
+
+1. **原生 GMR 主干及定位/显著性损失**：沿用各 DETR 骨干在本仓库的 GMR 适配，不用新损失替换原生任务。
+2. **GEQ**：来自本项目 `soccergmr-standard-geq-full` 分支的 Global Event Query。GEQ token 先读取投影文本，再逐层读取视频 encoder 表示，用 BCE 学习事件存在性；定位候选仍由原生骨干输出。[原始项目算法说明](https://github.com/chinagalaxy2002/Improving-Target-Presence-for-Generalized-Moment-Retrieval/blob/soccergmr-standard-geq-full/docs/ALGORITHM.md)。
+3. **Query-aware Clip Head**：本项目 ClipSeg 设计及 A/B/C/D 实验新增的辅助头。对有效文本 token 掩码池化，以 `LayerNorm(Wv·h + Wq·q + (Wv·h)⊙(Wq·q))` 融合文本和视频，MLP 输出逐 clip logit。[最初设计](GMR_ClipSeg/GMR_GEQ_Query_Aware_Clip_Relevance_Design.md)。它借鉴密集时序相关性监督思想，并非照搬一个外部完整模型。
+4. **本次 E3 辅助目标**：按每个视频分别平均正/负区域 BCE；非空的两组各占一半，空查询只计算有效负区域 BCE，无背景区域时只平均正区域。另加仅对有事件查询计算的 masked soft Dice。`L_aux = L_balanced_BCE + 0.2 × L_Dice`，外部权重 **0.1**。这是本轮 E3 的具体配置，不应将其他 E1/E2/E4/E5/E6 也统称为同一个损失。
+5. **训练路径**：先从头训练 `L_native_GMR + 0.1 × L_aux`，按 Standard Val mAP 选 GMR best；再从该 best 继承主干及辅助头，以 `L_native_GMR + L_GEQ_BCE + 0.1 × L_aux` 联合微调，辅助头不冻结、单独学习率3e-5，主干1e-5，GEQ3e-5。GEQ 仍按 Val 三阈值 G1 均值选模。该联合阶段是在用户后续要求保留、允许更新辅助头后新增，**不同于上一轮“GEQ 完全不加辅助损失”的控制实验**。
+6. **推理和证据边界**：Clip Head 的分数不参与门控、候选排序或边界修改；存在性来自 GEQ，定位来自主干。本轮单 seed 结果改善了 mAP，但相对同起点无 aux GEQ 的 G1 略降；不能将结果写成全面提升，也不能由当前证据把收益单独归因于 Dice、平衡 BCE 或 Head 结构。
+
+代码与实验溯源：ClipSeg 初版发布 `0d853c9` → 六组 GMR-only 损失 `d6cc259` → 保留可训练 Head 的 GEQ 联合微调 `d782d85` → 固定 E3 Test 曲线及暂停快照 `5eecd26`。旧 GMR 没有重训，跨版本复用经过逐张量一致的显式迁移审计。当前 E3 结果及后续11骨干扩展均采用上述 E3 配方，而不是再搜索六种损失。
+
 ---
 
 # Moment-DETR + Query-conditioned Clip Supervision
