@@ -4,7 +4,7 @@
 
 主要观察：相对各自的 GMR baseline，GEQ+aux 在 Standard / Full 上分别有 **9/11、7/11** 个骨干的 mAP 提高，**9/11、8/11** 个骨干的 G1 提高；存在下降结果。Moment-DETR 的同起点对照表明，在 GEQ 中继续加入 aux 提高了 mAP，但 G1 略降。
 
-[方法与命名](#方法与命名) · [11骨干效果对比](#11骨干效果对比) · [高事件保留率](#高事件保留率场景六骨干) · [Moment-DETR 对照](#moment-detr同起点对照) · [复现与数据](#复现与数据) · [历史实验](docs/HISTORICAL_EXPERIMENTS.md)
+[方法与命名](#方法与命名) · [11骨干效果对比](#11骨干效果对比) · [高事件保留率](#高事件保留率场景全部11骨干) · [Moment-DETR 对照](#moment-detr同起点对照) · [复现与数据](#复现与数据) · [历史实验](docs/HISTORICAL_EXPERIMENTS.md)
 
 ## 方法与命名
 
@@ -100,15 +100,17 @@ mAP 有7/11个骨干提高，G1有8/11个提高；BAM-DETR、TR-DETR、TaskWeave
 
 </details>
 
-## 高事件保留率场景：六骨干
+## 高事件保留率场景：全部11骨干
 
 本节问：**希望尽量保留真实事件查询、供用户继续复核片段时，GEQ+aux 表现如何？** “保留率”仅表示真实事件查询通过存在性门控，不等于定位正确率。
 
-沿用[原分支分析](https://github.com/chinagalaxy2002/Improving-Target-Presence-for-Generalized-Moment-Retrieval/tree/682db34ab0511ce0ebfd69e9b966150cac6473a5/results/high_retention)的六个骨干：Moment-DETR、Sim-DETR、BM-DETR、UVCOM、TaskWeave、LD-DETR。每个骨干、每种方法在 **Standard Val 上选择正查询保留率≥95%的最大候选阈值**，然后固定用于两套 Test。严格 `score > threshold`，Test 不参与选择。
+本节覆盖本轮**全部11个骨干**：Moment-DETR、EaTR、QD-DETR、CG-DETR、Sim-DETR、BM-DETR、BAM-DETR、UVCOM、TR-DETR、TaskWeave、LD-DETR；每个都展示 Standard 与 Full 上的 GMR baseline / GEQ+aux 结果，保留所有下降项。
+
+每个骨干、每种方法分别在 **Standard Val 上选择正查询保留率≥95%的最大候选阈值**，再固定用于两套 Test，严格 `score > threshold`。阈值规则沿用[原分支分析](https://github.com/chinagalaxy2002/Improving-Target-Presence-for-Generalized-Moment-Retrieval/tree/682db34ab0511ce0ebfd69e9b966150cac6473a5/results/high_retention)；当前统计范围已从早期六骨干扩展至全部11骨干，未按 Test 增益筛选。
 
 ### 两张图的区别
 
-**两张图使用相同模型、相同 checkpoint 和相同 Test 数据，仅阈值候选不同；每张图都是左侧 Standard、右侧 Full。**
+**两张图使用相同模型、相同 checkpoint 和相同 Test 数据，仅阈值候选不同；每张图都是左侧 Standard、右侧 Full，包含全部11骨干。**
 
 | 项目 | 图 A：0.01网格主结果 | 图 B：Val分数断点复核 |
 |---|---|---|
@@ -118,20 +120,41 @@ mAP 有7/11个骨干提高，G1有8/11个提高；BAM-DETR、TR-DETR、TaskWeave
 
 **实例：** Moment-DETR 的 GMR baseline 在图 A 选到 **0.42**，Val 保留率100%；图 B 选到约 **0.428048**，Val 保留率95.29%。细化候选后可以在0.42与0.43之间选择，从而改变 Test 上保留和拒绝的查询数量，G1也随之变化。更细的搜索不保证 Test G1 更高；mAP不使用门控，在两种规则下保持相同。
 
-### 图 A：0.01网格主结果
+### 图 A：0.01网格主结果（全部11骨干）
 
-两套 Test 都有5/6个骨干提高，LD-DETR略降。六骨干等权平均 G1 在 Standard / Full 分别提高 **1.567 / 1.220 个百分点**。
+Standard / Full 都有 **9/11** 个骨干提高，11骨干等权平均 G1 分别提高 **1.654 / 0.986 个百分点**。BAM-DETR、LD-DETR在两套 Test 上下降。
 
-![图A：高保留率0.01网格主结果](results/e3_high_retention/PRIMARY.png)
+灰色方形为 GMR baseline，蓝色圆形为 GEQ+aux；横柱末端标注每个骨干的实际 G1。
+
+![图A：全部11骨干高保留率0.01网格主结果](results/e3_high_retention/PRIMARY.png)
 
 [主图 PDF](results/e3_high_retention/PRIMARY.pdf) · [SVG](results/e3_high_retention/PRIMARY.svg)
 
 <details>
-<summary>展开图 B：Val分数断点复核（同一模型，更细的阈值候选）</summary>
+<summary>展开全部11骨干的精确数值（图 A）</summary>
 
-复核仍为5/6个骨干提高，但 Standard / Full 平均增益缩小至 **0.896 / 0.676 个百分点**；LD-DETR分别下降2.43 / 2.69个百分点。这说明增益幅度对阈值粒度有敏感性，应同时报告主分析与复核。
+| 骨干 | Standard G1：baseline → GEQ+aux | Δ百分点 | Full G1：baseline → GEQ+aux | Δ百分点 |
+|---|---:|---:|---:|---:|
+| Moment-DETR | 4.774 → 7.105 | +2.331 | 4.991 → 6.278 | +1.286 |
+| EaTR | 21.060 → 22.524 | +1.464 | 21.116 → 22.108 | +0.992 |
+| QD-DETR | 16.586 → 17.580 | +0.994 | 14.337 → 14.508 | +0.172 |
+| CG-DETR | 4.026 → 9.626 | +5.600 | 4.253 → 7.461 | +3.208 |
+| Sim-DETR | 15.494 → 18.810 | +3.316 | 15.180 → 17.880 | +2.700 |
+| BM-DETR | 6.692 → 7.954 | +1.262 | 6.576 → 7.106 | +0.530 |
+| BAM-DETR | 27.086 → 25.101 | -1.985 | 25.715 → 23.948 | -1.767 |
+| UVCOM | 21.630 → 22.074 | +0.444 | 21.393 → 22.548 | +1.155 |
+| TR-DETR | 1.725 → 4.447 | +2.722 | 2.380 → 3.300 | +0.920 |
+| TaskWeave | 3.211 → 5.314 | +2.103 | 3.045 → 4.934 | +1.888 |
+| LD-DETR | 3.824 → 3.771 | -0.053 | 3.887 → 3.644 | -0.243 |
 
-![图B：高保留率Val分数断点复核](results/e3_high_retention/EXACT_THRESHOLDS.png)
+</details>
+
+<details>
+<summary>展开图 B：全部11骨干的 Val分数断点复核</summary>
+
+复核中 Standard / Full 分别有 **9/11、8/11** 个骨干提高，平均 G1 分别提高 **0.910 / 0.324 个百分点**。BAM-DETR、LD-DETR在两套 Test 下降，QD-DETR在 Full 也下降。增益幅度及个别骨干的方向对阈值粒度有敏感性。
+
+![图B：全部11骨干高保留率Val分数断点复核](results/e3_high_retention/EXACT_THRESHOLDS.png)
 
 [复核图 PDF](results/e3_high_retention/EXACT_THRESHOLDS.pdf) · [SVG](results/e3_high_retention/EXACT_THRESHOLDS.svg)
 
@@ -139,12 +162,12 @@ mAP 有7/11个骨干提高，G1有8/11个提高；BAM-DETR、TR-DETR、TaskWeave
 
 | 阈值规则 | Standard 平均G1：baseline → GEQ+aux | Δ百分点 | Full 平均G1：baseline → GEQ+aux | Δ百分点 |
 |---|---:|---:|---:|---:|
-| 图 A：0.01网格 | 9.271 → 10.838 | +1.567 | 9.179 → 10.398 | +1.220 |
-| 图 B：Val分数断点 | 11.488 → 12.384 | +0.896 | 10.781 → 11.457 | +0.676 |
+| 图 A：0.01网格 | 11.464 → 13.119 | +1.654 | 11.170 → 12.156 | +0.986 |
+| 图 B：Val分数断点 | 13.416 → 14.326 | +0.910 | 12.646 → 12.970 | +0.324 |
 
-95%只约束 Val，不能保证 Test 仍达到95%。主分析中 GEQ+aux 的六骨干平均 Test 正查询保留率为97.15% / 98.40%，空查询误返回率仍有92.72% / 93.01%，因此本节体现的是高保留率场景下的比较。六骨干沿用历史探索性子集，未按当前结果重新筛选，不代表全部11骨干均有效。
+95%只约束 Val，不保证 Test 仍达到95%。主分析中 GEQ+aux 的11骨干平均 Test 正查询保留率为 **96.37% / 97.95%**，空查询误返回率为 **89.50% / 90.45%**。本节使用 Val 选出的阈值，不能与前文固定0.4/0.5/0.6均值混为同一设置。
 
-[完整报告](results/e3_high_retention/README.md) · [各模型阈值与实际保留率](results/e3_high_retention/DECISIONS.csv) · [mAP/G1/G3 CSV](results/e3_high_retention/METRICS.csv) · [数值审计](results/e3_high_retention/AUDIT.json)
+[全部11骨干详细报告与 mAP/G1/G3 表](results/e3_high_retention/README.md) · [各模型阈值与实际保留率](results/e3_high_retention/DECISIONS.csv) · [完整指标 CSV](results/e3_high_retention/METRICS.csv) · [176项 G1/G3 核验](results/e3_high_retention/AUDIT.json)
 
 ## Moment-DETR：同起点对照
 

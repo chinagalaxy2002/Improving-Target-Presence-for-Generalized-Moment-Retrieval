@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Recompute the current six-backbone retention comparison from portable predictions.
+"""Recompute the full 11-backbone retention comparison from portable predictions.
 
 Uses the historical report's threshold candidates and strict score > threshold
 semantics. No training, checkpoint reselection, or Test threshold optimization.
@@ -13,9 +13,10 @@ from pathlib import Path
 
 import numpy as np
 
-NAMES = ('moment_detr', 'sim_detr', 'bm_detr', 'uvcom', 'taskweave', 'ld_detr')
-LABELS = ('Moment-DETR', 'Sim-DETR', 'BM-DETR', 'UVCOM', 'TaskWeave', 'LD-DETR')
-TICKS = ('Moment-\nDETR', 'Sim-\nDETR', 'BM-\nDETR', 'UVCOM', 'Task-\nWeave', 'LD-\nDETR')
+NAMES = ('moment_detr', 'eatr', 'qd_detr', 'cg_detr', 'sim_detr', 'bm_detr',
+         'bam_detr', 'uvcom', 'tr_detr', 'taskweave', 'ld_detr')
+LABELS = ('Moment-DETR', 'EaTR', 'QD-DETR', 'CG-DETR', 'Sim-DETR', 'BM-DETR',
+          'BAM-DETR', 'UVCOM', 'TR-DETR', 'TaskWeave', 'LD-DETR')
 SEARCHES = ('grid_101', 'val_breakpoints')
 
 
@@ -116,6 +117,7 @@ def compute(root):
     for search in SEARCHES:
         for split in ('standard', 'full'):
             group = [r for r in rows if r['search'] == search and r['split'] == split]
+            assert len(group) == len(NAMES)
             a, b = [float(np.mean([r[stage + '_G1'] for r in group])) for stage in ('gmr', 'geq_full')]
             record = dict(search=search, split=split,mean_GMR=a, mean_GEQ=b, delta_pp=b-a,
                           relative_gain_percent=100*(b-a)/a, positive_backbones=sum(r['delta_pp'] > 0 for r in group))
@@ -126,13 +128,14 @@ def compute(root):
     # Also cross-check ungated mAP against the independently audited 11-model report.
     with (root.parent / 'e3_eleven/METRICS.csv').open() as stream:
         original = list(csv.DictReader(stream))
+    assert set(NAMES) == {r['backbone'] for r in original}
     for (name, stage, split), score in mAP.items():
         ref = next(r for r in original if (r['backbone'], r['stage'], r['split']) == (name, stage, 'test_' + split))
         assert score == float(ref['mAP'])
     audit = dict(passed=True, comparison_rows=len(rows), official_G1_G3_checks=checks,
-                 mAP_checks=len(mAP), prediction_files=36, backbones=list(NAMES),
+                 mAP_checks=len(mAP), prediction_files=6*len(NAMES), backbones=list(NAMES),
                  thresholds_selected_on='Standard Val only', test_used_for_selection=False,
-                 subset_fixed_from_historical_reference=True, subset_refiltered_on_current_test=False,
+                 all_published_backbones_included=True, subset_refiltered_on_current_test=False,
                  new_training=False, new_checkpoint_inference=False, checkpoint_selection='Existing finalized bests',
                  script_sha256=sha(__file__), evidence_sha256=sha(root/'EVIDENCE.json'),
                  standard_full_overlap_video_query_pairs=len(pairs['standard'] & pairs['full']),
@@ -151,87 +154,127 @@ def plot(root, rows, summary):
     import matplotlib
     matplotlib.use('Agg')
     import matplotlib.pyplot as plt
-    plt.rcParams.update({'font.size': 9, 'pdf.fonttype': 42, 'svg.fonttype': 'none'})
+    from matplotlib.lines import Line2D
+    plt.rcParams.update({'font.size': 11, 'pdf.fonttype': 42, 'svg.fonttype': 'none'})
     upper = max(max(r['gmr_G1'], r['geq_full_G1']) for r in rows)
-    ymax = 5 * np.ceil((upper + 5) / 5)
-    for search, stem in (('grid_101', 'PRIMARY'), ('val_breakpoints', 'EXACT_THRESHOLDS')):
-        fig, axes = plt.subplots(1, 2, figsize=(10.4, 4.8), sharey=True)
+    limit = 5 * np.ceil((upper + 8) / 5)
+    labels = [label + ('*' if name == 'moment_detr' else '') for name, label in zip(NAMES, LABELS)]
+    plotted = []
+    for search, stem, subtitle in (
+        ('grid_101', 'PRIMARY', 'A | 0.01 threshold grid'),
+        ('val_breakpoints', 'EXACT_THRESHOLDS', 'B | All Val score breakpoints'),
+    ):
+        fig, axes = plt.subplots(1, 2, figsize=(10.8, 9), sharey=True)
+        fig.subplots_adjust(left=.15, right=.98, top=.80, bottom=.18, wspace=.22)
+        fig.suptitle('High event retention | All 11 backbones', fontsize=17, fontweight='bold', y=.975)
+        fig.text(.56, .924, subtitle, ha='center', fontsize=12)
+        handles = [Line2D([], [], color=c, marker=marker, linestyle='none', markersize=8, label=label)
+                   for c, marker, label in [('#a6a6a6', 's', 'GMR baseline'), ('#0072b2', 'o', 'GEQ + aux')]]
+        fig.legend(handles=handles, loc='upper center', ncol=2, frameon=False, bbox_to_anchor=(.56, .904))
         for ax, split, title in zip(axes, ('standard', 'full'), ('Standard Test (1,036)', 'Full-Decodable Test (2,970)')):
             group = [next(r for r in rows if (r['search'], r['split'], r['backbone']) == (search, split, n)) for n in NAMES]
-            x = np.arange(6)
-            a, b = [np.array([r[stage+'_G1'] for r in group]) for stage in ('gmr', 'geq_full')]
-            ax.bar(x-.18, a, width=.34, color='#a6a6a6', edgecolor='#555555', linewidth=.6, label='GMR baseline')
-            ax.bar(x+.18, b, width=.34, color='#0072b2', edgecolor='#003f63', linewidth=.6, label='GEQ + aux')
-            ax.scatter(x-.18, a, marker='s', s=13, color='#444444', zorder=3)
-            ax.scatter(x+.18, b, marker='o', s=13, color='#003f63', zorder=3)
-            for i, r in enumerate(group):
-                ax.text(i, max(a[i], b[i])+.6, f"{r['delta_pp']:+.2f}", ha='center', fontsize=8)
-            ax.set_xticks(x, TICKS)
-            ax.set_ylim(0, ymax)
-            ax.set_ylabel('G-mIoU@1 (0–100)')
-            ax.set_title(title)
+            y = np.arange(len(NAMES))
+            for i, stage in enumerate(('gmr', 'geq_full')):
+                values = np.array([r[stage+'_G1'] for r in group])
+                centers = y + (-.18 if i == 0 else .18)
+                color, edge, marker = ('#a6a6a6', '#555555', 's') if i == 0 else ('#0072b2', '#003f63', 'o')
+                bars = ax.barh(centers, values, height=.30, color=color, edgecolor=edge, linewidth=.5, zorder=2)
+                assert np.array_equal(np.array([bar.get_width() for bar in bars]), values)
+                ax.scatter(values, centers, marker=marker, s=14, color=edge, zorder=3)
+                for n, value, center in zip(NAMES, values, centers):
+                    ax.text(value + limit*.015, center, f'{value:.2f}', va='center', fontsize=9.5, color='#333333')
+                    plotted.append(dict(search=search, split=split, backbone=n, stage=stage,
+                                        G1=float(value), label=f'{value:.2f}'))
+            ax.set_yticks(y, labels)
+            ax.set_xlim(0, limit)
+            ax.set_xlabel('G-mIoU@1 (0–100; higher is better)', fontsize=10)
+            ax.set_title(title, fontsize=12, pad=30)
             ax.set_axisbelow(True)
-            ax.grid(axis='y', alpha=.18)
-            ax.spines[['top', 'right']].set_visible(False)
+            ax.grid(axis='x', alpha=.18)
+            ax.spines[['top', 'right', 'left']].set_visible(False)
+            ax.tick_params(axis='y', length=0)
             mean = next(r for r in summary if (r['search'], r['split']) == (search, split))
-            ax.text(.02, .97, f"Mean gain: {mean['delta_pp']:+.2f} pp ({mean['relative_gain_percent']:+.2f}%)\nImproved: {mean['positive_backbones']}/6", transform=ax.transAxes, va='top', fontsize=8.5)
-        handles, labels = axes[0].get_legend_handles_labels()
-        fig.legend(handles, labels, loc='upper center', ncol=2, frameon=False, bbox_to_anchor=(.5, 1.005))
-        fig.text(.5, .065, 'Each method: largest Val threshold retaining ≥95% of positive queries; fixed on both Tests.', ha='center', fontsize=8)
-        fig.text(.5, .023, 'Current auxiliary-trained Stage 1 vs GEQ+aux · same six reference backbones · ' + ('0.01 threshold grid' if search == 'grid_101' else 'all Val score breakpoints'), ha='center', fontsize=8)
-        fig.tight_layout(rect=[0, .11, 1, .94])
+            ax.text(.5, 1.015, f"Mean gain {mean['delta_pp']:+.2f} pp | Improved {mean['positive_backbones']}/{len(NAMES)}",
+                    transform=ax.transAxes, ha='center', fontsize=9.5, color='#475569')
+        axes[0].set_ylim(len(NAMES)-.48, -.55)
+        footer = fig.text(.56, .044, 'Each method: largest Val threshold retaining ≥95% of positive queries; fixed on both Tests.\n'
+                         '* Moment-DETR results reused. GMR baseline is auxiliary-trained Stage 1. All backbones retained.',
+                         ha='center', fontsize=8.8, linespacing=1.6, color='#475569')
+        fig.canvas.draw()
+        renderer = fig.canvas.get_renderer()
+        for ax in axes:
+            for label in list(ax.texts) + list(ax.get_yticklabels()) + [ax.title, ax.xaxis.label]:
+                if label.get_visible():
+                    bounds = label.get_window_extent(renderer)
+                    assert bounds.x0 >= fig.bbox.x0 and bounds.x1 <= fig.bbox.x1
+                    assert bounds.y0 >= fig.bbox.y0 and bounds.y1 <= fig.bbox.y1
+            assert not ax.xaxis.label.get_window_extent(renderer).overlaps(footer.get_window_extent(renderer))
         for ext in ('png', 'pdf', 'svg'):
             fig.savefig(root / (stem+'.'+ext), dpi=200)
         plt.close(fig)
+    assert len(plotted) == 8*len(NAMES)
+    (root/'PLOT_DATA.json').write_text(json.dumps(plotted, indent=2)+'\n')
 
 
 def document(root, rows, summary):
-    lines = ['# 高事件保留率场景：本轮六骨干配对评测', '',
-             '比较本轮 **GMR baseline → GEQ+aux**。GMR baseline 按用户要求命名，实际为带 Balanced BCE + 0.2 Dice 辅助监督的 Stage 1；不等同于历史无辅助 GMR。Moment-DETR 复用已完成实验，其余模型使用本轮固定源码。没有重新训练或重选 checkpoint。', '',
-             '骨干范围事先沿用参考分支的 Moment-DETR、Sim-DETR、BM-DETR、UVCOM、TaskWeave、LD-DETR，未依据本次 Test 增益删选。原六骨干集合来自历史探索性分析，不能视为所有11骨干的普遍结论。', '',
-             '## 阈值规则', '',
-             '每个骨干、每种方法分别在 Standard Val（465条，255正/210空）选择正查询保留率 ≥95% 的最大候选阈值，然后固定用于两套 Test。严格采用 `pred_exist_score > threshold`。主分析搜索0–1、步长0.01；精确复核候选为全部 Val 分数断点及0/1，与参考脚本一致（不是连续实数域优化）。Test 不参与阈值或模型选择。', '',
-             '保留率只表示事件查询通过存在性门控，不代表定位正确率。mAP 不使用门控，两种阈值搜索的 mAP 完全相同。', '',
-             '## 两张图应该怎么读', '',
-             '**两张图比较同一批模型与 checkpoint，每张都是左侧 Standard、右侧 Full。唯一改变的是在 Val 上选择存在性阈值时，允许使用哪些候选值。**', '',
-             '| 项目 | 图 A：0.01 网格主结果 | 图 B：Val 分数断点复核 |',
+    count = len(NAMES)
+    def selected(search, split):
+        return next(r for r in summary if (r['search'], r['split']) == (search, split))
+    lines = ['# 高事件保留率场景：全部11骨干配对评测', '',
+             '比较本轮 **GMR baseline → GEQ+aux**。GMR baseline 是带 Balanced BCE + 0.2 Dice 辅助监督的 Stage 1；GEQ+aux 是同一骨干的 Stage 2。Moment-DETR复用已完成实验，全部模型保持既有 Val best，没有重新训练或重选 checkpoint。', '',
+             '本报告包含 Moment-DETR、EaTR、QD-DETR、CG-DETR、Sim-DETR、BM-DETR、BAM-DETR、UVCOM、TR-DETR、TaskWeave、LD-DETR **全部11个骨干**，每个都报告 Standard 和 Full。范围由本轮实验清单确定，保留所有提高和下降结果。早期六骨干版本保留在 Git 历史，当前主结果不再限定该子集。', '',
+             '## 阈值规则与两张图的区别', '',
+             '对每个骨干、每种方法，分别在 Standard Val（465条，255正/210空）选择正查询保留率≥95%的最大候选阈值，再固定用于 Standard / Full Test。严格采用 `score > threshold`。95%只约束 Val，不保证 Test 同样达到95%。', '',
+             '**图 A 与图 B 使用相同模型，每张都是左侧 Standard、右侧 Full；唯一变化是 Val 上允许使用的阈值候选。**', '',
+             '| 项目 | 图 A：0.01网格主结果 | 图 B：Val分数断点复核 |',
              '|---|---|---|',
-             '| 候选阈值 | 0.00、0.01、0.02…1.00 | Val 中实际出现的全部分数，加0/1 |',
-             '| 选阈值目标 | Val 正查询保留率≥95%的最大候选阈值 | 相同 |',
-             '| 模型、数据及评分规则 | 同一批固定 checkpoint、两套 Test、严格 score > τ | 相同 |',
-             '| 用途 | 与原分支保持相同网格的主结果 | 检查结论是否依赖0.01这一网格粒度 |', '',
-             '例如，Moment-DETR 的 GMR baseline 在图 A 使用 τ=0.42（Val 保留率100%），图 B 使用 τ≈0.428048（Val 保留率95.29%）。图 B 可以在0.42和0.43之间选择，因而可能拒绝更多空查询，也可能多拒绝部分正查询，最终 Test G1 会变化。更细的搜索不保证 Test G1 更高；这里优化的是 Val 保留率约束下的阈值，并非 Test G1。完整精度见 DECISIONS.csv。', '',
-             '正文的常规11骨干汇总使用固定0.4/0.5/0.6三阈值均值，本节采用“Val 保留率≥95%”选出的阈值，回答不同的使用场景，分数不应直接混为同一评测设置。', '',
-             '## 图 A：0.01 网格主结果', '',
-             '主分析中 Standard / Full 都有5/6骨干提高，LD-DETR下降。每个方法的阈值只在 Val 上确定。', '', '![图A：0.01网格主结果](PRIMARY.png)', '',
-             '[PDF](PRIMARY.pdf) · [SVG](PRIMARY.svg)', '',
-             '| 骨干 | Standard GMR→GEQ+aux | Δ百分点 | Full GMR→GEQ+aux | Δ百分点 |',
-             '|---|---:|---:|---:|---:|']
-    for name, label in zip(NAMES, LABELS):
-        cells = []
-        for split in ('standard', 'full'):
-            r = next(r for r in rows if (r['search'], r['split'], r['backbone']) == ('grid_101', split, name))
-            cells += [f"{r['gmr_G1']:.3f}→{r['geq_full_G1']:.3f}", f"{r['delta_pp']:+.3f}"]
-        lines.append('| ' + label + ' | ' + ' | '.join(cells) + ' |')
-    lines += ['', '## 图 B：Val 分数断点复核（同一模型，更细的阈值候选）', '',
-              '复核中两套 Test 仍为5/6骨干提高，但平均增益缩小，LD-DETR下降更明显。这张图用于展示对阈值粒度的敏感性，不是一轮新训练。', '', '![图B：Val分数断点复核](EXACT_THRESHOLDS.png)', '',
-              '[PDF](EXACT_THRESHOLDS.pdf) · [SVG](EXACT_THRESHOLDS.svg)', '',
-              '| 阈值搜索 | Test | GMR平均 | GEQ+aux平均 | Δ百分点 | 相对增益 | 提高骨干数 |',
+             '| 候选阈值 | 0.00、0.01、0.02…1.00 | 全部 Val 分数，加0/1 |',
+             '| 选阈值目标 | 正查询保留率≥95%的最大候选阈值 | 相同 |',
+             '| 用途 | 沿用参考分析的网格规则 | 检查对0.01阈值粒度的敏感性 |', '',
+             '例如 Moment-DETR 的 GMR baseline 在图 A 使用0.42（Val保留率100%），图 B 使用约0.428048（95.29%）。更细的阈值候选会改变保留与拒绝的查询，但不保证 Test G1 更高。精确复核遍历完整 Val 分数断点，并非连续实数域优化。Test 不参与阈值选择。', '',
+             '常规11骨干汇总的 G1 使用固定0.4/0.5/0.6均值，本节使用 Val 选出的高保留率阈值，属于不同评测设置。mAP不使用存在性门控，在图 A、B中相同。', '']
+    for search, stem, title in [('grid_101', 'PRIMARY', '图 A：0.01网格主结果'),
+                                ('val_breakpoints', 'EXACT_THRESHOLDS', '图 B：Val分数断点复核')]:
+        a, b = selected(search, 'standard'), selected(search, 'full')
+        lines += ['## '+title, '',
+                  f"Standard / Full 的11骨干等权平均 G1 分别变化 **{a['delta_pp']:+.3f} / {b['delta_pp']:+.3f}个百分点**，提高骨干数为 **{a['positive_backbones']}/{count} / {b['positive_backbones']}/{count}**。", '',
+                  f'![{title}：全部11骨干]({stem}.png)', '',
+                  f'[PDF]({stem}.pdf) · [SVG]({stem}.svg)', '',
+                  '| 骨干 | Standard G1：baseline→GEQ+aux | Δ百分点 | Full G1：baseline→GEQ+aux | Δ百分点 |',
+                  '|---|---:|---:|---:|---:|']
+        for name, label in zip(NAMES, LABELS):
+            cells = []
+            for split in ('standard', 'full'):
+                row = next(r for r in rows if (r['search'], r['split'], r['backbone']) == (search, split, name))
+                cells += [f"{row['gmr_G1']:.3f}→{row['geq_full_G1']:.3f}", f"{row['delta_pp']:+.3f}"]
+            lines.append('| '+label+' | '+' | '.join(cells)+' |')
+        lines.append('')
+    lines += ['## 汇总', '',
+              '| 阈值规则 | Test | baseline平均G1 | GEQ+aux平均G1 | Δ百分点 | 相对增益 | 提高骨干数 |',
               '|---|---|---:|---:|---:|---:|---:|']
-    for r in summary:
-        lines.append(f"| {r['search']} | {r['split']} | {r['mean_GMR']:.3f} | {r['mean_GEQ']:.3f} | {r['delta_pp']:+.3f} | {r['relative_gain_percent']:+.2f}% | {r['positive_backbones']}/6 |")
-    lines += ['', '汇总先等权平均六骨干原始 G1，再计算相对增益。图和表保留下降结果，不沿用旧分支“六个均提高”的结论。', '',
-              '## Test 实际保留率及空查询误返回率', '',
-              '95%只约束 Val，Test 保留率允许低于95%。以下为0.01网格下六骨干等权平均，完整逐模型值及阈值见 DECISIONS.csv。', '',
-              '| Test | GMR正查询保留率 | GEQ+aux正查询保留率 | GMR空查询误返回率 | GEQ+aux空查询误返回率 |',
+    for row in summary:
+        search = '0.01网格' if row['search'] == 'grid_101' else 'Val分数断点'
+        lines.append(f"| {search} | {row['split']} | {row['mean_GMR']:.3f} | {row['mean_GEQ']:.3f} | {row['delta_pp']:+.3f} | {row['relative_gain_percent']:+.2f}% | {row['positive_backbones']}/{count} |")
+    lines += ['', '先等权平均全部11个骨干的原始 G1，再计算相对增益；没有用 Test 结果筛选骨干。', '',
+              '## 全骨干 mAP / G1 / G3（图 A 的固定阈值）', '',
+              '各项为 GMR baseline → GEQ+aux，单位0–100；mAP在两种阈值规则下相同，图 B 的 G1/G3 完整值见 METRICS.csv。', '',
+              '| 骨干 | Test | mAP | G1 | G3 |', '|---|---|---:|---:|---:|']
+    for name, label in zip(NAMES, LABELS):
+        for split in ('standard', 'full'):
+            row = next(r for r in rows if (r['search'], r['split'], r['backbone']) == ('grid_101', split, name))
+            cells = [f"{row['gmr_'+metric]:.2f}→{row['geq_full_'+metric]:.2f}" for metric in ('mAP', 'G1', 'G3')]
+            lines.append('| '+label+' | '+split+' | '+' | '.join(cells)+' |')
+    lines += ['', '## 实际保留率与空查询误返回率', '',
+              '以下为图 A 下全部11骨干等权平均；逐骨干、逐方法、两种规则的阈值与实际保留率见 DECISIONS.csv。高保留率不代表低空查询误返回率，也不等于定位正确率。', '',
+              '| Test | baseline正查询保留率 | GEQ+aux正查询保留率 | baseline空查询误返回率 | GEQ+aux空查询误返回率 |',
               '|---|---:|---:|---:|---:|']
-    for r in summary:
-        if r['search'] == 'grid_101':
-            lines.append(f"| {r['split']} | {r['mean_gmr_test_TPR']:.2f}% | {r['mean_geq_full_test_TPR']:.2f}% | {r['mean_gmr_test_FPR']:.2f}% | {r['mean_geq_full_test_FPR']:.2f}% |")
-    lines += ['', 'Standard Test 1036条，Full-Decodable 2970/2986条；两个 Test 有重叠（185个视频ID、186个视频—文本输入），不能当作独立重复。单 seed=2023，不作统计显著性声明。主图关注高保留率场景，不能由此推断默认0.4/0.5/0.6门控或全部场景均改善。', '',
+    for row in summary:
+        if row['search'] == 'grid_101':
+            lines.append(f"| {row['split']} | {row['mean_gmr_test_TPR']:.2f}% | {row['mean_geq_full_test_TPR']:.2f}% | {row['mean_gmr_test_FPR']:.2f}% | {row['mean_geq_full_test_FPR']:.2f}% |")
+    lines += ['', 'Standard Test为1036条，Full-Decodable为2970/2986条；两套Test有185个视频ID、186个视频—文本输入重叠。单 seed=2023，不作独立重复验证或多seed稳定性声明。', '',
               '## 数据与复算', '',
-              '[逐模型 mAP/G1/G3](METRICS.csv) · [汇总](SUMMARY.csv) · [阈值/保留率](DECISIONS.csv) · [来源与哈希](EVIDENCE.json) · [数值审计](AUDIT.json)', '',
-              '36份预测由12份本目录 Val 压缩预测及24份 ../e3_eleven 中 Test 压缩预测组成，同时提供 GT 快照。不需模型权重、特征或 GPU。逐文件核验哈希、覆盖与 checkpoint 绑定；96个 G1/G3 值与官方实现核验，24个 mAP 与11骨干报告独立交叉核验。', '',
+              '[逐模型指标](METRICS.csv) · [汇总](SUMMARY.csv) · [阈值与保留率](DECISIONS.csv) · [检查点与预测哈希](EVIDENCE.json) · [数值审计](AUDIT.json) · [图中原值](PLOT_DATA.json)', '',
+              '本包包含22份 Val 压缩预测，并引用 ../e3_eleven 中44份 Test 压缩预测，合计66份；同时提供GT快照。无需权重、特征或GPU，即可核验完整查询覆盖、checkpoint绑定及文件哈希。176个G1/G3值与官方实现核验；44个mAP与既有11骨干报告交叉核验。', '',
               '```bash', 'PYTHONPATH=src python scripts/report_e3_high_retention.py',
               'PYTHONPATH=src python scripts/report_e3_high_retention.py --verify-only', '```', '']
     (root/'README.md').write_text('\n'.join(lines))
@@ -260,6 +303,8 @@ def main():
     plot(args.root, rows, summary)
     document(args.root, rows, summary)
     audit['figures'] = {p.name: sha(p) for p in args.root.iterdir() if p.suffix in ('.png', '.svg', '.pdf')}
+    audit['plot_data_sha256'] = sha(args.root/'PLOT_DATA.json')
+    audit['bars_and_labels_verified'] = 8*len(NAMES)
     (args.root/'AUDIT.json').write_text(json.dumps(audit, indent=2)+'\n')
     print(json.dumps(summary, indent=2))
 

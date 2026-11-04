@@ -1,5 +1,4 @@
 {
-  "subset_selection": "Same six models fixed from the referenced historical analysis before this new retention computation; no model removed based on current Test gains.",
   "threshold_rule": "Same as reference: max feasible candidate with Standard Val positive retention >=95%; grid_101 or unique Val scores plus 0 and 1; strict score > threshold.",
   "reference_commit": "682db34ab0511ce0ebfd69e9b966150cac6473a5",
   "reference_script_sha256": "f69139fb4d64ad3873ae4758d23bb4feaa1564a2ced6c3310dbdc600963d104c",
@@ -112,6 +111,282 @@
             "train_val_assets": "bb0e567c35e66c99e33d419ed842019bfddb30e66269a3f716f06f33797b20ea",
             "baseline_sha256": "f75713534afdfc9793350abf6d841ac5280118e431c1425d9b74b895a0ccc2de",
             "test_used_for_selection": false
+          }
+        }
+      }
+    },
+    "eatr": {
+      "methods": {
+        "gmr": {
+          "checkpoint_sha256": "d4ab38c4359c214215606b21c0ca2ae2591225866a9ca1bf5a3333c4db1e0471",
+          "training_source": "7d69e39b16dc91339b3c82f3d25e4b581896397f00283ef0dbd5f025fa6cb062",
+          "best_epoch": 73,
+          "reused": false,
+          "training_complete": {
+            "status": "complete",
+            "stage": "gmr",
+            "identity": "fa480b1d94fd5baf3ce0f96f88e0dda6bab3eb9789da30d22e5b4083673f148e",
+            "completed_epoch": 93,
+            "best_epoch": 73,
+            "best_score": 18.88,
+            "metric": "Val mAP",
+            "reason": "patience",
+            "best_sha256": "d4ab38c4359c214215606b21c0ca2ae2591225866a9ca1bf5a3333c4db1e0471",
+            "source": "7d69e39b16dc91339b3c82f3d25e4b581896397f00283ef0dbd5f025fa6cb062",
+            "train_val_assets": "bb0e567c35e66c99e33d419ed842019bfddb30e66269a3f716f06f33797b20ea",
+            "baseline_sha256": null,
+            "test_used_for_selection": false
+          },
+          "predictions": {
+            "val": {
+              "path": "evidence/eatr/gmr/val/predictions.jsonl.gz",
+              "sha256": "82b11cac5cc30663e85102bd40104c531c9078526fccd73eb41c6fca7ce84d6a",
+              "uncompressed_sha256": "106504aeaa61f3a3d9fe970a7a851eee00c02b1af03f9ca693f004c72fd86998",
+              "rows": 465,
+              "checkpoint_sha256": "d4ab38c4359c214215606b21c0ca2ae2591225866a9ca1bf5a3333c4db1e0471"
+            },
+            "standard": {
+              "path": "../e3_eleven/predictions/eatr/gmr/test_standard/predictions.jsonl.gz",
+              "sha256": "3b6399cf03c233ffefa72aca4b1ff86320dbc38f30f55198b0c1356f5e4d9ad6",
+              "uncompressed_sha256": "b220dd7959e842982b57596f70e2528f253eabd59af663075fd49ae5219aba3d",
+              "rows": 1036,
+              "checkpoint_sha256": "d4ab38c4359c214215606b21c0ca2ae2591225866a9ca1bf5a3333c4db1e0471"
+            },
+            "full": {
+              "path": "../e3_eleven/predictions/eatr/gmr/test_full/predictions.jsonl.gz",
+              "sha256": "7c2bd68d613b3ca28970224c09bee666594409f74c47005e23543c0687978c35",
+              "uncompressed_sha256": "f2db5bd7eb273d33a0c9ee1e9dbb11ddf269790be7ce5c8496f9c1813cd4a1cf",
+              "rows": 2970,
+              "checkpoint_sha256": "d4ab38c4359c214215606b21c0ca2ae2591225866a9ca1bf5a3333c4db1e0471"
+            }
+          }
+        },
+        "geq_full": {
+          "checkpoint_sha256": "d558e0c24e32117450ef2ae24d88fd48aba37b817a2c6d96eec26d7a8c35bddd",
+          "training_source": "7d69e39b16dc91339b3c82f3d25e4b581896397f00283ef0dbd5f025fa6cb062",
+          "best_epoch": 4,
+          "reused": false,
+          "training_complete": {
+            "status": "complete",
+            "stage": "geq_full",
+            "identity": "e85a640f7161fcb7a9616d7e4f37055c921eea26f57a64c18900a21b6120a938",
+            "completed_epoch": 14,
+            "best_epoch": 4,
+            "best_score": 51.153333333333336,
+            "metric": "Val mean G-mIoU@1 (.4/.5/.6)",
+            "reason": "patience",
+            "best_sha256": "d558e0c24e32117450ef2ae24d88fd48aba37b817a2c6d96eec26d7a8c35bddd",
+            "source": "7d69e39b16dc91339b3c82f3d25e4b581896397f00283ef0dbd5f025fa6cb062",
+            "train_val_assets": "bb0e567c35e66c99e33d419ed842019bfddb30e66269a3f716f06f33797b20ea",
+            "baseline_sha256": "d4ab38c4359c214215606b21c0ca2ae2591225866a9ca1bf5a3333c4db1e0471",
+            "test_used_for_selection": false
+          },
+          "predictions": {
+            "val": {
+              "path": "evidence/eatr/geq_full/val/predictions.jsonl.gz",
+              "sha256": "af039dc2a497dfe713c82d01c2e4e45e6ed299ffd15d7c9f487d175f4059dec4",
+              "uncompressed_sha256": "575ae04b7c94e3d8fd41bf99c76119e74291116aabbc1ddf80ad16862007ef5f",
+              "rows": 465,
+              "checkpoint_sha256": "d558e0c24e32117450ef2ae24d88fd48aba37b817a2c6d96eec26d7a8c35bddd"
+            },
+            "standard": {
+              "path": "../e3_eleven/predictions/eatr/geq_full/test_standard/predictions.jsonl.gz",
+              "sha256": "21c28a5eb79dcfedcfeac0115b6fe4fbfa8531a5890aa2d23ca30ea7e7972557",
+              "uncompressed_sha256": "a2fb94035f0fb6bb665fe11b532d36ec7be0c8cfe2ce6f0798d6a81f0577936c",
+              "rows": 1036,
+              "checkpoint_sha256": "d558e0c24e32117450ef2ae24d88fd48aba37b817a2c6d96eec26d7a8c35bddd"
+            },
+            "full": {
+              "path": "../e3_eleven/predictions/eatr/geq_full/test_full/predictions.jsonl.gz",
+              "sha256": "6834ead1173f8143daf62e22294a88520a20f221c20197d39056543e94d96743",
+              "uncompressed_sha256": "1ba4f9f7a3813357fc4c7c1e36b89a7f4df78979e4d7e60dc26c15cc3ad71893",
+              "rows": 2970,
+              "checkpoint_sha256": "d558e0c24e32117450ef2ae24d88fd48aba37b817a2c6d96eec26d7a8c35bddd"
+            }
+          }
+        }
+      }
+    },
+    "qd_detr": {
+      "methods": {
+        "gmr": {
+          "checkpoint_sha256": "86a469890dd0f06ca75f7830b04ae7184c0ca53ef75e849b338bedbf82716c10",
+          "training_source": "7d69e39b16dc91339b3c82f3d25e4b581896397f00283ef0dbd5f025fa6cb062",
+          "best_epoch": 76,
+          "reused": false,
+          "training_complete": {
+            "status": "complete",
+            "stage": "gmr",
+            "identity": "47092d5c36cda593f7ee14bc679d5df3608120e3aca407c1630bfa5ee0a4723d",
+            "completed_epoch": 96,
+            "best_epoch": 76,
+            "best_score": 16.26,
+            "metric": "Val mAP",
+            "reason": "patience",
+            "best_sha256": "86a469890dd0f06ca75f7830b04ae7184c0ca53ef75e849b338bedbf82716c10",
+            "source": "7d69e39b16dc91339b3c82f3d25e4b581896397f00283ef0dbd5f025fa6cb062",
+            "train_val_assets": "bb0e567c35e66c99e33d419ed842019bfddb30e66269a3f716f06f33797b20ea",
+            "baseline_sha256": null,
+            "test_used_for_selection": false
+          },
+          "predictions": {
+            "val": {
+              "path": "evidence/qd_detr/gmr/val/predictions.jsonl.gz",
+              "sha256": "2e9b43893080822640a523e5d2a1e4b7971db0984dc368bf0c556f73a10cbe25",
+              "uncompressed_sha256": "4b6a587693587fdd058c85d9fd7251dc6979ba49d3fa28f938e4025e1dd11873",
+              "rows": 465,
+              "checkpoint_sha256": "86a469890dd0f06ca75f7830b04ae7184c0ca53ef75e849b338bedbf82716c10"
+            },
+            "standard": {
+              "path": "../e3_eleven/predictions/qd_detr/gmr/test_standard/predictions.jsonl.gz",
+              "sha256": "a46a224d7c17056a6dfa516f77d50aec7f9101f603582602fa552aa069c6912d",
+              "uncompressed_sha256": "88fdedeead402e1821202bdae0f2a50e1ebd80f45d0d6bae8fded2e779705b8b",
+              "rows": 1036,
+              "checkpoint_sha256": "86a469890dd0f06ca75f7830b04ae7184c0ca53ef75e849b338bedbf82716c10"
+            },
+            "full": {
+              "path": "../e3_eleven/predictions/qd_detr/gmr/test_full/predictions.jsonl.gz",
+              "sha256": "28906951f492e65155b0144dcecf7ebbfa7efdf8c38eec52255187d12941856f",
+              "uncompressed_sha256": "e0626da62c91d5f494582ac25e220695d8b5225670751689a3787fba5850e548",
+              "rows": 2970,
+              "checkpoint_sha256": "86a469890dd0f06ca75f7830b04ae7184c0ca53ef75e849b338bedbf82716c10"
+            }
+          }
+        },
+        "geq_full": {
+          "checkpoint_sha256": "e252624f9e4449cde21458daf2892ab52ff7444329f8f8c5b7015e6b0ddc475e",
+          "training_source": "7d69e39b16dc91339b3c82f3d25e4b581896397f00283ef0dbd5f025fa6cb062",
+          "best_epoch": 4,
+          "reused": false,
+          "training_complete": {
+            "status": "complete",
+            "stage": "geq_full",
+            "identity": "25bd48ac4c50cea41077edbd206a4c2ede1efc3ac03a647cbf7c22296009de2a",
+            "completed_epoch": 14,
+            "best_epoch": 4,
+            "best_score": 51.46666666666667,
+            "metric": "Val mean G-mIoU@1 (.4/.5/.6)",
+            "reason": "patience",
+            "best_sha256": "e252624f9e4449cde21458daf2892ab52ff7444329f8f8c5b7015e6b0ddc475e",
+            "source": "7d69e39b16dc91339b3c82f3d25e4b581896397f00283ef0dbd5f025fa6cb062",
+            "train_val_assets": "bb0e567c35e66c99e33d419ed842019bfddb30e66269a3f716f06f33797b20ea",
+            "baseline_sha256": "86a469890dd0f06ca75f7830b04ae7184c0ca53ef75e849b338bedbf82716c10",
+            "test_used_for_selection": false
+          },
+          "predictions": {
+            "val": {
+              "path": "evidence/qd_detr/geq_full/val/predictions.jsonl.gz",
+              "sha256": "bfbaaa4e333abca195b396fe943f51ded77dfbd7aa618bb18ea8b0ef96184e8d",
+              "uncompressed_sha256": "2762b42820e0accb316f888fa860a4b31266e893723038f92179d0b48154400f",
+              "rows": 465,
+              "checkpoint_sha256": "e252624f9e4449cde21458daf2892ab52ff7444329f8f8c5b7015e6b0ddc475e"
+            },
+            "standard": {
+              "path": "../e3_eleven/predictions/qd_detr/geq_full/test_standard/predictions.jsonl.gz",
+              "sha256": "3db9a39d513698b299322f87b4b7e82e8d998145a3f31348f0b04623d49bb36f",
+              "uncompressed_sha256": "7c43bdb567d9d8402822c44fb06b0138a9afb69e46b911050ccdb654b90c5cbb",
+              "rows": 1036,
+              "checkpoint_sha256": "e252624f9e4449cde21458daf2892ab52ff7444329f8f8c5b7015e6b0ddc475e"
+            },
+            "full": {
+              "path": "../e3_eleven/predictions/qd_detr/geq_full/test_full/predictions.jsonl.gz",
+              "sha256": "0187ad25071cd69403182136d558c4e38e7c60dd3b7cc392b4fc2d62e0ee8c2a",
+              "uncompressed_sha256": "899e5a221cb3ce21e9a85408a4f23a188f137584d3e32957c729f3549164611a",
+              "rows": 2970,
+              "checkpoint_sha256": "e252624f9e4449cde21458daf2892ab52ff7444329f8f8c5b7015e6b0ddc475e"
+            }
+          }
+        }
+      }
+    },
+    "cg_detr": {
+      "methods": {
+        "gmr": {
+          "checkpoint_sha256": "5db97be960efca3df2bca1c219783060216785068be5c387cc1f84aca3f64788",
+          "training_source": "7d69e39b16dc91339b3c82f3d25e4b581896397f00283ef0dbd5f025fa6cb062",
+          "best_epoch": 13,
+          "reused": false,
+          "training_complete": {
+            "status": "complete",
+            "stage": "gmr",
+            "identity": "7804fedcb227142b5dabc0659a9d78c9692d0359655d5fc99a599480fcbd184c",
+            "completed_epoch": 33,
+            "best_epoch": 13,
+            "best_score": 8.05,
+            "metric": "Val mAP",
+            "reason": "patience",
+            "best_sha256": "5db97be960efca3df2bca1c219783060216785068be5c387cc1f84aca3f64788",
+            "source": "7d69e39b16dc91339b3c82f3d25e4b581896397f00283ef0dbd5f025fa6cb062",
+            "train_val_assets": "bb0e567c35e66c99e33d419ed842019bfddb30e66269a3f716f06f33797b20ea",
+            "baseline_sha256": null,
+            "test_used_for_selection": false
+          },
+          "predictions": {
+            "val": {
+              "path": "evidence/cg_detr/gmr/val/predictions.jsonl.gz",
+              "sha256": "411db3a02cbcffa029016befa22ae379a6a43792a02416bb829107a6ef81e7e5",
+              "uncompressed_sha256": "c077956ef95c12a229cad079a24ab11614fcc8e118d7ac89ae6084e270065795",
+              "rows": 465,
+              "checkpoint_sha256": "5db97be960efca3df2bca1c219783060216785068be5c387cc1f84aca3f64788"
+            },
+            "standard": {
+              "path": "../e3_eleven/predictions/cg_detr/gmr/test_standard/predictions.jsonl.gz",
+              "sha256": "8ef22ad0e98df77a777d028bebc00ba7abe2cdb89d801e842e2606ac58f08987",
+              "uncompressed_sha256": "f78977a7eca2a7cf0d6a0df26859a9a4494c609f1231de2eedc7bef7eac55af2",
+              "rows": 1036,
+              "checkpoint_sha256": "5db97be960efca3df2bca1c219783060216785068be5c387cc1f84aca3f64788"
+            },
+            "full": {
+              "path": "../e3_eleven/predictions/cg_detr/gmr/test_full/predictions.jsonl.gz",
+              "sha256": "aeab2efad897e81d0460c40453c84d60849b2ae960a57543da718e30695e26c1",
+              "uncompressed_sha256": "09a22557fd6f4e93c6066d1bf77d49b00fc69003bc8a706dfa490ca7c1c7b7fd",
+              "rows": 2970,
+              "checkpoint_sha256": "5db97be960efca3df2bca1c219783060216785068be5c387cc1f84aca3f64788"
+            }
+          }
+        },
+        "geq_full": {
+          "checkpoint_sha256": "3f3467e45da61deedcb2ed61004e42c4e98afdc69d7e21badf52d111cce62794",
+          "training_source": "7d69e39b16dc91339b3c82f3d25e4b581896397f00283ef0dbd5f025fa6cb062",
+          "best_epoch": 1,
+          "reused": false,
+          "training_complete": {
+            "status": "complete",
+            "stage": "geq_full",
+            "identity": "da162ad38df48fa56f46e58df8a4b5ffc8f1660de6516d3f122148d0302a87ab",
+            "completed_epoch": 11,
+            "best_epoch": 1,
+            "best_score": 48.99,
+            "metric": "Val mean G-mIoU@1 (.4/.5/.6)",
+            "reason": "patience",
+            "best_sha256": "3f3467e45da61deedcb2ed61004e42c4e98afdc69d7e21badf52d111cce62794",
+            "source": "7d69e39b16dc91339b3c82f3d25e4b581896397f00283ef0dbd5f025fa6cb062",
+            "train_val_assets": "bb0e567c35e66c99e33d419ed842019bfddb30e66269a3f716f06f33797b20ea",
+            "baseline_sha256": "5db97be960efca3df2bca1c219783060216785068be5c387cc1f84aca3f64788",
+            "test_used_for_selection": false
+          },
+          "predictions": {
+            "val": {
+              "path": "evidence/cg_detr/geq_full/val/predictions.jsonl.gz",
+              "sha256": "d2f2cd83dc6c0dc5ffac012c1ec79d8174014d752301c9bc17d8924e035dffe7",
+              "uncompressed_sha256": "20d28676ed772d288c54e000068ab9a42b1de16ad9905f989d47246e2089eb04",
+              "rows": 465,
+              "checkpoint_sha256": "3f3467e45da61deedcb2ed61004e42c4e98afdc69d7e21badf52d111cce62794"
+            },
+            "standard": {
+              "path": "../e3_eleven/predictions/cg_detr/geq_full/test_standard/predictions.jsonl.gz",
+              "sha256": "5b0c6b607ae6dca9846d521bac9b7f8e73af3a4812c03897a97311ac6f6c2ae8",
+              "uncompressed_sha256": "35d304bf92c9cc108a099b5df969494a9ce6da4549d77fff404c61e6b93d3d5f",
+              "rows": 1036,
+              "checkpoint_sha256": "3f3467e45da61deedcb2ed61004e42c4e98afdc69d7e21badf52d111cce62794"
+            },
+            "full": {
+              "path": "../e3_eleven/predictions/cg_detr/geq_full/test_full/predictions.jsonl.gz",
+              "sha256": "d0c91d00b6b2e1517d9dfd0738012cdf6383d5fca5852c7deb3b9882bc4a83a5",
+              "uncompressed_sha256": "d86d889ec6f8cc8ea15aa73e11fea2d34f8bded6c25a8a7768081231f130f6d2",
+              "rows": 2970,
+              "checkpoint_sha256": "3f3467e45da61deedcb2ed61004e42c4e98afdc69d7e21badf52d111cce62794"
+            }
           }
         }
       }
@@ -300,6 +575,98 @@
         }
       }
     },
+    "bam_detr": {
+      "methods": {
+        "gmr": {
+          "checkpoint_sha256": "9f36d0167763424583589faa496ef5f49c57821dbb8528924d099cf02f29a810",
+          "training_source": "7d69e39b16dc91339b3c82f3d25e4b581896397f00283ef0dbd5f025fa6cb062",
+          "best_epoch": 65,
+          "reused": false,
+          "training_complete": {
+            "status": "complete",
+            "stage": "gmr",
+            "identity": "9e000f47ac0d8df538cdd351e96dc399731151491791cb70b42d50620e17875b",
+            "completed_epoch": 85,
+            "best_epoch": 65,
+            "best_score": 23.83,
+            "metric": "Val mAP",
+            "reason": "patience",
+            "best_sha256": "9f36d0167763424583589faa496ef5f49c57821dbb8528924d099cf02f29a810",
+            "source": "7d69e39b16dc91339b3c82f3d25e4b581896397f00283ef0dbd5f025fa6cb062",
+            "train_val_assets": "bb0e567c35e66c99e33d419ed842019bfddb30e66269a3f716f06f33797b20ea",
+            "baseline_sha256": null,
+            "test_used_for_selection": false
+          },
+          "predictions": {
+            "val": {
+              "path": "evidence/bam_detr/gmr/val/predictions.jsonl.gz",
+              "sha256": "028e514eeddfe2cf189d6760c8a10014557076702132721c7269d86dccc8ce5c",
+              "uncompressed_sha256": "61021999c42aef81c2c47d648524efc80224ce2ab5c637f32d0597f1548d8f65",
+              "rows": 465,
+              "checkpoint_sha256": "9f36d0167763424583589faa496ef5f49c57821dbb8528924d099cf02f29a810"
+            },
+            "standard": {
+              "path": "../e3_eleven/predictions/bam_detr/gmr/test_standard/predictions.jsonl.gz",
+              "sha256": "fafa15588cac16325d02a86d7de58b3651e952a709db13e1a280a8f7eb36c72c",
+              "uncompressed_sha256": "c490a5a0df93cf2720c9b960b1b229554f57a3252ca0133e5915f2a7edc3ff4b",
+              "rows": 1036,
+              "checkpoint_sha256": "9f36d0167763424583589faa496ef5f49c57821dbb8528924d099cf02f29a810"
+            },
+            "full": {
+              "path": "../e3_eleven/predictions/bam_detr/gmr/test_full/predictions.jsonl.gz",
+              "sha256": "002f617ab37601f21357d4162bc6996f936804289a1cdb3c2b46020cbf01a2e9",
+              "uncompressed_sha256": "32be62ab014a00fc4a09af5ba29e75ccc8a94edc461ced6bda1d5533b41968c8",
+              "rows": 2970,
+              "checkpoint_sha256": "9f36d0167763424583589faa496ef5f49c57821dbb8528924d099cf02f29a810"
+            }
+          }
+        },
+        "geq_full": {
+          "checkpoint_sha256": "a34334366a3bc56429bf5e64dbb652615a887688d2289862ada2ed94bc04d3e6",
+          "training_source": "7d69e39b16dc91339b3c82f3d25e4b581896397f00283ef0dbd5f025fa6cb062",
+          "best_epoch": 2,
+          "reused": false,
+          "training_complete": {
+            "status": "complete",
+            "stage": "geq_full",
+            "identity": "379a3c68f2f6c2030229748e7c350f28c4e7cae608a5fe72075cd86f6a58b947",
+            "completed_epoch": 12,
+            "best_epoch": 2,
+            "best_score": 48.026666666666664,
+            "metric": "Val mean G-mIoU@1 (.4/.5/.6)",
+            "reason": "patience",
+            "best_sha256": "a34334366a3bc56429bf5e64dbb652615a887688d2289862ada2ed94bc04d3e6",
+            "source": "7d69e39b16dc91339b3c82f3d25e4b581896397f00283ef0dbd5f025fa6cb062",
+            "train_val_assets": "bb0e567c35e66c99e33d419ed842019bfddb30e66269a3f716f06f33797b20ea",
+            "baseline_sha256": "9f36d0167763424583589faa496ef5f49c57821dbb8528924d099cf02f29a810",
+            "test_used_for_selection": false
+          },
+          "predictions": {
+            "val": {
+              "path": "evidence/bam_detr/geq_full/val/predictions.jsonl.gz",
+              "sha256": "f153960cad27a6f43f63f7cb5407e7f86f51a91f642922b3d14036a4d9249b9c",
+              "uncompressed_sha256": "b50d0f31456ad7dc1ea6152841e2a250fd0180301211d783e09f334238bf7296",
+              "rows": 465,
+              "checkpoint_sha256": "a34334366a3bc56429bf5e64dbb652615a887688d2289862ada2ed94bc04d3e6"
+            },
+            "standard": {
+              "path": "../e3_eleven/predictions/bam_detr/geq_full/test_standard/predictions.jsonl.gz",
+              "sha256": "34f0ea2ef1cc0ba90890a96b6b6a0616948750efe17da6842352d7242d19bff6",
+              "uncompressed_sha256": "61bb2f106608ee0326b2d85eb295c062b0086f97d1d3cdcb0f535ca91f4d1a8a",
+              "rows": 1036,
+              "checkpoint_sha256": "a34334366a3bc56429bf5e64dbb652615a887688d2289862ada2ed94bc04d3e6"
+            },
+            "full": {
+              "path": "../e3_eleven/predictions/bam_detr/geq_full/test_full/predictions.jsonl.gz",
+              "sha256": "a91c2b3a90062b192adf7ccefd67162a61e4f68cf0cf9852852943b85860751b",
+              "uncompressed_sha256": "a3753bcbdae5704165dc24aca9be4f0e2c386fcd3c990b4def6f846cf0811c65",
+              "rows": 2970,
+              "checkpoint_sha256": "a34334366a3bc56429bf5e64dbb652615a887688d2289862ada2ed94bc04d3e6"
+            }
+          }
+        }
+      }
+    },
     "uvcom": {
       "methods": {
         "gmr": {
@@ -388,6 +755,98 @@
             "train_val_assets": "bb0e567c35e66c99e33d419ed842019bfddb30e66269a3f716f06f33797b20ea",
             "baseline_sha256": "24267fc515186369076c746a579413ba5e5c615fdae612ad3556a6e9e37cd9a6",
             "test_used_for_selection": false
+          }
+        }
+      }
+    },
+    "tr_detr": {
+      "methods": {
+        "gmr": {
+          "checkpoint_sha256": "4d259f310f4613d7b5e6a8843267ccad4fbff85dcda426fd711cd6dfe9d92345",
+          "training_source": "7d69e39b16dc91339b3c82f3d25e4b581896397f00283ef0dbd5f025fa6cb062",
+          "best_epoch": 57,
+          "reused": false,
+          "training_complete": {
+            "status": "complete",
+            "stage": "gmr",
+            "identity": "cd8f51a96d9799d2cb6d5b1104685ed4c1c0bac06484a3e24cb08741a77a7a52",
+            "completed_epoch": 77,
+            "best_epoch": 57,
+            "best_score": 3.75,
+            "metric": "Val mAP",
+            "reason": "patience",
+            "best_sha256": "4d259f310f4613d7b5e6a8843267ccad4fbff85dcda426fd711cd6dfe9d92345",
+            "source": "7d69e39b16dc91339b3c82f3d25e4b581896397f00283ef0dbd5f025fa6cb062",
+            "train_val_assets": "bb0e567c35e66c99e33d419ed842019bfddb30e66269a3f716f06f33797b20ea",
+            "baseline_sha256": null,
+            "test_used_for_selection": false
+          },
+          "predictions": {
+            "val": {
+              "path": "evidence/tr_detr/gmr/val/predictions.jsonl.gz",
+              "sha256": "25b4bd1e16fc4ddd845899b4ad8fb6d55114dd53364d06ffd51a7d01fe555eb7",
+              "uncompressed_sha256": "7807184ee4523697b73bcf0513caed460f7149c68095aec4417da30b2d52f6f4",
+              "rows": 465,
+              "checkpoint_sha256": "4d259f310f4613d7b5e6a8843267ccad4fbff85dcda426fd711cd6dfe9d92345"
+            },
+            "standard": {
+              "path": "../e3_eleven/predictions/tr_detr/gmr/test_standard/predictions.jsonl.gz",
+              "sha256": "adf124ef3ba5177703f8aadbf03ed2757725a70a7243b4611a666f976940d8f7",
+              "uncompressed_sha256": "65841c3cb0ae6714a8f16b89299dea2d963517e08faf7cbdd476711abedd4f40",
+              "rows": 1036,
+              "checkpoint_sha256": "4d259f310f4613d7b5e6a8843267ccad4fbff85dcda426fd711cd6dfe9d92345"
+            },
+            "full": {
+              "path": "../e3_eleven/predictions/tr_detr/gmr/test_full/predictions.jsonl.gz",
+              "sha256": "80f9e206870ebde44380867ef378115412d32e617155a8e8cc516361d04e45f5",
+              "uncompressed_sha256": "2129e7fbad601ec2873d127767b318e4e34817df7a013ee9c1eeebaff5dda920",
+              "rows": 2970,
+              "checkpoint_sha256": "4d259f310f4613d7b5e6a8843267ccad4fbff85dcda426fd711cd6dfe9d92345"
+            }
+          }
+        },
+        "geq_full": {
+          "checkpoint_sha256": "8ae85c281785499f24541a99a35730d09d0d2a5c3be72b1407963a80cfc58492",
+          "training_source": "7d69e39b16dc91339b3c82f3d25e4b581896397f00283ef0dbd5f025fa6cb062",
+          "best_epoch": 1,
+          "reused": false,
+          "training_complete": {
+            "status": "complete",
+            "stage": "geq_full",
+            "identity": "c19fdb75abca8ba7f23be0a37438dad7a7cc2acf91c05e405edc27245041a2bd",
+            "completed_epoch": 11,
+            "best_epoch": 1,
+            "best_score": 46.53,
+            "metric": "Val mean G-mIoU@1 (.4/.5/.6)",
+            "reason": "patience",
+            "best_sha256": "8ae85c281785499f24541a99a35730d09d0d2a5c3be72b1407963a80cfc58492",
+            "source": "7d69e39b16dc91339b3c82f3d25e4b581896397f00283ef0dbd5f025fa6cb062",
+            "train_val_assets": "bb0e567c35e66c99e33d419ed842019bfddb30e66269a3f716f06f33797b20ea",
+            "baseline_sha256": "4d259f310f4613d7b5e6a8843267ccad4fbff85dcda426fd711cd6dfe9d92345",
+            "test_used_for_selection": false
+          },
+          "predictions": {
+            "val": {
+              "path": "evidence/tr_detr/geq_full/val/predictions.jsonl.gz",
+              "sha256": "56a5c3dec12bae35bec946588ec47a002e889cbc674a6181538f4a6912f3b13a",
+              "uncompressed_sha256": "643feeda897a5015b9189079acfb4908bb6e18952786a0a82b8e98ba92141bb1",
+              "rows": 465,
+              "checkpoint_sha256": "8ae85c281785499f24541a99a35730d09d0d2a5c3be72b1407963a80cfc58492"
+            },
+            "standard": {
+              "path": "../e3_eleven/predictions/tr_detr/geq_full/test_standard/predictions.jsonl.gz",
+              "sha256": "b4fbeda207fce441a882e89f2d38b05ed4aa2c16ec9b7c430bf0cc3d79b24e53",
+              "uncompressed_sha256": "d11055835049022b6bc5f2f38d8dfd6e4a84ab5ae3283abae11ad1e160aa3305",
+              "rows": 1036,
+              "checkpoint_sha256": "8ae85c281785499f24541a99a35730d09d0d2a5c3be72b1407963a80cfc58492"
+            },
+            "full": {
+              "path": "../e3_eleven/predictions/tr_detr/geq_full/test_full/predictions.jsonl.gz",
+              "sha256": "7957a3dd4fcaff07588ec3c66d168bff231b9f8ed77d8f28aa0a4736f86718c6",
+              "uncompressed_sha256": "80bb3c25e9666991cf8b35be608271be6096349d6cf684bb3f5583904fba2913",
+              "rows": 2970,
+              "checkpoint_sha256": "8ae85c281785499f24541a99a35730d09d0d2a5c3be72b1407963a80cfc58492"
+            }
           }
         }
       }
@@ -576,5 +1035,6 @@
         }
       }
     }
-  }
+  },
+  "backbone_scope": "All 11 published backbones, requested by the user; no filtering by Test improvement. Original six-model subset remains in earlier publication history."
 }

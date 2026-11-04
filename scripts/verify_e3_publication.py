@@ -82,11 +82,15 @@ def main():
     links = re.findall(r'!?\[[^\]]*\]\(([^)]+)\)', (ROOT/'README.md').read_text())
     local = [p.split('#')[0] for p in links if '://' not in p and not p.startswith('#')]
     assert all((ROOT/p).exists() for p in local), [p for p in local if not (ROOT/p).exists()]
+    retention = json.loads((ROOT/'results/e3_high_retention/AUDIT.json').read_text())
+    assert retention['passed'] and retention['all_published_backbones_included']
+    assert len(retention['backbones']) == 11 and retention['prediction_files'] == 66
     checks = dict(passed=True, publication_files_checked=len(manifest['files']),
                   published_source_matches_training=True, source=source, full_test_metric_recomputations=official_checks,
                   G1_G3_curve_points_recomputed=curve_points, README_local_links_checked=len(local),
                   unit_tests_passed=24, backbone_acceptance_records_checked=11,
-                  high_retention_official_checks=96, high_retention_mAP_checks=24,
+                  high_retention_official_checks=retention['official_G1_G3_checks'],
+                  high_retention_mAP_checks=retention['mAP_checks'],
                   method='CPU recomputation from hashed predictions and GT; no new training or model inference',
                   manifest_sha256=sha(ROOT/'PUBLICATION_MANIFEST.json'))
     (ROOT/'PUBLICATION_CHECKS.json').write_text(json.dumps(checks, indent=2)+'\n')
