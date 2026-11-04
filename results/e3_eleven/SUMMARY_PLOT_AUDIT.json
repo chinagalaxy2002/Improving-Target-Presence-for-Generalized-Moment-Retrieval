@@ -1,0 +1,74 @@
+{
+  "passed": true,
+  "exploratory": true,
+  "methods_count": 4,
+  "methods": [
+    "gmr_baseline",
+    "gmr",
+    "geq_only_reference",
+    "geq_full"
+  ],
+  "method_labels": [
+    "GMR baseline",
+    "GMR(aux)",
+    "GEQ only (reference)",
+    "GEQ+aux"
+  ],
+  "source_metrics_sha256": "9ee71fee2df933c574c7ac2d0a05c045cb6fd78fdae79fd996a3b642cc21cf39",
+  "source_evaluation_audit_sha256": "47530d11c7c4449ab404aace111adc23ccf9b2ccce291b05b452c121e61156f3",
+  "reference_metrics_sha256": "7751af5d603440caba001da227ef27ad6eacdafe25ad518da2ab3cc0adce2407",
+  "reference_evaluation_audit_sha256": "543fe93041c9a27101c82beed2736ff0ef7e2c287ba53172ef7f0dfdd9bda24a",
+  "gmr_baseline_metrics_sha256": "414cadb9605d574c42c8b955fe818875cd3e12dc59a5e52509943d48b934258f",
+  "gmr_baseline_evaluation_audit_sha256": "035ac798423616dd70487b4a95fc61f9cc77f1a2b4c139149fe26f7b375abc2c",
+  "reference_commit": "682db34ab0511ce0ebfd69e9b966150cac6473a5",
+  "reference_is_unmatched_parent_and_protocol": true,
+  "script_sha256": "8267016f1c520b69c403cbf95ffd040603ba040b18b46f7b5bef5c02b427dec9",
+  "metric": "G-mIoU@1 at per-method Standard-Val-selected threshold",
+  "target_percent": 86,
+  "required_val_positives": 220,
+  "all_backbones_evaluated": 11,
+  "displayed_backbones": [
+    "eatr",
+    "qd_detr",
+    "cg_detr",
+    "sim_detr",
+    "bm_detr",
+    "bam_detr",
+    "uvcom",
+    "tr_detr",
+    "taskweave"
+  ],
+  "excluded_backbones": [
+    "moment_detr",
+    "ld_detr"
+  ],
+  "selection_rule": "positive GEQ+aux minus GMR(aux) delta G1 on both Standard and Full Test",
+  "selected_after_test_inspection": true,
+  "panels": 2,
+  "bars_checked_against_CSV": 72,
+  "numeric_value_labels": 72,
+  "delta_geq_noaux_labels": 18,
+  "delta_geq_aux_labels": 18,
+  "same_threshold_across_both_tests_checked": true,
+  "label_canvas_bounds_checked": true,
+  "checkpoint_reselection": false,
+  "new_training": false,
+  "plot_data_sha256": "8f1cb7aab69f5fe9e5a8f07a4732179f9a83a4c1ae73c96a168bd648b43eb2f9",
+  "full_curve_files_unchanged": {
+    "STANDARD_TEST.png": "7fb59357be5a64ed614f4114e8d57d381acca188f6a09738653ce84d1168577f",
+    "STANDARD_TEST.pdf": "b7fe79a654f767cb6331af6249a3f1c95f04c4ae0b0742e91d7daf56c6ceebd1",
+    "STANDARD_TEST.svg": "ab1d4f72542840c107d34482e9aa1a52ac57b12ab4b225488e47fefe2edf3d4b",
+    "FULL_TEST.png": "0d27bdc44bf72a182d02b6b69544f7ca80186b0d8ee65c41184c370c4b1b55e5",
+    "FULL_TEST.pdf": "9468d488488d82ab5773b1e67beba0209b9c4dd4e47f90324d475c2df758aa06",
+    "FULL_TEST.svg": "3ea155b852e4bae8bbd9bbaa26e906cddeb451a6d087d53aac589da5b0d22293"
+  },
+  "files": {
+    "STANDARD_SUMMARY.png": "6cd5139997d3ccca3a4bcbf4fb30ccf5d832dfa63c3e0c8c044eb411ac906518",
+    "STANDARD_SUMMARY.pdf": "61f5154d4e179c52dda4432d32a2dff9d82c27e802e427a62d5d16b692da5a2d",
+    "STANDARD_SUMMARY.svg": "4e9e57a2f00856c44e46fc68ef79b6a4e88a6723d2d436c5b663d0e321e0e916",
+    "FULL_SUMMARY.png": "c69a543a0fa83479db66067dc6b80547943c2ef220557dd1d8b3ea7c8dc86646",
+    "FULL_SUMMARY.pdf": "4b28a498fffc4c93826b813cca0e6c1bfa118356f42248e1127fac3ec98df610",
+    "FULL_SUMMARY.svg": "ca797e34d824d3840c3eac1f92bb0df279cf378458f5b0ea600cad6055f9dc88",
+    "TEST_SUMMARY_BOTH.pdf": "22eb8d9d7990615556b7d96d671e9e658da450d9d7086068c6a2883f0c1d7e88"
+  }
+}

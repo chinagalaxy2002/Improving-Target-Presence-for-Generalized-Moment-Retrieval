@@ -1,0 +1,158 @@
+{
+  "passed": true,
+  "method": "native GMR baseline without aux (no GEQ, no aux)",
+  "comparison_role": "true no-auxiliary GMR baseline parent from soccergmr-standard-geq-full",
+  "reference_repository": "chinagalaxy2002/Improving-Target-Presence-for-Generalized-Moment-Retrieval",
+  "reference_branch": "soccergmr-standard-geq-full",
+  "reference_commit": "682db34ab0511ce0ebfd69e9b966150cac6473a5",
+  "target_percent": 86,
+  "required_val_positives": 220,
+  "threshold_rule": "largest 0.01-grid Standard-Val threshold retaining >=220/255 positives; strict score > threshold",
+  "same_threshold_used_for_standard_and_full": true,
+  "backbones": [
+    "eatr",
+    "qd_detr",
+    "cg_detr",
+    "sim_detr",
+    "bm_detr",
+    "bam_detr",
+    "uvcom",
+    "tr_detr",
+    "taskweave"
+  ],
+  "historical_protocol_backbones": [
+    "cg_detr",
+    "eatr",
+    "qd_detr",
+    "sim_detr"
+  ],
+  "expansion_protocol_backbones": [
+    "bm_detr",
+    "bam_detr",
+    "uvcom",
+    "tr_detr",
+    "taskweave"
+  ],
+  "unmatched_parent_and_protocol": true,
+  "mean_G1": {
+    "standard": 17.714915864828384,
+    "full": 17.558934645629684
+  },
+  "official_G1_G3_evaluations": 18,
+  "official_metric_values_checked": 36,
+  "archived_val_prediction_files": 9,
+  "test_source_files": [
+    {
+      "backbone": "eatr",
+      "split": "standard",
+      "path": "results/test_thresholds/runs/eatr/standard/gmr/predictions.jsonl.gz",
+      "sha256": "faed720f41a5493bce222b79cf364fef1a3dfa69b8ecf82c74bac27f570d2381"
+    },
+    {
+      "backbone": "eatr",
+      "split": "full",
+      "path": "results/test_thresholds/runs/eatr/full/gmr/predictions.jsonl.gz",
+      "sha256": "d2173c82f12adcaec03738de13e5c907071a4b62ee276622e6bd4de78da48b50"
+    },
+    {
+      "backbone": "qd_detr",
+      "split": "standard",
+      "path": "results/test_thresholds/runs/qd_detr/standard/gmr/predictions.jsonl.gz",
+      "sha256": "9783562f8432f215b5e357b926c19aa2caf6355636b14fc47bf4b913833fef6f"
+    },
+    {
+      "backbone": "qd_detr",
+      "split": "full",
+      "path": "results/test_thresholds/runs/qd_detr/full/gmr/predictions.jsonl.gz",
+      "sha256": "853f05c98c2908f6134459acef6a8466f919572e0595976b7cc1b8e652e9e4af"
+    },
+    {
+      "backbone": "cg_detr",
+      "split": "standard",
+      "path": "results/test_thresholds/runs/cg_detr/standard/gmr/predictions.jsonl.gz",
+      "sha256": "e505dc633844595139b14239532a91aa5df36cc2e05d197dbb5ab853ca88dee3"
+    },
+    {
+      "backbone": "cg_detr",
+      "split": "full",
+      "path": "results/test_thresholds/runs/cg_detr/full/gmr/predictions.jsonl.gz",
+      "sha256": "c3bbbfb0a6c78a206a83cadcab0cbbb720d4065ed3fe571b1bef63760cd72aea"
+    },
+    {
+      "backbone": "sim_detr",
+      "split": "standard",
+      "path": "results/test_thresholds/runs/sim_detr/standard/gmr/predictions.jsonl.gz",
+      "sha256": "e4a042cbacdd88fcec65d504b0c20adfccf3bf10e57c412921dd8c83b1f6207a"
+    },
+    {
+      "backbone": "sim_detr",
+      "split": "full",
+      "path": "results/test_thresholds/runs/sim_detr/full/gmr/predictions.jsonl.gz",
+      "sha256": "b978f7c8cd502eb359091b21fa5e3f60092a873e87814859e5c493e1f571391f"
+    },
+    {
+      "backbone": "bm_detr",
+      "split": "standard",
+      "path": "results/test_thresholds_11_backbones/runs/bm_detr/standard/gmr/predictions.jsonl.gz",
+      "sha256": "f51e8b80114b240deef487cca2cdf6ddec4417468ddbd4a13e4d9a1fc3b6fc5c"
+    },
+    {
+      "backbone": "bm_detr",
+      "split": "full",
+      "path": "results/test_thresholds_11_backbones/runs/bm_detr/full/gmr/predictions.jsonl.gz",
+      "sha256": "863f631297da419d965316b907fbeac310cc0c5491364ebabdc07725972e2cbd"
+    },
+    {
+      "backbone": "bam_detr",
+      "split": "standard",
+      "path": "results/test_thresholds_11_backbones/runs/bam_detr/standard/gmr/predictions.jsonl.gz",
+      "sha256": "d2f6e1913d93e0766688b7bdafb0e7885ab0ad2005c2acd194afdbbe30ee11d8"
+    },
+    {
+      "backbone": "bam_detr",
+      "split": "full",
+      "path": "results/test_thresholds_11_backbones/runs/bam_detr/full/gmr/predictions.jsonl.gz",
+      "sha256": "e987a3a289e29abea8d8ea94735c16b44544344d2c6a650c2785dc30cc16daab"
+    },
+    {
+      "backbone": "uvcom",
+      "split": "standard",
+      "path": "results/test_thresholds_11_backbones/runs/uvcom/standard/gmr/predictions.jsonl.gz",
+      "sha256": "54321fd04de3225441d26b84ce7fe1db165d88f0d143b35a8d274622911db2f1"
+    },
+    {
+      "backbone": "uvcom",
+      "split": "full",
+      "path": "results/test_thresholds_11_backbones/runs/uvcom/full/gmr/predictions.jsonl.gz",
+      "sha256": "a5bf58f4472c9b10430b6d672385464b900300f92f17ae3260bc0b16cd6e8751"
+    },
+    {
+      "backbone": "tr_detr",
+      "split": "standard",
+      "path": "results/test_thresholds_11_backbones/runs/tr_detr/standard/gmr/predictions.jsonl.gz",
+      "sha256": "168b637e3a5ce8d9a2900dffe06b271e320b614a05db7ba6977afd4a3b07e47d"
+    },
+    {
+      "backbone": "tr_detr",
+      "split": "full",
+      "path": "results/test_thresholds_11_backbones/runs/tr_detr/full/gmr/predictions.jsonl.gz",
+      "sha256": "4c684177d0d4ae3ec1d5c0216efb6fc20696058845cd46294add52da58cf854c"
+    },
+    {
+      "backbone": "taskweave",
+      "split": "standard",
+      "path": "results/test_thresholds_11_backbones/runs/taskweave/standard/gmr/predictions.jsonl.gz",
+      "sha256": "2e6193ceb9a571243e12bf0aa62b4ade28c58196411bc8748931f254002045bb"
+    },
+    {
+      "backbone": "taskweave",
+      "split": "full",
+      "path": "results/test_thresholds_11_backbones/runs/taskweave/full/gmr/predictions.jsonl.gz",
+      "sha256": "3020cec8f2ec2d9620fc1d1dfac1eb23aa24e55e8d7d5f1482d852fbb7108993"
+    }
+  ],
+  "metrics_sha256": "414cadb9605d574c42c8b955fe818875cd3e12dc59a5e52509943d48b934258f",
+  "script_sha256": "23a5816e679d808561ae35654186c4f2c479160fd873e32ab5c1aaf640a2b2be",
+  "new_training": false,
+  "new_checkpoint_inference": false
+}
