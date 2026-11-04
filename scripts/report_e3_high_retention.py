@@ -223,7 +223,7 @@ def document(root, rows, summary):
     lines = ['# 高事件保留率场景：全部11骨干配对评测', '',
              '比较本轮 **GMR baseline → GEQ+aux**。GMR baseline 是带 Balanced BCE + 0.2 Dice 辅助监督的 Stage 1；GEQ+aux 是同一骨干的 Stage 2。Moment-DETR复用已完成实验，全部模型保持既有 Val best，没有重新训练或重选 checkpoint。', '',
              '本报告包含 Moment-DETR、EaTR、QD-DETR、CG-DETR、Sim-DETR、BM-DETR、BAM-DETR、UVCOM、TR-DETR、TaskWeave、LD-DETR **全部11个骨干**，每个都报告 Standard 和 Full。范围由本轮实验清单确定，保留所有提高和下降结果。早期六骨干版本保留在 Git 历史，当前主结果不再限定该子集。', '',
-             '## 阈值规则与两张图的区别', '',
+             '## 阈值规则与柱状图 A/B 的区别', '',
              '对每个骨干、每种方法，分别在 Standard Val（465条，255正/210空）选择正查询保留率≥95%的最大候选阈值，再固定用于 Standard / Full Test。严格采用 `score > threshold`。95%只约束 Val，不保证 Test 同样达到95%。', '',
              '**图 A 与图 B 使用相同模型，每张都是左侧 Standard、右侧 Full；唯一变化是 Val 上允许使用的阈值候选。**', '',
              '| 项目 | 图 A：0.01网格主结果 | 图 B：Val分数断点复核 |',
@@ -277,6 +277,16 @@ def document(root, rows, summary):
               '本包包含22份 Val 压缩预测，并引用 ../e3_eleven 中44份 Test 压缩预测，合计66份；同时提供GT快照。无需权重、特征或GPU，即可核验完整查询覆盖、checkpoint绑定及文件哈希。176个G1/G3值与官方实现核验；44个mAP与既有11骨干报告交叉核验。', '',
               '```bash', 'PYTHONPATH=src python scripts/report_e3_high_retention.py',
               'PYTHONPATH=src python scripts/report_e3_high_retention.py --verify-only', '```', '']
+    if (root/'STANDARD_TEST.png').exists() and (root/'FULL_TEST.png').exists():
+        position = lines.index('## 阈值规则与柱状图 A/B 的区别')
+        lines[position:position] = [
+            '## 按 Test 集区分的参考样式曲线图', '',
+            '每张曲线图包含全部11骨干，左列G1、右列G3；菱形为0.01网格下的Val高保留率工作点。行下方ΔG1/G3对应各自工作点，并非0.4/0.5/0.6均值。', '',
+            '[Standard Test 图](STANDARD_TEST.png) · [Full-Decodable Test 图](FULL_TEST.png) · [两图PDF](BOTH_TESTS.pdf)', '',
+            '[Standard每骨干单页PDF](STANDARD_BY_BACKBONE.pdf) · [Full每骨干单页PDF](FULL_BY_BACKBONE.pdf) · [完整曲线与工作点数据](CURVE_PLOT_DATA.json)', '',
+            'Oracle虚线用GT存在性及各方法固定候选计算，只作分析参考。曲线纵轴为0–1单位；下文柱状图A/B为0–100单位。', '',
+            '[Oracle原值](ORACLE.csv) · [曲线图审计](CURVE_FIGURE_AUDIT.json)', '',
+        ]
     (root/'README.md').write_text('\n'.join(lines))
 
 

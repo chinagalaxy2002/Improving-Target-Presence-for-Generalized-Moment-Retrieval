@@ -108,7 +108,32 @@ mAP 有7/11个骨干提高，G1有8/11个提高；BAM-DETR、TR-DETR、TaskWeave
 
 每个骨干、每种方法分别在 **Standard Val 上选择正查询保留率≥95%的最大候选阈值**，再固定用于两套 Test，严格 `score > threshold`。阈值规则沿用[原分支分析](https://github.com/chinagalaxy2002/Improving-Target-Presence-for-Generalized-Moment-Retrieval/tree/682db34ab0511ce0ebfd69e9b966150cac6473a5/results/high_retention)；当前统计范围已从早期六骨干扩展至全部11骨干，未按 Test 增益筛选。
 
-### 两张图的区别
+### Standard Test：参考样式曲线图
+
+下图按参考图的方式，每个骨干占一行，左列 **G-mIoU@1**、右列 **G-mIoU@3**。灰色实线圆点为 GMR baseline，绿色点划线三角为 GEQ+aux；图例给出 mAP 和各自的 `τ95`。**菱形标记 Val 正查询保留率≥95%选出的工作点**（0.01网格），行下方的 ΔG1/ΔG3 也在这些工作点计算，单位为百分点。
+
+![Standard Test：11骨干阈值曲线与高保留率工作点](results/e3_high_retention/STANDARD_TEST.png)
+
+[Standard PDF](results/e3_high_retention/STANDARD_TEST.pdf) · [SVG](results/e3_high_retention/STANDARD_TEST.svg) · [每骨干单页 PDF](results/e3_high_retention/STANDARD_BY_BACKBONE.pdf)
+
+### Full-Decodable Test：参考样式曲线图
+
+Full 使用与 Standard 相同的 Val 选定阈值，覆盖全部11个骨干。曲线横轴均为存在性阈值0–1；纵轴采用与参考图一致的0–1分数单位，**0.01的纵轴差对应1个百分点**。完整曲线用于展示阈值响应，未按 Test 曲线选参。
+
+![Full-Decodable Test：11骨干阈值曲线与高保留率工作点](results/e3_high_retention/FULL_TEST.png)
+
+[Full PDF](results/e3_high_retention/FULL_TEST.pdf) · [SVG](results/e3_high_retention/FULL_TEST.svg) · [每骨干单页 PDF](results/e3_high_retention/FULL_BY_BACKBONE.pdf) · [两套曲线图合集](results/e3_high_retention/BOTH_TESTS.pdf)
+
+两张图中的黑色 Oracle 虚线，表示用真实事件存在性替代门控、保留各方法固定定位候选后的两方法最高分，仅作分析参考。mAP使用未门控正查询候选；它与全查询 G-mIoU 的计分范围不同。[Oracle原值](results/e3_high_retention/ORACLE.csv) · [完整绘图数据](results/e3_high_retention/CURVE_PLOT_DATA.json) · [曲线/工作点/Oracle核验](results/e3_high_retention/CURVE_FIGURE_AUDIT.json)
+
+### 高保留率汇总与阈值粒度复核
+
+0.01网格下，Standard / Full 均有9/11个骨干的 G1 提高，平均提高1.654 / 0.986个百分点。下方保留原柱状图 A/B、逐骨干数值，以及更细的 Val 分数断点复核。
+
+<details>
+<summary>展开柱状图 A/B、全部11骨干数值及阈值粒度复核</summary>
+
+### 柱状图 A/B 的阈值规则区别
 
 **两张图使用相同模型、相同 checkpoint 和相同 Test 数据，仅阈值候选不同；每张图都是左侧 Standard、右侧 Full，包含全部11骨干。**
 
@@ -169,6 +194,9 @@ Standard / Full 都有 **9/11** 个骨干提高，11骨干等权平均 G1 分别
 
 [全部11骨干详细报告与 mAP/G1/G3 表](results/e3_high_retention/README.md) · [各模型阈值与实际保留率](results/e3_high_retention/DECISIONS.csv) · [完整指标 CSV](results/e3_high_retention/METRICS.csv) · [176项 G1/G3 核验](results/e3_high_retention/AUDIT.json)
 
+
+</details>
+
 ## Moment-DETR：同起点对照
 
 下面两种 GEQ 微调都从同一个带辅助监督的 GMR best 开始，用于区分“加入 GEQ 微调”与“GEQ阶段继续加 aux”的结果。G1仍按固定0.4/0.5/0.6三阈值均值报告。
@@ -195,6 +223,7 @@ Standard Test 共1036条；Full使用2970/2986条可解码查询。两套 Test �
 pip install -e '.[test,report]'
 python scripts/plot_e3_test_summary.py
 python scripts/plot_e3_test_results.py
+PYTHONPATH=src python scripts/plot_e3_retention_curves.py
 PYTHONPATH=src python scripts/report_e3_high_retention.py --verify-only
 PYTHONPATH=src python scripts/verify_e3_publication.py
 ```
