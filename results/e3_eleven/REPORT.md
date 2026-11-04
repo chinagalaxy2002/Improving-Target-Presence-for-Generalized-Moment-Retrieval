@@ -34,6 +34,16 @@ Standard Test1036, Full-Decodable2970/2986. All new Val models fixed before any 
 HISTORICAL_BASELINE_REFERENCE.csv records descriptive increments against the no-aux GMR baseline from the specified 11-backbone branch, including its original protocol group/token limit. These baselines are not retrained or silently replaced.
 
 
+## Fixed Test summary
+
+![Standard Test mAP and mean G1](STANDARD_SUMMARY.png)
+
+![Full Test mAP and mean G1](FULL_SUMMARY.png)
+
+[Two-page PDF](TEST_SUMMARY_BOTH.pdf) · [Summary data audit](SUMMARY_PLOT_AUDIT.json)
+
+Bars compare the current auxiliary-trained Stage 1 (GMR baseline) against GEQ+aux. G1 is the mean at fixed existence thresholds 0.4/0.5/0.6; this differs from the Val-calibrated ≥95% retention setting.
+
 ## Fixed Test figures
 
 ![Standard Test](STANDARD_TEST.png)
