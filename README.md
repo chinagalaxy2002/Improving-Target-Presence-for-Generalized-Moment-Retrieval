@@ -46,15 +46,17 @@ Moment-DETR 复用已完成的模型和4份 Test 结果，保留原始源码身�
 
 ## 86%保留率：9个双测试集增益骨干
 
-这里的86%是 **Standard Val 正查询保留率目标**。Val共有255条正查询，因此每个骨干、每种方法都在0.00–1.00、步长0.01的候选中，选择能够保留至少220条正查询（实际下限86.27%）的最大存在性阈值。GMR baseline与GEQ+aux分别选阈值；每个阈值固定后原样用于Standard和Full，不在Test上重新调节。
+这里的86%是 **Standard Val 正查询保留率目标**。Val共有255条正查询，因此每个骨干、每种方法都在0.00–1.00、步长0.01的候选中，选择能够保留至少220条正查询（实际下限86.27%）的最大存在性阈值。GMR baseline、只加GEQ和GEQ+aux分别选阈值；每个阈值固定后原样用于Standard和Full，不在Test上重新调节。
 
 完整扫描覆盖全部11个骨干。86%下，Standard有10/11个提高，Full有9/11个提高，**两套Test均提高的交集为9/11**。按当前展示要求，下方两图只保留这9个骨干：EaTR、QD-DETR、CG-DETR、Sim-DETR、BM-DETR、BAM-DETR、UVCOM、TR-DETR和TaskWeave。Moment-DETR因Full下降0.313个百分点、LD-DETR因两套均下降而未进入图中。
 
-**这是查看完整Test扫描后选出的探索性子集。** 图中灰色方形为GMR baseline，蓝色圆形为GEQ+aux；每条蓝色柱旁同时标注ΔG1。数值均为所选工作点上的G-mIoU@1，单位0–100，越大越好。
+**这是查看完整Test扫描后选出的探索性子集。** 图中灰色方形为GMR baseline，橙色三角为[只加GEQ的参考分支](https://github.com/chinagalaxy2002/Improving-Target-Presence-for-Generalized-Moment-Retrieval/tree/soccergmr-standard-geq-full)，蓝色圆形为GEQ+aux；每条蓝色柱旁标注相对橙色参考值的差。数值均为所选工作点上的G-mIoU@1，单位0–100，越大越好。9骨干子集仍只由“当前GEQ+aux相对当前GMR baseline在两套Test均提高”确定，**没有依据橙色参考结果重新筛选**。
+
+> 对比边界：橙色“只加GEQ”来自无aux的另一套GMR父模型；其中EaTR、QD-DETR、CG-DETR、Sim-DETR沿用历史patience6 / 75-token协议，其余5个骨干采用patience10 / 128-token扩展协议。因此它是便于观察绝对结果的参考，不是与当前GEQ+aux同起点的受控aux消融，蓝色与橙色之差不能单独归因于aux。
 
 ### Standard Test：1,036条查询
 
-9骨干等权平均由 **16.59提高到21.09（+4.50个百分点）**。
+9骨干等权平均为：**GMR baseline 16.59，只加GEQ参考21.86，GEQ+aux 21.09**；GEQ+aux相对参考为 **−0.77个百分点**。
 
 ![Standard Test：86% Val保留率下9骨干G-mIoU@1](results/e3_eleven/STANDARD_SUMMARY.png)
 
@@ -62,30 +64,30 @@ Moment-DETR 复用已完成的模型和4份 Test 结果，保留原始源码身�
 
 ### Full-Decodable Test：2,970 / 2,986条查询
 
-使用与Standard完全相同的Val阈值，9骨干等权平均由 **15.79提高到19.47（+3.69个百分点）**。
+使用与Standard完全相同的Val阈值，9骨干等权平均为：**GMR baseline 15.79，只加GEQ参考20.59，GEQ+aux 19.47**；GEQ+aux相对参考为 **−1.11个百分点**。
 
 ![Full Test：86% Val保留率下9骨干G-mIoU@1](results/e3_eleven/FULL_SUMMARY.png)
 
 [PDF](results/e3_eleven/FULL_SUMMARY.pdf) · [SVG](results/e3_eleven/FULL_SUMMARY.svg) · [两套汇总图合集](results/e3_eleven/TEST_SUMMARY_BOTH.pdf)
 
 <details>
-<summary>展开9骨干精确阈值与G-mIoU@1（GMR baseline → GEQ+aux）</summary>
+<summary>展开9骨干精确阈值与G-mIoU@1（baseline / 只加GEQ参考 / GEQ+aux）</summary>
 
-| 骨干 | Val阈值：baseline / aux | Standard G1 | Δ | Full G1 | Δ |
+| 骨干 | Val阈值：baseline / 参考 / aux | Standard G1：baseline / 参考 / aux | aux−参考 | Full G1：baseline / 参考 / aux | aux−参考 |
 |---|---:|---:|---:|---:|---:|
-| EaTR | 0.43 / 0.20 | 28.083 → 28.931 | +0.848 | 26.915 → 28.011 | +1.096 |
-| QD-DETR | 0.37 / 0.22 | 23.141 → 24.118 | +0.976 | 19.617 → 20.672 | +1.055 |
-| CG-DETR | 0.49 / 0.32 | 4.026 → 9.626 | +5.600 | 4.253 → 7.461 | +3.208 |
-| Sim-DETR | 0.31 / 0.15 | 20.022 → 28.827 | +8.805 | 18.742 → 26.758 | +8.016 |
-| BM-DETR | 0.33 / 0.32 | 6.692 → 11.205 | +4.513 | 6.576 → 9.648 | +3.072 |
-| BAM-DETR | 0.23 / 0.27 | 33.441 → 34.819 | +1.377 | 32.177 → 32.840 | +0.663 |
-| UVCOM | 0.19 / 0.19 | 28.934 → 29.921 | +0.987 | 28.366 → 29.645 | +1.279 |
-| TR-DETR | 0.37 / 0.32 | 1.725 → 10.622 | +8.897 | 2.380 → 8.542 | +6.162 |
-| TaskWeave | 0.35 / 0.32 | 3.211 → 11.748 | +8.536 | 3.045 → 11.678 | +8.633 |
+| EaTR | 0.43 / 0.28 / 0.20 | 28.083 / 26.153 / 28.931 | +2.778 | 26.915 / 24.831 / 28.011 | +3.180 |
+| QD-DETR | 0.37 / 0.22 / 0.22 | 23.141 / 28.207 / 24.118 | −4.089 | 19.617 / 26.789 / 20.672 | −6.117 |
+| CG-DETR | 0.49 / 0.32 / 0.32 | 4.026 / 27.770 / 9.626 | −18.144 | 4.253 / 26.195 / 7.461 | −18.734 |
+| Sim-DETR | 0.31 / 0.24 / 0.15 | 20.022 / 27.622 / 28.827 | +1.205 | 18.742 / 28.987 / 26.758 | −2.229 |
+| BM-DETR | 0.33 / 0.28 / 0.32 | 6.692 / 19.890 / 11.205 | −8.685 | 6.576 / 18.586 / 9.648 | −8.938 |
+| BAM-DETR | 0.23 / 0.20 / 0.27 | 33.441 / 31.163 / 34.819 | +3.656 | 32.177 / 29.709 / 32.840 | +3.131 |
+| UVCOM | 0.19 / 0.30 / 0.19 | 28.934 / 14.388 / 29.921 | +15.533 | 28.366 / 12.269 / 29.645 | +17.376 |
+| TR-DETR | 0.37 / 0.32 / 0.32 | 1.725 / 6.034 / 10.622 | +4.588 | 2.380 / 4.012 / 8.542 | +4.530 |
+| TaskWeave | 0.35 / 0.34 / 0.32 | 3.211 / 15.480 / 11.748 | −3.732 | 3.045 / 13.900 / 11.678 | −2.222 |
 
 </details>
 
-[全部11骨干的86%结果CSV](results/e3_eleven/RETENTION86_METRICS.csv) · [86%官方复算审计](results/e3_eleven/RETENTION86_AUDIT.json) · [汇总图数值审计](results/e3_eleven/SUMMARY_PLOT_AUDIT.json)
+[全部11骨干的当前方法86%结果CSV](results/e3_eleven/RETENTION86_METRICS.csv) · [只加GEQ参考结果CSV](results/e3_eleven/GEQ_ONLY_RETENTION86_METRICS.csv) · [参考结果审计](results/e3_eleven/GEQ_ONLY_RETENTION86_AUDIT.json) · [86%官方复算审计](results/e3_eleven/RETENTION86_AUDIT.json) · [汇总图数值审计](results/e3_eleven/SUMMARY_PLOT_AUDIT.json)
 
 <details>
 <summary>展开全部11骨干的原始 G-mIoU@1 / @3 完整阈值曲线（未替换）</summary>

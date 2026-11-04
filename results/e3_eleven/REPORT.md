@@ -42,7 +42,9 @@ HISTORICAL_BASELINE_REFERENCE.csv records descriptive increments against the no-
 
 [Two-page PDF](TEST_SUMMARY_BOTH.pdf) · [Summary data audit](SUMMARY_PLOT_AUDIT.json)
 
-For every backbone and method, the largest 0.01-grid Standard-Val threshold retaining at least 220/255 positive queries is fixed and applied unchanged to both Tests. The figures show only the nine backbones whose G1 improves on both Tests: EaTR, QD-DETR, CG-DETR, Sim-DETR, BM-DETR, BAM-DETR, UVCOM, TR-DETR and TaskWeave. This subset was selected after Test inspection and is therefore exploratory. Moment-DETR and LD-DETR remain in [the complete data](RETENTION86_METRICS.csv) and [audit](RETENTION86_AUDIT.json).
+For every backbone and method, the largest 0.01-grid Standard-Val threshold retaining at least 220/255 positive queries is fixed and applied unchanged to both Tests. The figures show GMR baseline, a GEQ-only reference, and GEQ+aux for the same nine backbones whose **current GEQ+aux versus current GMR** G1 improves on both Tests: EaTR, QD-DETR, CG-DETR, Sim-DETR, BM-DETR, BAM-DETR, UVCOM, TR-DETR and TaskWeave. The GEQ-only values did not affect subset selection. This subset was selected after Test inspection and is therefore exploratory. Moment-DETR and LD-DETR remain in [the complete current-method data](RETENTION86_METRICS.csv) and [audit](RETENTION86_AUDIT.json).
+
+The orange GEQ-only series is an outcome-level reference from `soccergmr-standard-geq-full`, not a matched-parent auxiliary-loss ablation: it starts from a different no-aux GMR parent, and the first four backbones retain the historical patience6 / 75-token protocol while the other five use the patience10 / 128-token expansion protocol. Its recomputed working points and provenance are in [GEQ_ONLY_RETENTION86_METRICS.csv](GEQ_ONLY_RETENTION86_METRICS.csv) and [GEQ_ONLY_RETENTION86_AUDIT.json](GEQ_ONLY_RETENTION86_AUDIT.json).
 
 ## Fixed Test figures
 

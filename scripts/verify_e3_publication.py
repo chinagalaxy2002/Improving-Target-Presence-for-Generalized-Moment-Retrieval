@@ -101,9 +101,35 @@ def main():
                    for row in pair)
         for stage in ('gmr', 'geq_full'):
             assert len({row[f'{stage}_threshold'] for row in pair}) == 1
+    geq_reference = json.loads((out/'GEQ_ONLY_RETENTION86_AUDIT.json').read_text())
+    assert geq_reference['passed'] and geq_reference['unmatched_parent_and_protocol']
+    assert geq_reference['reference_branch'] == 'soccergmr-standard-geq-full'
+    assert geq_reference['reference_commit'] == '682db34ab0511ce0ebfd69e9b966150cac6473a5'
+    assert geq_reference['target_percent'] == 86
+    assert geq_reference['required_val_positives'] == 220
+    assert geq_reference['same_threshold_used_for_standard_and_full']
+    assert geq_reference['backbones'] == retention86['displayed_backbones']
+    assert geq_reference['official_G1_G3_evaluations'] == 18
+    assert geq_reference['official_metric_values_checked'] == 36
+    with (out/'GEQ_ONLY_RETENTION86_METRICS.csv').open() as stream:
+        geq_reference_rows = list(csv.DictReader(stream))
+    assert len(geq_reference_rows) == 18
+    for name in geq_reference['backbones']:
+        pair = [row for row in geq_reference_rows if row['backbone'] == name]
+        assert {row['split'] for row in pair} == {'standard', 'full'}
+        assert len({row['threshold'] for row in pair}) == 1
+        assert all(int(row['val_retained_positives']) >= 220 for row in pair)
+        archived = out/'geq_only_reference/val'/name/'predictions.jsonl.gz'
+        assert sha(archived) == pair[0]['val_prediction_sha256'] == pair[1]['val_prediction_sha256']
     summary_plot = json.loads((out/'SUMMARY_PLOT_AUDIT.json').read_text())
     assert summary_plot['passed'] and summary_plot['exploratory']
-    assert summary_plot['bars_checked_against_CSV'] == 36
+    assert summary_plot['bars_checked_against_CSV'] == 54
+    assert summary_plot['numeric_value_labels'] == 54
+    assert summary_plot['aux_minus_reference_delta_labels'] == 18
+    assert summary_plot['reference_commit'] == geq_reference['reference_commit']
+    assert summary_plot['reference_is_unmatched_parent_and_protocol']
+    assert summary_plot['reference_metrics_sha256'] == sha(out/'GEQ_ONLY_RETENTION86_METRICS.csv')
+    assert summary_plot['reference_evaluation_audit_sha256'] == sha(out/'GEQ_ONLY_RETENTION86_AUDIT.json')
     assert summary_plot['displayed_backbones'] == retention86['displayed_backbones']
     assert summary_plot['excluded_backbones'] == retention86['excluded_from_display']
     for filename, digest in summary_plot['full_curve_files_unchanged'].items():
@@ -118,10 +144,13 @@ def main():
                   retention86_all_backbones_evaluated=11, retention86_displayed_backbones=9,
                   retention86_selected_after_test_scan=True,
                   retention86_same_threshold_used_on_both_tests=True,
-                  summary_bars_and_labels_verified=36, summary_figure_exports_verified=7,
+                  geq_only_reference_official_evaluations=18,
+                  geq_only_reference_unmatched_parent_disclosed=True,
+                  summary_bars_and_labels_verified=54, summary_figure_exports_verified=7,
                   original_full_threshold_curve_files_unchanged=True,
                   method=('CPU recomputation from hashed predictions and GT; no new training or model inference. '
-                          'The 86% nine-backbone display is explicitly exploratory and selected after Test inspection.'),
+                          'The 86% nine-backbone display is explicitly exploratory and selected after Test inspection. '
+                          'GEQ-only is an unmatched-parent outcome reference and did not affect subset selection.'),
                   manifest_sha256=sha(ROOT/'PUBLICATION_MANIFEST.json'))
     (ROOT/'PUBLICATION_CHECKS.json').write_text(json.dumps(checks, indent=2)+'\n')
     print(json.dumps(checks, indent=2))
