@@ -119,16 +119,59 @@ Across all 11 backbones, the continuous integral demonstrates:
 
 ---
 
-## 5. Individual Model Sweeps (EaTR & CG-DETR Case Studies)
+## 5. Individual Model Sweeps (Complete 11-Backbone Audit)
 
-### EaTR 6-Panel Sweep
+Below we provide the full 6-panel test threshold sweep for all 11 evaluated backbones (rendered under the exact publication layout matching `moment_detr_fig7_test_threshold_sweep.png`, complete with Oracle Presence reference ceilings).
+
+### 5.1 Core-5 DETR Architectures (Option A)
+
+#### 1. EaTR (ICCV '23)
 ![EaTR 6-Panel Sweep](docs/images/eatr_fig7_test_threshold_sweep.png)
+- [PDF High-Res](docs/images/eatr_fig7_test_threshold_sweep.pdf)
 
-### CG-DETR 6-Panel Sweep (Resolving the 49.6% False Alarm Defect)
+#### 2. QD-DETR (CVPR '23)
+![QD-DETR 6-Panel Sweep](docs/images/qd_detr_fig7_test_threshold_sweep.png)
+- [PDF High-Res](docs/images/qd_detr_fig7_test_threshold_sweep.pdf)
+
+#### 3. CG-DETR (NeurIPS '23)
 ![CG-DETR 6-Panel Sweep](docs/images/cg_detr_fig7_test_threshold_sweep.png)
+- [PDF High-Res](docs/images/cg_detr_fig7_test_threshold_sweep.pdf)
 
-- **The Baseline Defect**: Baseline CG-DETR suffered a disastrous **49.59% false positive rate (FPR)** on negative videos, crushing its G-mIoU to **34.35%** (25.8 pp below Oracle).
-- **The Resolution**: Our BMP framework brings false alarms down to **0.0%**, surging G-mIoU by **+18.12 pp** to reach **52.47%** (recovering **70.2%** of the entire Oracle existence gap).
+#### 4. Sim-DETR
+![Sim-DETR 6-Panel Sweep](docs/images/sim_detr_fig7_test_threshold_sweep.png)
+- [PDF High-Res](docs/images/sim_detr_fig7_test_threshold_sweep.pdf)
+
+#### 5. BM-DETR
+![BM-DETR 6-Panel Sweep](docs/images/bm_detr_fig7_test_threshold_sweep.png)
+- [PDF High-Res](docs/images/bm_detr_fig7_test_threshold_sweep.pdf)
+
+---
+
+### 5.2 Six Extended & Diverse Architectures
+
+#### 6. Moment-DETR (NeurIPS '21)
+![Moment-DETR 6-Panel Sweep](docs/images/moment_detr_fig7_test_threshold_sweep.png)
+- [PDF High-Res](docs/images/moment_detr_fig7_test_threshold_sweep.pdf)
+
+#### 7. BAM-DETR
+![BAM-DETR 6-Panel Sweep](docs/images/bam_detr_fig7_test_threshold_sweep.png)
+- [PDF High-Res](docs/images/bam_detr_fig7_test_threshold_sweep.pdf)
+
+#### 8. UVCOM
+![UVCOM 6-Panel Sweep](docs/images/uvcom_fig7_test_threshold_sweep.png)
+- [PDF High-Res](docs/images/uvcom_fig7_test_threshold_sweep.pdf)
+
+#### 9. TR-DETR
+![TR-DETR 6-Panel Sweep](docs/images/tr_detr_fig7_test_threshold_sweep.png)
+- [PDF High-Res](docs/images/tr_detr_fig7_test_threshold_sweep.pdf)
+
+#### 10. TaskWeave
+![TaskWeave 6-Panel Sweep](docs/images/taskweave_fig7_test_threshold_sweep.png)
+- [PDF High-Res](docs/images/taskweave_fig7_test_threshold_sweep.pdf)
+
+#### 11. LD-DETR
+![LD-DETR 6-Panel Sweep](docs/images/ld_detr_fig7_test_threshold_sweep.png)
+- [PDF High-Res](docs/images/ld_detr_fig7_test_threshold_sweep.pdf)
 
 ---
 
