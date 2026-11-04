@@ -1,15 +1,16 @@
 # Summary figure review
 
-- Figure type: experimental results; paired method comparison on two Test datasets.
-- Paradigm: horizontal grouped bars, two panels per dataset (mAP and mean G1).
-- Layout: Standard and Full figures use the same backbone order and matching axes per metric. Exact-value table remains available in the README.
-- Encoding: neutral grey squares for GMR baseline, blue circles for GEQ+aux; method order is fixed. All 11 backbones and decreases remain visible.
-- Labels: 88 numeric labels match CSV values to two decimal places; plotted bar widths match original unrounded CSV values. G1 explicitly uses fixed 0.4/0.5/0.6 thresholds.
-- Exports: native vector PDF and SVG plus PNG for GitHub. Source font sizes >=9pt; text bounds and footer/axis-label separation checked by the plotting script.
-- Axes: zero origin; mAP 0–29 and G1 0–66, matching between Standard and Full. Axes show score units and higher-is-better direction.
-- Caption: main README reports improvement counts and exceptions; figures define the auxiliary-trained baseline and reused Moment-DETR results.
-- Scope: single seed; no invented uncertainty bars. High-retention calibration is explicitly distinguished from fixed-threshold mean G1.
-- Visual inspection: Standard and Full PNGs inspected; title, row labels, values and footer are readable with no overlaps after layout adjustment.
-- Integrity gate: experimental-results type, bar encoding, concrete labels, reproducible Matplotlib code, dual encoding and honest axes all pass. No critical or major issue found at native export size.
+- Figure type: experimental results; paired G-mIoU@1 comparison on two Test datasets.
+- Paradigm: one horizontal grouped-bar panel per dataset. A single metric avoids mixing ungated mAP with the Val-selected existence-gate protocol.
+- Layout: Standard and Full use the same nine-backbone order and the same 0–45 axis. Exact thresholds and values remain available in the README and CSV.
+- Encoding: neutral grey plus square for GMR baseline; colour-blind-safe blue plus circle for GEQ+aux. Method order is fixed and also distinguishable in greyscale.
+- Labels: 36 numeric labels match unrounded CSV bar widths; the 18 GEQ+aux labels also state the paired G1 change.
+- Selection disclosure: the subtitle and footer say that the 9/11 subset was selected after Test inspection for positive G1 change on both Tests. Moment-DETR and LD-DETR are named as omitted; all 11 remain in the source CSV.
+- Threshold disclosure: every backbone/method independently selects the largest 0.01-grid Standard-Val threshold retaining at least 220/255 positives, then applies that same threshold to both Tests.
+- Exports: native vector PDF and SVG plus PNG for GitHub. Source font sizes are at least 8.8pt; text bounds and footer/axis-label separation are checked in code.
+- Axes: zero origin and a common honest upper limit just beyond the maximum value; score units and higher-is-better direction are explicit.
+- Scope: single seed and exploratory post-Test selection; no uncertainty bars or independent-confirmation claim is invented.
+- Visual inspection: both native PNGs were inspected; titles, row labels, values, deltas, legend and footer are readable with no overlaps.
+- Integrity gate: experimental-results type, grouped bars, concrete labels, reproducible Matplotlib code, dual encoding, vector output and honest axes pass. No critical or major issue remains at native export size.
 
 See SUMMARY_PLOT_AUDIT.json for original-input and figure hashes.

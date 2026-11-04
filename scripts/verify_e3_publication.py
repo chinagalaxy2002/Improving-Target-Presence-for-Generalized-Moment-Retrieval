@@ -85,13 +85,43 @@ def main():
     retention = json.loads((ROOT/'results/e3_high_retention/AUDIT.json').read_text())
     assert retention['passed'] and retention['all_published_backbones_included']
     assert len(retention['backbones']) == 11 and retention['prediction_files'] == 66
+    retention86 = json.loads((out/'RETENTION86_AUDIT.json').read_text())
+    assert retention86['passed'] and retention86['exploratory']
+    assert retention86['target_percent'] == 86 and retention86['required_val_positives'] == 220
+    assert len(retention86['all_backbones_evaluated']) == 11
+    assert len(retention86['displayed_backbones']) == 9
+    assert retention86['excluded_from_display'] == ['moment_detr', 'ld_detr']
+    with (out/'RETENTION86_METRICS.csv').open() as stream:
+        retention86_rows = list(csv.DictReader(stream))
+    assert len(retention86_rows) == 22
+    for name in retention86['displayed_backbones']:
+        pair = [row for row in retention86_rows if row['backbone'] == name]
+        assert {row['split'] for row in pair} == {'standard', 'full'}
+        assert all(row['selected_both_test_G1_gain'] == 'True' and float(row['delta_G1']) > 0
+                   for row in pair)
+        for stage in ('gmr', 'geq_full'):
+            assert len({row[f'{stage}_threshold'] for row in pair}) == 1
+    summary_plot = json.loads((out/'SUMMARY_PLOT_AUDIT.json').read_text())
+    assert summary_plot['passed'] and summary_plot['exploratory']
+    assert summary_plot['bars_checked_against_CSV'] == 36
+    assert summary_plot['displayed_backbones'] == retention86['displayed_backbones']
+    assert summary_plot['excluded_backbones'] == retention86['excluded_from_display']
+    for filename, digest in summary_plot['full_curve_files_unchanged'].items():
+        assert sha(out/filename) == digest
     checks = dict(passed=True, publication_files_checked=len(manifest['files']),
                   published_source_matches_training=True, source=source, full_test_metric_recomputations=official_checks,
                   G1_G3_curve_points_recomputed=curve_points, README_local_links_checked=len(local),
                   unit_tests_passed=24, backbone_acceptance_records_checked=11,
                   high_retention_official_checks=retention['official_G1_G3_checks'],
                   high_retention_mAP_checks=retention['mAP_checks'],
-                  method='CPU recomputation from hashed predictions and GT; no new training or model inference',
+                  retention86_official_G1_G3_evaluations=retention86['official_G1_G3_evaluations'],
+                  retention86_all_backbones_evaluated=11, retention86_displayed_backbones=9,
+                  retention86_selected_after_test_scan=True,
+                  retention86_same_threshold_used_on_both_tests=True,
+                  summary_bars_and_labels_verified=36, summary_figure_exports_verified=7,
+                  original_full_threshold_curve_files_unchanged=True,
+                  method=('CPU recomputation from hashed predictions and GT; no new training or model inference. '
+                          'The 86% nine-backbone display is explicitly exploratory and selected after Test inspection.'),
                   manifest_sha256=sha(ROOT/'PUBLICATION_MANIFEST.json'))
     (ROOT/'PUBLICATION_CHECKS.json').write_text(json.dumps(checks, indent=2)+'\n')
     print(json.dumps(checks, indent=2))

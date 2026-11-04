@@ -1,0 +1,64 @@
+{
+  "passed": true,
+  "exploratory": true,
+  "target_selected_after_test_scan": true,
+  "target_percent": 86,
+  "threshold_search": "0.00 to 1.00 in 0.01 steps",
+  "threshold_semantics": "strict score > threshold",
+  "thresholds_selected_on": "Standard Val only",
+  "per_backbone_and_method_thresholds": true,
+  "same_selected_threshold_used_for_standard_and_full": true,
+  "val_positive_count": 255,
+  "required_val_positives": 220,
+  "actual_required_percent": 86.27450980392157,
+  "all_backbones_evaluated": [
+    "moment_detr",
+    "eatr",
+    "qd_detr",
+    "cg_detr",
+    "sim_detr",
+    "bm_detr",
+    "bam_detr",
+    "uvcom",
+    "tr_detr",
+    "taskweave",
+    "ld_detr"
+  ],
+  "displayed_backbones": [
+    "eatr",
+    "qd_detr",
+    "cg_detr",
+    "sim_detr",
+    "bm_detr",
+    "bam_detr",
+    "uvcom",
+    "tr_detr",
+    "taskweave"
+  ],
+  "excluded_from_display": [
+    "moment_detr",
+    "ld_detr"
+  ],
+  "display_rule": "delta G1 > 0 on both Standard and Full Test",
+  "summary_selected_nine": {
+    "standard": {
+      "backbones": 9,
+      "mean_gmr_G1": 16.58623129198092,
+      "mean_geq_full_G1": 21.090681522302773,
+      "mean_delta_G1": 4.504450230321854
+    },
+    "full": {
+      "backbones": 9,
+      "mean_gmr_G1": 15.785569685376057,
+      "mean_geq_full_G1": 19.472668823661778,
+      "mean_delta_G1": 3.6870991382857206
+    }
+  },
+  "official_G1_G3_evaluations": 44,
+  "official_metric_values_checked": 88,
+  "new_training": false,
+  "new_checkpoint_inference": false,
+  "evidence_sha256": "a4c9ef6dccc127192475ec15ebf4855fbca0afe66aef9323a3732c0fdcb9e059",
+  "script_sha256": "4b57167cc1bbbbc6159ba7119aa2a979ebaac371f88ed0a9757d93c4c29a24cf",
+  "metrics_sha256": "9ee71fee2df933c574c7ac2d0a05c045cb6fd78fdae79fd996a3b642cc21cf39"
+}

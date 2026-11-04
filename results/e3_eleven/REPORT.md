@@ -34,15 +34,15 @@ Standard Test1036, Full-Decodable2970/2986. All new Val models fixed before any 
 HISTORICAL_BASELINE_REFERENCE.csv records descriptive increments against the no-aux GMR baseline from the specified 11-backbone branch, including its original protocol group/token limit. These baselines are not retrained or silently replaced.
 
 
-## Fixed Test summary
+## 86% Val-retention summary: selected 9/11 exploratory subset
 
-![Standard Test mAP and mean G1](STANDARD_SUMMARY.png)
+![Standard Test G-mIoU@1 at the 86% Val-retention working points](STANDARD_SUMMARY.png)
 
-![Full Test mAP and mean G1](FULL_SUMMARY.png)
+![Full Test G-mIoU@1 at the 86% Val-retention working points](FULL_SUMMARY.png)
 
 [Two-page PDF](TEST_SUMMARY_BOTH.pdf) · [Summary data audit](SUMMARY_PLOT_AUDIT.json)
 
-Bars compare the current auxiliary-trained Stage 1 (GMR baseline) against GEQ+aux. G1 is the mean at fixed existence thresholds 0.4/0.5/0.6; this differs from the Val-calibrated ≥95% retention setting.
+For every backbone and method, the largest 0.01-grid Standard-Val threshold retaining at least 220/255 positive queries is fixed and applied unchanged to both Tests. The figures show only the nine backbones whose G1 improves on both Tests: EaTR, QD-DETR, CG-DETR, Sim-DETR, BM-DETR, BAM-DETR, UVCOM, TR-DETR and TaskWeave. This subset was selected after Test inspection and is therefore exploratory. Moment-DETR and LD-DETR remain in [the complete data](RETENTION86_METRICS.csv) and [audit](RETENTION86_AUDIT.json).
 
 ## Fixed Test figures
 

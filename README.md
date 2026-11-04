@@ -2,9 +2,9 @@
 
 本分支研究：**查询相关的逐 clip 辅助监督，能否配合 GEQ 改善广义时刻检索的定位与事件存在性判断。** 当前方法采用“两阶段均保留辅助监督”的训练方案，已完成11个骨干的 Standard / Full Test 评测。
 
-主要观察：相对各自的 GMR baseline，GEQ+aux 在 Standard / Full 上分别有 **9/11、7/11** 个骨干的 mAP 提高，**9/11、8/11** 个骨干的 G1 提高；存在下降结果。Moment-DETR 的同起点对照表明，在 GEQ 中继续加入 aux 提高了 mAP，但 G1 略降。
+主要观察：对 Val 正查询保留率目标作完整扫描后，0.01 阈值网格下的 **86%** 目标使 GEQ+aux 在 Standard / Full 上分别有 **10/11、9/11** 个骨干的 G-mIoU@1 提高，其中 **9/11** 个在两套 Test 上同时提高。首页汇总图按当前要求只展示这9个骨干；这是查看 Test 后得到的探索性子集，不等同于预先固定的11骨干无偏比较。
 
-[方法与命名](#方法与命名) · [11骨干效果对比](#11骨干效果对比) · [高事件保留率](#高事件保留率场景全部11骨干) · [Moment-DETR 对照](#moment-detr同起点对照) · [复现与数据](#复现与数据) · [历史实验](docs/HISTORICAL_EXPERIMENTS.md)
+[方法与命名](#方法与命名) · [86%保留率9骨干](#86保留率9个双测试集增益骨干) · [95%高事件保留率：全部11骨干](#高事件保留率场景全部11骨干) · [Moment-DETR 对照](#moment-detr同起点对照) · [复现与数据](#复现与数据) · [历史实验](docs/HISTORICAL_EXPERIMENTS.md)
 
 ## 方法与命名
 
@@ -44,53 +44,53 @@ Stage 2  = L_native_GMR + L_GEQ_BCE + 0.1 × L_aux
 
 Moment-DETR 复用已完成的模型和4份 Test 结果，保留原始源码身份；其余10个骨干在同一固定源码下完成20个训练阶段与40份 Test。10个新骨干的 Val 选择全部固定后再执行正式 Test，已有实验没有重训。[完整协议](E3_ELEVEN_PROTOCOL.md) · [来源与选模证据](results/e3_eleven/provenance/)
 
-## 11骨干效果对比
+## 86%保留率：9个双测试集增益骨干
 
-**灰色方形为 GMR baseline，蓝色圆形为 GEQ+aux；每个骨干的两条横柱给出具体分数。** 左列 mAP 衡量正查询定位，右列 G1 衡量同时包含事件查询和空查询的广义检索。数值单位均为0–100，越大越好。
+这里的86%是 **Standard Val 正查询保留率目标**。Val共有255条正查询，因此每个骨干、每种方法都在0.00–1.00、步长0.01的候选中，选择能够保留至少220条正查询（实际下限86.27%）的最大存在性阈值。GMR baseline与GEQ+aux分别选阈值；每个阈值固定后原样用于Standard和Full，不在Test上重新调节。
 
-本节 G1 是固定存在性阈值 **0.4 / 0.5 / 0.6** 下的 G-mIoU@1 均值；mAP 使用未门控的正查询候选。它与后文“Val 保留率≥95%”场景采用不同的阈值设置。
+完整扫描覆盖全部11个骨干。86%下，Standard有10/11个提高，Full有9/11个提高，**两套Test均提高的交集为9/11**。按当前展示要求，下方两图只保留这9个骨干：EaTR、QD-DETR、CG-DETR、Sim-DETR、BM-DETR、BAM-DETR、UVCOM、TR-DETR和TaskWeave。Moment-DETR因Full下降0.313个百分点、LD-DETR因两套均下降而未进入图中。
+
+**这是查看完整Test扫描后选出的探索性子集。** 图中灰色方形为GMR baseline，蓝色圆形为GEQ+aux；每条蓝色柱旁同时标注ΔG1。数值均为所选工作点上的G-mIoU@1，单位0–100，越大越好。
 
 ### Standard Test：1,036条查询
 
-mAP 和 G1 均有9/11个骨干提高；BAM-DETR、TaskWeave 的 G1 下降。
+9骨干等权平均由 **16.59提高到21.09（+4.50个百分点）**。
 
-![Standard Test：11骨干mAP及G1对比](results/e3_eleven/STANDARD_SUMMARY.png)
+![Standard Test：86% Val保留率下9骨干G-mIoU@1](results/e3_eleven/STANDARD_SUMMARY.png)
 
 [PDF](results/e3_eleven/STANDARD_SUMMARY.pdf) · [SVG](results/e3_eleven/STANDARD_SUMMARY.svg)
 
 ### Full-Decodable Test：2,970 / 2,986条查询
 
-mAP 有7/11个骨干提高，G1有8/11个提高；BAM-DETR、TR-DETR、TaskWeave 的 G1 下降。两套 Test 的提升方向并不对所有骨干、所有指标一致。
+使用与Standard完全相同的Val阈值，9骨干等权平均由 **15.79提高到19.47（+3.69个百分点）**。
 
-![Full Test：11骨干mAP及G1对比](results/e3_eleven/FULL_SUMMARY.png)
+![Full Test：86% Val保留率下9骨干G-mIoU@1](results/e3_eleven/FULL_SUMMARY.png)
 
 [PDF](results/e3_eleven/FULL_SUMMARY.pdf) · [SVG](results/e3_eleven/FULL_SUMMARY.svg) · [两套汇总图合集](results/e3_eleven/TEST_SUMMARY_BOTH.pdf)
 
 <details>
-<summary>展开精确数值表（GMR baseline → GEQ+aux）</summary>
+<summary>展开9骨干精确阈值与G-mIoU@1（GMR baseline → GEQ+aux）</summary>
 
-| 骨干 | Standard mAP | Standard G1 | Full mAP | Full G1 |
-|---|---:|---:|---:|---:|
-| Moment-DETR（复用） | 5.49 → 7.47 | 33.51 → 51.80 | 5.33 → 6.44 | 30.62 → 48.46 |
-| EaTR | 16.37 → 17.16 | 39.12 → 53.83 | 13.77 → 14.68 | 37.35 → 50.44 |
-| QD-DETR | 11.56 → 13.05 | 45.58 → 53.89 | 10.50 → 11.22 | 41.76 → 50.47 |
-| CG-DETR | 6.37 → 6.91 | 22.62 → 52.47 | 5.82 → 6.19 | 21.77 → 48.69 |
-| Sim-DETR | 20.29 → 21.00 | 55.19 → 55.20 | 19.60 → 19.46 | 51.64 → 52.36 |
-| BM-DETR | 4.11 → 4.20 | 52.34 → 52.83 | 3.87 → 3.81 | 48.86 → 49.36 |
-| BAM-DETR | 22.97 → 23.64 | 50.65 → 49.85 | 20.33 → 20.59 | 48.31 → 46.38 |
-| UVCOM | 22.21 → 21.66 | 44.70 → 45.26 | 18.46 → 19.21 | 42.49 → 43.77 |
-| TR-DETR | 2.58 → 2.81 | 48.45 → 48.48 | 2.85 → 2.84 | 45.30 → 45.15 |
-| TaskWeave | 3.79 → 3.40 | 49.82 → 48.61 | 3.70 → 3.31 | 46.17 → 45.03 |
-| LD-DETR | 6.32 → 6.52 | 34.56 → 49.66 | 6.06 → 6.31 | 32.79 → 46.40 |
+| 骨干 | Val阈值：baseline / aux | Standard G1 | Δ | Full G1 | Δ |
+|---|---:|---:|---:|---:|---:|
+| EaTR | 0.43 / 0.20 | 28.083 → 28.931 | +0.848 | 26.915 → 28.011 | +1.096 |
+| QD-DETR | 0.37 / 0.22 | 23.141 → 24.118 | +0.976 | 19.617 → 20.672 | +1.055 |
+| CG-DETR | 0.49 / 0.32 | 4.026 → 9.626 | +5.600 | 4.253 → 7.461 | +3.208 |
+| Sim-DETR | 0.31 / 0.15 | 20.022 → 28.827 | +8.805 | 18.742 → 26.758 | +8.016 |
+| BM-DETR | 0.33 / 0.32 | 6.692 → 11.205 | +4.513 | 6.576 → 9.648 | +3.072 |
+| BAM-DETR | 0.23 / 0.27 | 33.441 → 34.819 | +1.377 | 32.177 → 32.840 | +0.663 |
+| UVCOM | 0.19 / 0.19 | 28.934 → 29.921 | +0.987 | 28.366 → 29.645 | +1.279 |
+| TR-DETR | 0.37 / 0.32 | 1.725 → 10.622 | +8.897 | 2.380 → 8.542 | +6.162 |
+| TaskWeave | 0.35 / 0.32 | 3.211 → 11.748 | +8.536 | 3.045 → 11.678 | +8.633 |
 
 </details>
 
-[完整指标 CSV](results/e3_eleven/METRICS.csv) · [逐 tIoU 的 AP、短事件与多区间诊断](results/e3_eleven/DETAILS.json) · [汇总图数值审计](results/e3_eleven/SUMMARY_PLOT_AUDIT.json)
+[全部11骨干的86%结果CSV](results/e3_eleven/RETENTION86_METRICS.csv) · [86%官方复算审计](results/e3_eleven/RETENTION86_AUDIT.json) · [汇总图数值审计](results/e3_eleven/SUMMARY_PLOT_AUDIT.json)
 
 <details>
-<summary>展开固定模型的 G-mIoU@1 / @3 完整阈值曲线</summary>
+<summary>展开全部11骨干的原始 G-mIoU@1 / @3 完整阈值曲线（未替换）</summary>
 
-横轴是**存在性阈值**0–1、步长0.01；每张图左列 G-mIoU@1，右列 G-mIoU@3。曲线使用固定的 Val best，只用于观察阈值响应，未按 Test 曲线重选阈值或 checkpoint。
+横轴是**存在性阈值**0–1、步长0.01；每张图左列G-mIoU@1，右列G-mIoU@3。曲线保留全部11骨干，只用于观察固定checkpoint的阈值响应；本次只替换上方两张SUMMARY图，没有修改这些完整曲线。
 
 ![Standard Test完整阈值曲线](results/e3_eleven/STANDARD_TEST.png)
 
@@ -221,6 +221,7 @@ Standard Test 共1036条；Full使用2970/2986条可解码查询。两套 Test �
 
 ```bash
 pip install -e '.[test,report]'
+PYTHONPATH=src python scripts/report_e3_retention86_summary.py
 python scripts/plot_e3_test_summary.py
 python scripts/plot_e3_test_results.py
 PYTHONPATH=src python scripts/plot_e3_retention_curves.py
