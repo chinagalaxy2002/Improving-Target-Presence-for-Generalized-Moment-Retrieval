@@ -7,7 +7,7 @@
   "reference_evaluation_audit_sha256": "543fe93041c9a27101c82beed2736ff0ef7e2c287ba53172ef7f0dfdd9bda24a",
   "reference_commit": "682db34ab0511ce0ebfd69e9b966150cac6473a5",
   "reference_is_unmatched_parent_and_protocol": true,
-  "script_sha256": "6dac6a4cfd1948b7ebd717024bea14a1ce98cce244e12e73615dc11440570dfd",
+  "script_sha256": "1cbdeb371174e5c0b7500f4b1a1393ba4f024700b5e966914e11ff161514ab72",
   "metric": "G-mIoU@1 at per-method Standard-Val-selected threshold",
   "target_percent": 86,
   "required_val_positives": 220,
@@ -27,7 +27,7 @@
     "moment_detr",
     "ld_detr"
   ],
-  "selection_rule": "positive delta G1 on both Standard and Full Test",
+  "selection_rule": "positive GEQ+aux minus GMR(aux) delta G1 on both Standard and Full Test",
   "selected_after_test_inspection": true,
   "panels": 2,
   "bars_checked_against_CSV": 54,
@@ -47,12 +47,12 @@
     "FULL_TEST.svg": "3ea155b852e4bae8bbd9bbaa26e906cddeb451a6d087d53aac589da5b0d22293"
   },
   "files": {
-    "STANDARD_SUMMARY.png": "74cad2259100e40afe3aa06b4bb0bab338799d57726a8db9ceeacad8d9c6f80b",
-    "STANDARD_SUMMARY.pdf": "57b5a1f3e249b453fba861392ee61aad9c1112ba5480d06f2c957a8e70747322",
-    "STANDARD_SUMMARY.svg": "5260a2b02a30aea7907fe14d7f494ba99bfd22380139fc427dd0258e088c5987",
-    "FULL_SUMMARY.png": "a2cfc638a6bc5d2127c9fef795109c41efe0611c830b9c12d0b44c27e41aa708",
-    "FULL_SUMMARY.pdf": "9278819bcc7ca62eaa4e97662215750b13802ea30ea6cb554686fe96b539e7f2",
-    "FULL_SUMMARY.svg": "2b68ad3f5948a08d078718f88446b6988cfb41c11f0395f32fe8ffbb79d65741",
-    "TEST_SUMMARY_BOTH.pdf": "5737d68db4f258f9a939ad397a79fa07d2ce556209ce6ecfb546c87f96e40622"
+    "STANDARD_SUMMARY.png": "7daeb1bef855bb0e9526b8474bc527b5213534ca799cc72d6e5e4234d5f28909",
+    "STANDARD_SUMMARY.pdf": "96cd9b7641d0d328391fe47b7fd866e726ac67d69ac4990ff15ecc94eb0b3ac8",
+    "STANDARD_SUMMARY.svg": "737def3c3cb53e440e47bc2dde11e049278527754314cd42c4de06473c35575b",
+    "FULL_SUMMARY.png": "189e3edee818f1d765668b9f9c32a3864e5e58903e3e16bd2bf4e4359f946178",
+    "FULL_SUMMARY.pdf": "3bb20546d2ac56f5ca163e73723fa1e408d1468109ccac3bfe60b0c824ddf169",
+    "FULL_SUMMARY.svg": "3c224a320abd39202cfecc82729ed33b3f1b36d123129287e2cc72c19d8b59f4",
+    "TEST_SUMMARY_BOTH.pdf": "c218c15b964b35cb7e59e3d0dc9d2f5412a9ce77dd3535fa59ad7c4fa7dd9163"
   }
 }

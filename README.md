@@ -1,4 +1,4 @@
-# GMR baseline → GEQ+aux：11骨干实验
+# GMR(aux) → GEQ+aux：11骨干实验
 
 本分支研究：**查询相关的逐 clip 辅助监督，能否配合 GEQ 改善广义时刻检索的定位与事件存在性判断。** 当前方法采用“两阶段均保留辅助监督”的训练方案，已完成11个骨干的 Standard / Full Test 评测。
 
@@ -12,10 +12,12 @@
 
 | 图表名称 | 模型与训练方式 | 推理时的存在性判断 |
 |---|---|---|
-| **GMR baseline** | Stage 1：从头训练原生 GMR，并加入逐 clip 辅助监督 | 骨干原生存在性分数 |
+| **GMR(aux)** | Stage 1：从头训练原生 GMR，并加入逐 clip 辅助监督 | 骨干原生存在性分数 |
 | **GEQ+aux** | Stage 2：继承 Stage 1 的主干及辅助头，加入 GEQ 并联合微调；辅助头继续更新 | GEQ 输出的存在性分数 |
 
-**本文的 GMR baseline 是本轮带辅助监督的 Stage 1。** 这是沿用当前图表的命名；历史无辅助 GMR 在旧结果包中另行标注。主图的两个阶段对比反映整套 GEQ 联合微调的变化，不能单独证明 aux 优于不加 aux。
+**本文的 GMR(aux) 是本轮带辅助监督的 Stage 1，不是原始无辅助 GMR baseline。** 历史无辅助 GMR 将作为独立 baseline 拉入后续四方法图；当前两个阶段的比较反映同一 GMR(aux) 父模型加入 GEQ+aux 后的变化，不能单独证明 aux 相对原始 GMR baseline 的因果增益。
+
+[后续四方法消融与原始 GMR baseline 导入方案](https://github.com/chinagalaxy2002/Improving-Target-Presence-for-Generalized-Moment-Retrieval/blob/soccergmr-aux-only-11/AUX_ONLY_ELEVEN_PROTOCOL.md)
 
 ### 辅助头和训练目标
 
@@ -33,7 +35,7 @@ Stage 2  = L_native_GMR + L_GEQ_BCE + 0.1 × L_aux
 
 ### 统一训练与选模规则
 
-| 项目 | Stage 1：GMR baseline | Stage 2：GEQ+aux |
+| 项目 | Stage 1：GMR(aux) | Stage 2：GEQ+aux |
 |---|---|---|
 | 数据与 seed | Standard Train / Val，seed=2023 | 相同 |
 | 输入上限 / batch size | 128 video tokens / 32 text tokens，batch=8 | 相同 |
@@ -46,17 +48,17 @@ Moment-DETR 复用已完成的模型和4份 Test 结果，保留原始源码身�
 
 ## 86%保留率：9个双测试集增益骨干
 
-这里的86%是 **Standard Val 正查询保留率目标**。Val共有255条正查询，因此每个骨干、每种方法都在0.00–1.00、步长0.01的候选中，选择能够保留至少220条正查询（实际下限86.27%）的最大存在性阈值。GMR baseline、只加GEQ和GEQ+aux分别选阈值；每个阈值固定后原样用于Standard和Full，不在Test上重新调节。
+这里的86%是 **Standard Val 正查询保留率目标**。Val共有255条正查询，因此每个骨干、每种方法都在0.00–1.00、步长0.01的候选中，选择能够保留至少220条正查询（实际下限86.27%）的最大存在性阈值。GMR(aux)、GEQ only（reference）和GEQ+aux分别选阈值；每个阈值固定后原样用于Standard和Full，不在Test上重新调节。
 
 完整扫描覆盖全部11个骨干。86%下，Standard有10/11个提高，Full有9/11个提高，**两套Test均提高的交集为9/11**。按当前展示要求，下方两图只保留这9个骨干：EaTR、QD-DETR、CG-DETR、Sim-DETR、BM-DETR、BAM-DETR、UVCOM、TR-DETR和TaskWeave。Moment-DETR因Full下降0.313个百分点、LD-DETR因两套均下降而未进入图中。
 
-**这是查看完整Test扫描后选出的探索性子集。** 图中灰色方形为GMR baseline，橙色三角为[只加GEQ的参考分支](https://github.com/chinagalaxy2002/Improving-Target-Presence-for-Generalized-Moment-Retrieval/tree/soccergmr-standard-geq-full)，蓝色圆形为GEQ+aux；每条蓝色柱旁标注相对橙色参考值的差。数值均为所选工作点上的G-mIoU@1，单位0–100，越大越好。9骨干子集仍只由“当前GEQ+aux相对当前GMR baseline在两套Test均提高”确定，**没有依据橙色参考结果重新筛选**。
+**这是查看完整Test扫描后选出的探索性子集。** 图中灰色方形为GMR(aux)，橙色三角为[GEQ only（reference）](https://github.com/chinagalaxy2002/Improving-Target-Presence-for-Generalized-Moment-Retrieval/tree/soccergmr-standard-geq-full)，蓝色圆形为GEQ+aux；每条蓝色柱旁标注相对橙色参考值的差。数值均为所选工作点上的G-mIoU@1，单位0–100，越大越好。9骨干子集仍只由“当前GEQ+aux相对当前GMR(aux)在两套Test均提高”确定，**没有依据橙色参考结果重新筛选**。
 
 > 对比边界：橙色“只加GEQ”来自无aux的另一套GMR父模型；其中EaTR、QD-DETR、CG-DETR、Sim-DETR沿用历史patience6 / 75-token协议，其余5个骨干采用patience10 / 128-token扩展协议。因此它是便于观察绝对结果的参考，不是与当前GEQ+aux同起点的受控aux消融，蓝色与橙色之差不能单独归因于aux。
 
 ### Standard Test：1,036条查询
 
-9骨干等权平均为：**GMR baseline 16.59，只加GEQ参考21.86，GEQ+aux 21.09**；GEQ+aux相对参考为 **−0.77个百分点**。
+9骨干等权平均为：**GMR(aux) 16.59，GEQ only参考21.86，GEQ+aux 21.09**；GEQ+aux相对参考为 **−0.77个百分点**。
 
 ![Standard Test：86% Val保留率下9骨干G-mIoU@1](results/e3_eleven/STANDARD_SUMMARY.png)
 
@@ -64,16 +66,16 @@ Moment-DETR 复用已完成的模型和4份 Test 结果，保留原始源码身�
 
 ### Full-Decodable Test：2,970 / 2,986条查询
 
-使用与Standard完全相同的Val阈值，9骨干等权平均为：**GMR baseline 15.79，只加GEQ参考20.59，GEQ+aux 19.47**；GEQ+aux相对参考为 **−1.11个百分点**。
+使用与Standard完全相同的Val阈值，9骨干等权平均为：**GMR(aux) 15.79，GEQ only参考20.59，GEQ+aux 19.47**；GEQ+aux相对参考为 **−1.11个百分点**。
 
 ![Full Test：86% Val保留率下9骨干G-mIoU@1](results/e3_eleven/FULL_SUMMARY.png)
 
 [PDF](results/e3_eleven/FULL_SUMMARY.pdf) · [SVG](results/e3_eleven/FULL_SUMMARY.svg) · [两套汇总图合集](results/e3_eleven/TEST_SUMMARY_BOTH.pdf)
 
 <details>
-<summary>展开9骨干精确阈值与G-mIoU@1（baseline / 只加GEQ参考 / GEQ+aux）</summary>
+<summary>展开9骨干精确阈值与G-mIoU@1（GMR(aux) / GEQ only参考 / GEQ+aux）</summary>
 
-| 骨干 | Val阈值：baseline / 参考 / aux | Standard G1：baseline / 参考 / aux | aux−参考 | Full G1：baseline / 参考 / aux | aux−参考 |
+| 骨干 | Val阈值：GMR(aux) / GEQ参考 / GEQ+aux | Standard G1：GMR(aux) / GEQ参考 / GEQ+aux | GEQ+aux−GEQ参考 | Full G1：GMR(aux) / GEQ参考 / GEQ+aux | GEQ+aux−GEQ参考 |
 |---|---:|---:|---:|---:|---:|
 | EaTR | 0.43 / 0.28 / 0.20 | 28.083 / 26.153 / 28.931 | +2.778 | 26.915 / 24.831 / 28.011 | +3.180 |
 | QD-DETR | 0.37 / 0.22 / 0.22 | 23.141 / 28.207 / 24.118 | −4.089 | 19.617 / 26.789 / 20.672 | −6.117 |
@@ -106,13 +108,15 @@ Moment-DETR 复用已完成的模型和4份 Test 结果，保留原始源码身�
 
 本节问：**希望尽量保留真实事件查询、供用户继续复核片段时，GEQ+aux 表现如何？** “保留率”仅表示真实事件查询通过存在性门控，不等于定位正确率。
 
-本节覆盖本轮**全部11个骨干**：Moment-DETR、EaTR、QD-DETR、CG-DETR、Sim-DETR、BM-DETR、BAM-DETR、UVCOM、TR-DETR、TaskWeave、LD-DETR；每个都展示 Standard 与 Full 上的 GMR baseline / GEQ+aux 结果，保留所有下降项。
+本节覆盖本轮**全部11个骨干**：Moment-DETR、EaTR、QD-DETR、CG-DETR、Sim-DETR、BM-DETR、BAM-DETR、UVCOM、TR-DETR、TaskWeave、LD-DETR；每个都展示 Standard 与 Full 上的 GMR(aux) / GEQ+aux 结果，保留所有下降项。
+
+> 下方归档的全阈值曲线按要求不重新制图，因此图内旧文字 `GMR baseline` 实际指本文的 **GMR(aux)**；其数据、阈值与文件哈希均保持不变。
 
 每个骨干、每种方法分别在 **Standard Val 上选择正查询保留率≥95%的最大候选阈值**，再固定用于两套 Test，严格 `score > threshold`。阈值规则沿用[原分支分析](https://github.com/chinagalaxy2002/Improving-Target-Presence-for-Generalized-Moment-Retrieval/tree/682db34ab0511ce0ebfd69e9b966150cac6473a5/results/high_retention)；当前统计范围已从早期六骨干扩展至全部11骨干，未按 Test 增益筛选。
 
 ### Standard Test：参考样式曲线图
 
-下图按参考图的方式，每个骨干占一行，左列 **G-mIoU@1**、右列 **G-mIoU@3**。灰色实线圆点为 GMR baseline，绿色点划线三角为 GEQ+aux；图例给出 mAP 和各自的 `τ95`。**菱形标记 Val 正查询保留率≥95%选出的工作点**（0.01网格），行下方的 ΔG1/ΔG3 也在这些工作点计算，单位为百分点。
+下图按参考图的方式，每个骨干占一行，左列 **G-mIoU@1**、右列 **G-mIoU@3**。灰色实线圆点为 GMR(aux)，绿色点划线三角为 GEQ+aux；图例给出 mAP 和各自的 `τ95`。**菱形标记 Val 正查询保留率≥95%选出的工作点**（0.01网格），行下方的 ΔG1/ΔG3 也在这些工作点计算，单位为百分点。
 
 ![Standard Test：11骨干阈值曲线与高保留率工作点](results/e3_high_retention/STANDARD_TEST.png)
 
@@ -145,13 +149,13 @@ Full 使用与 Standard 相同的 Val 选定阈值，覆盖全部11个骨干。�
 | 选阈值目标 | 保留至少95%正查询，取最大候选阈值 | 相同 |
 | 作用 | 保持与原分支相同的网格规则 | 检查结论是否依赖0.01的阈值粒度 |
 
-**实例：** Moment-DETR 的 GMR baseline 在图 A 选到 **0.42**，Val 保留率100%；图 B 选到约 **0.428048**，Val 保留率95.29%。细化候选后可以在0.42与0.43之间选择，从而改变 Test 上保留和拒绝的查询数量，G1也随之变化。更细的搜索不保证 Test G1 更高；mAP不使用门控，在两种规则下保持相同。
+**实例：** Moment-DETR 的 GMR(aux) 在图 A 选到 **0.42**，Val 保留率100%；图 B 选到约 **0.428048**，Val 保留率95.29%。细化候选后可以在0.42与0.43之间选择，从而改变 Test 上保留和拒绝的查询数量，G1也随之变化。更细的搜索不保证 Test G1 更高；mAP不使用门控，在两种规则下保持相同。
 
 ### 图 A：0.01网格主结果（全部11骨干）
 
 Standard / Full 都有 **9/11** 个骨干提高，11骨干等权平均 G1 分别提高 **1.654 / 0.986 个百分点**。BAM-DETR、LD-DETR在两套 Test 上下降。
 
-灰色方形为 GMR baseline，蓝色圆形为 GEQ+aux；横柱末端标注每个骨干的实际 G1。
+灰色方形为 GMR(aux)，蓝色圆形为 GEQ+aux；横柱末端标注每个骨干的实际 G1。
 
 ![图A：全部11骨干高保留率0.01网格主结果](results/e3_high_retention/PRIMARY.png)
 
@@ -205,7 +209,7 @@ Standard / Full 都有 **9/11** 个骨干提高，11骨干等权平均 G1 分别
 
 | 模型 | Standard mAP | Full mAP | Standard G1 | Full G1 |
 |---|---:|---:|---:|---:|
-| GMR baseline：共同的 Stage 1 起点 | 5.49 | 5.33 | 33.51 | 30.62 |
+| GMR(aux)：共同的 Stage 1 起点 | 5.49 | 5.33 | 33.51 | 30.62 |
 | GEQ：Stage 2 不加 aux | 6.33 | 5.81 | 52.45 | 48.95 |
 | GEQ+aux：Stage 2 继续加 aux（本轮方法） | 7.47 | 6.44 | 51.80 | 48.46 |
 

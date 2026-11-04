@@ -24,7 +24,7 @@ LABELS = {
     'uvcom': 'UVCOM', 'tr_detr': 'TR-DETR', 'taskweave': 'TaskWeave',
 }
 SERIES = ('gmr', 'geq_only_reference', 'geq_full')
-SERIES_LABELS = ('GMR baseline', 'GEQ only (reference)', 'GEQ + aux')
+SERIES_LABELS = ('GMR(aux)', 'GEQ only (reference)', 'GEQ + aux')
 COLORS = ('#a6a6a6', '#e69f00', '#0072b2')
 EDGES = ('#555555', '#8c5f00', '#003f63')
 MARKERS = ('s', '^', 'o')
@@ -172,7 +172,7 @@ def main():
             reference_mean = float(values_by_series['geq_only_reference'].mean())
             auxiliary_mean = float(values_by_series['geq_full'].mean())
             ax.set_title(
-                f'9-backbone mean: GMR {baseline_mean:.2f} | GEQ ref {reference_mean:.2f} | '
+                f'9-backbone mean: GMR(aux) {baseline_mean:.2f} | GEQ ref {reference_mean:.2f} | '
                 f'GEQ+aux {auxiliary_mean:.2f} (aux−ref {auxiliary_mean - reference_mean:+.2f} pp)',
                 fontsize=11, pad=12, color='#334155',
             )
@@ -189,7 +189,7 @@ def main():
                 .585, .075,
                 'Each backbone/method selects its own largest 0.01-grid threshold on Standard Val; '
                 'the same threshold is used on both Tests.\n'
-                'Subset is fixed by current GEQ+aux vs current GMR gains, not by the GEQ-only reference. '
+                'Subset is fixed by current GEQ+aux vs current GMR(aux) gains, not by the GEQ-only reference. '
                 'Moment-DETR and LD-DETR are omitted.\n'
                 'GEQ-only is an outcome-level reference with a different no-aux GMR parent/protocol; '
                 'aux−ref is not a controlled causal ablation.',
@@ -238,7 +238,7 @@ def main():
         'all_backbones_evaluated': 11,
         'displayed_backbones': list(NAMES),
         'excluded_backbones': ['moment_detr', 'ld_detr'],
-        'selection_rule': 'positive delta G1 on both Standard and Full Test',
+        'selection_rule': 'positive GEQ+aux minus GMR(aux) delta G1 on both Standard and Full Test',
         'selected_after_test_inspection': True,
         'panels': 2,
         'bars_checked_against_CSV': 54,
