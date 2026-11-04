@@ -38,12 +38,12 @@ class GMRWithClipHead(nn.Module):
         root, layers = encoder_root(base, spec.name), encoder_layers(base, spec.name)
         # Auxiliary initialization must not change the native/GEQ RNG sequence.
         with torch.random.fork_rng(devices=[]):
-            self.clip_head = ClipHead(width=layers[-1].self_attn.embed_dim,
-                                      video_width=layers[-1].self_attn.embed_dim,
-                                      text_width=layers[-1].self_attn.embed_dim) if clip_head else None
+            self.clip_head = ClipHead(width=getattr(getattr(layers[-1],'self_attn',None),'embed_dim',256),
+                                      video_width=getattr(getattr(layers[-1],'self_attn',None),'embed_dim',256),
+                                      text_width=getattr(getattr(layers[-1],'self_attn',None),'embed_dim',256)) if clip_head else None
         self.depth = len(layers)
         self.context = None
-        self.handles = [root.input_txt_proj.register_forward_hook(self.capture_text)]
+        self.handles = [(root.text_encoder if spec.name=='ld_detr' else root.input_txt_proj).register_forward_hook(self.capture_text)]
         self.handles.extend(layer.register_forward_hook(self.capture_video) for layer in layers)
 
     def capture_text(self, module, args, output):
@@ -66,6 +66,7 @@ class GMRWithClipHead(nn.Module):
         finally:
             self.context = None
         passes = self.spec.encoder_passes + int(bool(self.spec.extra_encoder_input) and self.spec.extra_encoder_input in inputs)
+        if self.spec.name=='taskweave' and (inputs.get('epoch') is None or inputs['epoch']>=100):passes=6
         if len(context['video']) != self.depth * passes:
             raise RuntimeError(f"Unexpected encoder passes: {len(context['video'])}/{self.depth}")
         video = context['video'][:self.depth]

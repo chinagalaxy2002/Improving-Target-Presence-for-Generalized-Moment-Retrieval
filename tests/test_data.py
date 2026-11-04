@@ -14,12 +14,12 @@ def dataset(tmp_path,length=104):
     label=tmp_path/'labels.jsonl'
     label.write_text(json.dumps(dict(qid=7,vid='video.mp4',duration=208.9,relevant_windows=[[100,110],[190,208.9]]))+'\n')
     config=dict(data=dict(splits={'test_full':str(label)},features={'full':str(tmp_path)},max_video_tokens=128,max_text_tokens=32))
-    return SoccerDataset(config,'test_full',get_spec('moment_detr'))
+    return SoccerDataset(config,'test_full',get_spec('sim_detr'))
 
 
 def test_full_namespace_long_video_and_time_coordinates(tmp_path):
     d=dataset(tmp_path);item=d[0]
-    assert len(item['video'])==104 and len(item['query'])==32
+    assert len(item['video'])==104 and len(item['query'])==4
     assert item['spans'][0,0].item()==pytest.approx(105/208.9)
     assert item['masks'][1,-1]==1
     _,inputs,targets=collate([item])

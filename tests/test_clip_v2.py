@@ -56,3 +56,10 @@ def test_focal_dice_and_topk_numerical_definitions():
 @pytest.mark.parametrize('bad',[{'method':'unknown'},{'method':'balanced','topk':1.5},{'method':'balanced','gamma':float('nan')},{'method':'balanced','freeze_aux':1}])
 def test_config_rejects_invalid(bad):
  with pytest.raises(ValueError):validate_clip_v2(bad)
+
+
+def test_native_quality_keeps_bam_candidate_order():
+    from soccergmr.predict import export
+    out=dict(pred_logits=torch.tensor([[[9.,0.],[0.,9.]]]),pred_quality=torch.tensor([[[.1],[.9]]]),pred_spans=torch.tensor([[[.2,.1],[.8,.1]]]),pred_exist_logits=torch.zeros(1))
+    result=export(out,[dict(qid=1,vid='a',duration=100)])[0]
+    assert result['pred_relevant_windows'][0][0]>70

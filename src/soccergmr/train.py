@@ -113,7 +113,7 @@ def _train(config,directory,stage,device,baseline,resume):
                     # last.pt describes the previous COMPLETE epoch, including RNG.
                     return dict(status='interrupted',resume_from=str(directory/'last.pt'),completed_epoch=epoch)
                 inputs,targets=move(inputs,device),move(targets,device)
-                outputs=forward(model,config['backbone'],inputs,targets,metas,epoch=native_epoch_offset+epoch)
+                outputs=forward(model,config['backbone'],inputs,targets,metas,epoch=native_epoch_offset+epoch,batch_idx=batch_index,train_loader_length=batches)
                 loss,_=criterion(outputs.get('native_output',outputs),targets,epoch)
                 if stage=='geq_full':
                     loss=loss+F.binary_cross_entropy_with_logits(outputs['geq_logit'],targets['exist_label'])

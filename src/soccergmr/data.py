@@ -36,6 +36,8 @@ class SoccerDataset(Dataset):
         self.config, self.split, self.spec = config, split, spec
         self.path = Path(config['data']['splits'][split])
         self.data = read_jsonl(self.path)
+        if spec.name == 'bm_detr' and split == 'train' and len({r['vid'] for r in self.data}) < 2:
+            raise ValueError('BM synthetic pairing requires at least two videos')
         self.feature_root = Path(config['data']['features']['full' if split=='test_full' else 'standard'])
         ids = [r['qid'] for r in self.data]
         if len(ids)!=len(set(ids)):
@@ -94,8 +96,18 @@ class SoccerDataset(Dataset):
         ni=([neg[0],neg[-1]] if neg else pi)
         item = dict(meta=row,video=torch.from_numpy(video),query=torch.from_numpy(query),
                     spans=spans,masks=masks,saliency=saliency,pos=pi,neg=ni)
-        if self.config.get('clip',{}).get('method')=='soft':
-            item['clip_soft']=soft_clip_labels(row['relevant_windows'],row['duration'],length)
+        if self.spec.name == 'bm_detr' and self.split == 'train':
+            # Upstream BM samples a query from another video as a synthetic
+            # negative. This is not a verified real-null label and is used only
+            # by the native probability modulation, never existence BCE.
+            other = random.choice(self.data)
+            while other['vid'] == row['vid']:
+                other = random.choice(self.data)
+            with np.load(self.feature_root/'clip_text'/('qid'+str(other['qid'])+'.npz')) as archive:
+                negative = archive['last_hidden_state'].astype(np.float32)[:self.config['data']['max_text_tokens']]
+            if negative.ndim != 2 or negative.shape[1] != 512 or not len(negative) or not np.isfinite(negative).all():
+                raise ValueError('Invalid BM synthetic negative text features')
+            item['negative_query'] = torch.from_numpy(normalize(negative))
         return item
 
 
@@ -127,7 +139,6 @@ def collate(items):
         saliency_neg_labels=torch.tensor([x['neg'] for x in items]),
         saliency_pair_mask=torch.tensor([bool(x['saliency'].any()) and bool((x['saliency']==0).any()) for x in items],dtype=torch.float32),
         mask_labels=masks)
-    if 'clip_soft' in items[0]:targets['clip_soft_labels']=pad_sequence([x['clip_soft'] for x in items],batch_first=True)
     return metas,inputs,targets
 
 

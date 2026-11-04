@@ -15,6 +15,202 @@
         "models/moment_detr_gmr/utils/span_utils.py": "82d769f160355d23cc68dfb520732eee806540a6192442d9815b992bfcb37126",
         "models/moment_detr_gmr/utils/__init__.py": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
       }
+    },
+    "eatr": {
+      "origin": "backbones/eatr/source",
+      "sources": {
+        "__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "LICENSE": "7e46ea42ece13fd153d63c72bef744b1ec0a378dcf008b075b8a989e640825eb",
+        "utils/span_utils.py": "1452aeef29e6fb976a79e3c47d1a3d1891fc26e31401f9899c10c498d2489f02",
+        "models/criterion.py": "1b03e1eaf467262b7269d46038c656211b32960f2a95434c31086b21cff669c0",
+        "models/attention.py": "235bcbe8fad34e59bcf1ba809e0e67b59ba322346041dd924d7513a80a775c9f",
+        "models/module.py": "8f51663185ee678bd3246c664e892ed401e30baeafe60405a55ee2be5d64cb66",
+        "models/build_model.py": "479b32cd0ea1cf923b8cacd4a2b7d430f32b6e0be026fd1beaee8ca1f69c86a9",
+        "models/transformer.py": "fcafe685bbc44e5a03530d78598c51155c02b3dd502e1c427f61c16652cfef0d",
+        "models/matcher.py": "11db02152cf5a3961bcf51fa4f177499a3424427e5a9aa93063aa13fc8d8bc1c",
+        "models/position_encoding.py": "2b3f6f022a9973a2e33f099428de40c001c6f9516a784dde888a237e1e2baadb",
+        "models/model.py": "ea1403e985efd093341efb03a68046a284cca3c9ea03642537326ac75666302e",
+        "misc.py": "93875fbb1c654143fa442d90fe8c12e940bd82956b23071e586cf08294bcd8c7"
+      }
+    },
+    "qd_detr": {
+      "origin": "backbones/qd_detr/source/gmr_deployment",
+      "sources": {
+        "LICENSE": "fbcba2881b59ec257000a5e3422dcfe36dbd208e794dafe6781bd2709f77c73c",
+        "qd_detr/gmr_adapter.py": "2187c53403e8c0410989b38fc7a05854d971baf812ad9da00fcf38998472eb14",
+        "qd_detr/attention.py": "61fe42107e07f1c179238df6514f05a5ec0f8d8b347937f2fda7dc9712570378",
+        "qd_detr/span_utils.py": "82ec89bdaca05cfb6382551597c3c60d2b79733e7e721b69eacb2cd02c6e001c",
+        "qd_detr/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "qd_detr/transformer.py": "ecaaf55acc3c93a77d7a0b2a53f24652d9d1378ef57db05900c11952444c00ac",
+        "qd_detr/matcher.py": "0ee46a4d133965131a4bc4c9599e297c017feabf059e0457344d36bf3cce5751",
+        "qd_detr/misc.py": "dcb02d459d0db988f7bec7f2ef11320274456688ef19725b6e1aab68bd2ad8eb",
+        "qd_detr/position_encoding.py": "73b08a01db79c44dacd6859514d504b943a76a3d3ac3067a1505ee41034ffa6d",
+        "qd_detr/model.py": "e5c58dd7b6c56215491d2471e4d90be7b2f509a9fde445d049c73d2d21f551ca"
+      },
+      "local_patches": {
+        "qd_detr/transformer.py": {
+          "reason": "Allocate on the input device instead of hard-coded default CUDA device",
+          "sha256": "9c7b250df1b9763f59538d1afb8955ea9b6a412622d071016217c9435a20781a"
+        }
+      }
+    },
+    "cg_detr": {
+      "origin": "backbones/cg_detr/source/gmr_source",
+      "sources": {
+        "LICENSE": "85b11fb3367d16a35ef5111539a96ea4a0c084ea4943792544c2280d59a8892b",
+        "cg_detr/attention.py": "61fe42107e07f1c179238df6514f05a5ec0f8d8b347937f2fda7dc9712570378",
+        "cg_detr/span_utils.py": "82ec89bdaca05cfb6382551597c3c60d2b79733e7e721b69eacb2cd02c6e001c",
+        "cg_detr/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "cg_detr/transformer.py": "af381705de31bbb78fac1336fd62fb645ca1400f7ce58711a11296accd68fccf",
+        "cg_detr/matcher.py": "89a61444fca44fa4a93d8cc1f063fb87004cce5b1b6f7bfb6da7932481b344cb",
+        "cg_detr/crossattention.py": "f80e869d8d7ae6f15e2612f454cabbc466a15d04ad0772dee24d661a4340d107",
+        "cg_detr/misc.py": "dcb02d459d0db988f7bec7f2ef11320274456688ef19725b6e1aab68bd2ad8eb",
+        "cg_detr/position_encoding.py": "c189c35832fa536e757688b9469ce2bbcf6398b46c9afd6fc1f56e94ba6ca315",
+        "cg_detr/model.py": "596077405b5ac231e4b4b72b4dddb3775e9344528a4f7eb2acd3fdc493a723fa"
+      },
+      "local_patches": {
+        "cg_detr/transformer.py": {
+          "reason": "Allocate on the input device instead of hard-coded default CUDA device",
+          "sha256": "78f563460c77d8301db27c81b2ad2eddfdfd203202466c36a778425366587221"
+        },
+        "cg_detr/model.py": {
+          "reason": "Allocate on the input device instead of hard-coded default CUDA device",
+          "sha256": "14f13603edd38e253d0517febfd64317ef7a775406d85bfb3024a39d9dc5edbb"
+        }
+      }
+    },
+    "sim_detr": {
+      "origin": "backbones/sim_detr/source",
+      "sources": {
+        "LICENSE": "fbcba2881b59ec257000a5e3422dcfe36dbd208e794dafe6781bd2709f77c73c",
+        "sim_detr/attention.py": "3fabee545afb43f119a6b894aa8003f70da275436e9edc14f5a0a60909221831",
+        "sim_detr/span_utils.py": "82ec89bdaca05cfb6382551597c3c60d2b79733e7e721b69eacb2cd02c6e001c",
+        "sim_detr/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "sim_detr/transformer.py": "0d61bc672da6b529fa798c9a5ac8e8c0dc923d7be79ae5f8bba453d7423e1d27",
+        "sim_detr/matcher.py": "aa1688ebaee319e2f6a17451aa3202d3826558bf5ad73086b0febc011322a1d9",
+        "sim_detr/misc.py": "dcb02d459d0db988f7bec7f2ef11320274456688ef19725b6e1aab68bd2ad8eb",
+        "sim_detr/position_encoding.py": "73b08a01db79c44dacd6859514d504b943a76a3d3ac3067a1505ee41034ffa6d",
+        "sim_detr/model.py": "61edbde5d75f8a527e30ada7a38fb32f09cc347cb4656506afce017a17e29720",
+        "sim_detr/semantic_calibration/semantic_model.py": "cb66f248ce80097db93f13818aa758ac0b5e1d69c5f4729003ac22a2579ce99f",
+        "sim_detr/semantic_calibration/semantic_calibrator.py": "a9e040a3b05216ba0521547acdbcaf4f6eac9cc3af199ab0cd7788c591871989",
+        "sim_detr/semantic_calibration/__init__.py": "c1cd67b3cfd8244d19fa1978c40f282203fa8b44efea46da15e92ee06e161cc9",
+        "sim_detr/semantic_calibration/transformer_capture.py": "7621f51e0409240e22eea03538c75c4154e4a31ff001109bcda574c201067dcd",
+        "sim_detr/semantic_calibration/diagnostics.py": "c0dd21894b9c58bcadf25f1d0875fd135dfc60f641f83041e2db79004757a0d9",
+        "sim_detr/interaction/test_CQA.py": "a97b6cdb5d0475b11e203a2364d3f442fe68793d97f0c61b31975e134ae2d111",
+        "sim_detr/soccer_gmr_csc/gmr_adapter.py": "9657fdc1b7bb736d505e1bb5be0e5215ac611270e1ee2c1e8b9c3bf69e740d4b",
+        "sim_detr/soccer_gmr_csc/criterion.py": "09d378fd2d516fbe04a893ef8627819b8bd9cf9e83d66ed8ada6e2bbbac7c973",
+        "sim_detr/soccer_gmr_csc/binding_loss.py": "b13d5c136756e8efe562ca1d19e207c0c0450aeb7b39a801af93e47d33c74da6",
+        "sim_detr/soccer_gmr_csc/attention_capture.py": "ea4c652081dd52c9cbdeff31895f997aa55364221d50084dfd5ecb66d4a43471",
+        "sim_detr/soccer_gmr_csc/model_builder.py": "26997bc526325e274562d447b15cf50a3e3091a9ac2fd52956d3ba6bfad6b6ae",
+        "sim_detr/soccer_gmr_csc/__init__.py": "f6bd3c5d3a5b27fb7a70ba7e46b2293fbfbf4b797066d9351a3fd1daa0d28873"
+      },
+      "local_patches": {
+        "sim_detr/transformer.py": {
+          "reason": "Allocate on the input device instead of hard-coded default CUDA device",
+          "sha256": "ab8e09bbd4306a9d411be1764e2a043002866789fc5918c83e7de414d066443a"
+        }
+      }
+    },
+    "bm_detr": {
+      "origin": "https://github.com/minjoong507/BM-DETR",
+      "commit": "b9afb3d56baa5c4a999e06e1740a744c7a73c2d7",
+      "sources": {
+        "LICENSE": "7e46ea42ece13fd153d63c72bef744b1ec0a378dcf008b075b8a989e640825eb",
+        "bm_detr/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bm_detr/attention.py": "61fe42107e07f1c179238df6514f05a5ec0f8d8b347937f2fda7dc9712570378",
+        "bm_detr/matcher.py": "40b0696d5a097f9c11b1db0e15f82d9ac849f3d5ebf9b2229b326d9c0216aeba",
+        "bm_detr/misc.py": "dcb02d459d0db988f7bec7f2ef11320274456688ef19725b6e1aab68bd2ad8eb",
+        "bm_detr/model.py": "b0c2ca2ea077c4fe83b710a3ecd4d3fca447cd3ac0ec0c503afc1d878bf3f517",
+        "bm_detr/position_encoding.py": "b6d7bd3c104d1608d61f74a4f5787eff65735de3814494d37fe5fd02a33f10e0",
+        "bm_detr/span_utils.py": "e1b50596bdddadff28aa382c6f44dbcab2dd066ea24e1b13ddf51a9aef51040d",
+        "bm_detr/transformer.py": "d5013c8ad8f4818ef77afeb64d49a7385c3d003700615b1cc5d52338df292e21",
+        "utils/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "utils/misc.py": "a3fe2ab39c35c3752a08dac67209b179e78d28f4089f918abb56e5bca0e59b15"
+      }
+    },
+    "bam_detr": {
+      "origin": "https://github.com/Pilhyeon/BAM-DETR",
+      "commit": "914b3e710afdde813f1ba2979da3c69e28f4c549",
+      "sources": {
+        "LICENSE": "3df173100d0ef9a0d7c38cdefc26c30481c4b042a52f088fdf8d9f91decbc8d0",
+        "bam_detr/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bam_detr/attention.py": "e01d6f340182d42bb54f96c91cb04cd1e3ffac57a56f893c9781f4722bd8db6b",
+        "bam_detr/matcher.py": "6e39d4bf6353a0f4eb527f9f07d3252caa5d7c43d586308d52b66de7f41dc048",
+        "bam_detr/misc.py": "fd6b6dcb0af3eee02d9dab5edb83090e4db9a66628212fc04b58b91bd595415b",
+        "bam_detr/model.py": "cceea65e54c94e760fe13422f54d58fd53c07210903af47f4d8f3cb8806e1942",
+        "bam_detr/position_encoding.py": "b7f1c337aade86d78401e87ed45375db054be70ac7925418bfa8f5ad5a4c99b8",
+        "bam_detr/span_utils.py": "53cf3d899f2b7541f0b5194aef71a268cab833bc5f724a8d6e061ca74cd1aacb",
+        "bam_detr/transformer.py": "b2c344784734ad4a229b1e769d9314bb5965886e68f2f8c5904384aa0b6f1ed2"
+      }
+    },
+    "uvcom": {
+      "origin": "https://github.com/EasonXiao-888/UVCOM",
+      "commit": "6faab33a821fe045f0ef007e63a8ecc2a4e443bd",
+      "sources": {
+        "LICENSE.md": "a806e42547620dffbc2ec0333322c8b3523b4af11e059be14ef81aa5b1ae021f",
+        "data/LICENSE": "9e502ba75fd0fd30cea5497b438a4bc12f07f02bc932a7a6041fd6a18b8f46a0",
+        "uvcom/CIM.py": "70bf3a77a448a06a575ad45631b190ecab67b355c211b2930f25fa1ee10d4e45",
+        "uvcom/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "uvcom/addition.py": "bdaf32ef9db516753ed538cd606a334713fc7696891220af0e705f11c48db94a",
+        "uvcom/attention.py": "61fe42107e07f1c179238df6514f05a5ec0f8d8b347937f2fda7dc9712570378",
+        "uvcom/matcher.py": "304724ea87545625248b784256bc3e73e6f8784e52238b4a77cccda211ebeec1",
+        "uvcom/misc.py": "dcb02d459d0db988f7bec7f2ef11320274456688ef19725b6e1aab68bd2ad8eb",
+        "uvcom/model.py": "b278b877fcad9d1a7013e424370c8abd3b4d22890d473eaaa781b5e78c64f3f1",
+        "uvcom/position_encoding.py": "73b08a01db79c44dacd6859514d504b943a76a3d3ac3067a1505ee41034ffa6d",
+        "uvcom/span_utils.py": "d550fc2d9002ffc36c557df45bb58e99853d974b98113798a471eb7bd17123e2"
+      }
+    },
+    "tr_detr": {
+      "origin": "https://github.com/mingyao1120/TR-DETR",
+      "commit": "fca43a9c64f10eb6a055365081e5ff2abdbcafda",
+      "sources": {
+        "LICENSE": "fbcba2881b59ec257000a5e3422dcfe36dbd208e794dafe6781bd2709f77c73c",
+        "data/LICENSE": "9e502ba75fd0fd30cea5497b438a4bc12f07f02bc932a7a6041fd6a18b8f46a0",
+        "tr_detr/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "tr_detr/attention.py": "61fe42107e07f1c179238df6514f05a5ec0f8d8b347937f2fda7dc9712570378",
+        "tr_detr/interaction/test_CQA.py": "a97b6cdb5d0475b11e203a2364d3f442fe68793d97f0c61b31975e134ae2d111",
+        "tr_detr/matcher.py": "7fcfc0ef604ed279165cfef7e738fe04654cbb5af2d0799bc002dd20e2ebbc0a",
+        "tr_detr/misc.py": "dcb02d459d0db988f7bec7f2ef11320274456688ef19725b6e1aab68bd2ad8eb",
+        "tr_detr/model.py": "cb4e32bf5cef4b57677fb42080ffa2118679e37bf6b6a1e55ef55f37024e9fef",
+        "tr_detr/position_encoding.py": "73b08a01db79c44dacd6859514d504b943a76a3d3ac3067a1505ee41034ffa6d",
+        "tr_detr/span_utils.py": "82ec89bdaca05cfb6382551597c3c60d2b79733e7e721b69eacb2cd02c6e001c",
+        "tr_detr/transformer.py": "8cd05f7d2a8aa92a948eb601adcf5e903ada8a06a1a8056a7f4f526dcb3f6399",
+        "tr_detr/loss_fun/CTCLoss.py": "2146d7467bc225f3fd885bf5d8d8fcfda0f528259f5362d4352c84dfa5a48c84",
+        "tr_detr/loss_fun/VTCLoss.py": "dd2121c332bcbaa632c1af86f7dc93fa5a8d5e2bfdf10b448d14b9e044aad5aa"
+      }
+    },
+    "taskweave": {
+      "origin": "https://github.com/EdenGabriel/TaskWeave",
+      "commit": "2d0569b5bd1a34b939289f48e6a0cbb83f0c10aa",
+      "sources": {
+        "LICENSE": "788169f42b86d778321dcb519bac76d2543516a7abf0d339f3cb5ee75de8c13c",
+        "data/LICENSE": "9e502ba75fd0fd30cea5497b438a4bc12f07f02bc932a7a6041fd6a18b8f46a0",
+        "taskweave/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "taskweave/attention.py": "61fe42107e07f1c179238df6514f05a5ec0f8d8b347937f2fda7dc9712570378",
+        "taskweave/matcher.py": "0a9a31c408bca305e1136ba483cacbf705bb03a53ca63149d81c6cf7d8fb4edd",
+        "taskweave/misc.py": "dcb02d459d0db988f7bec7f2ef11320274456688ef19725b6e1aab68bd2ad8eb",
+        "taskweave/model.py": "526a7d7bd8feda0d9ca5e934005e0092416417cab05aeca931b718a692ac3e3e",
+        "taskweave/position_encoding.py": "73b08a01db79c44dacd6859514d504b943a76a3d3ac3067a1505ee41034ffa6d",
+        "taskweave/span_utils.py": "82ec89bdaca05cfb6382551597c3c60d2b79733e7e721b69eacb2cd02c6e001c",
+        "taskweave/transformer.py": "5933dc8b3856b919abbe5a4fc345ff99a1c52c24c63c6dd8d4724f0bb7dd6d2f"
+      }
+    },
+    "ld_detr": {
+      "origin": "https://github.com/qingchen239/ld-detr",
+      "commit": "9c507670b272a12ae9bf317c4df3ec1e205ca521",
+      "sources": {
+        "LICENSE.md": "a806e42547620dffbc2ec0333322c8b3523b4af11e059be14ef81aa5b1ae021f",
+        "data/qvhighlight/LICENSE": "1349a4b6148492b44f629e64eed676612e234fe9a839e4f3b277c1482c8849f1",
+        "ld_detr/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "ld_detr/attention.py": "3f02dd6601207d2f29c7ebdf1b3edd7e182e68781695dd32ce9a29ce261a49b9",
+        "ld_detr/matcher.py": "452c0ba473563138e7c3e431b728b9235f96d2d316264db7fd22d6bd6ff79de3",
+        "ld_detr/methods.py": "dc558541fbfa7061dde8977ee0544d3a79ea206da5306e529ebea1347184abfb",
+        "ld_detr/misc.py": "dcb02d459d0db988f7bec7f2ef11320274456688ef19725b6e1aab68bd2ad8eb",
+        "ld_detr/model.py": "a2955444686555e6beb2d41f02cd2e162f0c5e28fe0d847e2f40ed7b0d1b17e0",
+        "ld_detr/position_encoding.py": "e5d35f5616ee250285c0be9d184ee70d4759e56dab35a423329ee2bc8ee6b3c6",
+        "ld_detr/span_utils.py": "82ec89bdaca05cfb6382551597c3c60d2b79733e7e721b69eacb2cd02c6e001c",
+        "ld_detr/transformer.py": "5d4ff8234a956860e319fcdbf9ebc88e5d36d2ee64872134c878663fffe84e22"
+      }
     }
   }
 }

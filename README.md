@@ -1,6 +1,99 @@
-# 当前版本：E1–E6 与 GEQ＋aux 微调结果
+# 11骨干 GMR baseline → GEQ+aux：训练与固定 Test 结果
 
-**所有训练和自动队列已按用户要求暂停。** 六组新 GEQ＋aux 训练已完成，全部 checkpoint 留在本机；本分支上传代码、Val 结果、训练图及已经完成的固定 Test 结果，不上传模型权重或特征。
+本轮11个骨干的两阶段训练和 Standard / Full Test 评测已完成。**Moment-DETR 复用已完成实验，其余10个骨干完成20个训练阶段与40次 Test；总计44份 Test 评测。** 本次发布补齐结果、图表、11骨干实现和可复算证据，不重新训练已有实验。
+
+**命名说明：** 图表按用户要求标注 **GMR baseline**，指本轮带辅助监督的 Stage 1；它不是历史无辅助 GMR。Stage 2 为 **GEQ+aux**，继承并继续更新辅助头。旧版无辅助基线与 A/B/C/D、E1–E6 对照保留在文末历史记录，不混为同一训练协议。
+
+- [完整结果与诊断](results/e3_eleven/REPORT.md) · [逐项指标 CSV](results/e3_eleven/METRICS.csv) · [101点阈值曲线 CSV](results/e3_eleven/CURVES.csv) · [44份评测审计](results/e3_eleven/AUDIT.json)
+- [高事件保留率：六骨干新评测](results/e3_high_retention/README.md) · [阈值与保留率](results/e3_high_retention/DECISIONS.csv) · [复算脚本](scripts/report_e3_high_retention.py)
+- [训练协议](E3_ELEVEN_PROTOCOL.md) · [实现与来源提交](https://github.com/chinagalaxy2002/Improving-Target-Presence-for-Generalized-Moment-Retrieval/commit/d22986a671076e700b7c420b259009215ce5cead) · [训练/复用/选模证据](results/e3_eleven/provenance/)
+
+## Standard / Full Test 汇总
+
+各单元格为 **GMR baseline → GEQ+aux**，单位0–100；G1为存在性阈值0.4/0.5/0.6的 G-mIoU@1 均值。mAP是未门控正查询定位指标。
+
+| 骨干 | Standard mAP | Standard G1 | Full mAP | Full G1 |
+|---|---:|---:|---:|---:|
+| Moment-DETR（复用） | 5.49 → 7.47 | 33.51 → 51.80 | 5.33 → 6.44 | 30.62 → 48.46 |
+| EaTR | 16.37 → 17.16 | 39.12 → 53.83 | 13.77 → 14.68 | 37.35 → 50.44 |
+| QD-DETR | 11.56 → 13.05 | 45.58 → 53.89 | 10.50 → 11.22 | 41.76 → 50.47 |
+| CG-DETR | 6.37 → 6.91 | 22.62 → 52.47 | 5.82 → 6.19 | 21.77 → 48.69 |
+| Sim-DETR | 20.29 → 21.00 | 55.19 → 55.20 | 19.60 → 19.46 | 51.64 → 52.36 |
+| BM-DETR | 4.11 → 4.20 | 52.34 → 52.83 | 3.87 → 3.81 | 48.86 → 49.36 |
+| BAM-DETR | 22.97 → 23.64 | 50.65 → 49.85 | 20.33 → 20.59 | 48.31 → 46.38 |
+| UVCOM | 22.21 → 21.66 | 44.70 → 45.26 | 18.46 → 19.21 | 42.49 → 43.77 |
+| TR-DETR | 2.58 → 2.81 | 48.45 → 48.48 | 2.85 → 2.84 | 45.30 → 45.15 |
+| TaskWeave | 3.79 → 3.40 | 49.82 → 48.61 | 3.70 → 3.31 | 46.17 → 45.03 |
+| LD-DETR | 6.32 → 6.52 | 34.56 → 49.66 | 6.06 → 6.31 | 32.79 → 46.40 |
+
+Standard / Full 上 mAP 提高的骨干分别为9/11、7/11，G1提高分别为9/11、8/11。保留全部下降结果，不能概括为所有骨干或所有指标全面改善。Full采用2970/2986条可解码样本，Standard为1036条；两套 Test 有重叠，单 seed=2023。
+
+## 固定 Test 阈值曲线
+
+横轴为**存在性阈值**0–1、步长0.01，并非 tIoU 阈值；左列 G-mIoU@1、右列 G-mIoU@3，图例给出各模型 mAP。checkpoint 按 Val 选定，曲线仅描述固定模型的阈值响应，不用于 Test 选参。各 tIoU 的 AP 见 [DETAILS.json](results/e3_eleven/DETAILS.json) 内的 `mAP_detail`。
+
+### Standard Test
+
+![11骨干 Standard Test mAP 与 G1/G3 阈值曲线](results/e3_eleven/STANDARD_TEST.png)
+
+[矢量 PDF](results/e3_eleven/STANDARD_TEST.pdf) · [SVG](results/e3_eleven/STANDARD_TEST.svg) · [每骨干单页 PDF](results/e3_eleven/STANDARD_TEST_BY_BACKBONE.pdf)
+
+### Full-Decodable Test
+
+![11骨干 Full Test mAP 与 G1/G3 阈值曲线](results/e3_eleven/FULL_TEST.png)
+
+[矢量 PDF](results/e3_eleven/FULL_TEST.pdf) · [SVG](results/e3_eleven/FULL_TEST.svg) · [每骨干单页 PDF](results/e3_eleven/FULL_TEST_BY_BACKBONE.pdf) · [两套 Test 合集](results/e3_eleven/BOTH_TESTS.pdf)
+
+## 高事件保留率场景：六骨干新评测
+
+沿用 [原分支六骨干分析](https://github.com/chinagalaxy2002/Improving-Target-Presence-for-Generalized-Moment-Retrieval/tree/682db34ab0511ce0ebfd69e9b966150cac6473a5/results/high_retention) 的骨干集合和阈值规则，改用本轮 GMR baseline / GEQ+aux 的固定预测。每种方法各自在 **Standard Val 选择正查询保留率≥95%的最大候选阈值**，原样用于两套 Test。主分析使用0.01网格，复核使用完整 Val 分数断点；严格 `score > threshold`，Test 不参与选择。
+
+![高事件保留率六骨干主分析](results/e3_high_retention/PRIMARY.png)
+
+| 阈值搜索 | Test | GMR平均 G1 | GEQ+aux平均 G1 | Δ百分点 | 相对增益 | 提高骨干数 |
+|---|---|---:|---:|---:|---:|---:|
+| 0.01网格 | standard | 9.271 | 10.838 | +1.567 | +16.90% | 5/6 |
+| 0.01网格 | full | 9.179 | 10.398 | +1.220 | +13.29% | 5/6 |
+| 完整Val断点 | standard | 11.488 | 12.384 | +0.896 | +7.80% | 5/6 |
+| 完整Val断点 | full | 10.781 | 11.457 | +0.676 | +6.27% | 5/6 |
+
+本轮不是原图的“6/6均提高”：LD-DETR 在 Standard / Full 的主分析下降0.05 / 0.24个百分点，完整断点复核下降2.43 / 2.69个百分点。六骨干范围沿用历史探索性子集，没有按本次结果重新筛选；不能据此声称所有11骨干均有效。95%只约束 Val，Test实际保留率及空查询误返回率另行报告，高保留率不等于低误返回。
+
+![高事件保留率完整Val断点复核](results/e3_high_retention/EXACT_THRESHOLDS.png)
+
+[主图 PDF](results/e3_high_retention/PRIMARY.pdf) · [复核图 PDF](results/e3_high_retention/EXACT_THRESHOLDS.pdf) · [完整报告和逐骨干表](results/e3_high_retention/README.md) · [mAP/G1/G3 CSV](results/e3_high_retention/METRICS.csv) · [96项官方指标核验](results/e3_high_retention/AUDIT.json)
+
+## 本轮训练记录与复现
+
+<details>
+<summary>展开11骨干两阶段训练曲线</summary>
+
+![11骨干训练曲线](results/e3_eleven/training_val_panel.png)
+
+[PDF](results/e3_eleven/training_val_panel.pdf) · [SVG](results/e3_eleven/training_val_panel.svg)
+
+</details>
+
+辅助目标为 `L_aux = L_balanced_BCE + 0.2 × L_Dice`，外部权重0.1；两阶段保留各骨干原生损失。GMR按 Val mAP选模（patience20），GEQ按 Val三阈值G1均值选模（patience10）。GEQ主干/GEQ/辅助头学习率为1e-5/3e-5/3e-5，头不冻结，推理不使用辅助头门控或改写候选。方法来源详见文末“GEQ＋aux的方法溯源”。
+
+10个新骨干训练源码固定于 `d22986a`，源码哈希 `7d69e39b16dc91339b3c82f3d25e4b581896397f00283ef0dbd5f025fa6cb062`；Moment-DETR保留其原始来源与checkpoint哈希。当前发布带入同一份11骨干源码，并保留旧实验档案。配置内数据/架构路径是训练机器的原始绝对路径，迁移机器时需显式修改；已有 checkpoint 仍须遵守源码/配置/资产身份校验。发布提交没有伪装成原训练提交。
+
+本结果包包含压缩预测、GT快照、指标、曲线和哈希，不包含权重与视频特征。高保留率图可完全从本分支复算，无需GPU：
+
+```bash
+PYTHONPATH=src python scripts/report_e3_high_retention.py --verify-only
+PYTHONPATH=src python scripts/report_e3_high_retention.py
+python scripts/plot_e3_test_results.py
+PYTHONPATH=src python scripts/verify_e3_publication.py
+```
+
+[数据与图表文件清单](PUBLICATION_MANIFEST.json) · [发布核验](PUBLICATION_CHECKS.json)
+
+---
+
+# 历史记录：Moment-DETR E1–E6 与 GEQ＋aux 微调
+
+**以下为上一轮暂停时的六组实验快照。** 六组新 GEQ＋aux 训练已完成，全部 checkpoint 留在本机；本分支上传代码、Val 结果、训练图及已经完成的固定 Test 结果，不上传模型权重或特征。
 
 - [当前结果快照与暂停说明](results/clip_joint_snapshot/README.md)
 - [E3 GEQ＋aux 与 baseline 的 Standard / Full Test 对比](results/E3_baseline_comparison/README.md)
@@ -35,7 +128,7 @@ mAP 使用未门控正查询候选；G1 三点均值对应固定存在性阈值0
 
 # Moment-DETR + Query-conditioned Clip Supervision
 
-本分支只包含 **逐 clip 辅助监督**的 Moment-DETR 实现、必要的 GMR/GEQ 基础组件，以及 A/B/C/D 实验。它研究：训练时逐段判断“这个视频片段是否属于文字查询描述的事件”，能否改善最终时间定位。
+本节记录早期 **逐 clip 辅助监督**的 Moment-DETR 实现和 A/B/C/D 实验；当前版本已扩展为上文11骨干。它研究：训练时逐段判断“这个视频片段是否属于文字查询描述的事件”，能否改善最终时间定位。
 
 **本轮结果：mAP 有提升，G-mIoU 未改善；Clip Head 低召回，不能据此宣称整体性能提升。**
 
