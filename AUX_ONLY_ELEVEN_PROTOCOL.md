@@ -1,99 +1,87 @@
-# 11-backbone aux-only reuse and evaluation protocol
+# 11骨干 Aux-only 结果复用与评测方案
 
-## Conclusion: no new training is required
+## 结论：不需要重新训练
 
-The method previously labelled **GMR baseline** in the 11-backbone results is
-already the requested **aux-only** ablation:
+11骨干结果中此前标为 **GMR baseline** 的方法，实际上已经是本次要求的
+**Aux only**：
 
-`native GMR loss + E3 query-aware clip supervision`
+`原生GMR损失 + E3 query-aware clip辅助监督`
 
-where E3 is Balanced BCE plus `0.2 × Dice`, with total auxiliary coefficient
-`0.1`. This stage contains no GEQ module, no GEQ BCE, no GEQ logit, and no GEQ
-inference branch. Its checkpoints were trained from scratch with seed 2023 and
-selected by Standard Val positive-query mAP. Starting another aux-only
-fine-tuning stage would be continued auxiliary training, not the requested
-ablation.
+E3为 Balanced BCE 加 `0.2 × Dice`，辅助损失总系数为`0.1`。该阶段没有
+GEQ模块、GEQ BCE、GEQ logit或GEQ推理分支。所有checkpoint均使用
+`seed=2023`从头训练，并按Standard Val正查询mAP选模。
 
-Therefore the completed GMR `best.pt` files and their existing fixed Test
-artifacts must be reused. No completed experiment is retrained and no
-multi-seed queue is launched.
+因此，再启动一个aux-only微调阶段会变成“在已经完成的aux-only模型上继续
+训练aux”，不再是所需消融。后续必须复用已经完成的GMR `best.pt`及固定Test
+产物；不重训已完成实验，也不安排多seed。
 
-## Existing training and Test flow
+## 已完成的训练与测试流程
 
-For each backbone, the completed aux-only flow is:
+每个骨干已经执行了以下Aux-only流程：
 
-1. Standard Train from random initialization.
-2. Optimize the backbone's native GMR objective plus E3 auxiliary clip loss.
-3. Evaluate Standard Val after every epoch.
-4. Select `best.pt` by Standard Val positive-query mAP with patience 20 and a
-   maximum of 200 epochs.
-5. Freeze the selected checkpoint before formal Test.
-6. Evaluate the same fixed `best.pt` on Standard Test and Full-Decodable Test.
-7. Store predictions, metrics, checkpoint/source/data hashes, and completion
-   markers. Test values never select or modify a checkpoint.
+1. 在Standard Train上从随机初始化开始训练。
+2. 优化骨干原生GMR目标与E3辅助clip损失。
+3. 每个epoch在Standard Val上评测。
+4. 按Standard Val正查询mAP选择`best.pt`，patience为20，最多200轮。
+5. 正式Test前冻结已选checkpoint。
+6. 同一个固定`best.pt`分别评测Standard Test与Full-Decodable Test。
+7. 保存预测、指标、checkpoint/source/data哈希及完成标记；Test结果不参与
+   checkpoint选择，也不反向修改阈值或模型。
 
-The eleven backbones are Moment-DETR, EaTR, QD-DETR, CG-DETR, Sim-DETR,
-BM-DETR, BAM-DETR, UVCOM, TR-DETR, TaskWeave, and LD-DETR. Moment-DETR reuses
-its already-completed historical E3 checkpoint with its original provenance;
-the other ten use the common frozen 11-backbone source.
+覆盖的11个骨干为Moment-DETR、EaTR、QD-DETR、CG-DETR、Sim-DETR、
+BM-DETR、BAM-DETR、UVCOM、TR-DETR、TaskWeave和LD-DETR。Moment-DETR
+复用已经完成的历史E3 checkpoint并保留原始溯源；其余10个骨干使用统一冻结的
+11骨干源码版本。
 
-## Direct evaluation artifacts
+## 已有产物位置
 
-The original run root is:
+原始训练目录：
 
 `runs/e3_eleven/formal/<backbone>/gmr/`
 
-The fixed Test artifacts are:
+固定Test产物：
 
 `runs/e3_eleven/formal/<backbone>/gmr_test/test_standard/`
 
 `runs/e3_eleven/formal/<backbone>/gmr_test/test_full/`
 
-The publication copy is under `results/e3_eleven/`, including:
+发布结果位于`results/e3_eleven/`，主要包括：
 
-- `METRICS.csv`: all 11 backbones and both stages/splits;
-- `predictions/<backbone>/gmr/`: fixed aux-only Test predictions and metrics;
-- `provenance/<backbone>/gmr/`: Val history, selection, and completion records;
-- `training_val_panel.png/.pdf`: completed training/Val progress;
-- `STANDARD_TEST.*` and `FULL_TEST.*`: full threshold curves;
-- `RETENTION86_METRICS.csv`: the 86% Val-retention scan.
+- `METRICS.csv`：11骨干、两个阶段和两个测试集的汇总指标；
+- `predictions/<backbone>/gmr/`：Aux-only固定Test预测与指标；
+- `provenance/<backbone>/gmr/`：Val历史、选模记录与完成标记；
+- `training_val_panel.png/.pdf`：已经完成的训练/Val进度图；
+- `STANDARD_TEST.*`与`FULL_TEST.*`：完整存在性阈值曲线；
+- `RETENTION86_METRICS.csv`：86% Val正查询保留率扫描。
 
-In current figures, the grey series named **GMR baseline** is this aux-only
-method. Adding a second “aux-only” series would duplicate the same values.
+当前图中灰色、名为 **GMR baseline** 的系列就是Aux only。再增加一条
+“Aux only”曲线会重复同一批数值。
 
-## Required direct-test audit
+## 下一步只读测试与审计
 
-Before reporting the existing results again, perform read-only checks rather
-than new training:
+清空上下文后继续时，不启动训练，按以下顺序直接审计既有结果：
 
-1. Verify every `best.pt` hash against its GMR completion marker.
-2. Verify source identity, configuration identity, and Train/Val asset hashes.
-3. Confirm every checkpoint stage is `gmr` and its model contains the
-   query-aware auxiliary head but no GEQ parameters.
-4. Verify Standard Test has 1,036 rows and Full-Decodable Test has 2,970 rows.
-5. Recompute saved metrics from the hashed predictions and ground truth.
-6. Recompute G-mIoU@1/@3 threshold curves without model inference.
-7. Confirm the selected checkpoint predates Test evaluation and
-   `test_used_for_selection=false`.
-8. Reuse the completed training progress panel; no live monitor is necessary
-   because all eleven training histories are final.
+1. 核对每个`best.pt`哈希与GMR完成标记一致。
+2. 核对源码身份、配置身份和Train/Val资产哈希。
+3. 确认checkpoint阶段为`gmr`，模型含query-aware辅助头且不含GEQ参数。
+4. 确认Standard Test为1,036条，Full-Decodable Test为2,970条。
+5. 从已保存预测和GT重新计算mAP与G-mIoU，并与metrics文件逐项比较。
+6. 从固定预测重新计算G-mIoU@1/@3的完整阈值曲线，不重新训练模型。
+7. 确认checkpoint在Test之前已经选定，且`test_used_for_selection=false`。
+8. 直接复用已完成的训练进度图；11个训练历史都已结束，不需要实时训练监控。
 
-If a Test artifact is missing or corrupt, rerun **Test inference only** from
-the already-selected `best.pt`. Training may be relaunched only if a selected
-checkpoint itself fails the hash/provenance audit.
+如果某个Test产物缺失或损坏，只从已经选定的`best.pt`重跑对应Test推理。
+只有当选定checkpoint本身无法通过哈希或溯源审计时，才讨论重新训练。
 
-## Interpretation relative to other methods
+## 与其他方法的正确命名关系
 
-The intended method names are:
+- **GMR no-aux baseline**：仅原生GMR；
+- **Aux only**：当前灰色系列，即原生GMR加E3辅助监督；
+- **GEQ only**：无aux的GMR后接GEQ；
+- **GEQ+aux**：辅助训练的GMR后接GEQ，并在第二阶段继续使用aux。
 
-- **GMR no-aux baseline**: native GMR only;
-- **Aux only**: the current grey series, native GMR plus E3 supervision;
-- **GEQ only**: no-aux GMR followed by GEQ;
-- **GEQ+aux**: auxiliary-trained GMR followed by GEQ with auxiliary loss.
-
-The currently imported GEQ-only reference does not share the same Stage-1
-parent/protocol for every backbone, so its difference from aux-only is an
-outcome-level reference rather than a fully controlled causal ablation. A
-strict four-way causal comparison would require a separately frozen no-aux GMR
-parent and matched second-stage branches; it must not be fabricated by
-renaming or retraining the already-completed aux-only checkpoints.
+当前导入的GEQ-only参考结果并非所有骨干都共享同一个Stage-1父模型和训练协议，
+因此它与Aux-only的差值属于绝对结果参考，不能直接解释为严格的aux因果增益。
+若后续需要严格四路受控对比，应另外冻结统一的no-aux GMR父模型，再从同一父模型
+建立匹配的第二阶段分支；不能通过重新命名或重复训练现有Aux-only checkpoint来伪造
+这一对照。
