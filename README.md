@@ -4,7 +4,7 @@
 
 主要观察：相对各自的 GMR baseline，GEQ+aux 在 Standard / Full 上分别有 **9/11、7/11** 个骨干的 mAP 提高，**9/11、8/11** 个骨干的 G1 提高；存在下降结果。Moment-DETR 的同起点对照表明，在 GEQ 中继续加入 aux 提高了 mAP，但 G1 略降。
 
-[方法与命名](#方法与命名) · [11骨干效果对比](#11骨干效果对比) · [高事件保留率](#retention-analysis) · [Moment-DETR 对照](#moment-detr同起点对照) · [复现与数据](#复现与数据) · [历史实验](docs/HISTORICAL_EXPERIMENTS.md)
+[方法与命名](#方法与命名) · [11骨干效果对比](#11骨干效果对比) · [高事件保留率](#高事件保留率场景全部11骨干) · [Moment-DETR 对照](#moment-detr同起点对照) · [复现与数据](#复现与数据) · [历史实验](docs/HISTORICAL_EXPERIMENTS.md)
 
 ## 方法与命名
 
@@ -100,62 +100,100 @@ mAP 有7/11个骨干提高，G1有8/11个提高；BAM-DETR、TR-DETR、TaskWeave
 
 </details>
 
-<a id="retention-analysis"></a>
+## 高事件保留率场景：全部11骨干
 
-## 高事件保留率场景：86%目标、9骨干探索性子集
+本节问：**希望尽量保留真实事件查询、供用户继续复核片段时，GEQ+aux 表现如何？** “保留率”仅表示真实事件查询通过存在性门控，不等于定位正确率。
 
-按本轮扫描结果，本节展示 **86% Val正查询保留率目标、0.01存在性阈值网格**下，在Standard与Full的G1都提高的9个骨干：EaTR、QD-DETR、CG-DETR、Sim-DETR、BM-DETR、BAM-DETR、UVCOM、TR-DETR、TaskWeave。
+本节覆盖本轮**全部11个骨干**：Moment-DETR、EaTR、QD-DETR、CG-DETR、Sim-DETR、BM-DETR、BAM-DETR、UVCOM、TR-DETR、TaskWeave、LD-DETR；每个都展示 Standard 与 Full 上的 GMR baseline / GEQ+aux 结果，保留所有下降项。
 
-**这9个骨干是在查看本轮Test扫描后选出的探索性子集**，剔除了Moment-DETR和LD-DETR。它不能用来声称全部11骨干均提高或作为独立验证。模型checkpoint仍为既有Val best；每个骨干、每种方法的阈值只在Standard Val上选，固定用于两套Test。
+每个骨干、每种方法分别在 **Standard Val 上选择正查询保留率≥95%的最大候选阈值**，再固定用于两套 Test，严格 `score > threshold`。阈值规则沿用[原分支分析](https://github.com/chinagalaxy2002/Improving-Target-Presence-for-Generalized-Moment-Retrieval/tree/682db34ab0511ce0ebfd69e9b966150cac6473a5/results/high_retention)；当前统计范围已从早期六骨干扩展至全部11骨干，未按 Test 增益筛选。
 
-### Standard Test：86%目标、9骨干
+### Standard Test：参考样式曲线图
 
-每个骨干一行，左列G-mIoU@1、右列G-mIoU@3。灰色为GMR baseline，绿色为GEQ+aux；菱形为各自Val保留率≥86%的工作点。图例给出mAP和阈值，ΔG1/G3在工作点计算，单位为百分点。
+下图按参考图的方式，每个骨干占一行，左列 **G-mIoU@1**、右列 **G-mIoU@3**。灰色实线圆点为 GMR baseline，绿色点划线三角为 GEQ+aux；图例给出 mAP 和各自的 `τ95`。**菱形标记 Val 正查询保留率≥95%选出的工作点**（0.01网格），行下方的 ΔG1/ΔG3 也在这些工作点计算，单位为百分点。
 
-![Standard Test：86%目标的9骨干探索性子集](results/e3_retention_scan/selected_86/STANDARD_TEST.png)
+![Standard Test：11骨干阈值曲线与高保留率工作点](results/e3_high_retention/STANDARD_TEST.png)
 
-[PDF](results/e3_retention_scan/selected_86/STANDARD_TEST.pdf) · [SVG](results/e3_retention_scan/selected_86/STANDARD_TEST.svg) · [每骨干单页PDF](results/e3_retention_scan/selected_86/STANDARD_BY_BACKBONE.pdf)
+[Standard PDF](results/e3_high_retention/STANDARD_TEST.pdf) · [SVG](results/e3_high_retention/STANDARD_TEST.svg) · [每骨干单页 PDF](results/e3_high_retention/STANDARD_BY_BACKBONE.pdf)
 
-### Full-Decodable Test：86%目标、9骨干
+### Full-Decodable Test：参考样式曲线图
 
-Full使用与Standard相同的Val阈值。曲线纵轴为0–1，0.01对应1个百分点。黑色Oracle虚线使用GT存在性及固定候选，仅作分析参考。完整曲线不用于Test选阈值。
+Full 使用与 Standard 相同的 Val 选定阈值，覆盖全部11个骨干。曲线横轴均为存在性阈值0–1；纵轴采用与参考图一致的0–1分数单位，**0.01的纵轴差对应1个百分点**。完整曲线用于展示阈值响应，未按 Test 曲线选参。
 
-![Full-Decodable Test：86%目标的9骨干探索性子集](results/e3_retention_scan/selected_86/FULL_TEST.png)
+![Full-Decodable Test：11骨干阈值曲线与高保留率工作点](results/e3_high_retention/FULL_TEST.png)
 
-[PDF](results/e3_retention_scan/selected_86/FULL_TEST.pdf) · [SVG](results/e3_retention_scan/selected_86/FULL_TEST.svg) · [每骨干单页PDF](results/e3_retention_scan/selected_86/FULL_BY_BACKBONE.pdf) · [两图合集](results/e3_retention_scan/selected_86/BOTH_TESTS.pdf)
+[Full PDF](results/e3_high_retention/FULL_TEST.pdf) · [SVG](results/e3_high_retention/FULL_TEST.svg) · [每骨干单页 PDF](results/e3_high_retention/FULL_BY_BACKBONE.pdf) · [两套曲线图合集](results/e3_high_retention/BOTH_TESTS.pdf)
 
-所选9骨干在两套Test的G1、G3均为正增益，mAP下降项如实保留。子集内平均值如下，**只代表选出的9骨干，不是全部11骨干平均**：
+两张图中的黑色 Oracle 虚线，表示用真实事件存在性替代门控、保留各方法固定定位候选后的两方法最高分，仅作分析参考。mAP使用未门控正查询候选；它与全查询 G-mIoU 的计分范围不同。[Oracle原值](results/e3_high_retention/ORACLE.csv) · [完整绘图数据](results/e3_high_retention/CURVE_PLOT_DATA.json) · [曲线/工作点/Oracle核验](results/e3_high_retention/CURVE_FIGURE_AUDIT.json)
 
-| Test | GMR baseline平均G1 | GEQ+aux平均G1 | ΔG1百分点 | ΔG3百分点 | GEQ+aux实际正查询保留率 |
-|---|---:|---:|---:|---:|---:|
-| Standard | 16.586 | 21.091 | +4.504 | +4.447 | 88.03% |
-| Full-Decodable | 15.786 | 19.473 | +3.687 | +3.684 | 92.68% |
+### 高保留率汇总与阈值粒度复核
 
-### 筛选依据与未纳入的两个骨干
-
-| 未纳入骨干 | 86%下Standard ΔG1 | 86%下Full ΔG1 |
-|---|---:|---:|
-| Moment-DETR | +1.561 | −0.313 |
-| LD-DETR | −0.053 | −0.243 |
-
-[9骨干数值与筛选说明](results/e3_retention_scan/selected_86/README.md) · [剔除项原值](results/e3_retention_scan/selected_86/EXCLUDED.csv) · [图表审计](results/e3_retention_scan/selected_86/AUDIT.json)
-
-### 保留率扫描与完整范围复核
-
-对0%–100%目标以及Val的全部256种正查询数量约束扫描后，**没有统一目标能让全部11骨干在两套Test的G1均提高**。0.01网格最多同时提高9个，完整Val分数断点最多8个。86%的粗网格平均增益较大，但同目标的断点复核在Full上平均为负，不能据此声称86%在所有阈值规则下更稳健。
-
-[完整扫描报告](results/e3_retention_scan/README.md) · [全范围扫描图](results/e3_retention_scan/TARGET_SWEEP.png) · [Standard热图](results/e3_retention_scan/STANDARD_G1_GAIN.png) · [Full热图](results/e3_retention_scan/FULL_G1_GAIN.png) · [全部11骨干逐目标CSV](results/e3_retention_scan/METRICS.csv)
+0.01网格下，Standard / Full 均有9/11个骨干的 G1 提高，平均提高1.654 / 0.986个百分点。下方保留原柱状图 A/B、逐骨干数值，以及更细的 Val 分数断点复核。
 
 <details>
-<summary>展开原95%目标、全部11骨干的完整图表与结果</summary>
+<summary>展开柱状图 A/B、全部11骨干数值及阈值粒度复核</summary>
 
-以下为筛选前的95%设置，保留全部11骨干及下降项；每个方法仍按Val≥95%选择各自最大0.01网格阈值。
+### 柱状图 A/B 的阈值规则区别
 
-![原95% Standard：全部11骨干](results/e3_high_retention/STANDARD_TEST.png)
+**两张图使用相同模型、相同 checkpoint 和相同 Test 数据，仅阈值候选不同；每张图都是左侧 Standard、右侧 Full，包含全部11骨干。**
 
-![原95% Full：全部11骨干](results/e3_high_retention/FULL_TEST.png)
+| 项目 | 图 A：0.01网格主结果 | 图 B：Val分数断点复核 |
+|---|---|---|
+| 在 Val 上试哪些阈值 | 0.00、0.01、0.02…1.00 | Val 中实际出现的所有分数，再加0/1 |
+| 选阈值目标 | 保留至少95%正查询，取最大候选阈值 | 相同 |
+| 作用 | 保持与原分支相同的网格规则 | 检查结论是否依赖0.01的阈值粒度 |
 
-[原95%详细报告](results/e3_high_retention/README.md) · [原两图PDF](results/e3_high_retention/BOTH_TESTS.pdf) · [95%与断点复核CSV](results/e3_high_retention/METRICS.csv)
+**实例：** Moment-DETR 的 GMR baseline 在图 A 选到 **0.42**，Val 保留率100%；图 B 选到约 **0.428048**，Val 保留率95.29%。细化候选后可以在0.42与0.43之间选择，从而改变 Test 上保留和拒绝的查询数量，G1也随之变化。更细的搜索不保证 Test G1 更高；mAP不使用门控，在两种规则下保持相同。
+
+### 图 A：0.01网格主结果（全部11骨干）
+
+Standard / Full 都有 **9/11** 个骨干提高，11骨干等权平均 G1 分别提高 **1.654 / 0.986 个百分点**。BAM-DETR、LD-DETR在两套 Test 上下降。
+
+灰色方形为 GMR baseline，蓝色圆形为 GEQ+aux；横柱末端标注每个骨干的实际 G1。
+
+![图A：全部11骨干高保留率0.01网格主结果](results/e3_high_retention/PRIMARY.png)
+
+[主图 PDF](results/e3_high_retention/PRIMARY.pdf) · [SVG](results/e3_high_retention/PRIMARY.svg)
+
+<details>
+<summary>展开全部11骨干的精确数值（图 A）</summary>
+
+| 骨干 | Standard G1：baseline → GEQ+aux | Δ百分点 | Full G1：baseline → GEQ+aux | Δ百分点 |
+|---|---:|---:|---:|---:|
+| Moment-DETR | 4.774 → 7.105 | +2.331 | 4.991 → 6.278 | +1.286 |
+| EaTR | 21.060 → 22.524 | +1.464 | 21.116 → 22.108 | +0.992 |
+| QD-DETR | 16.586 → 17.580 | +0.994 | 14.337 → 14.508 | +0.172 |
+| CG-DETR | 4.026 → 9.626 | +5.600 | 4.253 → 7.461 | +3.208 |
+| Sim-DETR | 15.494 → 18.810 | +3.316 | 15.180 → 17.880 | +2.700 |
+| BM-DETR | 6.692 → 7.954 | +1.262 | 6.576 → 7.106 | +0.530 |
+| BAM-DETR | 27.086 → 25.101 | -1.985 | 25.715 → 23.948 | -1.767 |
+| UVCOM | 21.630 → 22.074 | +0.444 | 21.393 → 22.548 | +1.155 |
+| TR-DETR | 1.725 → 4.447 | +2.722 | 2.380 → 3.300 | +0.920 |
+| TaskWeave | 3.211 → 5.314 | +2.103 | 3.045 → 4.934 | +1.888 |
+| LD-DETR | 3.824 → 3.771 | -0.053 | 3.887 → 3.644 | -0.243 |
+
+</details>
+
+<details>
+<summary>展开图 B：全部11骨干的 Val分数断点复核</summary>
+
+复核中 Standard / Full 分别有 **9/11、8/11** 个骨干提高，平均 G1 分别提高 **0.910 / 0.324 个百分点**。BAM-DETR、LD-DETR在两套 Test 下降，QD-DETR在 Full 也下降。增益幅度及个别骨干的方向对阈值粒度有敏感性。
+
+![图B：全部11骨干高保留率Val分数断点复核](results/e3_high_retention/EXACT_THRESHOLDS.png)
+
+[复核图 PDF](results/e3_high_retention/EXACT_THRESHOLDS.pdf) · [SVG](results/e3_high_retention/EXACT_THRESHOLDS.svg)
+
+</details>
+
+| 阈值规则 | Standard 平均G1：baseline → GEQ+aux | Δ百分点 | Full 平均G1：baseline → GEQ+aux | Δ百分点 |
+|---|---:|---:|---:|---:|
+| 图 A：0.01网格 | 11.464 → 13.119 | +1.654 | 11.170 → 12.156 | +0.986 |
+| 图 B：Val分数断点 | 13.416 → 14.326 | +0.910 | 12.646 → 12.970 | +0.324 |
+
+95%只约束 Val，不保证 Test 仍达到95%。主分析中 GEQ+aux 的11骨干平均 Test 正查询保留率为 **96.37% / 97.95%**，空查询误返回率为 **89.50% / 90.45%**。本节使用 Val 选出的阈值，不能与前文固定0.4/0.5/0.6均值混为同一设置。
+
+[全部11骨干详细报告与 mAP/G1/G3 表](results/e3_high_retention/README.md) · [各模型阈值与实际保留率](results/e3_high_retention/DECISIONS.csv) · [完整指标 CSV](results/e3_high_retention/METRICS.csv) · [176项 G1/G3 核验](results/e3_high_retention/AUDIT.json)
+
 
 </details>
 
@@ -186,7 +224,6 @@ pip install -e '.[test,report]'
 python scripts/plot_e3_test_summary.py
 python scripts/plot_e3_test_results.py
 PYTHONPATH=src python scripts/plot_e3_retention_curves.py
-PYTHONPATH=src python scripts/plot_e3_selected86_curves.py
 PYTHONPATH=src python scripts/report_e3_high_retention.py --verify-only
 PYTHONPATH=src python scripts/verify_e3_publication.py
 ```
