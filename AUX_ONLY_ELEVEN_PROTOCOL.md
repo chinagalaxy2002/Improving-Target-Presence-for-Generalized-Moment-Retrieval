@@ -1,9 +1,9 @@
-# 11骨干 Aux-only 结果复用与评测方案
+# 11骨干 GMR(aux) 结果复用与四方法评测方案
 
 ## 结论：不需要重新训练
 
-11骨干结果中此前标为 **GMR baseline** 的方法，实际上已经是本次要求的
-**Aux only**：
+11骨干结果中此前误标为 **GMR baseline** 的方法，实际上是
+**GMR(aux)**：
 
 `原生GMR损失 + E3 query-aware clip辅助监督`
 
@@ -11,13 +11,13 @@ E3为 Balanced BCE 加 `0.2 × Dice`，辅助损失总系数为`0.1`。该阶段
 GEQ模块、GEQ BCE、GEQ logit或GEQ推理分支。所有checkpoint均使用
 `seed=2023`从头训练，并按Standard Val正查询mAP选模。
 
-因此，再启动一个aux-only微调阶段会变成“在已经完成的aux-only模型上继续
+因此，再启动一个GMR(aux)微调阶段会变成“在已经完成的GMR(aux)模型上继续
 训练aux”，不再是所需消融。后续必须复用已经完成的GMR `best.pt`及固定Test
 产物；不重训已完成实验，也不安排多seed。
 
 ## 已完成的训练与测试流程
 
-每个骨干已经执行了以下Aux-only流程：
+每个骨干已经执行了以下GMR(aux)流程：
 
 1. 在Standard Train上从随机初始化开始训练。
 2. 优化骨干原生GMR目标与E3辅助clip损失。
@@ -48,14 +48,14 @@ BM-DETR、BAM-DETR、UVCOM、TR-DETR、TaskWeave和LD-DETR。Moment-DETR
 发布结果位于`results/e3_eleven/`，主要包括：
 
 - `METRICS.csv`：11骨干、两个阶段和两个测试集的汇总指标；
-- `predictions/<backbone>/gmr/`：Aux-only固定Test预测与指标；
+- `predictions/<backbone>/gmr/`：GMR(aux)固定Test预测与指标；
 - `provenance/<backbone>/gmr/`：Val历史、选模记录与完成标记；
 - `training_val_panel.png/.pdf`：已经完成的训练/Val进度图；
 - `STANDARD_TEST.*`与`FULL_TEST.*`：完整存在性阈值曲线；
 - `RETENTION86_METRICS.csv`：86% Val正查询保留率扫描。
 
-当前图中灰色、名为 **GMR baseline** 的系列就是Aux only。再增加一条
-“Aux only”曲线会重复同一批数值。
+当前图中灰色、原名 **GMR baseline** 的系列就是GMR(aux)，必须更名为
+**GMR(aux)**。再增加一条GMR(aux)曲线会重复同一批数值。
 
 ## 下一步只读测试与审计
 
@@ -75,22 +75,23 @@ BM-DETR、BAM-DETR、UVCOM、TR-DETR、TaskWeave和LD-DETR。Moment-DETR
 
 ## 后续测试的固定执行协议
 
-后续不是重新训练Aux-only，而是把已有固定checkpoint和预测整理成能够进入目标
+后续不是重新训练GMR(aux)，而是把已有固定checkpoint和预测整理成能够进入目标
 汇总图的统一数据。必须严格按以下步骤执行。
 
 ### 1. 先固定方法名与数据来源
 
 | 图中方法名 | 实际模型 | 数据来源 | 是否含GEQ |
 |---|---|---|---|
-| GMR no-aux（reference） | 仅原生GMR | `soccergmr-standard-geq-full`分支中GEQ训练前的GMR父模型 | 否 |
-| Aux only | 当前11骨干结果中原名`gmr`/`GMR baseline`的模型 | 当前E3 11骨干固定结果 | 否 |
-| GEQ only（reference） | no-aux GMR后接原始GEQ | `soccergmr-standard-geq-full`分支 | 是 |
-| GEQ+aux | Aux-only GMR后接GEQ，并在第二阶段保留aux | 当前E3 11骨干固定结果 | 是 |
+| GMR baseline | 仅原生GMR | `soccergmr-standard-geq-full`分支中GEQ训练前的GMR父模型 | 否 |
+| GMR(aux) | 当前11骨干结果中原名`gmr`/`GMR baseline`的模型 | 当前E3 11骨干固定结果 | 否 |
+| GEQ only（reference） | GMR baseline后接原始GEQ | `soccergmr-standard-geq-full`分支 | 是 |
+| GEQ+aux | GMR(aux)后接GEQ，并在第二阶段保留aux | 当前E3 11骨干固定结果 | 是 |
 
-**禁止事项：**不能把当前`gmr`数据同时画成“GMR baseline”和“Aux only”两条
-柱；二者是同一批checkpoint和预测。要形成四方法图，必须另外读取真正的
-no-aux GMR结果。若no-aux GMR的Val或Test预测无法完整审计，则先生成三方法图，
-只把当前灰色系列改名为`Aux only`，不得用复制数据补出第四条。
+**禁止事项：**不能把当前E3 `gmr`数据同时画成“GMR baseline”和“GMR(aux)”
+两条柱；二者是同一批checkpoint和预测。要形成四方法图，必须从参考分支另行
+读取真正的原始GMR baseline结果。若原始GMR baseline的Val或Test预测无法完整
+审计，则先生成三方法图，只把当前灰色系列改名为`GMR(aux)`，不得用复制数据
+补出第四条。
 
 ### 2. 对四种方法分别做Standard Val阈值校准
 
@@ -139,7 +140,7 @@ checkpoint哈希、Val/Test预测哈希及来源提交。
 9. TaskWeave
 
 Moment-DETR和LD-DETR继续留在完整CSV与全11骨干审计中。加入No-aux GMR或
-Aux-only正确命名后，不得重新查看Test并改变这9个骨干的交集，否则会形成新的
+GMR(aux)正确命名后，不得重新查看Test并改变这9个骨干的交集，否则会形成新的
 Test后筛选偏差。图注继续明确这是既有探索性9/11子集。
 
 ## 目标对比图的精确定义
@@ -162,30 +163,30 @@ Test后筛选偏差。图注继续明确这是既有探索性9/11子集。
 
 | 顺序 | 方法 | 颜色 | 标记 |
 |---:|---|---|---|
-| 1 | GMR no-aux（reference） | 浅灰 | 方形 |
-| 2 | Aux only | 紫色 | 菱形 |
+| 1 | GMR baseline | 浅灰 | 方形 |
+| 2 | GMR(aux) | 紫色 | 菱形 |
 | 3 | GEQ only（reference） | 橙色 | 三角形 |
 | 4 | GEQ+aux | 蓝色 | 圆形 |
 
 Standard与Full必须使用相同骨干顺序、相同0起点和相同横轴上限。每条柱末端标注
 实际G-mIoU@1数值。为避免标签含义混乱，差值固定定义为：
 
-- `ΔAux = Aux only − GMR no-aux reference`；
-- `ΔGEQ(no-aux) = GEQ only − GMR no-aux reference`；
-- `ΔGEQ(aux) = GEQ+aux − Aux only`。
+- `ΔAux = GMR(aux) − GMR baseline`；
+- `ΔGEQ(no-aux) = GEQ only − GMR baseline`；
+- `ΔGEQ(aux) = GEQ+aux − GMR(aux)`。
 
 图标题列出9骨干四种方法的等权平均。图注必须写明每种方法独立在Standard Val
 校准阈值，并使用同一阈值测试Standard与Full。图内不得再使用含义不明确的
-`GMR baseline`简称。
+`GMR baseline`与`GMR(aux)`不得混用。
 
-如果no-aux GMR数据未通过审计，则目标图暂时保留三条柱：`Aux only`、
+如果原始GMR baseline数据未通过审计，则目标图暂时保留三条柱：`GMR(aux)`、
 `GEQ only (reference)`、`GEQ+aux`；此时只做正确重命名，不制作虚假的四方法图。
 
 ### README需要同步表达的内容
 
 图上方说明必须包含：
 
-1. 当前原`GMR baseline`已经更名为`Aux only`；
+1. 当前原`GMR baseline`已经更名为`GMR(aux)`；
 2. 四种方法的训练组成与父模型来源；
 3. 86% Val阈值校准规则与220/255的实际下限；
 4. 9骨干子集是此前Test后固定的探索性子集，未因新增方法重新筛选；
@@ -213,23 +214,23 @@ Standard与Full必须使用相同骨干顺序、相同0起点和相同横轴上�
 
 四方法图首先是结果层面对比，不自动构成严格的四路因果消融。当前参考分支中
 EaTR、QD-DETR、CG-DETR和Sim-DETR沿用历史patience6 / 75-token协议，另外
-5个展示骨干使用patience10 / 128-token扩展协议；当前Aux-only/GEQ+aux则来自
+5个展示骨干使用patience10 / 128-token扩展协议；当前GMR(aux)/GEQ+aux则来自
 E3 11骨干流程。
 
 因此，最可靠的同父模型比较是当前分支内部的
-`GEQ+aux − Aux only`；参考分支内部的`GEQ only − GMR no-aux`也应保持成对解释。
-跨分支的`Aux only − GMR no-aux`只能标为参考差值，不能单独归因于aux。README
+`GEQ+aux − GMR(aux)`；参考分支内部的`GEQ only − GMR baseline`也应保持成对解释。
+跨分支的`GMR(aux) − GMR baseline`只能标为参考差值，不能单独归因于aux。README
 和图注必须保留这一限制，不能使用“aux必然带来X个百分点提升”之类的因果表述。
 
 ## 与其他方法的正确命名关系
 
-- **GMR no-aux baseline**：仅原生GMR；
-- **Aux only**：当前灰色系列，即原生GMR加E3辅助监督；
+- **GMR baseline**：仅原生GMR；
+- **GMR(aux)**：当前灰色系列，即原生GMR加E3辅助监督；
 - **GEQ only**：无aux的GMR后接GEQ；
 - **GEQ+aux**：辅助训练的GMR后接GEQ，并在第二阶段继续使用aux。
 
 当前导入的GEQ-only参考结果并非所有骨干都共享同一个Stage-1父模型和训练协议，
-因此它与Aux-only的差值属于绝对结果参考，不能直接解释为严格的aux因果增益。
+因此它与GMR(aux)的差值属于绝对结果参考，不能直接解释为严格的aux因果增益。
 若后续需要严格四路受控对比，应另外冻结统一的no-aux GMR父模型，再从同一父模型
-建立匹配的第二阶段分支；不能通过重新命名或重复训练现有Aux-only checkpoint来伪造
+建立匹配的第二阶段分支；不能通过重新命名或重复训练现有GMR(aux) checkpoint来伪造
 这一对照。
