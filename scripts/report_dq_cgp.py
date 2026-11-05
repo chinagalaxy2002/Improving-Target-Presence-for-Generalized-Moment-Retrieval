@@ -25,7 +25,7 @@ BASELINE_VAL_MAP = {
     "moment_detr": 7.35,
     "eatr": 19.34,
     "qd_detr": 17.51,
-    "cg_detr": 8.65,
+    "cg_detr": 20.98,
     "sim_detr": 22.84,
     "bm_detr": 3.61,
     "bam_detr": 25.49,
