@@ -76,12 +76,12 @@ def main():
     done = set()
     failure = None
 
-    jobs = [(name, kind) for name in backbones for kind in ("gmr", "gmr_test")]
+    jobs = [(name, kind) for name in backbones for kind in ("gmr", "gmr_test", "geq_full", "geq_full_test")]
 
     def complete(job):
         name, kind = job
         directory = root / name / kind
-        if kind == "gmr_test":
+        if kind.endswith("_test"):
             for split in ("test_standard", "test_full"):
                 part = directory / split
                 marker = part / "complete.json"
@@ -104,13 +104,19 @@ def main():
 
     def deps(job):
         name, kind = job
-        return [] if kind == "gmr" else [(name, "gmr")]
+        if kind == "gmr":
+            return []
+        elif kind in ("gmr_test", "geq_full"):
+            return [(name, "gmr")]
+        elif kind == "geq_full_test":
+            return [(name, "geq_full")]
 
     def command(job, gpu):
         name, kind = job
         output = root / name / kind
         common = [args.python, "-m", "soccergmr"]
-        if kind == "gmr_test":
+        if kind.endswith("_test"):
+            stage = kind[:-5]
             return common + [
                 "test",
                 "--config",
@@ -118,7 +124,7 @@ def main():
                 "--output",
                 str(output),
                 "--checkpoint",
-                str(root / name / "gmr" / "best.pt"),
+                str(root / name / stage / "best.pt"),
                 "--device",
                 f"cuda:{gpu}",
             ]
@@ -133,6 +139,8 @@ def main():
             "--device",
             f"cuda:{gpu}",
         ]
+        if kind == "geq_full":
+            cmd += ["--baseline", str(root / name / "gmr" / "best.pt")]
         if (output / "last.pt").is_file():
             cmd += ["--resume"]
         return cmd
@@ -167,6 +175,11 @@ def main():
             else:
                 done.add(job)
                 print(f"JOB COMPLETED: {job} on GPU {gpu}")
+                try:
+                    subprocess.run([args.python, str(ROOT / "scripts" / "plot_dq_cgp_progress.py")], capture_output=True)
+                    subprocess.run([args.python, str(ROOT / "scripts" / "plot_test_thresholds_dq_cgp.py")], capture_output=True)
+                except Exception:
+                    pass
 
         if failure is None:
             for job in jobs:
