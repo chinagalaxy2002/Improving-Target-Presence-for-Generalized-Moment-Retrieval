@@ -53,6 +53,7 @@ def main():
     )
     parser.add_argument("--gpus", default="0,1")
     parser.add_argument("--backbones", default=",".join(ALL_BACKBONES))
+    parser.add_argument("--max_per_gpu", type=int, default=3)
     args = parser.parse_args()
 
     backbones = tuple(b.strip() for b in args.backbones.split(",") if b.strip())
@@ -173,9 +174,9 @@ def main():
                     continue
                 if not all(x in done for x in deps(job)):
                     continue
-                # At most 1 worker per GPU
+                # At most args.max_per_gpu workers per GPU
                 counts = {gpu: sum(value[1] == gpu for value in workers.values()) for gpu in gpus}
-                available = [gpu for gpu in gpus if counts[gpu] < 1]
+                available = [gpu for gpu in gpus if counts[gpu] < args.max_per_gpu]
                 if not available:
                     break
                 gpu = min(available, key=lambda x: counts[x])
