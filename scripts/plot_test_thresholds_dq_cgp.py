@@ -40,6 +40,7 @@ BACKBONES = [
     ("bm_detr", "BM-DETR"),
     ("bam_detr", "BAM-DETR"),
     ("uvcom", "UVCOM"),
+    ("flashvtg", "FlashVTG"),
 ]
 
 GT_PATHS = {
@@ -119,6 +120,17 @@ def load_historical_baseline(name, split, gt):
         if curves:
             curves["mAP"] = metrics["brief"]["mAP"]
             return curves
+
+    # Try FlashVTG reference results
+    if name == "flashvtg":
+        flash_dir = Path("/home/guoxiangyu/ImprovingGeneralizedMomentRetrieval/soccergmr_standard/d_gmr_two_stage/stage_0_gmr/reference_results/flashvtg/gmr")
+        pred_file = flash_dir / ("test_predictions.jsonl" if split == "standard" else "full_test_predictions.jsonl")
+        if pred_file.is_file():
+            preds = read_jsonl(pred_file)
+            curves = compute_curves_from_preds(preds, gt)
+            if curves:
+                curves["mAP"] = 25.43 if split == "standard" else 20.43
+                return curves
 
     return None
 

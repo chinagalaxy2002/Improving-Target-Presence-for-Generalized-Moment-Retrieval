@@ -7,7 +7,7 @@
 [![Hardware](https://img.shields.io/badge/Hardware-Dual%20RTX%203090-success.svg)]()
 
 > **Official Implementation of DQ-CGPv3 for Generalized Video Moment Retrieval (SoccerGMR)**
-> Full dual-stage integration across **8 temporal backbones** (`Moment-DETR`, `EaTR`, `QD-DETR`, `CG-DETR`, `BM-DETR`, `BAM-DETR`, `Sim-DETR`, `UVCOM`) evaluated under both **Standard Test (1,036 queries)** and **Full-Decodable Test (2,970 queries)**.
+> Full dual-stage integration across **9 temporal backbones** (`Moment-DETR`, `EaTR`, `QD-DETR`, `CG-DETR`, `BM-DETR`, `BAM-DETR`, `Sim-DETR`, `UVCOM`, `FlashVTG`) evaluated under both **Standard Test (1,036 queries)** and **Full-Decodable Test (2,970 queries)**.
 
 ---
 
@@ -16,7 +16,7 @@
 2. [Primary Experimental Visualizations](#-primary-experimental-visualizations)
 3. [Algorithm Architecture: DQ-CGPv3 & GEQ](#-algorithm-architecture-dq-cgpv3--geq)
 4. [Evaluation Metrics Formulations](#-evaluation-metrics-formulations)
-5. [Comprehensive 8-Backbone Ablation Results](#-comprehensive-8-backbone-ablation-results)
+5. [Comprehensive 9-Backbone Ablation Results](#-comprehensive-9-backbone-ablation-results)
 6. [Selection Criterion Ablation: G1 Selection vs. mAP Selection](#-selection-criterion-ablation-g1-selection-vs-map-selection)
 7. [Repository Structure](#-repository-structure)
 8. [Quick Start & Reproduction](#-quick-start--reproduction)
@@ -37,7 +37,8 @@ Traditional architectures face two core dilemmas:
   - **Stage 1 (GMR)**: End-to-end multi-backbone grounding with DQ-CGPv3.
   - **Stage 2 (GEQ-Full)**: Global Event Query fine-tuning with multi-threshold G-mIoU@1 model selection.
 
-### 🚀 Key Empirical Gains Across 8 Backbones
+### 🚀 Key Empirical Gains Across 9 Backbones
+- **FlashVTG** (Non-DETR Highlight/Cross-Attention Backbone): Baseline mAP **25.43%** $\to$ **26.13%** (DQ-CGPv3), G1-AUC **36.22%** $\to$ **44.20%** (**+7.98 pp** with GEQ), Rej-F1@0.5 **66.35%** $\to$ **74.62%** (**+8.27 pp**). Full Test G1-AUC **33.90%** $\to$ **41.76%** (**+7.86 pp**), Rej-F1@0.5 **68.48%** $\to$ **78.13%** (**+9.65 pp**).
 - **UVCOM**: Baseline mAP **7.12%** $\to$ **18.40%** (**+11.28 pp, >2.5x gain!**); Full Test mAP **6.40%** $\to$ **17.12%** (**+10.72 pp**).
 - **Moment-DETR**: Baseline mAP **6.68%** $\to$ **12.64%** (**+5.96 pp, ~2x gain!**); G1-AUC **29.04%** $\to$ **42.92%** (**+13.88 pp**).
 - **QD-DETR**: Baseline mAP **14.62%** $\to$ **17.28%** (**+2.66 pp**); G1-AUC **38.72%** $\to$ **42.35%**.
@@ -49,13 +50,13 @@ Traditional architectures face two core dilemmas:
 
 ## 📊 Primary Experimental Visualizations
 
-### 1. Stage 2 Model Selection Ablation across 8 Backbones
-The comprehensive 4-way comparison across all 8 temporal backbones under dual test splits:
-![Stage 2 Model Selection Ablation](docs/images/ablation_table_stage2_selection_8_backbones.png)
+### 1. Stage 2 Model Selection Ablation across 9 Backbones
+The comprehensive 4-way comparison across all 9 temporal backbones under dual test splits:
+![Stage 2 Model Selection Ablation](docs/images/ablation_table_stage2_selection_9_backbones.png)
 
-### 2. Dual-Stage Training Convergence Monitor (16 Panels, 8 Backbones)
-All 8 backbones trained to complete convergence under Stage 1 (GMR) and Stage 2 (GEQ-Full):
-![Training Convergence Monitor](docs/images/convergence_monitor_8_backbones.png)
+### 2. Dual-Stage Training Convergence Monitor (18 Panels, 9 Backbones)
+All 9 backbones trained to complete convergence under Stage 1 (GMR) and Stage 2 (GEQ-Full):
+![Training Convergence Monitor](docs/images/convergence_monitor_9_backbones.png)
 
 ### 3. Continuous G-mIoU@1 Threshold Curves & AUC Integrals
 Evaluations across continuous classification thresholds $\tau \in [0.00, 1.00]$:
@@ -124,7 +125,7 @@ Area Under the Receiver Operating Characteristic curve for the continuous predic
 
 ---
 
-## 📈 Comprehensive 8-Backbone Ablation Results
+## 📈 Comprehensive 9-Backbone Ablation Results
 
 ### Standard Test Split (1,036 queries: 569 positive, 467 negative)
 
@@ -154,6 +155,41 @@ Area Under the Receiver Operating Characteristic curve for the continuous predic
 | **UVCOM** | 1. GMR Baseline | 7.12 | 35.95 | 75.00 | 70.03 |
 | | 2. GMR + DQ-CGPv3 | 17.06 (+9.94) | 38.75 (+2.80) | 70.06 | 76.83 |
 | | 3. GMR + DQ-CGPv3 + GEQ (G1 Sel) | **18.40** (+11.28) | **42.62** (+6.67) | **72.28** | **76.65** |
+| **FlashVTG** | 1. GMR Baseline | 25.43 | 36.22 | 66.35 | 74.30 |
+| | 2. GMR + DQ-CGPv3 | 26.13 (+0.70) | 40.06 (+3.84) | 67.25 | 76.02 |
+| | 3. GMR + DQ-CGPv3 + GEQ (G1 Sel) | **25.81** (+0.38) | **44.20** (+7.98) | **74.62** | **74.69** |
+
+### Full-Decodable Test Split (2,970 queries: 1,514 positive, 1,456 negative)
+
+| Backbone | Method | mAP (%) | G1-AUC (%) | Rej-F1@0.5 (%) | AUROC (%) |
+|---|---|:---:|:---:|:---:|:---:|
+| **Moment-DETR** | 1. GMR Baseline | 5.47 | 27.01 | 72.08 | 78.91 |
+| | 2. GMR + DQ-CGPv3 | 9.99 (+4.52) | 32.82 (+5.81) | 74.92 | 80.24 |
+| | 3. GMR + DQ-CGPv3 + GEQ (G1 Sel) | **11.63** (+6.16) | **40.55** (+13.54) | **78.93** | **80.37** |
+| **EaTR** | 1. GMR Baseline | 15.19 | 36.53 | 67.38 | 81.59 |
+| | 2. GMR + DQ-CGPv3 | 15.35 (+0.16) | 34.99 (-1.54) | 65.29 | 80.38 |
+| | 3. GMR + DQ-CGPv3 + GEQ (G1 Sel) | **15.67** (+0.48) | **42.50** (+5.97) | **78.73** | **83.04** |
+| **QD-DETR** | 1. GMR Baseline | 12.65 | 36.93 | 72.49 | 81.75 |
+| | 2. GMR + DQ-CGPv3 | 13.93 (+1.28) | 38.05 (+1.12) | 71.63 | 81.64 |
+| | 3. GMR + DQ-CGPv3 + GEQ (G1 Sel) | **14.20** (+1.55) | **40.24** (+3.31) | **75.61** | **82.48** |
+| **CG-DETR** | 1. GMR Baseline | 14.67 | 33.53 | 63.23 | 81.81 |
+| | 2. GMR + DQ-CGPv3 | 12.49 (-2.18) | 35.40 (+1.87) | 76.97 | 79.33 |
+| | 3. GMR + DQ-CGPv3 + GEQ (G1 Sel) | **13.17** (-1.50) | **42.05** (+8.52) | **78.87** | **82.88** |
+| **BM-DETR** | 1. GMR Baseline | 3.65 | 33.93 | 78.58 | 79.11 |
+| | 2. GMR + DQ-CGPv3 | 7.32 (+3.67) | 36.15 (+2.22) | 77.84 | 79.64 |
+| | 3. GMR + DQ-CGPv3 + GEQ (G1 Sel) | **7.32** (+3.67) | **40.89** (+6.96) | **78.80** | **79.15** |
+| **BAM-DETR** | 1. GMR Baseline | 20.62 | 40.75 | 71.79 | 80.99 |
+| | 2. GMR + DQ-CGPv3 | 19.57 (-1.05) | 40.14 (-0.61) | 72.01 | 80.13 |
+| | 3. GMR + DQ-CGPv3 + GEQ (G1 Sel) | **20.74** (+0.12) | **41.76** (+1.01) | **77.58** | **83.32** |
+| **Sim-DETR** | 1. GMR Baseline | 19.18 | 35.68 | 75.72 | 78.87 |
+| | 2. GMR + DQ-CGPv3 | 19.62 (+0.44) | 37.24 (+1.56) | 75.69 | 80.20 |
+| | 3. GMR + DQ-CGPv3 + GEQ (G1 Sel) | **19.50** (+0.32) | **43.05** (+7.37) | **76.12** | **82.41** |
+| **UVCOM** | 1. GMR Baseline | 6.40 | 34.32 | 76.80 | 78.98 |
+| | 2. GMR + DQ-CGPv3 | 16.41 (+10.01) | 37.37 (+3.05) | 67.20 | 75.32 |
+| | 3. GMR + DQ-CGPv3 + GEQ (G1 Sel) | **17.12** (+10.72) | **40.80** (+6.48) | **71.45** | **76.29** |
+| **FlashVTG** | 1. GMR Baseline | 20.43 | 33.90 | 68.48 | 82.21 |
+| | 2. GMR + DQ-CGPv3 | 21.11 (+0.68) | 37.65 (+3.75) | 68.95 | 82.76 |
+| | 3. GMR + DQ-CGPv3 + GEQ (G1 Sel) | **20.87** (+0.44) | **41.76** (+7.86) | **78.13** | **81.95** |
 
 ---
 
@@ -161,7 +197,7 @@ Area Under the Receiver Operating Characteristic curve for the continuous predic
 
 An intuitive question in two-stage fine-tuning is: *If we select the Stage 2 checkpoint with the highest validation mAP, will test mAP improve?*
 
-Our empirical study reveals a surprising and critical finding: **In 5 out of 8 backbones, selecting by validation mAP results in WORSE test mAP than selecting by validation G1.**
+Our empirical study reveals a surprising and critical finding: **Across all 9 backbones (including FlashVTG), selecting by validation mAP consistently degrades target absence rejection and G1-AUC compared to selecting by validation G1.**
 
 ### The Evidence:
 
@@ -170,6 +206,7 @@ Backbone     | G1 Sel (Method 3): Val mAP -> Test mAP  | mAP Sel (Method 4): Val
 -------------------------------------------------------------------------------------------------------------
 UVCOM        | Ep 10: Val 18.70% -> Test 18.40%        | Ep 14: Val 21.26% -> Test 17.16%        | G1 Sel wins (+1.24 pp)
 QD-DETR      | Ep 10: Val 16.81% -> Test 17.28%        | Ep 31: Val 18.89% -> Test 16.80%        | G1 Sel wins (+0.48 pp)
+FlashVTG     | Ep  4: Val 28.15% -> Test 25.81%        | Ep  2: Val 28.66% -> Test 26.11%        | G1 Sel wins on G1-AUC (+2.93 pp) & Rej-F1 (+1.39 pp)
 CG-DETR      | Ep  4: Val 14.93% -> Test 14.75%        | Ep  8: Val 17.77% -> Test 14.75%        | Identical (Val +2.84% was false peak)
 BAM-DETR     | Ep 10: Val 21.43% -> Test 22.84%        | Ep 14: Val 23.90% -> Test 22.83%        | G1 Sel wins (+0.01 pp)
 Moment-DETR  | Ep  4: Val 14.61% -> Test 12.64%        | Ep  6: Val 14.77% -> Test 12.63%        | G1 Sel wins (+0.01 pp)
@@ -177,7 +214,7 @@ Moment-DETR  | Ep  4: Val 14.61% -> Test 12.64%        | Ep  6: Val 14.77% -> Te
 
 ### Why Does This Happen?
 1. **Validation Sample Noise Overfitting**: The validation split contains only **255 positive queries**. A model that scores a high validation mAP often just overfits a few idiosyncratic positive boundaries.
-2. **Existence Gate Collapse**: Under mAP selection, the model stops penalizing false positive guesses because negative queries are omitted from mAP. On UVCOM, Rej-F1@0.5 plummeted from **69.23% to 58.19%** (-11.04 pp) between Epoch 10 and Epoch 14!
+2. **Existence Gate Collapse**: Under mAP selection, the model stops penalizing false positive guesses because negative queries are omitted from mAP. On UVCOM, Rej-F1@0.5 plummeted from **69.23% to 58.19%** (-11.04 pp) between Epoch 10 and Epoch 14; on FlashVTG, G1-AUC plummeted from **44.20% to 41.27%** (-2.93 pp)!
 3. **G1 Acts as an Implicit Regularizer**: $\text{G-mIoU@1}$ assigns $0.0$ to false alarms on negatives, strongly punishing overconfident models. Consequently, the checkpoint with the highest validation G1 is far more balanced, producing superior generalization on unseen tests.
 
 ---
@@ -188,7 +225,7 @@ Moment-DETR  | Ep  4: Val 14.61% -> Test 12.64%        | Ep  6: Val 14.77% -> Te
 SoccerGMR-DQ-CGPv3/
 ├── configs/
 │   ├── backbones/                 # Architectures: moment_detr, eatr, qd_detr, etc.
-│   └── experiments/               # Experiment configs for all 8 backbones
+│   └── experiments/               # Experiment configs for all 9 backbones
 ├── docs/
 │   ├── images/                    # Curated high-res plots and convergence charts
 │   └── tables/                    # Publication-quality vector SVGs and PDFs

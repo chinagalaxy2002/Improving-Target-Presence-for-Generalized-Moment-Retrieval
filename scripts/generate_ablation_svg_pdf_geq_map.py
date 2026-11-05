@@ -31,6 +31,7 @@ ALL_BACKBONES = [
     ("bam_detr", "BAM-DETR"),
     ("sim_detr", "Sim-DETR"),
     ("uvcom", "UVCOM"),
+    ("flashvtg", "FlashVTG"),
 ]
 
 METHODS = [

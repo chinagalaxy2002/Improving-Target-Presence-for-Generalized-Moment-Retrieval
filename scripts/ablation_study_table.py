@@ -41,6 +41,7 @@ BACKBONES = [
     ("bam_detr", "BAM-DETR"),
     ("sim_detr", "Sim-DETR"),
     ("uvcom", "UVCOM"),
+    ("flashvtg", "FlashVTG"),
 ]
 
 
@@ -110,6 +111,27 @@ def get_baseline_metrics(name, split_key, gt, pdata):
             "rej_f1_60": brief.get("Rej-F1@0.6"),
             "auroc": brief.get("AUROC"),
         }
+
+    # 3. FlashVTG reference baseline
+    if name == "flashvtg":
+        flash_dir = Path("/home/guoxiangyu/ImprovingGeneralizedMomentRetrieval/soccergmr_standard/d_gmr_two_stage/stage_0_gmr/reference_results/flashvtg/gmr")
+        p_file = flash_dir / ("test_predictions.jsonl" if split_key == "standard" else "full_test_predictions.jsonl")
+        if p_file.is_file():
+            preds = read_jsonl(p_file)
+            auc_pct, auc_raw = compute_g1_integral(preds, gt)
+            brief = {
+                "standard": {"mAP": 25.43, "Rej-F1@0.5": 66.35, "Rej-F1@0.4": 44.41, "Rej-F1@0.6": 71.56, "AUROC": 74.30},
+                "full": {"mAP": 20.43, "Rej-F1@0.5": 68.48, "Rej-F1@0.4": 44.53, "Rej-F1@0.6": 74.05, "AUROC": 82.21},
+            }[split_key]
+            return {
+                "mAP": brief["mAP"],
+                "g1_auc_pct": auc_pct,
+                "g1_auc_raw": auc_raw,
+                "rej_f1_50": brief["Rej-F1@0.5"],
+                "rej_f1_40": brief["Rej-F1@0.4"],
+                "rej_f1_60": brief["Rej-F1@0.6"],
+                "auroc": brief["AUROC"],
+            }
 
     return None
 
