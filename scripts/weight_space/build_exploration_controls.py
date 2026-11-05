@@ -1,0 +1,12 @@
+import sys,json,math,argparse
+from pathlib import Path
+import torch,numpy as np
+sys.path.insert(0,'scripts/weight_space');from core import *
+p=argparse.ArgumentParser();p.add_argument('--root',required=True);p.add_argument('--exploration',required=True);a=p.parse_args();r=Path(a.root);o=Path(a.exploration);s=json.loads((o/'sweep.json').read_text());name=s['selected'];ck='/home/guoxiangyu/ImprovingGeneralizedMomentRetrieval/soccergmr_standard/d_gmr_two_stage/stage_1_geq/runs/flashvtg/E1/epoch_004.ckpt';saved=torch.load(ck,map_location='cpu',weights_only=False);state=saved['model'];delta=torch.load(o/'edits'/name/'delta.pt',weights_only=True);wk='geq.global_head.weight';bk='geq.global_head.bias';h=np.load(r/'train/activations.npy');rows=read_jsonl(r/'train/rows.jsonl');a=json.loads((r/'analysis/analysis.json').read_text());ids=[i for i,x in enumerate(rows) if video_partition(x['vid'])=='development' and label(x,.5,a['hard_null_threshold'])=='B'];bias=float((h[ids]@delta[wk].numpy().reshape(-1)+delta[bk].item()).mean());flat=np.random.default_rng(2026).normal(size=257);norm=math.sqrt(sum(float((v.double()**2).sum()) for v in delta.values()));flat=flat/np.linalg.norm(flat)*norm
+root=o/'controls';root.mkdir();names=['unedited','selected_bias_only','selected_random_joint']
+for n in names:
+ folder=root/n;folder.mkdir();e={k:v.clone() for k,v in state.items()}
+ if n=='selected_bias_only':e[bk]+=bias
+ if n=='selected_random_joint':e[wk]+=torch.tensor(flat[:256],dtype=e[wk].dtype).reshape(1,-1);e[bk]+=float(flat[256])
+ d={k:e[k]-state[k] for k in (wk,bk) if not torch.equal(e[k],state[k])};payload={k:v for k,v in saved.items() if k not in ('model','optimizer','scheduler','rng')};payload.update(model=e,weight_space_edit=dict(parent_sha256=sha256(ck)));torch.save(payload,folder/'edited.ckpt');torch.save(d,folder/'delta.pt');N=sum(int(v.count_nonzero()) for v in d.values());write_json(folder/'manifest.json',dict(name=n,kind={'unedited':'none','selected_bias_only':'bias_only','selected_random_joint':'random'}[n],alpha=0,checkpoint_sha256=sha256(folder/'edited.ckpt'),delta_sha256=sha256(folder/'delta.pt'),changed_parameters=N,changed_fraction=N/sum(v.numel() for k,v in state.items() if k.startswith('geq.')),delta_l2=math.sqrt(sum(float((v.double()**2).sum()) for v in d.values()))))
+write_json(root/'index.json',dict(source_sha256=sha256(ck),analysis_sha256=sha256(r/'analysis/analysis.json'),candidates=names))
