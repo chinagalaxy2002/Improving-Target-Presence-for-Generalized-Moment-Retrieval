@@ -1,20 +1,21 @@
 {
   "backbone": "eatr",
-  "description": "Standard train/Val; fixed best evaluated on Standard and Full Test",
+  "description": "eatr with DQ-CGPv3 Standard Train/Val, then fixed checkpoint Standard and Full-Decodable Test",
   "data": {
     "splits": {
-      "train": "${SOCCERGMR_LABEL_ROOT}/Standard/train.jsonl",
-      "val": "${SOCCERGMR_LABEL_ROOT}/Standard/val.jsonl",
-      "test_standard": "${SOCCERGMR_LABEL_ROOT}/Standard/test.jsonl",
-      "test_full": "${SOCCERGMR_LABEL_ROOT}/Full/test.jsonl"
+      "train": "/home/guoxiangyu/ImprovingGeneralizedMomentRetrieval/soccergmr_standard/d_gmr_two_stage/dataset/data/label/Standard/train.jsonl",
+      "val": "/home/guoxiangyu/ImprovingGeneralizedMomentRetrieval/soccergmr_standard/d_gmr_two_stage/dataset/data/label/Standard/val.jsonl",
+      "test_standard": "/home/guoxiangyu/ImprovingGeneralizedMomentRetrieval/soccergmr_standard/d_gmr_two_stage/dataset/data/label/Standard/test.jsonl",
+      "test_full": "/home/guoxiangyu/GMR_Unseen_s4_minus_fusion_baseline_20261019/experiments/gmr-Global-Eventquery/data/full_decodable/Full/test.jsonl"
     },
     "features": {
-      "standard": "${SOCCERGMR_STANDARD_FEATURES}",
-      "full": "${SOCCERGMR_FULL_FEATURES}"
+      "standard": "/home/guoxiangyu/VLMbasedIter_momentretrival/generalized-moment-retrieval/Soccergmr",
+      "full": "/home/guoxiangyu/VLMbasedIter_momentretrival/generalized-moment-retrieval/Soccergmr/Full_features"
     },
-    "full_label": "Full Test (supply exact coverage in run manifest)",
+    "full_label": "Full-Decodable 2970/2986",
     "max_video_tokens": 128,
     "max_text_tokens": 32
   },
-  "protocol": {}
+  "protocol": {},
+  "architecture": "/home/guoxiangyu/SoccerGMR-DQ-CGPv3/configs/backbones/eatr.json"
 }

@@ -42,7 +42,10 @@ class Transformer(nn.Module):
             if p.dim() > 1:
                 nn.init.xavier_uniform_(p)
 
-    def forward(self, src, mask, query_embed, pos_embed):
+    def forward(self, src, mask, query_embed, pos_embed,
+                decoder_interlayer_adapter=None,
+                decoder_adapter_after_layer=0,
+                decoder_adapter_kwargs=None):
         """
         Args:
             src: (batch_size, L, d)
@@ -60,8 +63,16 @@ class Transformer(nn.Module):
 
         tgt = torch.zeros_like(query_embed)
         memory = self.encoder(src, src_key_padding_mask=mask, pos=pos_embed)  # (L, batch_size, d)
-        hs = self.decoder(tgt, memory, memory_key_padding_mask=mask,
-                          pos=pos_embed, query_pos=query_embed)  # (#layers, #queries, batch_size, d)
+        hs = self.decoder(
+            tgt,
+            memory,
+            memory_key_padding_mask=mask,
+            pos=pos_embed,
+            query_pos=query_embed,
+            interlayer_adapter=decoder_interlayer_adapter,
+            adapter_after_layer=decoder_adapter_after_layer,
+            adapter_kwargs=decoder_adapter_kwargs,
+        )  # (#layers, #queries, batch_size, d)
         hs = hs.transpose(1, 2)  # (#layers, batch_size, #qeries, d)
         memory = memory.transpose(0, 1)  # (batch_size, L, d)
         return hs, memory
@@ -112,12 +123,16 @@ class TransformerDecoder(nn.Module):
                 tgt_key_padding_mask: Optional[Tensor] = None,
                 memory_key_padding_mask: Optional[Tensor] = None,
                 pos: Optional[Tensor] = None,
-                query_pos: Optional[Tensor] = None):
+                query_pos: Optional[Tensor] = None,
+                interlayer_adapter=None,
+                adapter_after_layer=0,
+                adapter_kwargs=None):
         output = tgt
 
         intermediate = []
+        adapter_kwargs = {} if adapter_kwargs is None else adapter_kwargs
 
-        for layer in self.layers:
+        for layer_index, layer in enumerate(self.layers):
             output = layer(output, memory, tgt_mask=tgt_mask,
                            memory_mask=memory_mask,
                            tgt_key_padding_mask=tgt_key_padding_mask,
@@ -125,6 +140,27 @@ class TransformerDecoder(nn.Module):
                            pos=pos, query_pos=query_pos)
             if self.return_intermediate:
                 intermediate.append(self.norm(output))
+
+            # DQ-CGP uses the first layer as a coarse decoder.  Its auxiliary
+            # prediction is intentionally recorded above before the adapter,
+            # while the adapted raw state becomes the input to the next layer.
+            if (
+                interlayer_adapter is not None
+                and layer_index == adapter_after_layer
+                and layer_index + 1 < self.num_layers
+            ):
+                adapted_output = interlayer_adapter(
+                    decoder_state=output,
+                    memory=memory,
+                    memory_key_padding_mask=memory_key_padding_mask,
+                    **adapter_kwargs,
+                )
+                if adapted_output.shape != output.shape:
+                    raise ValueError(
+                        "decoder inter-layer adapter must preserve shape: "
+                        f"expected {tuple(output.shape)}, got {tuple(adapted_output.shape)}"
+                    )
+                output = adapted_output
 
         if self.norm is not None:
             output = self.norm(output)

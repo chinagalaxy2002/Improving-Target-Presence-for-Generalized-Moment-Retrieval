@@ -49,7 +49,34 @@ class SoccerGMRModel(nn.Module):
         self.exist_capture = TransformerOutputCapture(semantic_model.base_model.transformer)
         self.d1_capture = NativeD1AttentionCapture(semantic_model.base_model.transformer)
 
+        from soccergmr.modules.dq_cgp import DETRQueryCGP
+        self.query_cgp = DETRQueryCGP(
+            hidden_dim=hidden_dim,
+            num_basis=16,
+            prompt_length=6,
+            router_hidden_dim=256,
+            frf_hidden_dim=512,
+            temperature=1.0,
+            beta=0.05,
+        )
+        self.semantic_model.base_model.transformer.decoder.interlayer_adapter = self.query_cgp
+
     def forward(self, *args, **kwargs):
+        src_vid = kwargs.get("src_vid")
+        src_txt = kwargs.get("src_txt")
+        src_txt_mask = kwargs.get("src_txt_mask")
+        src_vid_mask = kwargs.get("src_vid_mask")
+        if self.query_cgp is not None and src_txt is not None:
+            self.query_cgp.clear_diagnostics()
+            txt_proj = self.semantic_model.base_model.input_txt_proj(src_txt)
+            semantic_mask = src_txt_mask.bool()
+            semantic_count = semantic_mask.sum(dim=1, keepdim=True).clamp_min(1)
+            query_semantic = (txt_proj * semantic_mask.unsqueeze(-1).to(txt_proj.dtype)).sum(dim=1) / semantic_count.to(txt_proj.dtype)
+            self.semantic_model.base_model.transformer.decoder.interlayer_adapter_kwargs = {
+                "query_semantic": query_semantic,
+                "video_length": src_vid.shape[1],
+            }
+
         outputs = self.semantic_model(*args, **kwargs)
         decoder_states, video_memory = self.exist_capture.consume()
         outputs["pred_exist_logits"] = self.exist_head(decoder_states[-1])
@@ -72,6 +99,11 @@ class SoccerGMRModel(nn.Module):
             )
             outputs["pred_logits"] = semantic_output.pred_logits
             outputs["semantic_scores"] = semantic_output.semantic_scores
+
+        if self.query_cgp is not None and self.query_cgp.last_output is not None:
+            outputs["query_cgp_temporal_attention"] = self.query_cgp.last_output.temporal_attention
+            outputs["query_cgp_basis_weights"] = self.query_cgp.last_output.basis_weights
+            outputs["query_cgp_video_mask"] = video_mask.bool() if video_mask is not None else src_vid_mask.bool()
 
         return outputs
 

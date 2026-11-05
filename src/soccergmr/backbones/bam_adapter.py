@@ -11,16 +11,46 @@ class BAMModel(nn.Module):
         self._decoder_features = None
         self.native.class_embed[-1].register_forward_pre_hook(self._capture)
 
+        from soccergmr.modules.dq_cgp import DETRQueryCGP
+        self.query_cgp = DETRQueryCGP(
+            hidden_dim=getattr(native, "hidden_dim", 256),
+            num_basis=16,
+            prompt_length=6,
+            router_hidden_dim=256,
+            frf_hidden_dim=512,
+            temperature=1.0,
+            beta=0.05,
+        )
+        self.native.transformer.decoder.interlayer_adapter = self.query_cgp
+
     def _capture(self, module, args):
         self._decoder_features = args[0]
 
     def forward(self, **inputs):
+        src_vid = inputs.get("src_vid")
+        src_txt = inputs.get("src_txt")
+        src_txt_mask = inputs.get("src_txt_mask")
+        src_vid_mask = inputs.get("src_vid_mask")
+        if self.query_cgp is not None and src_txt is not None:
+            self.query_cgp.clear_diagnostics()
+            txt_proj = self.native.input_txt_proj(src_txt)
+            semantic_mask = src_txt_mask.bool()
+            semantic_count = semantic_mask.sum(dim=1, keepdim=True).clamp_min(1)
+            query_semantic = (txt_proj * semantic_mask.unsqueeze(-1).to(txt_proj.dtype)).sum(dim=1) / semantic_count.to(txt_proj.dtype)
+            self.native.transformer.decoder.interlayer_adapter_kwargs = {
+                "query_semantic": query_semantic,
+                "video_length": src_vid.shape[1],
+            }
         self._decoder_features = None
         try:
             out = self.native(**inputs)
             if self._decoder_features is None:
                 raise RuntimeError('Missing BAM final decoder representation')
             out['pred_exist_logits'] = self.exist_head(self._decoder_features.amax(dim=1)).squeeze(-1)
+            if self.query_cgp is not None and self.query_cgp.last_output is not None:
+                out["query_cgp_temporal_attention"] = self.query_cgp.last_output.temporal_attention
+                out["query_cgp_basis_weights"] = self.query_cgp.last_output.basis_weights
+                out["query_cgp_video_mask"] = src_vid_mask.bool()
             return out
         finally:
             self._decoder_features = None
@@ -31,7 +61,12 @@ class BAMLoss(nn.Module):
     def __init__(self, native):
         super().__init__()
         self.native = native
-        self.weight_dict = {**native.weight_dict, 'loss_exist': 1.0}
+        self.weight_dict = {
+            **native.weight_dict,
+            'loss_exist': 1.0,
+            'loss_query_cgp_bind': 0.2,
+            'loss_query_cgp_route': 0.01,
+        }
 
     def quality(self, outputs, targets):
         from bam_detr.span_utils import temporal_iou, span_cxw_to_xx
@@ -106,6 +141,7 @@ class BAMLoss(nn.Module):
         batch = len(logit)
         positive = torch.where(targets['exist_label'] > 0)[0]
         losses = {}
+        primary_matches = None
         levels = [outputs] + list(outputs.get('aux_outputs', []))
         for level, out in enumerate(levels):
             suffix = '' if level == 0 else f'_{level - 1}'
@@ -123,9 +159,15 @@ class BAMLoss(nn.Module):
                 losses['loss_giou'+suffix] = logit.sum() * 0
             losses['loss_label'+suffix] = self.native.loss_labels(out, targets, matches, log=False)['loss_label']
             losses['loss_quality'+suffix] = self.quality(out, targets)
+            if level == 0:
+                primary_matches = matches
         losses['loss_boundary'] = self.boundary(outputs, targets)
         losses['loss_saliency'] = self.saliency(outputs, targets)
         losses['loss_exist'] = F.binary_cross_entropy_with_logits(logit, targets['exist_label'])
+        if 'loss_query_cgp_bind' not in losses and 'query_cgp_temporal_attention' in outputs:
+            from soccergmr.modules.dq_cgp import compute_query_cgp_loss
+            cgp_losses = compute_query_cgp_loss(outputs, targets, indices=primary_matches)
+            losses.update(cgp_losses)
         total = sum(value * self.weight_dict[key] for key, value in losses.items() if key in self.weight_dict)
         if not torch.isfinite(total):
             raise FloatingPointError('Nonfinite BAM-DETR loss')

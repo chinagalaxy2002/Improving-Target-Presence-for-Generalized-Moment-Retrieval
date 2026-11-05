@@ -402,6 +402,21 @@ class TransformerDecoder(nn.Module):
                     intermediate.append(norm_output)
                 else:
                     intermediate.append(output)
+
+            if (
+                hasattr(self, "interlayer_adapter")
+                and self.interlayer_adapter is not None
+                and layer_id == 0
+                and layer_id + 1 < self.num_layers
+            ):
+                kwargs = getattr(self, "interlayer_adapter_kwargs", {})
+                adapted_output1 = self.interlayer_adapter(
+                    decoder_state=output[..., :self.d_model],
+                    memory=memory,
+                    memory_key_padding_mask=memory_key_padding_mask,
+                    **kwargs,
+                )
+                output = torch.cat([adapted_output1, output[..., self.d_model:]], dim=-1)
             
             obj_center = reference_points[..., :self.query_dim]
 
@@ -503,6 +518,21 @@ class TransformerDecoder(nn.Module):
                     intermediate.append(norm_output)
                 else:
                     intermediate.append(output)
+
+            if (
+                hasattr(self, "interlayer_adapter")
+                and self.interlayer_adapter is not None
+                and layer_id == 0
+                and layer_id + 1 < self.num_layers
+            ):
+                kwargs = getattr(self, "interlayer_adapter_kwargs", {})
+                adapted_output1 = self.interlayer_adapter(
+                    decoder_state=output[..., :self.d_model],
+                    memory=memory,
+                    memory_key_padding_mask=memory_key_padding_mask,
+                    **kwargs,
+                )
+                output = torch.cat([adapted_output1, output[..., self.d_model:]], dim=-1)
 
         if self.norm is not None:
             norm_output = [self.norm(output[..., idx*self.d_model:(idx+1)*self.d_model]) for idx in range(3)]

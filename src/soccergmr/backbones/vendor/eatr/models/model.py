@@ -95,6 +95,18 @@ class EaTR(nn.Module):
         self.transformer.decoder.moment_span_embed = self.moment_span_embed
         self.transformer.decoder.event_span_embed = self.event_span_embed
 
+        from soccergmr.modules.dq_cgp import DETRQueryCGP
+        self.query_cgp = DETRQueryCGP(
+            hidden_dim=hidden_dim,
+            num_basis=16,
+            prompt_length=6,
+            router_hidden_dim=256,
+            frf_hidden_dim=512,
+            temperature=1.0,
+            beta=0.05,
+        )
+        self.transformer.decoder.interlayer_adapter = self.query_cgp
+
         # loss
         self.contrastive_align_loss = contrastive_align_loss
         if contrastive_align_loss:
@@ -167,6 +179,13 @@ class EaTR(nn.Module):
         pos_txt = self.txt_position_embed(src_txt, src_txt_mask) if self.use_txt_pos else torch.zeros_like(src_txt)  # (bsz, L_txt, d)
         pos = torch.cat([pos_vid, pos_txt], dim=1)
 
+        if self.query_cgp is not None:
+            self.query_cgp.clear_diagnostics()
+            self.transformer.decoder.interlayer_adapter_kwargs = {
+                "query_semantic": src_txt_global,
+                "video_length": src_vid.shape[1],
+            }
+
         # (#layers+1, bsz, #queries, d), (bsz, L_vid+L_txt, d), (#layers, bsz, #queries, query_dim)
         hs, memory, reference = self.transformer(src, ~mask, pos, src_vid, pos_vid, ~src_vid_mask.bool(), src_txt_global)
         
@@ -211,4 +230,9 @@ class EaTR(nn.Module):
                 for idx, d in enumerate(proj_queries[1:-1]):
                     out['aux_outputs'][idx].update(dict(proj_queries=d, proj_txt_mem=proj_txt_mem))
         
+        if self.query_cgp is not None and self.query_cgp.last_output is not None:
+            out["query_cgp_temporal_attention"] = self.query_cgp.last_output.temporal_attention
+            out["query_cgp_basis_weights"] = self.query_cgp.last_output.basis_weights
+            out["query_cgp_video_mask"] = src_vid_mask.bool()
+
         return out

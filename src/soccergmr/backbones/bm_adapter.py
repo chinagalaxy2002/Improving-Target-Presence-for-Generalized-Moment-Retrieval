@@ -11,9 +11,39 @@ class BMModel(nn.Module):
         self.native = native
         self.exist_head = nn.Sequential(nn.Linear(dimension, dimension), nn.ReLU(), nn.Linear(dimension, 1))
 
+        from soccergmr.modules.dq_cgp import DETRQueryCGP
+        self.query_cgp = DETRQueryCGP(
+            hidden_dim=dimension,
+            num_basis=16,
+            prompt_length=6,
+            router_hidden_dim=256,
+            frf_hidden_dim=512,
+            temperature=1.0,
+            beta=0.05,
+        )
+        self.native.transformer.decoder.interlayer_adapter = self.query_cgp
+
     def forward(self, **inputs):
+        src_vid = inputs.get("src_vid")
+        src_txt = inputs.get("src_txt")
+        src_txt_mask = inputs.get("src_txt_mask")
+        src_vid_mask = inputs.get("src_vid_mask")
+        if self.query_cgp is not None and src_txt is not None:
+            self.query_cgp.clear_diagnostics()
+            txt_proj = self.native.input_txt_proj(src_txt)
+            semantic_mask = src_txt_mask.bool()
+            semantic_count = semantic_mask.sum(dim=1, keepdim=True).clamp_min(1)
+            query_semantic = (txt_proj * semantic_mask.unsqueeze(-1).to(txt_proj.dtype)).sum(dim=1) / semantic_count.to(txt_proj.dtype)
+            self.native.transformer.decoder.interlayer_adapter_kwargs = {
+                "query_semantic": query_semantic,
+                "video_length": src_vid.shape[1],
+            }
         out = self.native(**inputs)
         out['pred_exist_logits'] = self.exist_head(out['hs'][-1].amax(dim=1)).squeeze(-1)
+        if self.query_cgp is not None and self.query_cgp.last_output is not None:
+            out["query_cgp_temporal_attention"] = self.query_cgp.last_output.temporal_attention
+            out["query_cgp_basis_weights"] = self.query_cgp.last_output.basis_weights
+            out["query_cgp_video_mask"] = src_vid_mask.bool()
         return out
 
 
@@ -21,7 +51,12 @@ class BMLoss(nn.Module):
     def __init__(self, native):
         super().__init__()
         self.native = native
-        self.weight_dict = {**native.weight_dict, 'loss_exist': 1.0}
+        self.weight_dict = {
+            **native.weight_dict,
+            'loss_exist': 1.0,
+            'loss_query_cgp_bind': 0.2,
+            'loss_query_cgp_route': 0.01,
+        }
 
     def forward(self, outputs, targets, epoch=0):
         logit = outputs['pred_exist_logits'].reshape(-1)
@@ -68,6 +103,10 @@ class BMLoss(nn.Module):
         bg = (background * probabilities).sum(-1) / bg_count.clamp_min(1)
         losses['loss_prob_guidance'] = ((self.native.prob_thd - fg) * (fg_count > 0) + bg * (bg_count > 0)).mean()
         losses['loss_exist'] = F.binary_cross_entropy_with_logits(logit, targets['exist_label'])
+        if 'loss_query_cgp_bind' not in losses and 'query_cgp_temporal_attention' in outputs:
+            from soccergmr.modules.dq_cgp import compute_query_cgp_loss
+            cgp_losses = compute_query_cgp_loss(outputs, targets, matcher=self.native.matcher)
+            losses.update(cgp_losses)
         total = sum(value * self.weight_dict[key] for key, value in losses.items() if key in self.weight_dict)
         if not torch.isfinite(total):
             raise FloatingPointError('Nonfinite BM-DETR loss')

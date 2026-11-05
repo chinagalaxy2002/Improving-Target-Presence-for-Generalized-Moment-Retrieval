@@ -138,6 +138,18 @@ class CGDETR(nn.Module):
 
         self.exist_head = nn.Sequential(nn.Linear(hidden_dim, hidden_dim), nn.ReLU(), nn.Linear(hidden_dim, 1))
 
+        from soccergmr.modules.dq_cgp import DETRQueryCGP
+        self.query_cgp = DETRQueryCGP(
+            hidden_dim=hidden_dim,
+            num_basis=16,
+            prompt_length=6,
+            router_hidden_dim=256,
+            frf_hidden_dim=512,
+            temperature=1.0,
+            beta=0.05,
+        )
+        self.transformer.decoder.interlayer_adapter = self.query_cgp
+
     def forward(self, src_txt, src_txt_mask, src_vid, src_vid_mask, vid, qid, src_aud=None, src_aud_mask=None, targets=None):
         """The forward expects two tensors:
                - src_txt: [batch_size, L_txt, D_txt]
@@ -247,6 +259,16 @@ class CGDETR(nn.Module):
             vidsrc_[i] = src_vid[i][:src_vid_mask.sum(1)[i].long()].mean(0).clone().detach()
 
         video_length = src_vid.shape[1]
+
+        if self.query_cgp is not None:
+            self.query_cgp.clear_diagnostics()
+            semantic_mask = src_txt_mask.bool()
+            semantic_count = semantic_mask.sum(dim=1, keepdim=True).clamp_min(1)
+            query_semantic = (src_txt * semantic_mask.unsqueeze(-1).to(src_txt.dtype)).sum(dim=1) / semantic_count.to(src_txt.dtype)
+            self.transformer.decoder.interlayer_adapter_kwargs = {
+                "query_semantic": query_semantic,
+                "video_length": video_length,
+            }
         if targets is not None: ## train
             ssrc = ssrc.permute(1, 0, 2)  # (L, batch_size, d)
             spos = spos.permute(1, 0, 2)  # (L, batch_size, d)
@@ -360,6 +382,12 @@ class CGDETR(nn.Module):
                 assert proj_queries is not None
                 for idx, d in enumerate(proj_queries[:-1]):
                     out['aux_outputs'][idx].update(dict(proj_queries=d, proj_txt_mem=proj_txt_mem))
+
+        if self.query_cgp is not None and self.query_cgp.last_output is not None:
+            out["query_cgp_temporal_attention"] = self.query_cgp.last_output.temporal_attention
+            out["query_cgp_basis_weights"] = self.query_cgp.last_output.basis_weights
+            out["query_cgp_video_mask"] = src_vid_mask.bool()
+
         return out
 
 class SetCriterion(nn.Module):

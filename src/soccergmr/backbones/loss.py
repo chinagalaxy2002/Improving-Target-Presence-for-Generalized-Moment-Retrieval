@@ -2,6 +2,7 @@
 import torch
 from torch import nn
 from torch.nn import functional as F
+from ..modules.dq_cgp import compute_query_cgp_loss
 
 
 def select(value, indices, batch, key=''):
@@ -43,7 +44,12 @@ class GMRLoss(nn.Module):
     def __init__(self,native,name):
         super().__init__()
         self.native,self.name=native,name
-        self.weight_dict={**native.weight_dict,'loss_exist':1.0}
+        self.weight_dict={
+            **native.weight_dict,
+            'loss_exist':1.0,
+            'loss_query_cgp_bind':0.2,
+            'loss_query_cgp_route':0.01,
+        }
     def forward(self,outputs,targets,epoch=0):
         if self.name=='sim_detr':
             losses=self.native(outputs,targets)
@@ -63,6 +69,12 @@ class GMRLoss(nn.Module):
             else:
                 losses={k:logit.sum()*0 for k in self.native.weight_dict}
             losses['loss_exist']=F.binary_cross_entropy_with_logits(logit,targets['exist_label'])
+        if 'loss_query_cgp_bind' not in losses and 'query_cgp_temporal_attention' in outputs:
+            matcher = getattr(self.native, 'matcher', None)
+            if matcher is None and hasattr(self.native, 'native'):
+                matcher = getattr(self.native.native, 'matcher', None)
+            cgp_losses = compute_query_cgp_loss(outputs, targets, matcher=matcher)
+            losses.update(cgp_losses)
         total=sum(value*self.weight_dict[key] for key,value in losses.items() if key in self.weight_dict)
         if not torch.isfinite(total):
             raise FloatingPointError('Nonfinite native losses: '+str({k:float(v.detach()) if torch.is_tensor(v) else v for k,v in losses.items()}))

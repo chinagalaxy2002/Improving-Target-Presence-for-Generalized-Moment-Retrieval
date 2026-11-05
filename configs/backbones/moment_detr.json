@@ -71,5 +71,14 @@
   "query_swap": false,
   "background_replacement": false,
   "synthetic_negatives": false,
-  "checkpoint_selection": "validation positive-query mAP; test only after selection frozen"
+  "checkpoint_selection": "validation positive-query mAP; test only after selection frozen",
+  "use_query_cgp": true,
+  "query_cgp_num_basis": 16,
+  "query_cgp_prompt_length": 6,
+  "query_cgp_router_hidden_dim": 256,
+  "query_cgp_frf_hidden_dim": 512,
+  "query_cgp_temperature": 1.0,
+  "query_cgp_beta": 0.05,
+  "query_cgp_binding_loss_coef": 0.2,
+  "query_cgp_route_loss_coef": 0.01
 }

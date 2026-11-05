@@ -278,6 +278,20 @@ class TransformerDecoder(nn.Module):
             if self.return_intermediate:
                 intermediate.append(self.norm(output))
 
+            if (
+                hasattr(self, "interlayer_adapter")
+                and self.interlayer_adapter is not None
+                and layer_id == 0
+                and layer_id + 1 < self.num_layers
+            ):
+                kwargs = getattr(self, "interlayer_adapter_kwargs", {})
+                output = self.interlayer_adapter(
+                    decoder_state=output,
+                    memory=memory,
+                    memory_key_padding_mask=memory_key_padding_mask,
+                    **kwargs,
+                )
+
         if self.norm is not None:
             output = self.norm(output)
             if self.return_intermediate:
