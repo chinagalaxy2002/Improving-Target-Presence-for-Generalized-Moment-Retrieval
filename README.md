@@ -59,10 +59,9 @@ All 9 backbones trained to complete convergence under Stage 1 (GMR) and Stage 2 
 ![Training Convergence Monitor](docs/images/convergence_monitor_9_backbones.png)
 
 ### 3. Continuous G-mIoU@1 Threshold Curves & AUC Integrals
-Evaluations across continuous classification thresholds $\tau \in [0.00, 1.00]$:
-| Standard Test Split (1,036 queries) | Full-Decodable Test Split (2,970 queries) |
-|:---:|:---:|
-| ![Standard Test Curves](docs/images/standard_test_thresholds.png) | ![Full Test Curves](docs/images/full_test_thresholds.png) |
+Evaluations across continuous classification thresholds $\tau \in [0.00, 1.00]$ comparing **Baseline GMR**, **GMR + DQ-CGPv3**, and **GMR + DQ-CGPv3 + GEQ Full** across all 9 backbones (**Left Column: Standard Test Split**, 1,036 queries; **Right Column: Full-Decodable Test Split**, 2,970 queries):
+
+![Continuous G-mIoU Threshold Curves Combined](docs/images/test_thresholds_combined.png)
 
 ---
 

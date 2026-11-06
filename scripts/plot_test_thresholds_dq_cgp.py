@@ -368,6 +368,41 @@ def main():
             shutil.copy2(out_png, ARTIFACT_DIR / f"{stem_name}.png")
             print(f"Copied {stem_name}.png to artifact directory")
 
+    # Combine Standard and Full test curves side-by-side into a single unified image
+    std_png = out_dir / "STANDARD_TEST.png"
+    full_png = out_dir / "FULL_TEST.png"
+    if std_png.is_file() and full_png.is_file():
+        from PIL import Image, ImageDraw
+        im1 = Image.open(std_png)
+        im2 = Image.open(full_png)
+        gap = 16
+        total_width = im1.width + gap + im2.width
+        height = im1.height
+        combined = Image.new("RGB", (total_width, height), color=(255, 255, 255))
+        combined.paste(im1, (0, 0))
+        combined.paste(im2, (im1.width + gap, 0))
+        draw = ImageDraw.Draw(combined)
+        line_x = im1.width + gap // 2
+        draw.line([(line_x, 80), (line_x, height - 80)], fill=(203, 213, 225), width=2)
+
+        combined_png = out_dir / "TEST_THRESHOLDS_COMBINED.png"
+        combined_pdf = out_dir / "TEST_THRESHOLDS_COMBINED.pdf"
+        combined.save(combined_png, format="PNG", optimize=True)
+        combined.save(combined_pdf, format="PDF", resolution=220)
+        print(f"Saved combined thresholds plot to {combined_png} and {combined_pdf}")
+
+        docs_img_dir = ROOT / "docs" / "images"
+        if docs_img_dir.is_dir():
+            shutil.copy2(combined_png, docs_img_dir / "test_thresholds_combined.png")
+
+        docs_tbl_dir = ROOT / "docs" / "tables"
+        if docs_tbl_dir.is_dir():
+            shutil.copy2(combined_pdf, docs_tbl_dir / "TEST_THRESHOLDS_COMBINED.pdf")
+
+        if ARTIFACT_DIR.is_dir():
+            shutil.copy2(combined_png, ARTIFACT_DIR / "TEST_THRESHOLDS_COMBINED.png")
+            shutil.copy2(combined_pdf, ARTIFACT_DIR / "TEST_THRESHOLDS_COMBINED.pdf")
+
 
 if __name__ == "__main__":
     main()
