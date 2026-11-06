@@ -51,7 +51,7 @@ Traditional architectures face two core dilemmas:
 ## 📊 Primary Experimental Visualizations
 
 ### 1. Stage 2 Model Selection Ablation across 9 Backbones
-The comprehensive 4-way comparison across all 9 temporal backbones under dual test splits:
+The comprehensive 4-way comparison across all 9 temporal backbones under dual test splits (where **Orc-Gap (%)** measures the area loss between the Oracle presence envelope and the continuous G-mIoU@1 curve, $\int_0^1 \text{Oracle}_{G1} d\tau - \text{G1-AUC}$; lower is better):
 ![Stage 2 Model Selection Ablation](docs/images/ablation_table_stage2_selection_9_backbones.png)
 
 ### 2. Dual-Stage Training Convergence Monitor (18 Panels, 9 Backbones)

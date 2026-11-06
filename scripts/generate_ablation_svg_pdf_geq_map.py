@@ -8,6 +8,12 @@
 Evaluated on:
 - Standard Test (1,036 queries)
 - Full-Decodable Test (2,970 queries)
+
+Metrics reported:
+- mAP (%)            [Higher is better]
+- Orc-Gap (%)        [Lower is better: Oracle envelope integral (0-1) minus G1-AUC]
+- Rej-F1@.5 (%)      [Higher is better]
+- AUROC (%)          [Higher is better]
 """
 import json
 from pathlib import Path
@@ -20,6 +26,8 @@ import matplotlib.pyplot as plt
 ROOT = Path(__file__).resolve().parents[1]
 RESULTS_FILE = ROOT / "runs" / "dq_cgp_v3" / "results" / "ablation_study_geq_map_results.json"
 OUT_DIR = ROOT / "runs" / "dq_cgp_v3" / "results" / "ablation_table"
+DOCS_IMAGES = ROOT / "docs" / "images"
+DOCS_TABLES = ROOT / "docs" / "tables"
 ARTIFACT_DIR = Path("/home/guoxiangyu/.gemini/antigravity-cli/brain/62a59d6f-74ff-44d8-a47a-d538b53ca17b")
 
 ALL_BACKBONES = [
@@ -67,7 +75,7 @@ def render_table(backbones, filename_stem):
     backbone_w = 95
     config_w = 210
     col_step = 72
-    num_std_cols = 4  # mAP, G1-AUC, Rej-F1@.5, AUROC
+    num_std_cols = 4  # mAP, Orc-Gap, Rej-F1@.5, AUROC
     num_full_cols = 4
 
     std_left = left + backbone_w + config_w
@@ -77,7 +85,7 @@ def render_table(backbones, filename_stem):
     row_height = 23
     n_bb = len(valid_backbones)
     table_content_h = n_bb * len(METHODS) * row_height + (n_bb - 1) * 6
-    height = 110 + table_content_h + 70
+    height = 110 + table_content_h + 74
 
     fig = plt.figure(figsize=(width / 72, height / 72), facecolor="white", dpi=200)
     ax = fig.add_axes([0, 0, 1, 1], xlim=(0, width), ylim=(0, height))
@@ -113,7 +121,7 @@ def render_table(backbones, filename_stem):
     text(left, top - 38, "Backbone", 9.5, "bold", color="#0f172a")
     text(left + backbone_w, top - 38, "Configuration", 9.5, "bold", color="#0f172a")
 
-    col_names = ["mAP (%)", "G1-AUC (%)", "Rej-F1@.5 (%)", "AUROC (%)"]
+    col_names = ["mAP (%)", "Orc-Gap (%)", "Rej-F1@.5 (%)", "AUROC (%)"]
     for i, cname in enumerate(col_names):
         text(std_left + (i + 0.5) * col_step, top - 38, cname, 8.8, "bold", ha="center", color="#1e293b")
         text(full_left + (i + 0.5) * col_step, top - 38, cname, 8.8, "bold", ha="center", color="#1e293b")
@@ -146,24 +154,30 @@ def render_table(backbones, filename_stem):
 
                 vals = [
                     row_metrics.get("mAP"),
-                    row_metrics.get("g1_auc_pct"),
+                    row_metrics.get("oracle_gap_pct"),
                     row_metrics.get("rej_f1_50"),
                     row_metrics.get("auroc"),
                 ]
 
-                # Best among all available
+                # Best among all available in this backbone
                 all_avail = [b_data[split_key][mk] for mk, _, _, _ in METHODS if b_data[split_key].get(mk)]
 
+                metric_keys = ["mAP", "oracle_gap_pct", "rej_f1_50", "auroc"]
                 for c_idx, val in enumerate(vals):
                     if val is None:
                         continue
-                    metric_keys = ["mAP", "g1_auc_pct", "rej_f1_50", "auroc"]
                     all_vals = [m[metric_keys[c_idx]] for m in all_avail if m.get(metric_keys[c_idx]) is not None]
-                    best_val = max(all_vals) if all_vals else val
+
+                    # For Orc-Gap (c_idx == 1), LOWER is better!
+                    if c_idx == 1:
+                        best_val = min(all_vals) if all_vals else val
+                    else:
+                        best_val = max(all_vals) if all_vals else val
+
                     is_best = (val == best_val) and (len(set(all_vals)) > 1)
 
                     v_str = f"{val:.2f}"
-                    val_color = m_color if is_best else "#0f172a" if is_best else "#475569"
+                    val_color = m_color if is_best else "#475569"
                     val_weight = "bold" if is_best else "normal"
 
                     text(base_x + (c_idx + 0.5) * col_step, curr_y, v_str, 9.0, val_weight, ha="center", color=val_color)
@@ -177,11 +191,12 @@ def render_table(backbones, filename_stem):
 
     notes = [
         "Method 3 (G1 Sel): Global Event Query fine-tuned with model selection on Val Mean G-mIoU@1 (0.4/0.5/0.6) (Official).",
-        "Method 4 (mAP Sel): Global Event Query fine-tuned with model selection on highest Val mAP.",
-        "G1-AUC (%): Area Under the Curve of G-mIoU@1 across tau in [0.00, 1.00]. Bold values: Best within backbone family.",
+        "Method 4 (mAP Sel): Global Event Query fine-tuned with model selection on highest Val Localization mAP.",
+        "Orc-Gap (%): Area between Oracle envelope and G-mIoU@1 threshold curve across tau in [0, 1] (Integral of Oracle_G1 minus G1-AUC).",
+        "Note: Lower Orc-Gap is better (bold marks lowest gap per backbone), directly quantifying G-mIoU loss caused by imperfect query existence gating.",
     ]
     for i, line in enumerate(notes):
-        text(left, y - 4 - i * 12, line, 8.0, color="#64748b")
+        text(left, y - 4 - i * 11.5, line, 8.0, color="#64748b")
 
     svg_path = OUT_DIR / f"{filename_stem}.svg"
     pdf_path = OUT_DIR / f"{filename_stem}.pdf"
@@ -193,6 +208,14 @@ def render_table(backbones, filename_stem):
     plt.close(fig)
 
     print(f"Generated {filename_stem}: SVG, PDF, PNG")
+
+    # Copy to docs/images and docs/tables
+    DOCS_IMAGES.mkdir(parents=True, exist_ok=True)
+    DOCS_TABLES.mkdir(parents=True, exist_ok=True)
+    shutil.copy2(png_path, DOCS_IMAGES / f"ablation_table_stage2_selection_9_backbones.png")
+    shutil.copy2(pdf_path, DOCS_TABLES / f"ABLATION_TABLE_GEQ_MAP_SELECTION.pdf")
+    shutil.copy2(png_path, DOCS_TABLES / f"ABLATION_TABLE_GEQ_MAP_SELECTION.png")
+
     if ARTIFACT_DIR.is_dir():
         for ext in ["svg", "pdf", "png"]:
             src = OUT_DIR / f"{filename_stem}.{ext}"
