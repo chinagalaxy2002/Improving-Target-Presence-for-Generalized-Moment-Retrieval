@@ -22,6 +22,12 @@
    - 证实“生成缺陷型”与“排序缺陷型”的机理划分在所有阈值下完全恒定不变。
    - 详见 [`tables/table_iou_sensitivity_*.md`](file:///home/guoxiangyu/SoccerGMR-DQ-CGPv3/diagnosed_supplementary/tables/)。
 
+5. **实验 5 对比实证：候选在 Decoder 层间如何变化？(Method 1 Baseline vs Method 2 DQ-CGPv3)**：
+   - 统一采用各层未经后处理的原生输出与 IoU $\ge 0.4$ 一对一最大二分图独立匹配；
+   - 揭示原生 Moment-DETR 在 D1 $\to$ D2 提精中的严重退化（丢弃 139 / 387 个已定位事件，净减 -61 / -157）；证明 DQ-CGPv3 将退化彻底逆转为正向提精（净增 +33 / +71，最终独立命中暴增 +150 / +461）；
+   - 证实 DQ-CGPv3 在初始层 D1 确立显著高位先验（UVCOM D1 +126/+391, BM-DETR D1 +56/+178），并在多层提精中实现更强的锁定保持（Keep 显著提升，丢失率骤降 37%~70%）；
+   - 详见 [`tables/comparison_layer_evolution_standard.md`](file:///home/guoxiangyu/SoccerGMR-DQ-CGPv3/diagnosed_supplementary/tables/comparison_layer_evolution_standard.md) 与 [`tables/comparison_layer_evolution_full.md`](file:///home/guoxiangyu/SoccerGMR-DQ-CGPv3/diagnosed_supplementary/tables/comparison_layer_evolution_full.md)。
+
 ---
 
 ## 🚀 快速复现指令
@@ -49,6 +55,8 @@ diagnosed_supplementary/
 │   ├── table_multigt_coverage_m2_test_full.md         # 多时刻 4 态覆盖表: M2 Full
 │   ├── comparison_multigt_coverage_standard.md        # 多时刻分工改善对比表: Standard
 │   ├── comparison_multigt_coverage_full.md            # 多时刻分工改善对比表: Full
+│   ├── comparison_layer_evolution_standard.md         # 实验5 Decoder逐层演化对比表: Standard
+│   ├── comparison_layer_evolution_full.md             # 实验5 Decoder逐层演化对比表: Full
 │   ├── table_iou_sensitivity_m1_test_standard.md      # IoU 敏感性表: M1 Standard (0.3/0.4/0.5)
 │   ├── table_iou_sensitivity_m1_test_full.md          # IoU 敏感性表: M1 Full (0.3/0.4/0.5)
 │   ├── table_iou_sensitivity_m2_test_standard.md      # IoU 敏感性表: M2 Standard (0.3/0.4/0.5)
@@ -56,5 +64,6 @@ diagnosed_supplementary/
 └── outputs/                                           # 结构化补充分析 JSON 结果
     ├── checkpoint_consistency.json                    # 检查点与指标一致性核验结构化数据
     ├── multigt_coverage_summary.json                  # 多时刻覆盖统计结构化数据
-    └── iou_sensitivity_summary.json                   # IoU 敏感性多阈值统计结构化数据
+    ├── iou_sensitivity_summary.json                   # IoU 敏感性多阈值统计结构化数据
+    └── layer_evolution_summary.json                   # 实验5 Decoder逐层演化结构化数据
 ```

@@ -1,0 +1,2086 @@
+{
+  "test_standard": {
+    "moment_detr": {
+      "num_layers": 2,
+      "d1_m1": 321,
+      "d1_m2": 389,
+      "d1_delta": 68,
+      "df_m1": 266,
+      "df_m2": 416,
+      "df_delta": 150,
+      "m1_trend": [
+        321,
+        266
+      ],
+      "m2_trend": [
+        389,
+        416
+      ],
+      "status": "⚠️ **M1 严重退化** (D2大幅倒退) $\\to$ 🟢 **M2 彻底逆转** (正向提精, +150)",
+      "layers_m1": [
+        {
+          "layer_idx": 0,
+          "layer_name": "D1",
+          "independent_hits_sum": 321,
+          "distinct_gts_hit_sum": 333,
+          "redundant_candidates_sum": 305,
+          "unhit_candidates_sum": 4814,
+          "independent_hits_mean": 0.5900735294117647,
+          "redundant_candidates_mean": 0.5606617647058824,
+          "unhit_candidates_mean": 8.849264705882353
+        },
+        {
+          "layer_idx": 1,
+          "layer_name": "D2",
+          "independent_hits_sum": 266,
+          "distinct_gts_hit_sum": 272,
+          "redundant_candidates_sum": 120,
+          "unhit_candidates_sum": 5054,
+          "independent_hits_mean": 0.4889705882352941,
+          "redundant_candidates_mean": 0.22058823529411764,
+          "unhit_candidates_mean": 9.290441176470589
+        }
+      ],
+      "layers_m2": [
+        {
+          "layer_idx": 0,
+          "layer_name": "D1",
+          "independent_hits_sum": 389,
+          "distinct_gts_hit_sum": 395,
+          "redundant_candidates_sum": 112,
+          "unhit_candidates_sum": 4939,
+          "independent_hits_mean": 0.7150735294117647,
+          "redundant_candidates_mean": 0.20588235294117646,
+          "unhit_candidates_mean": 9.079044117647058
+        },
+        {
+          "layer_idx": 1,
+          "layer_name": "D2",
+          "independent_hits_sum": 416,
+          "distinct_gts_hit_sum": 428,
+          "redundant_candidates_sum": 110,
+          "unhit_candidates_sum": 4914,
+          "independent_hits_mean": 0.7647058823529411,
+          "redundant_candidates_mean": 0.20220588235294118,
+          "unhit_candidates_mean": 9.033088235294118
+        }
+      ],
+      "transitions_m1": [
+        {
+          "transition": "D1 -> D2",
+          "from_layer": 0,
+          "to_layer": 1,
+          "gain_sum": 78,
+          "loss_sum": 139,
+          "keep_sum": 194,
+          "net_gain": -61,
+          "gain_mean": 0.14338235294117646,
+          "loss_mean": 0.2555147058823529,
+          "keep_mean": 0.35661764705882354
+        }
+      ],
+      "transitions_m2": [
+        {
+          "transition": "D1 -> D2",
+          "from_layer": 0,
+          "to_layer": 1,
+          "gain_sum": 114,
+          "loss_sum": 81,
+          "keep_sum": 314,
+          "net_gain": 33,
+          "gain_mean": 0.20955882352941177,
+          "loss_mean": 0.1488970588235294,
+          "keep_mean": 0.5772058823529411
+        }
+      ]
+    },
+    "eatr": {
+      "num_layers": 3,
+      "d1_m1": 431,
+      "d1_m2": 432,
+      "d1_delta": 1,
+      "df_m1": 453,
+      "df_m2": 487,
+      "df_delta": 34,
+      "m1_trend": [
+        431,
+        466,
+        453
+      ],
+      "m2_trend": [
+        432,
+        500,
+        487
+      ],
+      "status": "🟡 **D2峰值提精强化** (D2强化扩充, 最终+34)",
+      "layers_m1": [
+        {
+          "layer_idx": 0,
+          "layer_name": "D1",
+          "independent_hits_sum": 431,
+          "distinct_gts_hit_sum": 440,
+          "redundant_candidates_sum": 149,
+          "unhit_candidates_sum": 4860,
+          "independent_hits_mean": 0.7922794117647058,
+          "redundant_candidates_mean": 0.27389705882352944,
+          "unhit_candidates_mean": 8.933823529411764
+        },
+        {
+          "layer_idx": 1,
+          "layer_name": "D2",
+          "independent_hits_sum": 466,
+          "distinct_gts_hit_sum": 471,
+          "redundant_candidates_sum": 187,
+          "unhit_candidates_sum": 4787,
+          "independent_hits_mean": 0.8566176470588235,
+          "redundant_candidates_mean": 0.34375,
+          "unhit_candidates_mean": 8.799632352941176
+        },
+        {
+          "layer_idx": 2,
+          "layer_name": "D3",
+          "independent_hits_sum": 453,
+          "distinct_gts_hit_sum": 460,
+          "redundant_candidates_sum": 177,
+          "unhit_candidates_sum": 4810,
+          "independent_hits_mean": 0.8327205882352942,
+          "redundant_candidates_mean": 0.32536764705882354,
+          "unhit_candidates_mean": 8.841911764705882
+        }
+      ],
+      "layers_m2": [
+        {
+          "layer_idx": 0,
+          "layer_name": "D1",
+          "independent_hits_sum": 432,
+          "distinct_gts_hit_sum": 440,
+          "redundant_candidates_sum": 126,
+          "unhit_candidates_sum": 4882,
+          "independent_hits_mean": 0.7941176470588235,
+          "redundant_candidates_mean": 0.23161764705882354,
+          "unhit_candidates_mean": 8.974264705882353
+        },
+        {
+          "layer_idx": 1,
+          "layer_name": "D2",
+          "independent_hits_sum": 500,
+          "distinct_gts_hit_sum": 507,
+          "redundant_candidates_sum": 228,
+          "unhit_candidates_sum": 4712,
+          "independent_hits_mean": 0.9191176470588235,
+          "redundant_candidates_mean": 0.41911764705882354,
+          "unhit_candidates_mean": 8.661764705882353
+        },
+        {
+          "layer_idx": 2,
+          "layer_name": "D3",
+          "independent_hits_sum": 487,
+          "distinct_gts_hit_sum": 494,
+          "redundant_candidates_sum": 171,
+          "unhit_candidates_sum": 4782,
+          "independent_hits_mean": 0.8952205882352942,
+          "redundant_candidates_mean": 0.31433823529411764,
+          "unhit_candidates_mean": 8.790441176470589
+        }
+      ],
+      "transitions_m1": [
+        {
+          "transition": "D1 -> D2",
+          "from_layer": 0,
+          "to_layer": 1,
+          "gain_sum": 100,
+          "loss_sum": 69,
+          "keep_sum": 371,
+          "net_gain": 31,
+          "gain_mean": 0.18382352941176472,
+          "loss_mean": 0.12683823529411764,
+          "keep_mean": 0.6819852941176471
+        },
+        {
+          "transition": "D2 -> D3",
+          "from_layer": 1,
+          "to_layer": 2,
+          "gain_sum": 38,
+          "loss_sum": 49,
+          "keep_sum": 422,
+          "net_gain": -11,
+          "gain_mean": 0.06985294117647059,
+          "loss_mean": 0.0900735294117647,
+          "keep_mean": 0.7757352941176471
+        }
+      ],
+      "transitions_m2": [
+        {
+          "transition": "D1 -> D2",
+          "from_layer": 0,
+          "to_layer": 1,
+          "gain_sum": 145,
+          "loss_sum": 78,
+          "keep_sum": 362,
+          "net_gain": 67,
+          "gain_mean": 0.2665441176470588,
+          "loss_mean": 0.14338235294117646,
+          "keep_mean": 0.6654411764705882
+        },
+        {
+          "transition": "D2 -> D3",
+          "from_layer": 1,
+          "to_layer": 2,
+          "gain_sum": 25,
+          "loss_sum": 38,
+          "keep_sum": 469,
+          "net_gain": -13,
+          "gain_mean": 0.04595588235294118,
+          "loss_mean": 0.06985294117647059,
+          "keep_mean": 0.8621323529411765
+        }
+      ]
+    },
+    "qd_detr": {
+      "num_layers": 2,
+      "d1_m1": 354,
+      "d1_m2": 442,
+      "d1_delta": 88,
+      "df_m1": 473,
+      "df_m2": 448,
+      "df_delta": -25,
+      "m1_trend": [
+        354,
+        473
+      ],
+      "m2_trend": [
+        442,
+        448
+      ],
+      "status": "🟡 **D1先验大幅增强** (D1+88, D2平稳保持)",
+      "layers_m1": [
+        {
+          "layer_idx": 0,
+          "layer_name": "D1",
+          "independent_hits_sum": 354,
+          "distinct_gts_hit_sum": 367,
+          "redundant_candidates_sum": 32,
+          "unhit_candidates_sum": 5054,
+          "independent_hits_mean": 0.6507352941176471,
+          "redundant_candidates_mean": 0.058823529411764705,
+          "unhit_candidates_mean": 9.290441176470589
+        },
+        {
+          "layer_idx": 1,
+          "layer_name": "D2",
+          "independent_hits_sum": 473,
+          "distinct_gts_hit_sum": 481,
+          "redundant_candidates_sum": 131,
+          "unhit_candidates_sum": 4836,
+          "independent_hits_mean": 0.8694852941176471,
+          "redundant_candidates_mean": 0.24080882352941177,
+          "unhit_candidates_mean": 8.889705882352942
+        }
+      ],
+      "layers_m2": [
+        {
+          "layer_idx": 0,
+          "layer_name": "D1",
+          "independent_hits_sum": 442,
+          "distinct_gts_hit_sum": 452,
+          "redundant_candidates_sum": 220,
+          "unhit_candidates_sum": 4778,
+          "independent_hits_mean": 0.8125,
+          "redundant_candidates_mean": 0.40441176470588236,
+          "unhit_candidates_mean": 8.783088235294118
+        },
+        {
+          "layer_idx": 1,
+          "layer_name": "D2",
+          "independent_hits_sum": 448,
+          "distinct_gts_hit_sum": 455,
+          "redundant_candidates_sum": 206,
+          "unhit_candidates_sum": 4786,
+          "independent_hits_mean": 0.8235294117647058,
+          "redundant_candidates_mean": 0.3786764705882353,
+          "unhit_candidates_mean": 8.797794117647058
+        }
+      ],
+      "transitions_m1": [
+        {
+          "transition": "D1 -> D2",
+          "from_layer": 0,
+          "to_layer": 1,
+          "gain_sum": 220,
+          "loss_sum": 106,
+          "keep_sum": 261,
+          "net_gain": 114,
+          "gain_mean": 0.40441176470588236,
+          "loss_mean": 0.1948529411764706,
+          "keep_mean": 0.4797794117647059
+        }
+      ],
+      "transitions_m2": [
+        {
+          "transition": "D1 -> D2",
+          "from_layer": 0,
+          "to_layer": 1,
+          "gain_sum": 102,
+          "loss_sum": 99,
+          "keep_sum": 353,
+          "net_gain": 3,
+          "gain_mean": 0.1875,
+          "loss_mean": 0.18198529411764705,
+          "keep_mean": 0.6488970588235294
+        }
+      ]
+    },
+    "cg_detr": {
+      "num_layers": 3,
+      "d1_m1": 405,
+      "d1_m2": 374,
+      "d1_delta": -31,
+      "df_m1": 478,
+      "df_m2": 415,
+      "df_delta": -63,
+      "m1_trend": [
+        405,
+        494,
+        478
+      ],
+      "m2_trend": [
+        374,
+        423,
+        415
+      ],
+      "status": "⚪ **收敛前移至D2** (D2保持峰值分化)",
+      "layers_m1": [
+        {
+          "layer_idx": 0,
+          "layer_name": "D1",
+          "independent_hits_sum": 405,
+          "distinct_gts_hit_sum": 417,
+          "redundant_candidates_sum": 85,
+          "unhit_candidates_sum": 4950,
+          "independent_hits_mean": 0.7444852941176471,
+          "redundant_candidates_mean": 0.15625,
+          "unhit_candidates_mean": 9.099264705882353
+        },
+        {
+          "layer_idx": 1,
+          "layer_name": "D2",
+          "independent_hits_sum": 494,
+          "distinct_gts_hit_sum": 500,
+          "redundant_candidates_sum": 180,
+          "unhit_candidates_sum": 4766,
+          "independent_hits_mean": 0.9080882352941176,
+          "redundant_candidates_mean": 0.33088235294117646,
+          "unhit_candidates_mean": 8.761029411764707
+        },
+        {
+          "layer_idx": 2,
+          "layer_name": "D3",
+          "independent_hits_sum": 478,
+          "distinct_gts_hit_sum": 484,
+          "redundant_candidates_sum": 188,
+          "unhit_candidates_sum": 4774,
+          "independent_hits_mean": 0.8786764705882353,
+          "redundant_candidates_mean": 0.34558823529411764,
+          "unhit_candidates_mean": 8.775735294117647
+        }
+      ],
+      "layers_m2": [
+        {
+          "layer_idx": 0,
+          "layer_name": "D1",
+          "independent_hits_sum": 374,
+          "distinct_gts_hit_sum": 389,
+          "redundant_candidates_sum": 68,
+          "unhit_candidates_sum": 4998,
+          "independent_hits_mean": 0.6875,
+          "redundant_candidates_mean": 0.125,
+          "unhit_candidates_mean": 9.1875
+        },
+        {
+          "layer_idx": 1,
+          "layer_name": "D2",
+          "independent_hits_sum": 423,
+          "distinct_gts_hit_sum": 434,
+          "redundant_candidates_sum": 119,
+          "unhit_candidates_sum": 4898,
+          "independent_hits_mean": 0.7775735294117647,
+          "redundant_candidates_mean": 0.21875,
+          "unhit_candidates_mean": 9.003676470588236
+        },
+        {
+          "layer_idx": 2,
+          "layer_name": "D3",
+          "independent_hits_sum": 415,
+          "distinct_gts_hit_sum": 424,
+          "redundant_candidates_sum": 100,
+          "unhit_candidates_sum": 4925,
+          "independent_hits_mean": 0.7628676470588235,
+          "redundant_candidates_mean": 0.18382352941176472,
+          "unhit_candidates_mean": 9.053308823529411
+        }
+      ],
+      "transitions_m1": [
+        {
+          "transition": "D1 -> D2",
+          "from_layer": 0,
+          "to_layer": 1,
+          "gain_sum": 185,
+          "loss_sum": 102,
+          "keep_sum": 315,
+          "net_gain": 83,
+          "gain_mean": 0.3400735294117647,
+          "loss_mean": 0.1875,
+          "keep_mean": 0.5790441176470589
+        },
+        {
+          "transition": "D2 -> D3",
+          "from_layer": 1,
+          "to_layer": 2,
+          "gain_sum": 61,
+          "loss_sum": 77,
+          "keep_sum": 423,
+          "net_gain": -16,
+          "gain_mean": 0.11213235294117647,
+          "loss_mean": 0.14154411764705882,
+          "keep_mean": 0.7775735294117647
+        }
+      ],
+      "transitions_m2": [
+        {
+          "transition": "D1 -> D2",
+          "from_layer": 0,
+          "to_layer": 1,
+          "gain_sum": 140,
+          "loss_sum": 95,
+          "keep_sum": 294,
+          "net_gain": 45,
+          "gain_mean": 0.25735294117647056,
+          "loss_mean": 0.17463235294117646,
+          "keep_mean": 0.5404411764705882
+        },
+        {
+          "transition": "D2 -> D3",
+          "from_layer": 1,
+          "to_layer": 2,
+          "gain_sum": 71,
+          "loss_sum": 81,
+          "keep_sum": 353,
+          "net_gain": -10,
+          "gain_mean": 0.13051470588235295,
+          "loss_mean": 0.1488970588235294,
+          "keep_mean": 0.6488970588235294
+        }
+      ]
+    },
+    "sim_detr": {
+      "num_layers": 4,
+      "d1_m1": 499,
+      "d1_m2": 509,
+      "d1_delta": 10,
+      "df_m1": 567,
+      "df_m2": 594,
+      "df_delta": 27,
+      "m1_trend": [
+        499,
+        566,
+        574,
+        567
+      ],
+      "m2_trend": [
+        509,
+        579,
+        594,
+        594
+      ],
+      "status": "🟢 **全层持续稳步提升** (4层每层全面超越, 最终+27)",
+      "layers_m1": [
+        {
+          "layer_idx": 0,
+          "layer_name": "D1",
+          "independent_hits_sum": 499,
+          "distinct_gts_hit_sum": 512,
+          "redundant_candidates_sum": 330,
+          "unhit_candidates_sum": 4611,
+          "independent_hits_mean": 0.9172794117647058,
+          "redundant_candidates_mean": 0.6066176470588235,
+          "unhit_candidates_mean": 8.476102941176471
+        },
+        {
+          "layer_idx": 1,
+          "layer_name": "D2",
+          "independent_hits_sum": 566,
+          "distinct_gts_hit_sum": 572,
+          "redundant_candidates_sum": 416,
+          "unhit_candidates_sum": 4458,
+          "independent_hits_mean": 1.0404411764705883,
+          "redundant_candidates_mean": 0.7647058823529411,
+          "unhit_candidates_mean": 8.194852941176471
+        },
+        {
+          "layer_idx": 2,
+          "layer_name": "D3",
+          "independent_hits_sum": 574,
+          "distinct_gts_hit_sum": 579,
+          "redundant_candidates_sum": 495,
+          "unhit_candidates_sum": 4371,
+          "independent_hits_mean": 1.0551470588235294,
+          "redundant_candidates_mean": 0.9099264705882353,
+          "unhit_candidates_mean": 8.034926470588236
+        },
+        {
+          "layer_idx": 3,
+          "layer_name": "D4",
+          "independent_hits_sum": 567,
+          "distinct_gts_hit_sum": 570,
+          "redundant_candidates_sum": 528,
+          "unhit_candidates_sum": 4345,
+          "independent_hits_mean": 1.0422794117647058,
+          "redundant_candidates_mean": 0.9705882352941176,
+          "unhit_candidates_mean": 7.987132352941177
+        }
+      ],
+      "layers_m2": [
+        {
+          "layer_idx": 0,
+          "layer_name": "D1",
+          "independent_hits_sum": 509,
+          "distinct_gts_hit_sum": 523,
+          "redundant_candidates_sum": 335,
+          "unhit_candidates_sum": 4596,
+          "independent_hits_mean": 0.9356617647058824,
+          "redundant_candidates_mean": 0.6158088235294118,
+          "unhit_candidates_mean": 8.448529411764707
+        },
+        {
+          "layer_idx": 1,
+          "layer_name": "D2",
+          "independent_hits_sum": 579,
+          "distinct_gts_hit_sum": 590,
+          "redundant_candidates_sum": 458,
+          "unhit_candidates_sum": 4403,
+          "independent_hits_mean": 1.0643382352941178,
+          "redundant_candidates_mean": 0.8419117647058824,
+          "unhit_candidates_mean": 8.09375
+        },
+        {
+          "layer_idx": 2,
+          "layer_name": "D3",
+          "independent_hits_sum": 594,
+          "distinct_gts_hit_sum": 604,
+          "redundant_candidates_sum": 411,
+          "unhit_candidates_sum": 4435,
+          "independent_hits_mean": 1.0919117647058822,
+          "redundant_candidates_mean": 0.7555147058823529,
+          "unhit_candidates_mean": 8.152573529411764
+        },
+        {
+          "layer_idx": 3,
+          "layer_name": "D4",
+          "independent_hits_sum": 594,
+          "distinct_gts_hit_sum": 603,
+          "redundant_candidates_sum": 466,
+          "unhit_candidates_sum": 4380,
+          "independent_hits_mean": 1.0919117647058822,
+          "redundant_candidates_mean": 0.8566176470588235,
+          "unhit_candidates_mean": 8.051470588235293
+        }
+      ],
+      "transitions_m1": [
+        {
+          "transition": "D1 -> D2",
+          "from_layer": 0,
+          "to_layer": 1,
+          "gain_sum": 107,
+          "loss_sum": 47,
+          "keep_sum": 465,
+          "net_gain": 60,
+          "gain_mean": 0.19669117647058823,
+          "loss_mean": 0.08639705882352941,
+          "keep_mean": 0.8547794117647058
+        },
+        {
+          "transition": "D2 -> D3",
+          "from_layer": 1,
+          "to_layer": 2,
+          "gain_sum": 38,
+          "loss_sum": 31,
+          "keep_sum": 541,
+          "net_gain": 7,
+          "gain_mean": 0.06985294117647059,
+          "loss_mean": 0.05698529411764706,
+          "keep_mean": 0.9944852941176471
+        },
+        {
+          "transition": "D3 -> D4",
+          "from_layer": 2,
+          "to_layer": 3,
+          "gain_sum": 18,
+          "loss_sum": 27,
+          "keep_sum": 552,
+          "net_gain": -9,
+          "gain_mean": 0.03308823529411765,
+          "loss_mean": 0.04963235294117647,
+          "keep_mean": 1.0147058823529411
+        }
+      ],
+      "transitions_m2": [
+        {
+          "transition": "D1 -> D2",
+          "from_layer": 0,
+          "to_layer": 1,
+          "gain_sum": 115,
+          "loss_sum": 48,
+          "keep_sum": 475,
+          "net_gain": 67,
+          "gain_mean": 0.2113970588235294,
+          "loss_mean": 0.08823529411764706,
+          "keep_mean": 0.8731617647058824
+        },
+        {
+          "transition": "D2 -> D3",
+          "from_layer": 1,
+          "to_layer": 2,
+          "gain_sum": 42,
+          "loss_sum": 28,
+          "keep_sum": 562,
+          "net_gain": 14,
+          "gain_mean": 0.07720588235294118,
+          "loss_mean": 0.051470588235294115,
+          "keep_mean": 1.0330882352941178
+        },
+        {
+          "transition": "D3 -> D4",
+          "from_layer": 2,
+          "to_layer": 3,
+          "gain_sum": 18,
+          "loss_sum": 19,
+          "keep_sum": 585,
+          "net_gain": -1,
+          "gain_mean": 0.03308823529411765,
+          "loss_mean": 0.034926470588235295,
+          "keep_mean": 1.0753676470588236
+        }
+      ]
+    },
+    "bm_detr": {
+      "num_layers": 3,
+      "d1_m1": 118,
+      "d1_m2": 174,
+      "d1_delta": 56,
+      "df_m1": 286,
+      "df_m2": 367,
+      "df_delta": 81,
+      "m1_trend": [
+        118,
+        206,
+        286
+      ],
+      "m2_trend": [
+        174,
+        354,
+        367
+      ],
+      "status": "🟢 **D2层爆发突破** (D2大幅扩增, 最终+81)",
+      "layers_m1": [
+        {
+          "layer_idx": 0,
+          "layer_name": "D1",
+          "independent_hits_sum": 118,
+          "distinct_gts_hit_sum": 125,
+          "redundant_candidates_sum": 45,
+          "unhit_candidates_sum": 5277,
+          "independent_hits_mean": 0.21691176470588236,
+          "redundant_candidates_mean": 0.08272058823529412,
+          "unhit_candidates_mean": 9.700367647058824
+        },
+        {
+          "layer_idx": 1,
+          "layer_name": "D2",
+          "independent_hits_sum": 206,
+          "distinct_gts_hit_sum": 213,
+          "redundant_candidates_sum": 29,
+          "unhit_candidates_sum": 5205,
+          "independent_hits_mean": 0.3786764705882353,
+          "redundant_candidates_mean": 0.05330882352941176,
+          "unhit_candidates_mean": 9.568014705882353
+        },
+        {
+          "layer_idx": 2,
+          "layer_name": "D3",
+          "independent_hits_sum": 286,
+          "distinct_gts_hit_sum": 296,
+          "redundant_candidates_sum": 48,
+          "unhit_candidates_sum": 5106,
+          "independent_hits_mean": 0.5257352941176471,
+          "redundant_candidates_mean": 0.08823529411764706,
+          "unhit_candidates_mean": 9.386029411764707
+        }
+      ],
+      "layers_m2": [
+        {
+          "layer_idx": 0,
+          "layer_name": "D1",
+          "independent_hits_sum": 174,
+          "distinct_gts_hit_sum": 184,
+          "redundant_candidates_sum": 16,
+          "unhit_candidates_sum": 5250,
+          "independent_hits_mean": 0.31985294117647056,
+          "redundant_candidates_mean": 0.029411764705882353,
+          "unhit_candidates_mean": 9.650735294117647
+        },
+        {
+          "layer_idx": 1,
+          "layer_name": "D2",
+          "independent_hits_sum": 354,
+          "distinct_gts_hit_sum": 362,
+          "redundant_candidates_sum": 84,
+          "unhit_candidates_sum": 5002,
+          "independent_hits_mean": 0.6507352941176471,
+          "redundant_candidates_mean": 0.15441176470588236,
+          "unhit_candidates_mean": 9.194852941176471
+        },
+        {
+          "layer_idx": 2,
+          "layer_name": "D3",
+          "independent_hits_sum": 367,
+          "distinct_gts_hit_sum": 384,
+          "redundant_candidates_sum": 55,
+          "unhit_candidates_sum": 5018,
+          "independent_hits_mean": 0.6746323529411765,
+          "redundant_candidates_mean": 0.10110294117647059,
+          "unhit_candidates_mean": 9.224264705882353
+        }
+      ],
+      "transitions_m1": [
+        {
+          "transition": "D1 -> D2",
+          "from_layer": 0,
+          "to_layer": 1,
+          "gain_sum": 150,
+          "loss_sum": 62,
+          "keep_sum": 63,
+          "net_gain": 88,
+          "gain_mean": 0.2757352941176471,
+          "loss_mean": 0.11397058823529412,
+          "keep_mean": 0.11580882352941177
+        },
+        {
+          "transition": "D2 -> D3",
+          "from_layer": 1,
+          "to_layer": 2,
+          "gain_sum": 156,
+          "loss_sum": 73,
+          "keep_sum": 140,
+          "net_gain": 83,
+          "gain_mean": 0.2867647058823529,
+          "loss_mean": 0.13419117647058823,
+          "keep_mean": 0.25735294117647056
+        }
+      ],
+      "transitions_m2": [
+        {
+          "transition": "D1 -> D2",
+          "from_layer": 0,
+          "to_layer": 1,
+          "gain_sum": 197,
+          "loss_sum": 19,
+          "keep_sum": 165,
+          "net_gain": 178,
+          "gain_mean": 0.36213235294117646,
+          "loss_mean": 0.034926470588235295,
+          "keep_mean": 0.30330882352941174
+        },
+        {
+          "transition": "D2 -> D3",
+          "from_layer": 1,
+          "to_layer": 2,
+          "gain_sum": 159,
+          "loss_sum": 137,
+          "keep_sum": 225,
+          "net_gain": 22,
+          "gain_mean": 0.2922794117647059,
+          "loss_mean": 0.25183823529411764,
+          "keep_mean": 0.41360294117647056
+        }
+      ]
+    },
+    "bam_detr": {
+      "num_layers": 2,
+      "d1_m1": 486,
+      "d1_m2": 524,
+      "d1_delta": 38,
+      "df_m1": 612,
+      "df_m2": 604,
+      "df_delta": -8,
+      "m1_trend": [
+        486,
+        612
+      ],
+      "m2_trend": [
+        524,
+        604
+      ],
+      "status": "🔵 **D1早期大幅优化** (D1+38, 保持极高覆盖高位)",
+      "layers_m1": [
+        {
+          "layer_idx": 0,
+          "layer_name": "D1",
+          "independent_hits_sum": 486,
+          "distinct_gts_hit_sum": 501,
+          "redundant_candidates_sum": 107,
+          "unhit_candidates_sum": 4847,
+          "independent_hits_mean": 0.8933823529411765,
+          "redundant_candidates_mean": 0.19669117647058823,
+          "unhit_candidates_mean": 8.909926470588236
+        },
+        {
+          "layer_idx": 1,
+          "layer_name": "D2",
+          "independent_hits_sum": 612,
+          "distinct_gts_hit_sum": 620,
+          "redundant_candidates_sum": 396,
+          "unhit_candidates_sum": 4432,
+          "independent_hits_mean": 1.125,
+          "redundant_candidates_mean": 0.7279411764705882,
+          "unhit_candidates_mean": 8.147058823529411
+        }
+      ],
+      "layers_m2": [
+        {
+          "layer_idx": 0,
+          "layer_name": "D1",
+          "independent_hits_sum": 524,
+          "distinct_gts_hit_sum": 541,
+          "redundant_candidates_sum": 88,
+          "unhit_candidates_sum": 4828,
+          "independent_hits_mean": 0.9632352941176471,
+          "redundant_candidates_mean": 0.16176470588235295,
+          "unhit_candidates_mean": 8.875
+        },
+        {
+          "layer_idx": 1,
+          "layer_name": "D2",
+          "independent_hits_sum": 604,
+          "distinct_gts_hit_sum": 611,
+          "redundant_candidates_sum": 372,
+          "unhit_candidates_sum": 4464,
+          "independent_hits_mean": 1.1102941176470589,
+          "redundant_candidates_mean": 0.6838235294117647,
+          "unhit_candidates_mean": 8.205882352941176
+        }
+      ],
+      "transitions_m1": [
+        {
+          "transition": "D1 -> D2",
+          "from_layer": 0,
+          "to_layer": 1,
+          "gain_sum": 152,
+          "loss_sum": 33,
+          "keep_sum": 468,
+          "net_gain": 119,
+          "gain_mean": 0.27941176470588236,
+          "loss_mean": 0.06066176470588235,
+          "keep_mean": 0.8602941176470589
+        }
+      ],
+      "transitions_m2": [
+        {
+          "transition": "D1 -> D2",
+          "from_layer": 0,
+          "to_layer": 1,
+          "gain_sum": 117,
+          "loss_sum": 47,
+          "keep_sum": 494,
+          "net_gain": 70,
+          "gain_mean": 0.21507352941176472,
+          "loss_mean": 0.08639705882352941,
+          "keep_mean": 0.9080882352941176
+        }
+      ]
+    },
+    "uvcom": {
+      "num_layers": 3,
+      "d1_m1": 436,
+      "d1_m2": 562,
+      "d1_delta": 126,
+      "df_m1": 534,
+      "df_m2": 631,
+      "df_delta": 97,
+      "m1_trend": [
+        436,
+        479,
+        534
+      ],
+      "m2_trend": [
+        562,
+        630,
+        631
+      ],
+      "status": "🟢 **双阶段跃升** (D1高位开局+126, D2稳定承接, 最终+97)",
+      "layers_m1": [
+        {
+          "layer_idx": 0,
+          "layer_name": "D1",
+          "independent_hits_sum": 436,
+          "distinct_gts_hit_sum": 445,
+          "redundant_candidates_sum": 415,
+          "unhit_candidates_sum": 15469,
+          "independent_hits_mean": 0.8014705882352942,
+          "redundant_candidates_mean": 0.7628676470588235,
+          "unhit_candidates_mean": 28.435661764705884
+        },
+        {
+          "layer_idx": 1,
+          "layer_name": "D2",
+          "independent_hits_sum": 479,
+          "distinct_gts_hit_sum": 488,
+          "redundant_candidates_sum": 478,
+          "unhit_candidates_sum": 15363,
+          "independent_hits_mean": 0.8805147058823529,
+          "redundant_candidates_mean": 0.8786764705882353,
+          "unhit_candidates_mean": 28.240808823529413
+        },
+        {
+          "layer_idx": 2,
+          "layer_name": "D3",
+          "independent_hits_sum": 534,
+          "distinct_gts_hit_sum": 540,
+          "redundant_candidates_sum": 596,
+          "unhit_candidates_sum": 15190,
+          "independent_hits_mean": 0.9816176470588235,
+          "redundant_candidates_mean": 1.0955882352941178,
+          "unhit_candidates_mean": 27.922794117647058
+        }
+      ],
+      "layers_m2": [
+        {
+          "layer_idx": 0,
+          "layer_name": "D1",
+          "independent_hits_sum": 562,
+          "distinct_gts_hit_sum": 565,
+          "redundant_candidates_sum": 577,
+          "unhit_candidates_sum": 15181,
+          "independent_hits_mean": 1.0330882352941178,
+          "redundant_candidates_mean": 1.0606617647058822,
+          "unhit_candidates_mean": 27.90625
+        },
+        {
+          "layer_idx": 1,
+          "layer_name": "D2",
+          "independent_hits_sum": 630,
+          "distinct_gts_hit_sum": 634,
+          "redundant_candidates_sum": 769,
+          "unhit_candidates_sum": 14921,
+          "independent_hits_mean": 1.1580882352941178,
+          "redundant_candidates_mean": 1.4136029411764706,
+          "unhit_candidates_mean": 27.428308823529413
+        },
+        {
+          "layer_idx": 2,
+          "layer_name": "D3",
+          "independent_hits_sum": 631,
+          "distinct_gts_hit_sum": 639,
+          "redundant_candidates_sum": 607,
+          "unhit_candidates_sum": 15082,
+          "independent_hits_mean": 1.1599264705882353,
+          "redundant_candidates_mean": 1.1158088235294117,
+          "unhit_candidates_mean": 27.72426470588235
+        }
+      ],
+      "transitions_m1": [
+        {
+          "transition": "D1 -> D2",
+          "from_layer": 0,
+          "to_layer": 1,
+          "gain_sum": 129,
+          "loss_sum": 86,
+          "keep_sum": 359,
+          "net_gain": 43,
+          "gain_mean": 0.23713235294117646,
+          "loss_mean": 0.15808823529411764,
+          "keep_mean": 0.6599264705882353
+        },
+        {
+          "transition": "D2 -> D3",
+          "from_layer": 1,
+          "to_layer": 2,
+          "gain_sum": 137,
+          "loss_sum": 85,
+          "keep_sum": 403,
+          "net_gain": 52,
+          "gain_mean": 0.25183823529411764,
+          "loss_mean": 0.15625,
+          "keep_mean": 0.7408088235294118
+        }
+      ],
+      "transitions_m2": [
+        {
+          "transition": "D1 -> D2",
+          "from_layer": 0,
+          "to_layer": 1,
+          "gain_sum": 123,
+          "loss_sum": 54,
+          "keep_sum": 511,
+          "net_gain": 69,
+          "gain_mean": 0.2261029411764706,
+          "loss_mean": 0.09926470588235294,
+          "keep_mean": 0.9393382352941176
+        },
+        {
+          "transition": "D2 -> D3",
+          "from_layer": 1,
+          "to_layer": 2,
+          "gain_sum": 69,
+          "loss_sum": 64,
+          "keep_sum": 570,
+          "net_gain": 5,
+          "gain_mean": 0.12683823529411764,
+          "loss_mean": 0.11764705882352941,
+          "keep_mean": 1.0477941176470589
+        }
+      ]
+    }
+  },
+  "test_full": {
+    "moment_detr": {
+      "num_layers": 2,
+      "d1_m1": 924,
+      "d1_m2": 1182,
+      "d1_delta": 258,
+      "df_m1": 781,
+      "df_m2": 1242,
+      "df_delta": 461,
+      "m1_trend": [
+        924,
+        781
+      ],
+      "m2_trend": [
+        1182,
+        1242
+      ],
+      "status": "⚠️ **M1 严重退化** (D2大幅倒退) $\\to$ 🟢 **M2 彻底逆转** (正向提精, +461)",
+      "layers_m1": [
+        {
+          "layer_idx": 0,
+          "layer_name": "D1",
+          "independent_hits_sum": 924,
+          "distinct_gts_hit_sum": 955,
+          "redundant_candidates_sum": 831,
+          "unhit_candidates_sum": 14575,
+          "independent_hits_mean": 0.5658297611757501,
+          "redundant_candidates_mean": 0.5088793631353338,
+          "unhit_candidates_mean": 8.925290875688916
+        },
+        {
+          "layer_idx": 1,
+          "layer_name": "D2",
+          "independent_hits_sum": 781,
+          "distinct_gts_hit_sum": 798,
+          "redundant_candidates_sum": 370,
+          "unhit_candidates_sum": 15179,
+          "independent_hits_mean": 0.4782608695652174,
+          "redundant_candidates_mean": 0.226576852418861,
+          "unhit_candidates_mean": 9.29516227801592
+        }
+      ],
+      "layers_m2": [
+        {
+          "layer_idx": 0,
+          "layer_name": "D1",
+          "independent_hits_sum": 1182,
+          "distinct_gts_hit_sum": 1205,
+          "redundant_candidates_sum": 325,
+          "unhit_candidates_sum": 14823,
+          "independent_hits_mean": 0.7238211879975506,
+          "redundant_candidates_mean": 0.19902020820575628,
+          "unhit_candidates_mean": 9.077158603796693
+        },
+        {
+          "layer_idx": 1,
+          "layer_name": "D2",
+          "independent_hits_sum": 1242,
+          "distinct_gts_hit_sum": 1276,
+          "redundant_candidates_sum": 398,
+          "unhit_candidates_sum": 14690,
+          "independent_hits_mean": 0.7605633802816901,
+          "redundant_candidates_mean": 0.24372320881812615,
+          "unhit_candidates_mean": 8.995713410900184
+        }
+      ],
+      "transitions_m1": [
+        {
+          "transition": "D1 -> D2",
+          "from_layer": 0,
+          "to_layer": 1,
+          "gain_sum": 230,
+          "loss_sum": 387,
+          "keep_sum": 568,
+          "net_gain": -157,
+          "gain_mean": 0.14084507042253522,
+          "loss_mean": 0.23698714023270054,
+          "keep_mean": 0.34782608695652173
+        }
+      ],
+      "transitions_m2": [
+        {
+          "transition": "D1 -> D2",
+          "from_layer": 0,
+          "to_layer": 1,
+          "gain_sum": 332,
+          "loss_sum": 261,
+          "keep_sum": 944,
+          "net_gain": 71,
+          "gain_mean": 0.20330679730557258,
+          "loss_mean": 0.15982853643600733,
+          "keep_mean": 0.5780771586037967
+        }
+      ]
+    },
+    "eatr": {
+      "num_layers": 3,
+      "d1_m1": 1317,
+      "d1_m2": 1294,
+      "d1_delta": -23,
+      "df_m1": 1371,
+      "df_m2": 1377,
+      "df_delta": 6,
+      "m1_trend": [
+        1317,
+        1399,
+        1371
+      ],
+      "m2_trend": [
+        1294,
+        1456,
+        1377
+      ],
+      "status": "🟡 **D2峰值提精强化** (D2强化扩充, 最终+6)",
+      "layers_m1": [
+        {
+          "layer_idx": 0,
+          "layer_name": "D1",
+          "independent_hits_sum": 1317,
+          "distinct_gts_hit_sum": 1347,
+          "redundant_candidates_sum": 416,
+          "unhit_candidates_sum": 14597,
+          "independent_hits_mean": 0.8064911206368647,
+          "redundant_candidates_mean": 0.25474586650336806,
+          "unhit_candidates_mean": 8.938763012859768
+        },
+        {
+          "layer_idx": 1,
+          "layer_name": "D2",
+          "independent_hits_sum": 1399,
+          "distinct_gts_hit_sum": 1425,
+          "redundant_candidates_sum": 542,
+          "unhit_candidates_sum": 14389,
+          "independent_hits_mean": 0.8567054500918555,
+          "redundant_candidates_mean": 0.33190447030006126,
+          "unhit_candidates_mean": 8.811390079608083
+        },
+        {
+          "layer_idx": 2,
+          "layer_name": "D3",
+          "independent_hits_sum": 1371,
+          "distinct_gts_hit_sum": 1400,
+          "redundant_candidates_sum": 529,
+          "unhit_candidates_sum": 14430,
+          "independent_hits_mean": 0.8395590936925903,
+          "redundant_candidates_mean": 0.323943661971831,
+          "unhit_candidates_mean": 8.836497244335579
+        }
+      ],
+      "layers_m2": [
+        {
+          "layer_idx": 0,
+          "layer_name": "D1",
+          "independent_hits_sum": 1294,
+          "distinct_gts_hit_sum": 1321,
+          "redundant_candidates_sum": 361,
+          "unhit_candidates_sum": 14675,
+          "independent_hits_mean": 0.7924066135946112,
+          "redundant_candidates_mean": 0.22106552357624004,
+          "unhit_candidates_mean": 8.98652786282915
+        },
+        {
+          "layer_idx": 1,
+          "layer_name": "D2",
+          "independent_hits_sum": 1456,
+          "distinct_gts_hit_sum": 1481,
+          "redundant_candidates_sum": 653,
+          "unhit_candidates_sum": 14221,
+          "independent_hits_mean": 0.8916105327617881,
+          "redundant_candidates_mean": 0.3998775260257195,
+          "unhit_candidates_mean": 8.708511941212493
+        },
+        {
+          "layer_idx": 2,
+          "layer_name": "D3",
+          "independent_hits_sum": 1377,
+          "distinct_gts_hit_sum": 1401,
+          "redundant_candidates_sum": 506,
+          "unhit_candidates_sum": 14447,
+          "independent_hits_mean": 0.8432333129210043,
+          "redundant_candidates_mean": 0.30985915492957744,
+          "unhit_candidates_mean": 8.846907532149418
+        }
+      ],
+      "transitions_m1": [
+        {
+          "transition": "D1 -> D2",
+          "from_layer": 0,
+          "to_layer": 1,
+          "gain_sum": 341,
+          "loss_sum": 263,
+          "keep_sum": 1084,
+          "net_gain": 78,
+          "gain_mean": 0.2088181261481935,
+          "loss_mean": 0.16105327617881202,
+          "keep_mean": 0.6638089406001225
+        },
+        {
+          "transition": "D2 -> D3",
+          "from_layer": 1,
+          "to_layer": 2,
+          "gain_sum": 166,
+          "loss_sum": 191,
+          "keep_sum": 1234,
+          "net_gain": -25,
+          "gain_mean": 0.10165339865278629,
+          "loss_mean": 0.11696264543784446,
+          "keep_mean": 0.7556644213104715
+        }
+      ],
+      "transitions_m2": [
+        {
+          "transition": "D1 -> D2",
+          "from_layer": 0,
+          "to_layer": 1,
+          "gain_sum": 434,
+          "loss_sum": 274,
+          "keep_sum": 1047,
+          "net_gain": 160,
+          "gain_mean": 0.2657685241886099,
+          "loss_mean": 0.1677893447642376,
+          "keep_mean": 0.6411512553582364
+        },
+        {
+          "transition": "D2 -> D3",
+          "from_layer": 1,
+          "to_layer": 2,
+          "gain_sum": 131,
+          "loss_sum": 211,
+          "keep_sum": 1270,
+          "net_gain": -80,
+          "gain_mean": 0.08022045315370484,
+          "loss_mean": 0.129210042865891,
+          "keep_mean": 0.7777097366809553
+        }
+      ]
+    },
+    "qd_detr": {
+      "num_layers": 2,
+      "d1_m1": 1109,
+      "d1_m2": 1234,
+      "d1_delta": 125,
+      "df_m1": 1290,
+      "df_m2": 1239,
+      "df_delta": -51,
+      "m1_trend": [
+        1109,
+        1290
+      ],
+      "m2_trend": [
+        1234,
+        1239
+      ],
+      "status": "🟡 **D1先验大幅增强** (D1+125, D2平稳保持)",
+      "layers_m1": [
+        {
+          "layer_idx": 0,
+          "layer_name": "D1",
+          "independent_hits_sum": 1109,
+          "distinct_gts_hit_sum": 1164,
+          "redundant_candidates_sum": 114,
+          "unhit_candidates_sum": 15107,
+          "independent_hits_mean": 0.6791181873851806,
+          "redundant_candidates_mean": 0.06981016533986528,
+          "unhit_candidates_mean": 9.251071647274953
+        },
+        {
+          "layer_idx": 1,
+          "layer_name": "D2",
+          "independent_hits_sum": 1290,
+          "distinct_gts_hit_sum": 1325,
+          "redundant_candidates_sum": 414,
+          "unhit_candidates_sum": 14626,
+          "independent_hits_mean": 0.7899571341090018,
+          "redundant_candidates_mean": 0.2535211267605634,
+          "unhit_candidates_mean": 8.956521739130435
+        }
+      ],
+      "layers_m2": [
+        {
+          "layer_idx": 0,
+          "layer_name": "D1",
+          "independent_hits_sum": 1234,
+          "distinct_gts_hit_sum": 1265,
+          "redundant_candidates_sum": 572,
+          "unhit_candidates_sum": 14524,
+          "independent_hits_mean": 0.7556644213104715,
+          "redundant_candidates_mean": 0.35027556644213104,
+          "unhit_candidates_mean": 8.894060012247397
+        },
+        {
+          "layer_idx": 1,
+          "layer_name": "D2",
+          "independent_hits_sum": 1239,
+          "distinct_gts_hit_sum": 1264,
+          "redundant_candidates_sum": 532,
+          "unhit_candidates_sum": 14559,
+          "independent_hits_mean": 0.7587262706674831,
+          "redundant_candidates_mean": 0.32578077158603796,
+          "unhit_candidates_mean": 8.915492957746478
+        }
+      ],
+      "transitions_m1": [
+        {
+          "transition": "D1 -> D2",
+          "from_layer": 0,
+          "to_layer": 1,
+          "gain_sum": 569,
+          "loss_sum": 408,
+          "keep_sum": 756,
+          "net_gain": 161,
+          "gain_mean": 0.34843845682792407,
+          "loss_mean": 0.24984690753214941,
+          "keep_mean": 0.4629516227801592
+        }
+      ],
+      "transitions_m2": [
+        {
+          "transition": "D1 -> D2",
+          "from_layer": 0,
+          "to_layer": 1,
+          "gain_sum": 348,
+          "loss_sum": 349,
+          "keep_sum": 916,
+          "net_gain": -1,
+          "gain_mean": 0.2131047152480098,
+          "loss_mean": 0.21371708511941212,
+          "keep_mean": 0.5609308022045315
+        }
+      ]
+    },
+    "cg_detr": {
+      "num_layers": 3,
+      "d1_m1": 1139,
+      "d1_m2": 1136,
+      "d1_delta": -3,
+      "df_m1": 1220,
+      "df_m2": 1164,
+      "df_delta": -56,
+      "m1_trend": [
+        1139,
+        1287,
+        1220
+      ],
+      "m2_trend": [
+        1136,
+        1254,
+        1164
+      ],
+      "status": "⚪ **收敛前移至D2** (D2保持峰值分化)",
+      "layers_m1": [
+        {
+          "layer_idx": 0,
+          "layer_name": "D1",
+          "independent_hits_sum": 1139,
+          "distinct_gts_hit_sum": 1172,
+          "redundant_candidates_sum": 237,
+          "unhit_candidates_sum": 14954,
+          "independent_hits_mean": 0.6974892835272505,
+          "redundant_candidates_mean": 0.1451316595223515,
+          "unhit_candidates_mean": 9.157379056950399
+        },
+        {
+          "layer_idx": 1,
+          "layer_name": "D2",
+          "independent_hits_sum": 1287,
+          "distinct_gts_hit_sum": 1308,
+          "redundant_candidates_sum": 486,
+          "unhit_candidates_sum": 14557,
+          "independent_hits_mean": 0.7881200244947949,
+          "redundant_candidates_mean": 0.2976117575015309,
+          "unhit_candidates_mean": 8.914268218003674
+        },
+        {
+          "layer_idx": 2,
+          "layer_name": "D3",
+          "independent_hits_sum": 1220,
+          "distinct_gts_hit_sum": 1238,
+          "redundant_candidates_sum": 438,
+          "unhit_candidates_sum": 14672,
+          "independent_hits_mean": 0.747091243110839,
+          "redundant_candidates_mean": 0.2682180036742192,
+          "unhit_candidates_mean": 8.984690753214942
+        }
+      ],
+      "layers_m2": [
+        {
+          "layer_idx": 0,
+          "layer_name": "D1",
+          "independent_hits_sum": 1136,
+          "distinct_gts_hit_sum": 1180,
+          "redundant_candidates_sum": 199,
+          "unhit_candidates_sum": 14995,
+          "independent_hits_mean": 0.6956521739130435,
+          "redundant_candidates_mean": 0.12186160440906307,
+          "unhit_candidates_mean": 9.182486221677893
+        },
+        {
+          "layer_idx": 1,
+          "layer_name": "D2",
+          "independent_hits_sum": 1254,
+          "distinct_gts_hit_sum": 1296,
+          "redundant_candidates_sum": 441,
+          "unhit_candidates_sum": 14635,
+          "independent_hits_mean": 0.7679118187385181,
+          "redundant_candidates_mean": 0.2700551132884262,
+          "unhit_candidates_mean": 8.962033067973056
+        },
+        {
+          "layer_idx": 2,
+          "layer_name": "D3",
+          "independent_hits_sum": 1164,
+          "distinct_gts_hit_sum": 1196,
+          "redundant_candidates_sum": 322,
+          "unhit_candidates_sum": 14844,
+          "independent_hits_mean": 0.7127985303123087,
+          "redundant_candidates_mean": 0.19718309859154928,
+          "unhit_candidates_mean": 9.090018371096143
+        }
+      ],
+      "transitions_m1": [
+        {
+          "transition": "D1 -> D2",
+          "from_layer": 0,
+          "to_layer": 1,
+          "gain_sum": 533,
+          "loss_sum": 397,
+          "keep_sum": 775,
+          "net_gain": 136,
+          "gain_mean": 0.3263931414574403,
+          "loss_mean": 0.24311083894672383,
+          "keep_mean": 0.4745866503368034
+        },
+        {
+          "transition": "D2 -> D3",
+          "from_layer": 1,
+          "to_layer": 2,
+          "gain_sum": 219,
+          "loss_sum": 289,
+          "keep_sum": 1019,
+          "net_gain": -70,
+          "gain_mean": 0.1341090018371096,
+          "loss_mean": 0.1769748928352725,
+          "keep_mean": 0.6240048989589713
+        }
+      ],
+      "transitions_m2": [
+        {
+          "transition": "D1 -> D2",
+          "from_layer": 0,
+          "to_layer": 1,
+          "gain_sum": 433,
+          "loss_sum": 317,
+          "keep_sum": 863,
+          "net_gain": 116,
+          "gain_mean": 0.26515615431720757,
+          "loss_mean": 0.19412124923453766,
+          "keep_mean": 0.5284751990202082
+        },
+        {
+          "transition": "D2 -> D3",
+          "from_layer": 1,
+          "to_layer": 2,
+          "gain_sum": 204,
+          "loss_sum": 304,
+          "keep_sum": 992,
+          "net_gain": -100,
+          "gain_mean": 0.12492345376607471,
+          "loss_mean": 0.1861604409063074,
+          "keep_mean": 0.6074709124311084
+        }
+      ]
+    },
+    "sim_detr": {
+      "num_layers": 4,
+      "d1_m1": 1472,
+      "d1_m2": 1469,
+      "d1_delta": -3,
+      "df_m1": 1700,
+      "df_m2": 1758,
+      "df_delta": 58,
+      "m1_trend": [
+        1472,
+        1668,
+        1710,
+        1700
+      ],
+      "m2_trend": [
+        1469,
+        1684,
+        1717,
+        1758
+      ],
+      "status": "🟢 **全层持续稳步提升** (4层每层全面超越, 最终+58)",
+      "layers_m1": [
+        {
+          "layer_idx": 0,
+          "layer_name": "D1",
+          "independent_hits_sum": 1472,
+          "distinct_gts_hit_sum": 1520,
+          "redundant_candidates_sum": 931,
+          "unhit_candidates_sum": 13927,
+          "independent_hits_mean": 0.9014084507042254,
+          "redundant_candidates_mean": 0.5701163502755664,
+          "unhit_candidates_mean": 8.528475199020209
+        },
+        {
+          "layer_idx": 1,
+          "layer_name": "D2",
+          "independent_hits_sum": 1668,
+          "distinct_gts_hit_sum": 1697,
+          "redundant_candidates_sum": 1224,
+          "unhit_candidates_sum": 13438,
+          "independent_hits_mean": 1.0214329454990814,
+          "redundant_candidates_mean": 0.7495407225964482,
+          "unhit_candidates_mean": 8.22902633190447
+        },
+        {
+          "layer_idx": 2,
+          "layer_name": "D3",
+          "independent_hits_sum": 1710,
+          "distinct_gts_hit_sum": 1731,
+          "redundant_candidates_sum": 1485,
+          "unhit_candidates_sum": 13135,
+          "independent_hits_mean": 1.0471524800979792,
+          "redundant_candidates_mean": 0.9093692590324556,
+          "unhit_candidates_mean": 8.043478260869565
+        },
+        {
+          "layer_idx": 3,
+          "layer_name": "D4",
+          "independent_hits_sum": 1700,
+          "distinct_gts_hit_sum": 1721,
+          "redundant_candidates_sum": 1578,
+          "unhit_candidates_sum": 13052,
+          "independent_hits_mean": 1.0410287813839558,
+          "redundant_candidates_mean": 0.966319657072872,
+          "unhit_candidates_mean": 7.992651561543172
+        }
+      ],
+      "layers_m2": [
+        {
+          "layer_idx": 0,
+          "layer_name": "D1",
+          "independent_hits_sum": 1469,
+          "distinct_gts_hit_sum": 1503,
+          "redundant_candidates_sum": 974,
+          "unhit_candidates_sum": 13887,
+          "independent_hits_mean": 0.8995713410900184,
+          "redundant_candidates_mean": 0.5964482547458665,
+          "unhit_candidates_mean": 8.503980404164116
+        },
+        {
+          "layer_idx": 1,
+          "layer_name": "D2",
+          "independent_hits_sum": 1684,
+          "distinct_gts_hit_sum": 1716,
+          "redundant_candidates_sum": 1372,
+          "unhit_candidates_sum": 13274,
+          "independent_hits_mean": 1.0312308634415186,
+          "redundant_candidates_mean": 0.8401714635639926,
+          "unhit_candidates_mean": 8.12859767299449
+        },
+        {
+          "layer_idx": 2,
+          "layer_name": "D3",
+          "independent_hits_sum": 1717,
+          "distinct_gts_hit_sum": 1751,
+          "redundant_candidates_sum": 1262,
+          "unhit_candidates_sum": 13351,
+          "independent_hits_mean": 1.0514390691977955,
+          "redundant_candidates_mean": 0.7728107777097367,
+          "unhit_candidates_mean": 8.175750153092467
+        },
+        {
+          "layer_idx": 3,
+          "layer_name": "D4",
+          "independent_hits_sum": 1758,
+          "distinct_gts_hit_sum": 1786,
+          "redundant_candidates_sum": 1434,
+          "unhit_candidates_sum": 13138,
+          "independent_hits_mean": 1.076546233925291,
+          "redundant_candidates_mean": 0.8781383955909369,
+          "unhit_candidates_mean": 8.045315370483772
+        }
+      ],
+      "transitions_m1": [
+        {
+          "transition": "D1 -> D2",
+          "from_layer": 0,
+          "to_layer": 1,
+          "gain_sum": 368,
+          "loss_sum": 191,
+          "keep_sum": 1329,
+          "net_gain": 177,
+          "gain_mean": 0.22535211267605634,
+          "loss_mean": 0.11696264543784446,
+          "keep_mean": 0.8138395590936925
+        },
+        {
+          "transition": "D2 -> D3",
+          "from_layer": 1,
+          "to_layer": 2,
+          "gain_sum": 139,
+          "loss_sum": 105,
+          "keep_sum": 1592,
+          "net_gain": 34,
+          "gain_mean": 0.08511941212492345,
+          "loss_mean": 0.06429883649724434,
+          "keep_mean": 0.9748928352725046
+        },
+        {
+          "transition": "D3 -> D4",
+          "from_layer": 2,
+          "to_layer": 3,
+          "gain_sum": 68,
+          "loss_sum": 78,
+          "keep_sum": 1653,
+          "net_gain": -10,
+          "gain_mean": 0.041641151255358236,
+          "loss_mean": 0.047764849969381504,
+          "keep_mean": 1.0122473974280466
+        }
+      ],
+      "transitions_m2": [
+        {
+          "transition": "D1 -> D2",
+          "from_layer": 0,
+          "to_layer": 1,
+          "gain_sum": 369,
+          "loss_sum": 156,
+          "keep_sum": 1347,
+          "net_gain": 213,
+          "gain_mean": 0.22596448254745866,
+          "loss_mean": 0.09552969993876301,
+          "keep_mean": 0.8248622167789345
+        },
+        {
+          "transition": "D2 -> D3",
+          "from_layer": 1,
+          "to_layer": 2,
+          "gain_sum": 138,
+          "loss_sum": 103,
+          "keep_sum": 1613,
+          "net_gain": 35,
+          "gain_mean": 0.08450704225352113,
+          "loss_mean": 0.06307409675443969,
+          "keep_mean": 0.9877526025719534
+        },
+        {
+          "transition": "D3 -> D4",
+          "from_layer": 2,
+          "to_layer": 3,
+          "gain_sum": 110,
+          "loss_sum": 75,
+          "keep_sum": 1676,
+          "net_gain": 35,
+          "gain_mean": 0.06736068585425597,
+          "loss_mean": 0.04592774035517452,
+          "keep_mean": 1.0263319044703
+        }
+      ]
+    },
+    "bm_detr": {
+      "num_layers": 3,
+      "d1_m1": 369,
+      "d1_m2": 547,
+      "d1_delta": 178,
+      "df_m1": 897,
+      "df_m2": 1070,
+      "df_delta": 173,
+      "m1_trend": [
+        369,
+        711,
+        897
+      ],
+      "m2_trend": [
+        547,
+        1021,
+        1070
+      ],
+      "status": "🟢 **D2层爆发突破** (D2大幅扩增, 最终+173)",
+      "layers_m1": [
+        {
+          "layer_idx": 0,
+          "layer_name": "D1",
+          "independent_hits_sum": 369,
+          "distinct_gts_hit_sum": 389,
+          "redundant_candidates_sum": 125,
+          "unhit_candidates_sum": 15836,
+          "independent_hits_mean": 0.22596448254745866,
+          "redundant_candidates_mean": 0.07654623392529088,
+          "unhit_candidates_mean": 9.69748928352725
+        },
+        {
+          "layer_idx": 1,
+          "layer_name": "D2",
+          "independent_hits_sum": 711,
+          "distinct_gts_hit_sum": 738,
+          "redundant_candidates_sum": 119,
+          "unhit_candidates_sum": 15500,
+          "independent_hits_mean": 0.4353949785670545,
+          "redundant_candidates_mean": 0.07287201469687692,
+          "unhit_candidates_mean": 9.49173300673607
+        },
+        {
+          "layer_idx": 2,
+          "layer_name": "D3",
+          "independent_hits_sum": 897,
+          "distinct_gts_hit_sum": 928,
+          "redundant_candidates_sum": 164,
+          "unhit_candidates_sum": 15269,
+          "independent_hits_mean": 0.5492957746478874,
+          "redundant_candidates_mean": 0.10042865890998164,
+          "unhit_candidates_mean": 9.35027556644213
+        }
+      ],
+      "layers_m2": [
+        {
+          "layer_idx": 0,
+          "layer_name": "D1",
+          "independent_hits_sum": 547,
+          "distinct_gts_hit_sum": 577,
+          "redundant_candidates_sum": 40,
+          "unhit_candidates_sum": 15743,
+          "independent_hits_mean": 0.33496631965707285,
+          "redundant_candidates_mean": 0.02449479485609308,
+          "unhit_candidates_mean": 9.640538885486833
+        },
+        {
+          "layer_idx": 1,
+          "layer_name": "D2",
+          "independent_hits_sum": 1021,
+          "distinct_gts_hit_sum": 1050,
+          "redundant_candidates_sum": 259,
+          "unhit_candidates_sum": 15050,
+          "independent_hits_mean": 0.6252296387017758,
+          "redundant_candidates_mean": 0.15860379669320268,
+          "unhit_candidates_mean": 9.216166564605022
+        },
+        {
+          "layer_idx": 2,
+          "layer_name": "D3",
+          "independent_hits_sum": 1070,
+          "distinct_gts_hit_sum": 1103,
+          "redundant_candidates_sum": 189,
+          "unhit_candidates_sum": 15071,
+          "independent_hits_mean": 0.6552357624004899,
+          "redundant_candidates_mean": 0.1157379056950398,
+          "unhit_candidates_mean": 9.22902633190447
+        }
+      ],
+      "transitions_m1": [
+        {
+          "transition": "D1 -> D2",
+          "from_layer": 0,
+          "to_layer": 1,
+          "gain_sum": 578,
+          "loss_sum": 229,
+          "keep_sum": 160,
+          "net_gain": 349,
+          "gain_mean": 0.353949785670545,
+          "loss_mean": 0.14023270055113288,
+          "keep_mean": 0.09797917942437231
+        },
+        {
+          "transition": "D2 -> D3",
+          "from_layer": 1,
+          "to_layer": 2,
+          "gain_sum": 456,
+          "loss_sum": 266,
+          "keep_sum": 472,
+          "net_gain": 190,
+          "gain_mean": 0.27924066135946113,
+          "loss_mean": 0.16289038579301898,
+          "keep_mean": 0.28903857930189836
+        }
+      ],
+      "transitions_m2": [
+        {
+          "transition": "D1 -> D2",
+          "from_layer": 0,
+          "to_layer": 1,
+          "gain_sum": 544,
+          "loss_sum": 71,
+          "keep_sum": 506,
+          "net_gain": 473,
+          "gain_mean": 0.3331292100428659,
+          "loss_mean": 0.043478260869565216,
+          "keep_mean": 0.30985915492957744
+        },
+        {
+          "transition": "D2 -> D3",
+          "from_layer": 1,
+          "to_layer": 2,
+          "gain_sum": 501,
+          "loss_sum": 448,
+          "keep_sum": 602,
+          "net_gain": 53,
+          "gain_mean": 0.30679730557256585,
+          "loss_mean": 0.2743417023882425,
+          "keep_mean": 0.36864666258420087
+        }
+      ]
+    },
+    "bam_detr": {
+      "num_layers": 2,
+      "d1_m1": 1468,
+      "d1_m2": 1579,
+      "d1_delta": 111,
+      "df_m1": 1781,
+      "df_m2": 1781,
+      "df_delta": 0,
+      "m1_trend": [
+        1468,
+        1781
+      ],
+      "m2_trend": [
+        1579,
+        1781
+      ],
+      "status": "🔵 **D1早期大幅优化** (D1+111, 保持极高覆盖高位)",
+      "layers_m1": [
+        {
+          "layer_idx": 0,
+          "layer_name": "D1",
+          "independent_hits_sum": 1468,
+          "distinct_gts_hit_sum": 1515,
+          "redundant_candidates_sum": 320,
+          "unhit_candidates_sum": 14542,
+          "independent_hits_mean": 0.898958971218616,
+          "redundant_candidates_mean": 0.19595835884874463,
+          "unhit_candidates_mean": 8.90508266993264
+        },
+        {
+          "layer_idx": 1,
+          "layer_name": "D2",
+          "independent_hits_sum": 1781,
+          "distinct_gts_hit_sum": 1810,
+          "redundant_candidates_sum": 1146,
+          "unhit_candidates_sum": 13403,
+          "independent_hits_mean": 1.0906307409675444,
+          "redundant_candidates_mean": 0.7017758726270668,
+          "unhit_candidates_mean": 8.207593386405389
+        }
+      ],
+      "layers_m2": [
+        {
+          "layer_idx": 0,
+          "layer_name": "D1",
+          "independent_hits_sum": 1579,
+          "distinct_gts_hit_sum": 1628,
+          "redundant_candidates_sum": 290,
+          "unhit_candidates_sum": 14461,
+          "independent_hits_mean": 0.9669320269442744,
+          "redundant_candidates_mean": 0.17758726270667483,
+          "unhit_candidates_mean": 8.85548071034905
+        },
+        {
+          "layer_idx": 1,
+          "layer_name": "D2",
+          "independent_hits_sum": 1781,
+          "distinct_gts_hit_sum": 1814,
+          "redundant_candidates_sum": 1158,
+          "unhit_candidates_sum": 13391,
+          "independent_hits_mean": 1.0906307409675444,
+          "redundant_candidates_mean": 0.7091243110838946,
+          "unhit_candidates_mean": 8.20024494794856
+        }
+      ],
+      "transitions_m1": [
+        {
+          "transition": "D1 -> D2",
+          "from_layer": 0,
+          "to_layer": 1,
+          "gain_sum": 424,
+          "loss_sum": 129,
+          "keep_sum": 1386,
+          "net_gain": 295,
+          "gain_mean": 0.25964482547458667,
+          "loss_mean": 0.07899571341090018,
+          "keep_mean": 0.8487446417636252
+        }
+      ],
+      "transitions_m2": [
+        {
+          "transition": "D1 -> D2",
+          "from_layer": 0,
+          "to_layer": 1,
+          "gain_sum": 368,
+          "loss_sum": 182,
+          "keep_sum": 1446,
+          "net_gain": 186,
+          "gain_mean": 0.22535211267605634,
+          "loss_mean": 0.11145131659522352,
+          "keep_mean": 0.8854868340477648
+        }
+      ]
+    },
+    "uvcom": {
+      "num_layers": 3,
+      "d1_m1": 1350,
+      "d1_m2": 1741,
+      "d1_delta": 391,
+      "df_m1": 1631,
+      "df_m2": 1993,
+      "df_delta": 362,
+      "m1_trend": [
+        1350,
+        1466,
+        1631
+      ],
+      "m2_trend": [
+        1741,
+        1986,
+        1993
+      ],
+      "status": "🟢 **双阶段跃升** (D1高位开局+391, D2稳定承接, 最终+362)",
+      "layers_m1": [
+        {
+          "layer_idx": 0,
+          "layer_name": "D1",
+          "independent_hits_sum": 1350,
+          "distinct_gts_hit_sum": 1374,
+          "redundant_candidates_sum": 1308,
+          "unhit_candidates_sum": 46332,
+          "independent_hits_mean": 0.8266993263931415,
+          "redundant_candidates_mean": 0.8009797917942437,
+          "unhit_candidates_mean": 28.372320881812616
+        },
+        {
+          "layer_idx": 1,
+          "layer_name": "D2",
+          "independent_hits_sum": 1466,
+          "distinct_gts_hit_sum": 1501,
+          "redundant_candidates_sum": 1510,
+          "unhit_candidates_sum": 46014,
+          "independent_hits_mean": 0.8977342314758114,
+          "redundant_candidates_mean": 0.9246785058175138,
+          "unhit_candidates_mean": 28.177587262706673
+        },
+        {
+          "layer_idx": 2,
+          "layer_name": "D3",
+          "independent_hits_sum": 1631,
+          "distinct_gts_hit_sum": 1654,
+          "redundant_candidates_sum": 1957,
+          "unhit_candidates_sum": 45402,
+          "independent_hits_mean": 0.9987752602571953,
+          "redundant_candidates_mean": 1.198407838334354,
+          "unhit_candidates_mean": 27.802816901408452
+        }
+      ],
+      "layers_m2": [
+        {
+          "layer_idx": 0,
+          "layer_name": "D1",
+          "independent_hits_sum": 1741,
+          "distinct_gts_hit_sum": 1760,
+          "redundant_candidates_sum": 1828,
+          "unhit_candidates_sum": 45421,
+          "independent_hits_mean": 1.0661359461114512,
+          "redundant_candidates_mean": 1.1194121249234537,
+          "unhit_candidates_mean": 27.814451928965095
+        },
+        {
+          "layer_idx": 1,
+          "layer_name": "D2",
+          "independent_hits_sum": 1986,
+          "distinct_gts_hit_sum": 1994,
+          "redundant_candidates_sum": 2274,
+          "unhit_candidates_sum": 44730,
+          "independent_hits_mean": 1.2161665646050215,
+          "redundant_candidates_mean": 1.3925290875688916,
+          "unhit_candidates_mean": 27.391304347826086
+        },
+        {
+          "layer_idx": 2,
+          "layer_name": "D3",
+          "independent_hits_sum": 1993,
+          "distinct_gts_hit_sum": 2007,
+          "redundant_candidates_sum": 1844,
+          "unhit_candidates_sum": 45153,
+          "independent_hits_mean": 1.2204531537048378,
+          "redundant_candidates_mean": 1.129210042865891,
+          "unhit_candidates_mean": 27.650336803429273
+        }
+      ],
+      "transitions_m1": [
+        {
+          "transition": "D1 -> D2",
+          "from_layer": 0,
+          "to_layer": 1,
+          "gain_sum": 403,
+          "loss_sum": 276,
+          "keep_sum": 1098,
+          "net_gain": 127,
+          "gain_mean": 0.2467850581751378,
+          "loss_mean": 0.16901408450704225,
+          "keep_mean": 0.6723821187997551
+        },
+        {
+          "transition": "D2 -> D3",
+          "from_layer": 1,
+          "to_layer": 2,
+          "gain_sum": 377,
+          "loss_sum": 224,
+          "keep_sum": 1277,
+          "net_gain": 153,
+          "gain_mean": 0.23086344151867727,
+          "loss_mean": 0.13717085119412126,
+          "keep_mean": 0.7819963257807716
+        }
+      ],
+      "transitions_m2": [
+        {
+          "transition": "D1 -> D2",
+          "from_layer": 0,
+          "to_layer": 1,
+          "gain_sum": 427,
+          "loss_sum": 193,
+          "keep_sum": 1567,
+          "net_gain": 234,
+          "gain_mean": 0.26148193508879364,
+          "loss_mean": 0.11818738518064911,
+          "keep_mean": 0.9595835884874464
+        },
+        {
+          "transition": "D2 -> D3",
+          "from_layer": 1,
+          "to_layer": 2,
+          "gain_sum": 200,
+          "loss_sum": 187,
+          "keep_sum": 1807,
+          "net_gain": 13,
+          "gain_mean": 0.1224739742804654,
+          "loss_mean": 0.11451316595223515,
+          "keep_mean": 1.1065523576240048
+        }
+      ]
+    }
+  }
+}
