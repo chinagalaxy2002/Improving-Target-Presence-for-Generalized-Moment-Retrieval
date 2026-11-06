@@ -73,11 +73,3 @@
 > 3. **Method 1 基线历史配置差异说明**：
 >    - `bm_detr`、`uvcom`、`eatr`、`bam_detr` 在基线评测中与官方消融指标完全精准一致（差值 $\le 0.1$）。
 >    - `moment_detr` 与 `qd_detr` 的基线消融历史记录（Standard Test mAP 分别为 6.68% 与 14.62%）在早期 Stage 0/E1 评测中采用了历史特征采样参数 `max_video_tokens: 75`；而在当前仓库 `configs/experiments/*.json` 的标准化评测协议下统一为 `128`，诊断测试结果（5.92% 与 13.71%）完全符合长序列采样下的模型原生表现，模型权重 SHA-256 均与官方清单 100% 吻合。
-
-## 4. 首次命中排名口径修正总结
-
-> [!NOTE]
-> - **原口径问题归因**：先前使用的未施加二分图独占约束的 $\min \operatorname{rank}$ 单点存在性统计，允许单个 Top-1 预测候选同时被多个 GT 记为命中。在多 GT ($M \ge 2$) 查询中，由于真实事件在时间上相邻或候选窗口较宽，导致 Top-1 首次命中事件数虚高（例如 UVCOM 记录为 78，而官方独立命中仅为 74），且 Not Found 数（210）偏离未生成事件数 $N^{missing}$（216）。
-> - **修正方案 (前缀二分图最大匹配口径)**：已全面升级为基于前缀二分图匹配的动态增量命中统计（Prefix Bipartite Incremental Matching）。在每一个预算阈值 $k$，严格计算新增独立认领的真实事件，实现：
->   $$\sum_{g_j} \mathbb{I}[r^{match}(g_j) = 1] \equiv H^{@1}, \quad \sum_{g_j} \mathbb{I}[r^{match}(g_j) \le 5] \equiv H^{@5}, \quad \text{Count}(\text{not\_found}) \equiv N^{missing}$$
->   与 Table B 形成完全自洽、可闭合校验的数学恒等体系。
