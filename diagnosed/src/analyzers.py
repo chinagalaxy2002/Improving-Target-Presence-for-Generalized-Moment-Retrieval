@@ -11,7 +11,7 @@ from __future__ import annotations
 from typing import Dict, List, Any, Optional, Tuple
 import numpy as np
 
-from .core import evaluate_candidates_against_gt, evaluate_topk_ranking
+from .core import evaluate_candidates_against_gt, evaluate_topk_ranking, evaluate_multigt_coverage_state
 
 
 def analyze_records(records: List[Dict[str, Any]], iou_threshold: float = 0.4) -> Dict[str, Any]:
@@ -161,8 +161,14 @@ def analyze_records(records: List[Dict[str, Any]], iou_threshold: float = 0.4) -
     # -------------------------------------------------------------
     exp4_results = {}
     k_eval_list = (1, 3, 5, 10)
-    first_hit_rank_hist = {f"rank_{k}": 0 for k in range(1, K + 1)}
-    first_hit_rank_hist["not_found"] = 0
+    
+    # 1. Matching-consistent first hit rank (prefix bipartite matching)
+    matched_first_hit_rank_hist = {f"rank_{k}": 0 for k in range(1, K + 1)}
+    matched_first_hit_rank_hist["not_found"] = 0
+    
+    # 2. Raw unconstrained first hit rank (min rank where IoU >= tau)
+    raw_first_hit_rank_hist = {f"rank_{k}": 0 for k in range(1, K + 1)}
+    raw_first_hit_rank_hist["not_found"] = 0
 
     for g_name, g_recs in groups.items():
         n_queries = len(g_recs)
@@ -192,11 +198,17 @@ def analyze_records(records: List[Dict[str, Any]], iou_threshold: float = 0.4) -
                 n_selected_at_k_sum[k] += rank_res["N_selected_at_k"][k]
 
             if g_name == "all_pos":
-                for rnk in rank_res["first_hit_ranks"]:
+                for rnk in rank_res["matched_first_hit_ranks"]:
                     if rnk == -1:
-                        first_hit_rank_hist["not_found"] += 1
+                        matched_first_hit_rank_hist["not_found"] += 1
                     else:
-                        first_hit_rank_hist[f"rank_{rnk}"] += 1
+                        matched_first_hit_rank_hist[f"rank_{rnk}"] += 1
+
+                for rnk in rank_res["raw_first_hit_ranks"]:
+                    if rnk == -1:
+                        raw_first_hit_rank_hist["not_found"] += 1
+                    else:
+                        raw_first_hit_rank_hist[f"rank_{rnk}"] += 1
 
         exp4_results[g_name] = {
             "query_count": n_queries,
@@ -209,6 +221,95 @@ def analyze_records(records: List[Dict[str, Any]], iou_threshold: float = 0.4) -
             "N_selected_at_k_sum": {str(k): v for k, v in n_selected_at_k_sum.items()},
             "ranking_omission_rate_top5_pct": float(n_ranking_at_k_sum[5] / total_gt * 100.0) if total_gt else 0.0,
             "ranking_omission_rate_top10_pct": float(n_ranking_at_k_sum[10] / total_gt * 100.0) if total_gt else 0.0,
+        }
+
+    # -------------------------------------------------------------
+    # MULTI-GT QUERY COMPLETE EVENT COVERAGE ANALYSIS (M >= 2)
+    # -------------------------------------------------------------
+    multigt_recs = groups["Mgte2"]
+    multigt_total_queries = len(multigt_recs)
+    multigt_total_gt = sum(r["num_gt"] for r in multigt_recs)
+    multigt_coverage = {}
+
+    for budget in ["all", "top10", "top5", "top1"]:
+        cat_counts = {"full": 0, "partial_multi": 0, "single": 0, "zero": 0}
+        for r in multigt_recs:
+            final_layer = r["layers"][-1]
+            scores = np.array(final_layer["native_scores"], dtype=np.float32)
+            ious = np.array(final_layer["ious"], dtype=np.float32)
+            st = evaluate_multigt_coverage_state(ious, scores, budget=budget, iou_threshold=iou_threshold)
+            cat_counts[st["category"]] += 1
+
+        multigt_coverage[budget] = {
+            "total_queries": multigt_total_queries,
+            "total_gt": multigt_total_gt,
+            "counts": cat_counts,
+            "percentages": {
+                c: float(v / multigt_total_queries * 100.0) if multigt_total_queries else 0.0
+                for c, v in cat_counts.items()
+            }
+        }
+
+    # -------------------------------------------------------------
+    # IOU SENSITIVITY ANALYSIS (tau in {0.3, 0.4, 0.5})
+    # -------------------------------------------------------------
+    sens_thresholds = (0.3, 0.4, 0.5)
+    iou_sensitivity = {}
+
+    for tau in sens_thresholds:
+        tau_all_pos_total_gt = sum(r["num_gt"] for r in pos_records)
+        tau_h_all_sum = 0
+        tau_h1_sum = 0
+        tau_h3_sum = 0
+        tau_h5_sum = 0
+        tau_h10_sum = 0
+
+        # Multi-GT coverage under tau
+        tau_mgte2_counts = {b: {"full": 0, "partial_multi": 0, "single": 0, "zero": 0} for b in ["all", "top10", "top5"]}
+
+        for r in pos_records:
+            final_layer = r["layers"][-1]
+            scores = np.array(final_layer["native_scores"], dtype=np.float32)
+            ious = np.array(final_layer["ious"], dtype=np.float32)
+
+            rank_res = evaluate_topk_ranking(ious, scores, (1, 3, 5, 10), tau)
+            tau_h_all_sum += rank_res["H_all"]
+            tau_h1_sum += rank_res["H_at_k"][1]
+            tau_h3_sum += rank_res["H_at_k"][3]
+            tau_h5_sum += rank_res["H_at_k"][5]
+            tau_h10_sum += rank_res["H_at_k"][10]
+
+            if r["num_gt"] >= 2:
+                for b in ["all", "top10", "top5"]:
+                    st = evaluate_multigt_coverage_state(ious, scores, budget=b, iou_threshold=tau)
+                    tau_mgte2_counts[b][st["category"]] += 1
+
+        tau_n_missing = tau_all_pos_total_gt - tau_h_all_sum
+        tau_n_rank5 = tau_h_all_sum - tau_h5_sum
+
+        iou_sensitivity[str(tau)] = {
+            "iou_threshold": tau,
+            "total_gt": tau_all_pos_total_gt,
+            "H_all": tau_h_all_sum,
+            "coverage_pct": float(tau_h_all_sum / tau_all_pos_total_gt * 100.0) if tau_all_pos_total_gt else 0.0,
+            "N_missing": tau_n_missing,
+            "missing_pct": float(tau_n_missing / tau_all_pos_total_gt * 100.0) if tau_all_pos_total_gt else 0.0,
+            "H_at_1": tau_h1_sum,
+            "H_at_3": tau_h3_sum,
+            "H_at_5": tau_h5_sum,
+            "H_at_10": tau_h10_sum,
+            "N_ranking_at_5": tau_n_rank5,
+            "ranking_loss_top5_pct": float(tau_n_rank5 / tau_all_pos_total_gt * 100.0) if tau_all_pos_total_gt else 0.0,
+            "multigt_coverage": {
+                b: {
+                    "counts": tau_mgte2_counts[b],
+                    "percentages": {
+                        c: float(v / multigt_total_queries * 100.0) if multigt_total_queries else 0.0
+                        for c, v in tau_mgte2_counts[b].items()
+                    }
+                }
+                for b in ["all", "top10", "top5"]
+            }
         }
 
     # -------------------------------------------------------------
@@ -336,7 +437,11 @@ def analyze_records(records: List[Dict[str, Any]], iou_threshold: float = 0.4) -
         "exp3_duplication": exp3_results,
         "exp3_gt_crowding": gt_hit_crowding,
         "exp4_generation_vs_ranking": exp4_results,
-        "exp4_first_hit_rank_hist": first_hit_rank_hist,
+        "exp4_matched_first_hit_rank_hist": matched_first_hit_rank_hist,
+        "exp4_raw_first_hit_rank_hist": raw_first_hit_rank_hist,
+        "exp4_first_hit_rank_hist": matched_first_hit_rank_hist,
+        "exp4_multigt_coverage": multigt_coverage,
+        "iou_sensitivity": iou_sensitivity,
         "exp5_layers": exp5_layers,
         "exp5_transitions": exp5_transitions,
         "exp5_slot_transitions": slot_transitions,

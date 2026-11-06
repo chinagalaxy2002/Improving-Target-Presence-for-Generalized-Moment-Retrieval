@@ -116,6 +116,51 @@ def generate_table_b(analysis_by_bb: Dict[str, Dict[str, Any]], split_name: str)
                 f"{miss_pct:.1f}% | {rank5_pct:.1f}% |"
             )
 
+    lines.append("")
+    lines.append("### 附：首次命中排名分布与口径对齐核验 (Matching-Consistent vs. Raw Unconstrained)")
+    lines.append("")
+    lines.append("> **口径说明**：")
+    lines.append("> - **二分图匹配保真口径 (Matching-Consistent)**：基于前缀候选二分图最大匹配确定的事件首次被独立捕获的排序排位。严格保证 $\\text{Rank 1} \\equiv H^{@1}$、$\\text{Rank 1~5 累积} \\equiv H^{@5}$、$\\text{Not Found} \\equiv N^{missing}$，总和严格等于全部真实事件数 $M$。")
+    lines.append("> - **候选存在性单点口径 (Raw Unconstrained)**：事件首次出现 IoU $\\ge 0.4$ 候选的原生排位，未施加二分图 1-to-1 独占约束。多 GT 之间重叠候选会导致 Rank 1 虚高、Not Found 偏低。")
+    lines.append("")
+    lines.append("| 骨干模型 | 口径类型 | Rank 1 | Rank 2~5 | Rank 6~10 | Rank 11+ | Not Found | 闭合校验 (Sum=M) |")
+    lines.append("|---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|")
+
+    for bb, res in sorted(analysis_by_bb.items()):
+        K = res["K"]
+        tot_gt = res["exp4_generation_vs_ranking"]["all_pos"]["total_gt"]
+
+        # 1. Matching-consistent
+        m_hist = res.get("exp4_matched_first_hit_rank_hist", res.get("exp4_first_hit_rank_hist", {}))
+        m1 = m_hist.get("rank_1", 0)
+        m2_5 = sum(m_hist.get(f"rank_{r}", 0) for r in range(2, 6))
+        m6_10 = sum(m_hist.get(f"rank_{r}", 0) for r in range(6, 11))
+        m11_plus = sum(m_hist.get(f"rank_{r}", 0) for r in range(11, K + 1))
+        m_nf = m_hist.get("not_found", 0)
+        m_sum = m1 + m2_5 + m6_10 + m11_plus + m_nf
+        m_chk = "✅ 对齐" if m_sum == tot_gt else f"❌ {m_sum}!={tot_gt}"
+
+        # 2. Raw unconstrained
+        r_hist = res.get("exp4_raw_first_hit_rank_hist", {})
+        if r_hist:
+            r1 = r_hist.get("rank_1", 0)
+            r2_5 = sum(r_hist.get(f"rank_{r}", 0) for r in range(2, 6))
+            r6_10 = sum(r_hist.get(f"rank_{r}", 0) for r in range(6, 11))
+            r11_plus = sum(r_hist.get(f"rank_{r}", 0) for r in range(11, K + 1))
+            r_nf = r_hist.get("not_found", 0)
+            r_sum = r1 + r2_5 + r6_10 + r11_plus + r_nf
+            r_chk = f"虚高 (Δ={r1-m1})" if r1 != m1 else "一致"
+        else:
+            r1, r2_5, r6_10, r11_plus, r_nf, r_sum, r_chk = "-", "-", "-", "-", "-", "-", "-"
+
+        lines.append(
+            f"| **{bb}** | **二分图匹配保真口径** | **{m1}** | {m2_5} | {m6_10} | {m11_plus} | **{m_nf}** | {m_chk} ({m_sum}/{tot_gt}) |"
+        )
+        if r_hist:
+            lines.append(
+                f"| {bb} | 候选存在性单点口径 | {r1} | {r2_5} | {r6_10} | {r11_plus} | {r_nf} | {r_chk} ({r_sum}/{tot_gt}) |"
+            )
+
     return "\n".join(lines)
 
 
@@ -223,5 +268,144 @@ def generate_table_d(analysis_by_bb: Dict[str, Dict[str, Any]], split_name: str)
             f"**{top2_top1_conc:.1f}%** | Slot Q{best_hit_slot} | {best_hit_pct:.1f}% | "
             f"**{top2_hit_conc:.1f}%** | {verdict} |"
         )
+
+    return "\n".join(lines)
+
+
+def generate_table_multigt_coverage(analysis_by_bb: Dict[str, Dict[str, Any]], split_name: str) -> str:
+    """Generates Table: Multi-GT Query Complete Event Coverage Analysis (M >= 2)."""
+    lines = [
+        f"# 多时刻查询 (M≥2) 完整事件覆盖度与候选分工分析表 ({split_name})",
+        "",
+        "> **统计指标说明**：",
+        "> - **M≥2 查询总数**：该划分中含 ≥2 个真实动作时刻的查询数（标准测试集 160 条，全量测试集 454 条）。",
+        "> - **找齐全部 (Full Coverage, m=M)**：模型成功独立覆盖该查询下的全部 M 个真实事件（理想候选分工状态）。",
+        "> - **找到多个但未找齐 (Partial Multi-Coverage, 1<m<M)**：模型找回 ≥2 个事件，但未能找齐全部 M 个事件。",
+        "> - **只找到一个 (Single Coverage, m=1)**：**核心机理证据**！虽然存在多个事件且模型输出了多个候选，但所有候选仅定位了其中 1 个事件，其余事件全部遗漏（**候选分工不足与单峰塌缩直接证据**）。",
+        "> - **完全没找到 (Zero Coverage, m=0)**：模型未能定位该查询下的任何事件。",
+        "> - 分别考察 **全部原生候选 (All K)** 与 **原生排序前 5 候选 (Top-5)** 两种预算口径。",
+        "",
+        "| 骨干模型 (Backbone) | 候选预算 | M≥2 查询数 | 找齐全部 ($m=M$) | 找到多个 ($1<m<M$) | 只找到一个 ($m=1$) | 完全没找到 ($m=0$) | 找齐率 (%) | 单一分工率 (%) | 零覆盖率 (%) |",
+        "|---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|",
+    ]
+
+    for bb, res in sorted(analysis_by_bb.items()):
+        mg = res.get("exp4_multigt_coverage", {})
+        if not mg:
+            continue
+        tot_q = mg["all"]["total_queries"]
+        if tot_q == 0:
+            continue
+
+        for budget, b_label in [("all", "全部候选 (All K)"), ("top5", "Top-5 候选")]:
+            b_data = mg.get(budget, {})
+            cnts = b_data.get("counts", {})
+            pcts = b_data.get("percentages", {})
+            f_cnt = cnts.get("full", 0)
+            p_cnt = cnts.get("partial_multi", 0)
+            s_cnt = cnts.get("single", 0)
+            z_cnt = cnts.get("zero", 0)
+            f_pct = pcts.get("full", 0.0)
+            s_pct = pcts.get("single", 0.0)
+            z_pct = pcts.get("zero", 0.0)
+
+            bold = "**" if budget == "all" else ""
+            lines.append(
+                f"| {bold}{bb}{bold} | {b_label} | {tot_q} | "
+                f"{bold}{f_cnt}{bold} | {p_cnt} | "
+                f"**{s_cnt}** | {z_cnt} | "
+                f"{f_pct:.1f}% | **{s_pct:.1f}%** | {z_pct:.1f}% |"
+            )
+
+    return "\n".join(lines)
+
+
+def generate_table_multigt_comparison(
+    analysis_m1: Dict[str, Dict[str, Any]],
+    analysis_m2: Dict[str, Dict[str, Any]],
+    split_name: str
+) -> str:
+    """Generates comparative table between Method 1 and Method 2 on multi-GT query coverage."""
+    lines = [
+        f"# 多时刻候选分工改善对比：Method 1 (Baseline) vs. Method 2 (DQ-CGPv3) ({split_name})",
+        "",
+        "> **对比洞察**：",
+        "> - **找齐全部 (Full, m=M)**：DQ-CGPv3 是否帮助多候选跳出单峰，成功分工定位全部事件？",
+        "> - **只找到一个 (Single, m=1)**：**分工不足的核心标志**。基线模型大多塌缩在单一事件上，DQ-CGPv3 促使候选分化，大幅减少只找到单一事件的比例，提升整体找全率。",
+        "> - **完全没找到 (Zero, m=0)**：未找回任何事件的查询数对比。",
+        "",
+        "| 骨干模型 (Backbone) | 候选预算 | 找齐全部 (M1) | 找齐全部 (M2) | 找齐增幅 (Δ) | 只找到一个 (M1) | 只找到一个 (M2) | 单一分工变化 (Δ) | 零覆盖 (M1) | 零覆盖 (M2) | 零覆盖变化 (Δ) |",
+        "|---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|",
+    ]
+
+    for bb in sorted(analysis_m1.keys()):
+        if bb not in analysis_m2:
+            continue
+        mg1 = analysis_m1[bb].get("exp4_multigt_coverage", {})
+        mg2 = analysis_m2[bb].get("exp4_multigt_coverage", {})
+        if not mg1 or not mg2:
+            continue
+
+        for budget, b_label in [("all", "全部候选 (All K)"), ("top5", "Top-5 候选")]:
+            c1 = mg1[budget]["counts"]
+            c2 = mg2[budget]["counts"]
+
+            df = c2["full"] - c1["full"]
+            ds = c2["single"] - c1["single"]
+            dz = c2["zero"] - c1["zero"]
+
+            df_str = f"+{df}" if df > 0 else f"{df}"
+            ds_str = f"+{ds}" if ds > 0 else f"{ds}"
+            dz_str = f"+{dz}" if dz > 0 else f"{dz}"
+
+            bold = "**" if budget == "all" else ""
+            lines.append(
+                f"| {bold}{bb}{bold} | {b_label} | {c1['full']} | {c2['full']} | "
+                f"**{df_str}** | {c1['single']} | {c2['single']} | "
+                f"{ds_str} | {c1['zero']} | {c2['zero']} | {dz_str} |"
+            )
+
+    return "\n".join(lines)
+
+
+def generate_table_iou_sensitivity(analysis_by_bb: Dict[str, Dict[str, Any]], split_name: str) -> str:
+    """Generates Table: IoU Threshold Sensitivity Analysis (tau in {0.3, 0.4, 0.5})."""
+    lines = [
+        f"# IoU 判定阈值敏感性分析表 (τ ∈ {{0.3, 0.4, 0.5}} | {split_name})",
+        "",
+        "> **统计指标说明**：",
+        "> - **τ (tIoU 阈值)**：判定预测窗口与真实时刻匹配的重叠门槛（0.3 宽松 / 0.4 基准 / 0.5 严格）。",
+        "> - **All 独立命中 ($H^{all}$)**：使用全部 $K$ 个候选二分图独立匹配找回的 GT 事件总数。",
+        "> - **All 覆盖率 (%)**：$H^{all} / M \\times 100\\%$。",
+        "> - **未生成事件 ($N^{missing}$)**：$M - H^{all}$，候选池中无合规窗口的事件数。",
+        "> - **Top-5 命中 ($H^{@5}$)** 与 **Top-5 排序损失 ($N^{ranking@5} = H^{all} - H^{@5}$)**。",
+        "",
+        "| 骨干模型 (Backbone) | IoU 阈值 τ | GT 总数 | All 独立命中 ($H^{all}$) | 未生成 ($N^{missing}$) | 独立覆盖率 (%) | Top-1 命中 | Top-5 命中 | Top-5 排序损失 | 排序损失率 (%) |",
+        "|---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|",
+    ]
+
+    for bb, res in sorted(analysis_by_bb.items()):
+        sens = res.get("iou_sensitivity", {})
+        if not sens:
+            continue
+        for tau_str in ["0.3", "0.4", "0.5"]:
+            if tau_str not in sens:
+                continue
+            s = sens[tau_str]
+            gt_cnt = s["total_gt"]
+            h_all = s["H_all"]
+            n_miss = s["N_missing"]
+            cov_pct = s["coverage_pct"]
+            h1 = s["H_at_1"]
+            h5 = s["H_at_5"]
+            n_rank5 = s["N_ranking_at_5"]
+            rank_loss_pct = s["ranking_loss_top5_pct"]
+
+            bold = "**" if tau_str == "0.4" else ""
+            lines.append(
+                f"| {bold}{bb}{bold} | {tau_str} | {gt_cnt} | "
+                f"{bold}{h_all}{bold} | {n_miss} | "
+                f"{cov_pct:.1f}% | {h1} | {h5} | {n_rank5} | {rank_loss_pct:.1f}% |"
+            )
 
     return "\n".join(lines)

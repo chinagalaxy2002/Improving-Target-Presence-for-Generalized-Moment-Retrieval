@@ -179,15 +179,28 @@ def evaluate_topk_ranking(
             f"Ranking identity violated for k={k}: M={M} != {n_missing} + {n_ranking_at_k[k]} + {n_selected_at_k[k]}"
         )
 
-    # First hit rank for each GT (1-indexed)
-    first_hit_ranks = []
+    # 1. Matching-consistent first hit rank for each GT (1-indexed)
+    # Determined by prefix bipartite matching: which GT is newly matched when budget increases to k
+    matched_first_hit_ranks = [-1] * M
+    previously_matched_gts = set()
+    for k in range(1, K + 1):
+        sub_eval = evaluate_candidates_against_gt(sorted_ious[:k], iou_threshold)
+        current_matched = set(sub_eval['matched_gt_indices'])
+        newly_matched = current_matched - previously_matched_gts
+        for g_idx in newly_matched:
+            matched_first_hit_ranks[g_idx] = k
+        previously_matched_gts = current_matched
+
+    # 2. Raw unconstrained first hit rank for each GT (1-indexed)
+    # min { rank(p_i) : IoU(p_i, g_j) >= tau } regardless of competition between GTs
+    raw_first_hit_ranks = []
     hit_mask_sorted = (sorted_ious >= iou_threshold)
     for j in range(M):
         hit_indices = np.where(hit_mask_sorted[:, j])[0]
         if len(hit_indices) > 0:
-            first_hit_ranks.append(int(hit_indices[0]) + 1)
+            raw_first_hit_ranks.append(int(hit_indices[0]) + 1)
         else:
-            first_hit_ranks.append(-1)  # not found
+            raw_first_hit_ranks.append(-1)  # not found
 
     return {
         'H_all': h_all,
@@ -195,6 +208,55 @@ def evaluate_topk_ranking(
         'H_at_k': h_at_k,
         'N_ranking_at_k': n_ranking_at_k,
         'N_selected_at_k': n_selected_at_k,
-        'first_hit_ranks': first_hit_ranks,
+        'matched_first_hit_ranks': matched_first_hit_ranks,
+        'raw_first_hit_ranks': raw_first_hit_ranks,
+        'first_hit_ranks': matched_first_hit_ranks,  # default to matching-consistent
         'order': order.tolist()
+    }
+
+
+def evaluate_multigt_coverage_state(
+    ious: np.ndarray,
+    scores: Optional[np.ndarray] = None,
+    budget: str = "all",
+    iou_threshold: float = 0.4
+) -> Dict[str, Any]:
+    """Evaluates the coverage category of a multi-GT query (M >= 2).
+
+    Categories:
+      - full (找齐全部): m_matched == M
+      - partial_multi (找到多个但未找齐): 1 < m_matched < M
+      - single (只找到一个): m_matched == 1 (核心证据：多时刻候选分工不足)
+      - zero (完全没找到): m_matched == 0
+
+    Args:
+        ious: (K, M) continuous IoU matrix
+        scores: (K,) candidate scores (optional for 'all')
+        budget: 'all', 'top10', 'top5', 'top1'
+        iou_threshold: default 0.4
+    """
+    K, M = ious.shape
+    if budget == "all" or scores is None:
+        sub_ious = ious
+    else:
+        k = int(budget.replace("top", ""))
+        order = np.argsort(-scores)[:min(k, K)]
+        sub_ious = ious[order]
+
+    eval_res = evaluate_candidates_against_gt(sub_ious, iou_threshold)
+    m_matched = eval_res['independent_hits']
+
+    if m_matched == M:
+        category = "full"
+    elif m_matched > 1:
+        category = "partial_multi"
+    elif m_matched == 1:
+        category = "single"
+    else:
+        category = "zero"
+
+    return {
+        'M': M,
+        'matched_hits': m_matched,
+        'category': category
     }

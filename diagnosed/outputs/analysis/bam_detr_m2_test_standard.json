@@ -386,7 +386,20 @@
       "ranking_omission_rate_top10_pct": 0.0
     }
   },
-  "exp4_first_hit_rank_hist": {
+  "exp4_matched_first_hit_rank_hist": {
+    "rank_1": 223,
+    "rank_2": 104,
+    "rank_3": 76,
+    "rank_4": 63,
+    "rank_5": 40,
+    "rank_6": 29,
+    "rank_7": 31,
+    "rank_8": 23,
+    "rank_9": 10,
+    "rank_10": 6,
+    "not_found": 145
+  },
+  "exp4_raw_first_hit_rank_hist": {
     "rank_1": 241,
     "rank_2": 96,
     "rank_3": 73,
@@ -398,6 +411,261 @@
     "rank_9": 10,
     "rank_10": 6,
     "not_found": 139
+  },
+  "exp4_first_hit_rank_hist": {
+    "rank_1": 223,
+    "rank_2": 104,
+    "rank_3": 76,
+    "rank_4": 63,
+    "rank_5": 40,
+    "rank_6": 29,
+    "rank_7": 31,
+    "rank_8": 23,
+    "rank_9": 10,
+    "rank_10": 6,
+    "not_found": 145
+  },
+  "exp4_multigt_coverage": {
+    "all": {
+      "total_queries": 160,
+      "total_gt": 366,
+      "counts": {
+        "full": 99,
+        "partial_multi": 15,
+        "single": 38,
+        "zero": 8
+      },
+      "percentages": {
+        "full": 61.875,
+        "partial_multi": 9.375,
+        "single": 23.75,
+        "zero": 5.0
+      }
+    },
+    "top10": {
+      "total_queries": 160,
+      "total_gt": 366,
+      "counts": {
+        "full": 99,
+        "partial_multi": 15,
+        "single": 38,
+        "zero": 8
+      },
+      "percentages": {
+        "full": 61.875,
+        "partial_multi": 9.375,
+        "single": 23.75,
+        "zero": 5.0
+      }
+    },
+    "top5": {
+      "total_queries": 160,
+      "total_gt": 366,
+      "counts": {
+        "full": 63,
+        "partial_multi": 19,
+        "single": 53,
+        "zero": 25
+      },
+      "percentages": {
+        "full": 39.375,
+        "partial_multi": 11.875,
+        "single": 33.125,
+        "zero": 15.625
+      }
+    },
+    "top1": {
+      "total_queries": 160,
+      "total_gt": 366,
+      "counts": {
+        "full": 0,
+        "partial_multi": 0,
+        "single": 69,
+        "zero": 91
+      },
+      "percentages": {
+        "full": 0.0,
+        "partial_multi": 0.0,
+        "single": 43.125,
+        "zero": 56.875
+      }
+    }
+  },
+  "iou_sensitivity": {
+    "0.3": {
+      "iou_threshold": 0.3,
+      "total_gt": 750,
+      "H_all": 644,
+      "coverage_pct": 85.86666666666667,
+      "N_missing": 106,
+      "missing_pct": 14.133333333333335,
+      "H_at_1": 254,
+      "H_at_3": 437,
+      "H_at_5": 542,
+      "H_at_10": 644,
+      "N_ranking_at_5": 102,
+      "ranking_loss_top5_pct": 13.600000000000001,
+      "multigt_coverage": {
+        "all": {
+          "counts": {
+            "full": 113,
+            "partial_multi": 11,
+            "single": 29,
+            "zero": 7
+          },
+          "percentages": {
+            "full": 70.625,
+            "partial_multi": 6.875000000000001,
+            "single": 18.125,
+            "zero": 4.375
+          }
+        },
+        "top10": {
+          "counts": {
+            "full": 113,
+            "partial_multi": 11,
+            "single": 29,
+            "zero": 7
+          },
+          "percentages": {
+            "full": 70.625,
+            "partial_multi": 6.875000000000001,
+            "single": 18.125,
+            "zero": 4.375
+          }
+        },
+        "top5": {
+          "counts": {
+            "full": 74,
+            "partial_multi": 17,
+            "single": 47,
+            "zero": 22
+          },
+          "percentages": {
+            "full": 46.25,
+            "partial_multi": 10.625,
+            "single": 29.375,
+            "zero": 13.750000000000002
+          }
+        }
+      }
+    },
+    "0.4": {
+      "iou_threshold": 0.4,
+      "total_gt": 750,
+      "H_all": 604,
+      "coverage_pct": 80.53333333333333,
+      "N_missing": 146,
+      "missing_pct": 19.466666666666665,
+      "H_at_1": 223,
+      "H_at_3": 402,
+      "H_at_5": 505,
+      "H_at_10": 604,
+      "N_ranking_at_5": 99,
+      "ranking_loss_top5_pct": 13.200000000000001,
+      "multigt_coverage": {
+        "all": {
+          "counts": {
+            "full": 99,
+            "partial_multi": 15,
+            "single": 38,
+            "zero": 8
+          },
+          "percentages": {
+            "full": 61.875,
+            "partial_multi": 9.375,
+            "single": 23.75,
+            "zero": 5.0
+          }
+        },
+        "top10": {
+          "counts": {
+            "full": 99,
+            "partial_multi": 15,
+            "single": 38,
+            "zero": 8
+          },
+          "percentages": {
+            "full": 61.875,
+            "partial_multi": 9.375,
+            "single": 23.75,
+            "zero": 5.0
+          }
+        },
+        "top5": {
+          "counts": {
+            "full": 63,
+            "partial_multi": 19,
+            "single": 53,
+            "zero": 25
+          },
+          "percentages": {
+            "full": 39.375,
+            "partial_multi": 11.875,
+            "single": 33.125,
+            "zero": 15.625
+          }
+        }
+      }
+    },
+    "0.5": {
+      "iou_threshold": 0.5,
+      "total_gt": 750,
+      "H_all": 539,
+      "coverage_pct": 71.86666666666667,
+      "N_missing": 211,
+      "missing_pct": 28.133333333333333,
+      "H_at_1": 180,
+      "H_at_3": 360,
+      "H_at_5": 454,
+      "H_at_10": 539,
+      "N_ranking_at_5": 85,
+      "ranking_loss_top5_pct": 11.333333333333332,
+      "multigt_coverage": {
+        "all": {
+          "counts": {
+            "full": 77,
+            "partial_multi": 18,
+            "single": 50,
+            "zero": 15
+          },
+          "percentages": {
+            "full": 48.125,
+            "partial_multi": 11.25,
+            "single": 31.25,
+            "zero": 9.375
+          }
+        },
+        "top10": {
+          "counts": {
+            "full": 77,
+            "partial_multi": 18,
+            "single": 50,
+            "zero": 15
+          },
+          "percentages": {
+            "full": 48.125,
+            "partial_multi": 11.25,
+            "single": 31.25,
+            "zero": 9.375
+          }
+        },
+        "top5": {
+          "counts": {
+            "full": 47,
+            "partial_multi": 17,
+            "single": 66,
+            "zero": 30
+          },
+          "percentages": {
+            "full": 29.375,
+            "partial_multi": 10.625,
+            "single": 41.25,
+            "zero": 18.75
+          }
+        }
+      }
+    }
   },
   "exp5_layers": [
     {
@@ -489,13 +757,5 @@
         1
       ]
     }
-  ],
-  "metadata": {
-    "backbone": "bam_detr",
-    "method": "m2",
-    "split": "test_standard",
-    "device": "cuda:0",
-    "sample_count": 1036,
-    "inference_time_sec": 9.06177568435669
-  }
+  ]
 }
