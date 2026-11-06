@@ -44,13 +44,15 @@ def sha256_prefix(path: str | Path, length: int = 10) -> str:
 
 
 def main():
-    base_dir = ROOT / "diagnosed_supplementary"
+    base_dir = ROOT / "diagnosed"
     raw_dir = ROOT / "diagnosed" / "outputs" / "raw_predictions"
     analysis_dir = ROOT / "diagnosed" / "outputs" / "analysis"
     tables_dir = base_dir / "tables"
     outputs_dir = base_dir / "outputs"
+    figures_dir = base_dir / "figures"
     tables_dir.mkdir(parents=True, exist_ok=True)
     outputs_dir.mkdir(parents=True, exist_ok=True)
+    figures_dir.mkdir(parents=True, exist_ok=True)
 
     recompute_hashes = "--recompute-hashes" in sys.argv or not (outputs_dir / "checkpoint_consistency.json").exists()
 
@@ -557,8 +559,67 @@ def main():
     (outputs_dir / "layer_evolution_summary.json").write_text(json.dumps(layer_evolution_summary, indent=2, ensure_ascii=False), encoding="utf-8")
     print("[OK] Generated layer_evolution_summary.json")
 
+    # Generate publication-quality figures for Layer Evolution
+    try:
+        import matplotlib
+        matplotlib.use("Agg")
+        import matplotlib.pyplot as plt
+
+        titles = {
+            "moment_detr": "Moment-DETR (2L)",
+            "eatr": "EaTR (3L)",
+            "qd_detr": "QD-DETR (2L)",
+            "cg_detr": "CG-DETR (3L)",
+            "sim_detr": "Sim-DETR (4L)",
+            "bm_detr": "BM-DETR (3L)",
+            "bam_detr": "BAM-DETR (2L)",
+            "uvcom": "UVCOM (3L)"
+        }
+
+        for split, split_label in [("test_standard", "Standard Test (750 GT)"), ("test_full", "Full-Decodable Test (2,356 GT)")]:
+            fig, axes = plt.subplots(2, 4, figsize=(18, 9), dpi=150)
+            axes = axes.flatten()
+
+            for idx, bb in enumerate(BACKBONES):
+                ax = axes[idx]
+                p1 = analysis_dir / f"{bb}_m1_{split}.json"
+                p2 = analysis_dir / f"{bb}_m2_{split}.json"
+                d1 = json.loads(p1.read_text(encoding="utf-8"))
+                d2 = json.loads(p2.read_text(encoding="utf-8"))
+
+                layers1 = [x["layer_name"] for x in d1["exp5_layers"]]
+                h1 = [x["independent_hits_sum"] for x in d1["exp5_layers"]]
+                h2 = [x["independent_hits_sum"] for x in d2["exp5_layers"]]
+
+                x_indices = range(len(layers1))
+                ax.plot(x_indices, h1, marker="o", linewidth=2.2, color="#e74c3c", label="M1: Baseline", linestyle="--")
+                ax.plot(x_indices, h2, marker="s", linewidth=2.5, color="#2ecc71", label="M2: +DQ-CGPv3")
+
+                for i, (val1, val2) in enumerate(zip(h1, h2)):
+                    ax.annotate(str(val1), (i, val1), textcoords="offset points", xytext=(0, -15), ha="center", fontsize=8, color="#c0392b")
+                    diff = val2 - val1
+                    diff_str = f"+{diff}" if diff >= 0 else str(diff)
+                    ax.annotate(f"{val2}\n({diff_str})", (i, val2), textcoords="offset points", xytext=(0, 8), ha="center", fontsize=8, fontweight="bold", color="#27ae60")
+
+                ax.set_title(titles[bb], fontsize=12, fontweight="bold")
+                ax.set_xticks(x_indices)
+                ax.set_xticklabels(layers1, fontsize=10)
+                ax.set_ylabel("Independent Hits (H)", fontsize=9)
+                ax.grid(True, linestyle=":", alpha=0.6)
+                if idx == 0:
+                    ax.legend(loc="upper left", fontsize=9, framealpha=0.9)
+
+            plt.suptitle(f"Decoder Layer-by-Layer Hit Evolution: Baseline vs. DQ-CGPv3 ({split_label})", fontsize=16, fontweight="bold", y=0.98)
+            plt.tight_layout(rect=[0, 0, 1, 0.95])
+            out_name = f"fig_layer_evolution_{split.replace('test_', '')}.png"
+            plt.savefig(figures_dir / out_name)
+            plt.close()
+            print(f"[OK] Generated {out_name} in {figures_dir}")
+    except Exception as e:
+        print(f"[WARN] Failed to plot layer evolution figures: {e}")
+
     print("\n=================================================================")
-    print("All supplementary experiments and tables generated successfully!")
+    print("All supplementary experiments, tables and figures generated successfully in diagnosed/!")
     print("=================================================================")
 
 
