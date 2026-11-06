@@ -272,7 +272,7 @@ Configure dataset paths in `configs/experiments/{backbone}.json`:
 ```
 
 ### 3. Evaluate Pretrained Checkpoints
-To evaluate a trained checkpoint on both Standard and Full test splits:
+To evaluate a trained checkpoint on both Standard and Full test splits (see [docs/checkpoints_and_paths.md](docs/checkpoints_and_paths.md) for complete local directory paths and SHA-256 checksums of all 9 backbones across 4 configurations):
 ```bash
 python -m soccergmr test \
   --config configs/experiments/uvcom.json \
