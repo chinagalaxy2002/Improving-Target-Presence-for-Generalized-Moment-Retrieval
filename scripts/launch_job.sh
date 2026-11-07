@@ -46,6 +46,8 @@ PYTHON_BIN="/home/guoxiangyu/miniconda3/envs/gmr/bin/python"
 export PYTHONPATH="$REV_DIR/src"
 export CUDA_VISIBLE_DEVICES="$GPU_PHYSICAL_ID"
 export OMP_NUM_THREADS=1
+export MKL_THREADING_LAYER=GNU
+export MKL_SERVICE_FORCE_INTEL=1
 
 CONFIG_FILE="$REV_DIR/configs/experiments/interlayer/${BACKBONE}/${VARIANT}.json"
 
@@ -57,12 +59,19 @@ CONFIG_FILE="$REV_DIR/configs/experiments/interlayer/${BACKBONE}/${VARIANT}.json
 
 echo "[$(date '+%Y-%m-%d %H:%M:%S')] Starting run ${RUN_ID} on GPU ${GPU_PHYSICAL_ID} (device cuda:0)..."
 
+RESUME_FLAG=""
+if [ -f "$OUT/gmr/last.pt" ] && [ ! -f "$OUT/gmr/complete.json" ]; then
+  echo "[$(date '+%Y-%m-%d %H:%M:%S')] Found existing last.pt, enabling --resume flag..."
+  RESUME_FLAG="--resume"
+fi
+
 # Execute training
 "$PYTHON_BIN" -m soccergmr train \
   --config "$CONFIG_FILE" \
   --stage gmr \
   --output "$OUT/gmr" \
   --device cuda:0 \
+  $RESUME_FLAG \
   > "$LOG_DIR/train.stdout.log" 2> "$LOG_DIR/train.stderr.log"
 
 echo "[$(date '+%Y-%m-%d %H:%M:%S')] Training finished for ${RUN_ID}. Starting Val diagnostics..."

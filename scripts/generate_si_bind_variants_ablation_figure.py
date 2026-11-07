@@ -15,11 +15,14 @@ BRAIN_DIR = Path("/home/guoxiangyu/.gemini/antigravity-cli/brain/62a59d6f-74ff-4
 CURRENT_BRAIN = Path("/home/guoxiangyu/.gemini/antigravity-cli/brain/e32cc1be-0019-4e4d-9a30-81c95fb95359")
 
 BACKBONES = [
-    ("moment_detr", "Moment-DETR", ["E1", "E2", "E3", "E4", "E5", "E6", "E7"]),
-    ("bm_detr", "BM-DETR", ["E2", "E3", "E4", "E5", "E6", "E7"]),
-    ("uvcom", "UVCOM", ["E1", "E2", "E3", "E4", "E5", "E6", "E7"]),
-    ("cg_detr", "CG-DETR", ["E2", "E3", "E4", "E5", "E6", "E7"]),
-    ("qd_detr", "QD-DETR", ["E6"]),
+    ("moment_detr", "Moment-DETR", ["E1", "E2", "E3", "E4", "E5", "E6", "E7", "E8"]),
+    ("bm_detr", "BM-DETR", ["E2", "E3", "E4", "E5", "E6", "E7", "E8"]),
+    ("uvcom", "UVCOM", ["E1", "E2", "E3", "E4", "E5", "E6", "E7", "E8"]),
+    ("cg_detr", "CG-DETR", ["E2", "E3", "E4", "E5", "E6", "E7", "E8"]),
+    ("bam_detr", "BAM-DETR", ["E2", "E3", "E5", "E6", "E8"]),
+    ("sim_detr", "Sim-DETR", ["E2", "E3", "E5", "E6", "E8"]),
+    ("eatr", "EaTR", ["E2", "E3", "E5", "E6", "E8"]),
+    ("qd_detr", "QD-DETR", ["E2", "E3", "E5", "E6", "E8"]),
 ]
 
 VAR_INFO = {
@@ -170,7 +173,8 @@ def render():
     rule(footer_y + 16, lw=0.8, color="#0f172a")
     f_sub = (
         "Note: E1 = Binding only (identity across layers); E2 = Lite Binding + Residual; E3 = E2 + Slot-Private Innovation (B); "
-        "E4 = E2 + Uniform Random Refresh (C Control); E5 = E2 + Dominance Refresh (C); E6 = E2+B+C (Champion Triad); E7 = E6 - Binding."
+        "E4 = E2 + Uniform Random Refresh (C Control); E5 = E2 + Dominance Refresh (C); E6 = E2+B+C (Champion Triad); E7 = E6 - Binding; "
+        "E8 = Strict Serial A -> B without C."
     )
     text(left, footer_y, f_sub, 8.2, color="#64748b")
     text(left, footer_y - 14, "Bold numbers indicate best performance among ablation variants within the same backbone. Oracle Gap: lower is better.", 8.2, color="#64748b")
