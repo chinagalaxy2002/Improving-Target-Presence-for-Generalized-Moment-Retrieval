@@ -29,6 +29,7 @@ OUT_DIR = ROOT / "runs" / "dq_cgp_v3" / "results" / "ablation_table"
 DOCS_IMAGES = ROOT / "docs" / "images"
 DOCS_TABLES = ROOT / "docs" / "tables"
 ARTIFACT_DIR = Path("/home/guoxiangyu/.gemini/antigravity-cli/brain/62a59d6f-74ff-44d8-a47a-d538b53ca17b")
+CURRENT_BRAIN = Path("/home/guoxiangyu/.gemini/antigravity-cli/brain/e32cc1be-0019-4e4d-9a30-81c95fb95359")
 
 ALL_BACKBONES = [
     ("moment_detr", "Moment-DETR"),
@@ -47,7 +48,7 @@ METHODS = [
     ("gmr_dqcgpv3", "2. GMR + DQ-CGPv3", "#0369a1", "normal"),
     ("gmr_dqcgpv3_geq_g1", "3. GMR + DQ-CGPv3 + GEQ (G1 Sel)", "#047857", "bold"),
     ("gmr_dqcgpv3_geq_map", "4. GMR + DQ-CGPv3 + GEQ (mAP Sel)", "#b45309", "bold"),
-    ("gmr_si_bind", "5. GMR + SI-Bind (Ours)", "#6d28d9", "bold"),
+    ("gmr_si_bind", "5. GMR + SI-Bind (Ours - E6)", "#6d28d9", "bold"),
 ]
 
 
@@ -195,7 +196,7 @@ def render_table(backbones, filename_stem):
     notes = [
         "Method 3 (G1 Sel): Global Event Query fine-tuned with model selection on Val Mean G-mIoU@1 (0.4/0.5/0.6) (Official).",
         "Method 4 (mAP Sel): Global Event Query fine-tuned with model selection on highest Val Localization mAP.",
-        "Method 5 (SI-Bind): Inter-layer Residual Binding with Dominance-Aware Slot Refresh and Slot-Private Innovation (Ours).",
+        "Method 5 (SI-Bind - E6): Full Structural Triad (Temporal Residual Stream + Slot-Private Innovation + Dominance-Aware Refresh).",
         "Orc-Gap (%): Area between Oracle envelope and G-mIoU@1 threshold curve across tau in [0, 1] (Integral of Oracle_G1 minus G1-AUC).",
         "Note: Lower Orc-Gap is better (bold marks lowest gap per backbone), directly quantifying G-mIoU loss caused by imperfect query existence gating.",
     ]
@@ -220,11 +221,12 @@ def render_table(backbones, filename_stem):
     shutil.copy2(pdf_path, DOCS_TABLES / f"ABLATION_TABLE_GEQ_MAP_SELECTION.pdf")
     shutil.copy2(png_path, DOCS_TABLES / f"ABLATION_TABLE_GEQ_MAP_SELECTION.png")
 
-    if ARTIFACT_DIR.is_dir():
-        for ext in ["svg", "pdf", "png"]:
-            src = OUT_DIR / f"{filename_stem}.{ext}"
-            dst = ARTIFACT_DIR / f"{filename_stem}.{ext}"
-            shutil.copy2(src, dst)
+    for target_dir in [ARTIFACT_DIR, CURRENT_BRAIN]:
+        if target_dir.is_dir():
+            for ext in ["svg", "pdf", "png"]:
+                src = OUT_DIR / f"{filename_stem}.{ext}"
+                dst = target_dir / f"{filename_stem}.{ext}"
+                shutil.copy2(src, dst)
 
 
 def main():

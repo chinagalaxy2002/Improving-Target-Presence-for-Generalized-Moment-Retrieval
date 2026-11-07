@@ -62,6 +62,7 @@ Prior empirical diagnostics revealed three fundamental failure modes in native D
 | **UVCOM** | **E1** | 1. Binding-only (Interlayer Anchor) | 15.31 | 18.42 | **74.94** | 77.68 | 14.60 | 17.55 | **73.74** | **78.58** |
 | | **E2** | 2. Lite Binding + Residual Stream | 20.31 | **14.46** | 72.79 | 77.04 | **20.02** | **14.54** | 70.95 | 76.70 |
 | | **E5** | 5. E2 + Dominance-Aware Refresh (C) | **20.49** | 17.55 | 69.48 | **78.13** | 19.76 | 16.74 | 68.12 | 75.69 |
+| | **E6** | 6. E2 + Innovation (B) + Dominance (C) | 17.29 | 18.20 | 73.48 | 76.92 | 16.23 | 17.42 | 71.77 | 76.18 |
 | **CG-DETR** | **E2** | 2. Lite Binding + Residual Stream | 14.99 | 23.42 | 72.77 | 73.86 | 12.68 | 22.41 | 75.71 | 81.67 |
 | | **E5** | 5. E2 + Dominance-Aware Refresh (C) | 13.80 | **21.77** | **75.72** | 75.42 | 13.96 | **21.14** | **77.43** | **81.33** |
 | | **E6** | 6. E2 + Innovation (B) + Dominance (C) | **17.38** | 22.89 | 70.85 | **75.92** | **15.54** | 21.61 | 73.14 | 80.94 |
@@ -135,8 +136,8 @@ Evaluated using official frozen validation-selected checkpoints (`best.pt`) on b
 | | | Full-Decodable (2,970) | **15.54** | 21.61 | 73.14 | 80.94 |
 | **BM-DETR** | E6 | Standard Test (1,036) | **7.72** | 20.91 | 73.40 | 70.18 |
 | | | Full-Decodable (2,970) | **7.03** | 20.30 | 77.47 | 79.27 |
-| **UVCOM** | E5 | Standard Test (1,036) | **20.49** | **17.55** | 69.48 | **78.13** |
-| | | Full-Decodable (2,970) | **19.76** | **16.74** | 68.12 | 75.69 |
+| **UVCOM** | E6 | Standard Test (1,036) | **17.29** | **18.20** | **73.48** | **76.92** |
+| | | Full-Decodable (2,970) | **16.23** | **17.42** | **71.77** | **76.18** |
 | **BAM-DETR** | E6 | Standard Test (1,036) | **23.78** | **20.40** | **68.96** | **78.37** |
 | | | Full-Decodable (2,970) | **21.78** | **19.07** | **69.28** | **78.69** |
 | **Sim-DETR** | E6 | Standard Test (1,036) | **21.17** | **21.26** | **74.89** | **75.12** |
