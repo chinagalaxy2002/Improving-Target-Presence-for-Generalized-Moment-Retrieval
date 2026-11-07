@@ -36,7 +36,39 @@ Prior empirical diagnostics revealed three fundamental failure modes in native D
 
 ---
 
-## 📊 Ablation Study & Performance Table
+## 📊 Detailed Component Ablation Study (E1 to E7)
+
+![SI-Bind Detailed Ablation Table E1 to E7](docs/images/SI_BIND_ABLATION_TABLE_E1_E7.png)
+
+*Figure 1: Fine-grained component ablation study across variants E1 to E7 on Standard Test (1,036 queries) and Full-Decodable Test (2,970 queries). Metrics reported: mAP (%), Oracle Gap (%, lower is better), Rej-F1@0.5 (%), and AUROC (%). Vector PDF available at [](docs/tables/SI_BIND_ABLATION_TABLE_E1_E7.pdf).*
+
+### Component Ablation Breakdown Across Backbones
+
+| Backbone | Variant | Method / Configuration Description | Std mAP (%) ↑ | Std Orc-Gap (%) ↓ | Std Rej-F1 (%) ↑ | Std AUROC (%) ↑ | Full mAP (%) ↑ | Full Orc-Gap (%) ↓ | Full Rej-F1 (%) ↑ | Full AUROC (%) ↑ |
+|---|:---:|---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+| **Moment-DETR** | **E1** | 1. Binding-only (Identity across layers) | 12.32 | **18.82** | **75.18** | **75.96** | 10.34 | **17.98** | 78.49 | **82.38** |
+| | **E2** | 2. Lite Binding + Residual Stream | 11.85 | 22.41 | 72.40 | 71.55 | 10.14 | 21.20 | 76.11 | 80.14 |
+| | **E3** | 3. E2 + Slot-Private Innovation (B) | **15.60** | 24.26 | 66.22 | 73.17 | **13.30** | 23.02 | 67.12 | 80.91 |
+| | **E4** | 4. E2 + Uniform Random Refresh (C Control) | 12.35 | 24.02 | 60.18 | 75.53 | 12.13 | 22.83 | 61.91 | 81.77 |
+| | **E5** | 5. E2 + Dominance-Aware Refresh (C) | 7.95 | 21.56 | 75.00 | 68.32 | 6.47 | 21.06 | **78.77** | 77.80 |
+| | **E6** | 6. E2 + Innovation (B) + Dominance (C) | 15.21 | 23.66 | 65.52 | 74.32 | 12.58 | 22.21 | 68.83 | 81.86 |
+| | **E7** | 7. E6 - Binding (bind_coef=0 Ablation) | 15.21 | 23.66 | 65.52 | 74.32 | 12.58 | 22.21 | 68.83 | 81.86 |
+| **BM-DETR** | **E2** | 2. Lite Binding + Residual Stream | 6.36 | 18.84 | **75.00** | 68.63 | 5.68 | 18.46 | 78.80 | 78.79 |
+| | **E3** | 3. E2 + Slot-Private Innovation (B) | **7.88** | 21.63 | 72.74 | **71.55** | **7.08** | 20.95 | 76.91 | **79.45** |
+| | **E4** | 4. E2 + Uniform Random Refresh (C Control) | 6.48 | 20.60 | **75.00** | 69.37 | 5.95 | 19.98 | **78.91** | 79.18 |
+| | **E5** | 5. E2 + Dominance-Aware Refresh (C) | 7.16 | **15.26** | **75.00** | 69.37 | 6.93 | **15.16** | 78.14 | 78.92 |
+| | **E6** | 6. E2 + Innovation (B) + Dominance (C) | 7.72 | 20.91 | 73.40 | 70.18 | 7.03 | 20.30 | 77.47 | 79.27 |
+| | **E7** | 7. E6 - Binding (bind_coef=0 Ablation) | 7.72 | 20.91 | 73.40 | 70.18 | 7.03 | 20.30 | 77.47 | 79.27 |
+| **UVCOM** | **E1** | 1. Binding-only (Interlayer Anchor) | 15.31 | 18.42 | **74.94** | 77.68 | 14.60 | 17.55 | **73.74** | **78.58** |
+| | **E2** | 2. Lite Binding + Residual Stream | 20.31 | **14.46** | 72.79 | 77.04 | **20.02** | **14.54** | 70.95 | 76.70 |
+| | **E5** | 5. E2 + Dominance-Aware Refresh (C) | **20.49** | 17.55 | 69.48 | **78.13** | 19.76 | 16.74 | 68.12 | 75.69 |
+| **CG-DETR** | **E2** | 2. Lite Binding + Residual Stream | **14.99** | 23.42 | 72.77 | 73.86 | 12.68 | 22.41 | 75.71 | 81.67 |
+| | **E5** | 5. E2 + Dominance-Aware Refresh (C) | 13.80 | **21.77** | **75.72** | **75.42** | **13.96** | **21.14** | **77.43** | **81.33** |
+| **QD-DETR** | **E6** | 6. E2 + Innovation (B) + Dominance (C) | **16.30** | **20.65** | **73.71** | **76.63** | **13.20** | **19.84** | **75.91** | **82.47** |
+
+---
+
+## 📊 5-Way System Comparison Table
 
 ![5-Way Multi-Backbone Ablation Table](docs/images/ablation_table_stage2_selection_9_backbones.png)
 
