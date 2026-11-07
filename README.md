@@ -62,8 +62,9 @@ Prior empirical diagnostics revealed three fundamental failure modes in native D
 | **UVCOM** | **E1** | 1. Binding-only (Interlayer Anchor) | 15.31 | 18.42 | **74.94** | 77.68 | 14.60 | 17.55 | **73.74** | **78.58** |
 | | **E2** | 2. Lite Binding + Residual Stream | 20.31 | **14.46** | 72.79 | 77.04 | **20.02** | **14.54** | 70.95 | 76.70 |
 | | **E5** | 5. E2 + Dominance-Aware Refresh (C) | **20.49** | 17.55 | 69.48 | **78.13** | 19.76 | 16.74 | 68.12 | 75.69 |
-| **CG-DETR** | **E2** | 2. Lite Binding + Residual Stream | **14.99** | 23.42 | 72.77 | 73.86 | 12.68 | 22.41 | 75.71 | 81.67 |
-| | **E5** | 5. E2 + Dominance-Aware Refresh (C) | 13.80 | **21.77** | **75.72** | **75.42** | **13.96** | **21.14** | **77.43** | **81.33** |
+| **CG-DETR** | **E2** | 2. Lite Binding + Residual Stream | 14.99 | 23.42 | 72.77 | 73.86 | 12.68 | 22.41 | 75.71 | 81.67 |
+| | **E5** | 5. E2 + Dominance-Aware Refresh (C) | 13.80 | **21.77** | **75.72** | 75.42 | 13.96 | **21.14** | **77.43** | **81.33** |
+| | **E6** | 6. E2 + Innovation (B) + Dominance (C) | **17.38** | 22.89 | 70.85 | **75.92** | **15.54** | 21.61 | 73.14 | 80.94 |
 | **QD-DETR** | **E6** | 6. E2 + Innovation (B) + Dominance (C) | **16.30** | **20.65** | **73.71** | **76.63** | **13.20** | **19.84** | **75.91** | **82.47** |
 
 ---
@@ -126,20 +127,20 @@ Evaluated using official frozen validation-selected checkpoints (`best.pt`) on b
 |---|:---:|:---:|:---:|:---:|:---:|
 | **Moment-DETR** | E6 | Standard Test (1,036) | **15.21** | 23.66 | 65.52 | 74.32 |
 | | | Full-Decodable (2,970) | **12.58** | 22.21 | 68.83 | 81.86 |
-| **EaTR** | E6 | Standard Test (1,036) | **11.17** | 23.17 | 71.89 | 74.78 |
-| | | Full-Decodable (2,970) | **9.50** | 21.86 | 74.24 | 82.01 |
+| **EaTR** | E6 | Standard Test (1,036) | **17.12** | **21.80** | **67.74** | **76.23** |
+| | | Full-Decodable (2,970) | **15.35** | **20.89** | **68.66** | **81.03** |
 | **QD-DETR** | E6 | Standard Test (1,036) | **16.30** | **20.65** | **73.71** | **76.63** |
 | | | Full-Decodable (2,970) | **13.20** | **19.84** | **75.91** | **82.47** |
-| **CG-DETR** | E5 | Standard Test (1,036) | **13.80** | 21.77 | 75.72 | 75.42 |
-| | | Full-Decodable (2,970) | **13.96** | 21.14 | 77.43 | 81.33 |
+| **CG-DETR** | E6 | Standard Test (1,036) | **17.38** | 22.89 | 70.85 | 75.92 |
+| | | Full-Decodable (2,970) | **15.54** | 21.61 | 73.14 | 80.94 |
 | **BM-DETR** | E6 | Standard Test (1,036) | **7.72** | 20.91 | 73.40 | 70.18 |
 | | | Full-Decodable (2,970) | **7.03** | 20.30 | 77.47 | 79.27 |
 | **UVCOM** | E5 | Standard Test (1,036) | **20.49** | **17.55** | 69.48 | **78.13** |
 | | | Full-Decodable (2,970) | **19.76** | **16.74** | 68.12 | 75.69 |
-| **BAM-DETR** | E6 | Standard Test (1,036) | **11.90** | **16.13** | **74.60** | 69.68 |
-| | | Full-Decodable (2,970) | **10.35** | **15.34** | **77.92** | 77.67 |
-| **Sim-DETR** | E6 | Standard Test (1,036) | **7.27** | 19.90 | 75.00 | 69.30 |
-| | | Full-Decodable (2,970) | **6.90** | 19.42 | 77.92 | 78.23 |
+| **BAM-DETR** | E6 | Standard Test (1,036) | **23.78** | **20.40** | **68.96** | **78.37** |
+| | | Full-Decodable (2,970) | **21.78** | **19.07** | **69.28** | **78.69** |
+| **Sim-DETR** | E6 | Standard Test (1,036) | **21.17** | **21.26** | **74.89** | **75.12** |
+| | | Full-Decodable (2,970) | **20.08** | **20.83** | **73.10** | **77.83** |
 
 *JSON raw metrics: [`docs/tables/si_bind_test_results.json`](docs/tables/si_bind_test_results.json).*
 
