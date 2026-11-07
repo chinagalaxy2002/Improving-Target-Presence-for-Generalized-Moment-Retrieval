@@ -1,0 +1,17 @@
+# RUN DECISION: rev_0001_qd_detr_E6
+- **Hypothesis**: Phase 3 Transfer: E6 on qd_detr
+- **Backbone**: qd_detr | **Variant**: E6
+- **Git SHA**: `061e2a11d2617322157d53d4c40b444e1235a3c9`
+- **Seed**: 2023 | **Best Epoch**: 103
+- **Val mAP**: 18.8200
+- **Val H_all**: 223 / 365
+- **Val H@5**: 192
+- **Val Missing**: 142
+- **Val Omission@5**: 31
+- **Multi-GT Full@5**: 13 / 90
+- **Top-2 Slot Top-1 Concentration**: 49.01960784313725%
+- **Top-2 Slot Hit Concentration**: 39.46188340807175%
+- **T / D / U**: 338 / 115 / 2212
+- **Layer H**: `[194, 223]`
+- **Verdict**: **PROMOTE**
+- **Test used for iteration**: No (Standard Val only)
