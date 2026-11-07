@@ -38,7 +38,7 @@ ROOT = Path(__file__).resolve().parents[1]
 RESULTS_FILE = ROOT / "docs" / "tables" / "ablation_study_si_bind_results.json"
 OUT_TABLES = ROOT / "docs" / "tables"
 OUT_IMAGES = ROOT / "docs" / "images"
-CURRENT_BRAIN = Path("/home/guoxiangyu/.gemini/antigravity-cli/brain/6cf519de-4155-4a17-84bc-d520930b5c2d")
+CURRENT_BRAIN = Path("/home/guoxiangyu/.gemini/antigravity-cli/brain/e32cc1be-0019-4e4d-9a30-81c95fb95359")
 
 BACKBONES = [
     ("moment_detr", "Moment-DETR"),
@@ -54,8 +54,7 @@ BACKBONES = [
 
 METHODS = [
     ("gmr", "1. GMR Baseline", "#334155", "normal", None),
-    ("gmr_si_bind", "2. GMR + SI-Bind (E6)", "#6d28d9", "normal", None),
-    ("gmr_si_bind_geq", "3. GMR + SI-Bind (E6) + GEQ (Ours)", "#b91c1c", "bold", "#fef2f2"),
+    ("gmr_si_bind", "2. GMR + SI-Bind (Ours - E6)", "#6d28d9", "bold", "#f5f3ff"),
 ]
 
 
@@ -97,7 +96,7 @@ def render():
         ax.plot([x0, x1], [y, y], color=color, lw=lw)
 
     # Title
-    text(left, height - 26, "SoccerGMR Performance Benchmark: Baseline vs. SI-Bind (E6) vs. SI-Bind + GEQ (Ours)", 13.0, "bold", color="#0f172a")
+    text(left, height - 26, "SoccerGMR Performance Benchmark: Baseline vs. SI-Bind (Ours - E6)", 13.0, "bold", color="#0f172a")
     sub = (
         "Head-to-head evaluation across 9 temporal DETR backbones on Standard Test (1,036 queries) "
         "and Full-Decodable Test (2,970 queries). Strict single seed (2023)."
@@ -191,10 +190,9 @@ def render():
 
     notes = [
         "Method 1 (GMR Baseline): Official temporal DETR baseline checkpoints evaluated with native bipartite matching.",
-        "Method 2 (GMR + SI-Bind [E6]): Full Structural Triad (Temporal Residual Stream + Slot-Private Innovation + Dominance-Aware Refresh).",
-        "Method 3 (GMR + SI-Bind [E6] + GEQ [Ours]): Two-stage Global Event Query (GEQ) fine-tuning selected by Validation Orc-gap with 20 epochs patience.",
+        "Method 2 (GMR + SI-Bind [Ours - E6]): Full Structural Triad (Temporal Residual Stream + Slot-Private Innovation + Dominance-Aware Refresh).",
         "Orc-Gap (%): Area between Oracle envelope and G-mIoU@1 threshold curve across tau in [0, 1] (Integral of Oracle_G1 minus G1-AUC). Lower is better.",
-        "Bold values highlight the optimal performance across all 3 configurations per backbone. FlashVTG E6 currently in queue.",
+        "Bold values highlight the optimal performance between Baseline and SI-Bind (E6) per backbone. FlashVTG E6 currently in queue.",
     ]
     for i, line in enumerate(notes):
         text(left, y - 6 - i * 11.0, line, 7.8, color="#64748b")
