@@ -47,6 +47,7 @@ METHODS = [
     ("gmr_dqcgpv3", "2. GMR + DQ-CGPv3", "#0369a1", "normal"),
     ("gmr_dqcgpv3_geq_g1", "3. GMR + DQ-CGPv3 + GEQ (G1 Sel)", "#047857", "bold"),
     ("gmr_dqcgpv3_geq_map", "4. GMR + DQ-CGPv3 + GEQ (mAP Sel)", "#b45309", "bold"),
+    ("gmr_si_bind", "5. GMR + SI-Bind (Ours)", "#6d28d9", "bold"),
 ]
 
 
@@ -85,7 +86,7 @@ def render_table(backbones, filename_stem):
     row_height = 23
     n_bb = len(valid_backbones)
     table_content_h = n_bb * len(METHODS) * row_height + (n_bb - 1) * 6
-    height = 110 + table_content_h + 74
+    height = 110 + table_content_h + 88
 
     fig = plt.figure(figsize=(width / 72, height / 72), facecolor="white", dpi=200)
     ax = fig.add_axes([0, 0, 1, 1], xlim=(0, width), ylim=(0, height))
@@ -98,9 +99,9 @@ def render_table(backbones, filename_stem):
         ax.plot([x0, x1], [y, y], color=color, lw=lw)
 
     # Title
-    text(left, height - 26, f"SoccerGMR Ablation Study: Stage 2 G1 Selection vs. mAP Selection ({len(valid_backbones)} Backbones)", 13.5, "bold", color="#0f172a")
+    text(left, height - 26, f"SoccerGMR Ablation Study: DQ-CGP & SI-Bind Inter-layer Binding ({len(valid_backbones)} Backbones)", 13.5, "bold", color="#0f172a")
     sub = (
-        "Comparing GMR Baseline vs. GMR + DQ-CGPv3 vs. GEQ with Val G1 Selection vs. GEQ with Val mAP Selection "
+        "Comparing GMR Baseline vs. DQ-CGPv3 vs. GEQ Selection vs. SI-Bind (Inter-layer Residual Binding & Dominance Refresh) "
         "on Standard Test (1,036 queries) and Full-Decodable Test (2,970 queries)."
     )
     text(left, height - 46, sub, 9.0, color="#475569")
@@ -140,6 +141,8 @@ def render_table(backbones, filename_stem):
                 ax.add_patch(plt.Rectangle((left - 4, curr_y - 9), width - left - 16, 18, color="#ecfdf5", zorder=-1))
             elif m_key == "gmr_dqcgpv3_geq_map":
                 ax.add_patch(plt.Rectangle((left - 4, curr_y - 9), width - left - 16, 18, color="#fffbeb", zorder=-1))
+            elif m_key == "gmr_si_bind":
+                ax.add_patch(plt.Rectangle((left - 4, curr_y - 9), width - left - 16, 18, color="#f5f3ff", zorder=-1))
 
             if m_idx == 0:
                 text(left, curr_y, display_name, 9.8, "bold", color="#0f172a")
@@ -192,6 +195,7 @@ def render_table(backbones, filename_stem):
     notes = [
         "Method 3 (G1 Sel): Global Event Query fine-tuned with model selection on Val Mean G-mIoU@1 (0.4/0.5/0.6) (Official).",
         "Method 4 (mAP Sel): Global Event Query fine-tuned with model selection on highest Val Localization mAP.",
+        "Method 5 (SI-Bind): Inter-layer Residual Binding with Dominance-Aware Slot Refresh and Slot-Private Innovation (Ours).",
         "Orc-Gap (%): Area between Oracle envelope and G-mIoU@1 threshold curve across tau in [0, 1] (Integral of Oracle_G1 minus G1-AUC).",
         "Note: Lower Orc-Gap is better (bold marks lowest gap per backbone), directly quantifying G-mIoU loss caused by imperfect query existence gating.",
     ]

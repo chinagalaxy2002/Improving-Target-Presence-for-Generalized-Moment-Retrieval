@@ -1,0 +1,659 @@
+{
+  "moment_detr": {
+    "display_name": "Moment-DETR",
+    "splits": {
+      "standard": {
+        "gmr": {
+          "mAP": 6.68,
+          "g1_auc_pct": 29.04,
+          "oracle_g1_pct": 53.32,
+          "oracle_gap_pct": 24.28,
+          "rej_f1_50": 67.94,
+          "auroc": 70.2
+        },
+        "gmr_dqcgpv3": {
+          "mAP": 10.66,
+          "g1_auc_pct": 34.85,
+          "oracle_g1_pct": 57.34,
+          "oracle_gap_pct": 22.49,
+          "rej_f1_50": 72.2,
+          "auroc": 72.09
+        },
+        "gmr_dqcgpv3_geq_g1": {
+          "mAP": 12.64,
+          "g1_auc_pct": 42.92,
+          "oracle_g1_pct": 58.54,
+          "oracle_gap_pct": 15.62,
+          "rej_f1_50": 75.48,
+          "auroc": 73.48
+        },
+        "gmr_dqcgpv3_geq_map": {
+          "mAP": 12.63,
+          "g1_auc_pct": 35.51,
+          "oracle_g1_pct": 58.95,
+          "oracle_gap_pct": 23.44,
+          "rej_f1_50": 68.77,
+          "auroc": 75.17
+        }
+      },
+      "full": {
+        "gmr": {
+          "mAP": 5.47,
+          "g1_auc_pct": 27.01,
+          "oracle_g1_pct": 50.49,
+          "oracle_gap_pct": 23.48,
+          "rej_f1_50": 72.08,
+          "auroc": 78.91
+        },
+        "gmr_dqcgpv3": {
+          "mAP": 9.99,
+          "g1_auc_pct": 32.82,
+          "oracle_g1_pct": 54.65,
+          "oracle_gap_pct": 21.83,
+          "rej_f1_50": 74.92,
+          "auroc": 80.24
+        },
+        "gmr_dqcgpv3_geq_g1": {
+          "mAP": 11.63,
+          "g1_auc_pct": 40.55,
+          "oracle_g1_pct": 55.95,
+          "oracle_gap_pct": 15.4,
+          "rej_f1_50": 78.93,
+          "auroc": 80.37
+        },
+        "gmr_dqcgpv3_geq_map": {
+          "mAP": 11.56,
+          "g1_auc_pct": 33.45,
+          "oracle_g1_pct": 55.98,
+          "oracle_gap_pct": 22.53,
+          "rej_f1_50": 69.83,
+          "auroc": 81.94
+        }
+      }
+    }
+  },
+  "eatr": {
+    "display_name": "EaTR",
+    "splits": {
+      "standard": {
+        "gmr": {
+          "mAP": 16.49,
+          "g1_auc_pct": 37.9,
+          "oracle_g1_pct": 59.41,
+          "oracle_gap_pct": 21.51,
+          "rej_f1_50": 65.6,
+          "auroc": 76.56
+        },
+        "gmr_dqcgpv3": {
+          "mAP": 16.02,
+          "g1_auc_pct": 35.82,
+          "oracle_g1_pct": 59.69,
+          "oracle_gap_pct": 23.87,
+          "rej_f1_50": 65.27,
+          "auroc": 77.19
+        },
+        "gmr_dqcgpv3_geq_g1": {
+          "mAP": 17.48,
+          "g1_auc_pct": 44.39,
+          "oracle_g1_pct": 60.7,
+          "oracle_gap_pct": 16.31,
+          "rej_f1_50": 75.43,
+          "auroc": 76.17
+        },
+        "gmr_dqcgpv3_geq_map": {
+          "mAP": 17.49,
+          "g1_auc_pct": 37.46,
+          "oracle_g1_pct": 60.2,
+          "oracle_gap_pct": 22.74,
+          "rej_f1_50": 70.12,
+          "auroc": 76.28
+        }
+      },
+      "full": {
+        "gmr": {
+          "mAP": 15.19,
+          "g1_auc_pct": 36.53,
+          "oracle_g1_pct": 56.92,
+          "oracle_gap_pct": 20.39,
+          "rej_f1_50": 67.38,
+          "auroc": 81.59
+        },
+        "gmr_dqcgpv3": {
+          "mAP": 15.35,
+          "g1_auc_pct": 34.99,
+          "oracle_g1_pct": 57.3,
+          "oracle_gap_pct": 22.31,
+          "rej_f1_50": 65.29,
+          "auroc": 80.38
+        },
+        "gmr_dqcgpv3_geq_g1": {
+          "mAP": 15.67,
+          "g1_auc_pct": 42.5,
+          "oracle_g1_pct": 57.98,
+          "oracle_gap_pct": 15.48,
+          "rej_f1_50": 78.73,
+          "auroc": 83.04
+        },
+        "gmr_dqcgpv3_geq_map": {
+          "mAP": 15.98,
+          "g1_auc_pct": 35.73,
+          "oracle_g1_pct": 57.83,
+          "oracle_gap_pct": 22.1,
+          "rej_f1_50": 72.31,
+          "auroc": 82.28
+        }
+      }
+    }
+  },
+  "qd_detr": {
+    "display_name": "QD-DETR",
+    "splits": {
+      "standard": {
+        "gmr": {
+          "mAP": 14.62,
+          "g1_auc_pct": 38.72,
+          "oracle_g1_pct": 58.95,
+          "oracle_gap_pct": 20.23,
+          "rej_f1_50": 71.48,
+          "auroc": 77.01
+        },
+        "gmr_dqcgpv3": {
+          "mAP": 15.82,
+          "g1_auc_pct": 39.54,
+          "oracle_g1_pct": 60.01,
+          "oracle_gap_pct": 20.47,
+          "rej_f1_50": 69.02,
+          "auroc": 74.24
+        },
+        "gmr_dqcgpv3_geq_g1": {
+          "mAP": 17.28,
+          "g1_auc_pct": 42.35,
+          "oracle_g1_pct": 60.54,
+          "oracle_gap_pct": 18.19,
+          "rej_f1_50": 72.25,
+          "auroc": 75.18
+        },
+        "gmr_dqcgpv3_geq_map": {
+          "mAP": 16.8,
+          "g1_auc_pct": 41.02,
+          "oracle_g1_pct": 60.17,
+          "oracle_gap_pct": 19.15,
+          "rej_f1_50": 68.29,
+          "auroc": 74.73
+        }
+      },
+      "full": {
+        "gmr": {
+          "mAP": 12.65,
+          "g1_auc_pct": 36.93,
+          "oracle_g1_pct": 55.98,
+          "oracle_gap_pct": 19.05,
+          "rej_f1_50": 72.49,
+          "auroc": 81.75
+        },
+        "gmr_dqcgpv3": {
+          "mAP": 13.93,
+          "g1_auc_pct": 38.05,
+          "oracle_g1_pct": 57.28,
+          "oracle_gap_pct": 19.23,
+          "rej_f1_50": 71.63,
+          "auroc": 81.64
+        },
+        "gmr_dqcgpv3_geq_g1": {
+          "mAP": 14.2,
+          "g1_auc_pct": 40.24,
+          "oracle_g1_pct": 57.31,
+          "oracle_gap_pct": 17.07,
+          "rej_f1_50": 75.61,
+          "auroc": 82.48
+        },
+        "gmr_dqcgpv3_geq_map": {
+          "mAP": 13.61,
+          "g1_auc_pct": 39.3,
+          "oracle_g1_pct": 56.98,
+          "oracle_gap_pct": 17.68,
+          "rej_f1_50": 71.15,
+          "auroc": 82.2
+        }
+      }
+    }
+  },
+  "cg_detr": {
+    "display_name": "CG-DETR",
+    "splits": {
+      "standard": {
+        "gmr": {
+          "mAP": 18.65,
+          "g1_auc_pct": 34.5,
+          "oracle_g1_pct": 60.16,
+          "oracle_gap_pct": 25.66,
+          "rej_f1_50": 57.47,
+          "auroc": 76.4
+        },
+        "gmr_dqcgpv3": {
+          "mAP": 13.49,
+          "g1_auc_pct": 36.84,
+          "oracle_g1_pct": 58.89,
+          "oracle_gap_pct": 22.05,
+          "rej_f1_50": 75.04,
+          "auroc": 74.63
+        },
+        "gmr_dqcgpv3_geq_g1": {
+          "mAP": 14.75,
+          "g1_auc_pct": 43.76,
+          "oracle_g1_pct": 58.92,
+          "oracle_gap_pct": 15.16,
+          "rej_f1_50": 75.31,
+          "auroc": 75.77
+        },
+        "gmr_dqcgpv3_geq_map": {
+          "mAP": 14.75,
+          "g1_auc_pct": 33.3,
+          "oracle_g1_pct": 58.66,
+          "oracle_gap_pct": 25.36,
+          "rej_f1_50": 58.42,
+          "auroc": 75.41
+        }
+      },
+      "full": {
+        "gmr": {
+          "mAP": 14.67,
+          "g1_auc_pct": 33.53,
+          "oracle_g1_pct": 56.81,
+          "oracle_gap_pct": 23.28,
+          "rej_f1_50": 63.23,
+          "auroc": 81.81
+        },
+        "gmr_dqcgpv3": {
+          "mAP": 12.49,
+          "g1_auc_pct": 35.4,
+          "oracle_g1_pct": 56.13,
+          "oracle_gap_pct": 20.73,
+          "rej_f1_50": 76.97,
+          "auroc": 79.33
+        },
+        "gmr_dqcgpv3_geq_g1": {
+          "mAP": 13.17,
+          "g1_auc_pct": 42.05,
+          "oracle_g1_pct": 56.58,
+          "oracle_gap_pct": 14.53,
+          "rej_f1_50": 78.87,
+          "auroc": 82.88
+        },
+        "gmr_dqcgpv3_geq_map": {
+          "mAP": 13.62,
+          "g1_auc_pct": 33.01,
+          "oracle_g1_pct": 56.74,
+          "oracle_gap_pct": 23.73,
+          "rej_f1_50": 62.98,
+          "auroc": 82.44
+        }
+      }
+    }
+  },
+  "bm_detr": {
+    "display_name": "BM-DETR",
+    "splits": {
+      "standard": {
+        "gmr": {
+          "mAP": 4.0,
+          "g1_auc_pct": 36.32,
+          "oracle_g1_pct": 53.91,
+          "oracle_gap_pct": 17.59,
+          "rej_f1_50": 75.0,
+          "auroc": 71.55
+        },
+        "gmr_dqcgpv3": {
+          "mAP": 7.74,
+          "g1_auc_pct": 38.02,
+          "oracle_g1_pct": 55.42,
+          "oracle_gap_pct": 17.4,
+          "rej_f1_50": 74.43,
+          "auroc": 70.69
+        },
+        "gmr_dqcgpv3_geq_g1": {
+          "mAP": 7.82,
+          "g1_auc_pct": 43.35,
+          "oracle_g1_pct": 55.67,
+          "oracle_gap_pct": 12.32,
+          "rej_f1_50": 75.0,
+          "auroc": 72.09
+        },
+        "gmr_dqcgpv3_geq_map": {
+          "mAP": 8.69,
+          "g1_auc_pct": 34.85,
+          "oracle_g1_pct": 56.43,
+          "oracle_gap_pct": 21.58,
+          "rej_f1_50": 71.33,
+          "auroc": 73.71
+        }
+      },
+      "full": {
+        "gmr": {
+          "mAP": 3.65,
+          "g1_auc_pct": 33.93,
+          "oracle_g1_pct": 51.55,
+          "oracle_gap_pct": 17.62,
+          "rej_f1_50": 78.58,
+          "auroc": 79.11
+        },
+        "gmr_dqcgpv3": {
+          "mAP": 7.32,
+          "g1_auc_pct": 36.15,
+          "oracle_g1_pct": 53.09,
+          "oracle_gap_pct": 16.94,
+          "rej_f1_50": 77.84,
+          "auroc": 79.64
+        },
+        "gmr_dqcgpv3_geq_g1": {
+          "mAP": 7.32,
+          "g1_auc_pct": 40.89,
+          "oracle_g1_pct": 53.27,
+          "oracle_gap_pct": 12.38,
+          "rej_f1_50": 78.8,
+          "auroc": 79.15
+        },
+        "gmr_dqcgpv3_geq_map": {
+          "mAP": 7.82,
+          "g1_auc_pct": 32.88,
+          "oracle_g1_pct": 53.75,
+          "oracle_gap_pct": 20.87,
+          "rej_f1_50": 75.15,
+          "auroc": 80.15
+        }
+      }
+    }
+  },
+  "bam_detr": {
+    "display_name": "BAM-DETR",
+    "splits": {
+      "standard": {
+        "gmr": {
+          "mAP": 23.25,
+          "g1_auc_pct": 42.92,
+          "oracle_g1_pct": 62.74,
+          "oracle_gap_pct": 19.82,
+          "rej_f1_50": 70.43,
+          "auroc": 78.66
+        },
+        "gmr_dqcgpv3": {
+          "mAP": 21.52,
+          "g1_auc_pct": 41.6,
+          "oracle_g1_pct": 61.0,
+          "oracle_gap_pct": 19.4,
+          "rej_f1_50": 71.83,
+          "auroc": 77.8
+        },
+        "gmr_dqcgpv3_geq_g1": {
+          "mAP": 22.84,
+          "g1_auc_pct": 43.82,
+          "oracle_g1_pct": 61.42,
+          "oracle_gap_pct": 17.6,
+          "rej_f1_50": 74.07,
+          "auroc": 77.41
+        },
+        "gmr_dqcgpv3_geq_map": {
+          "mAP": 22.83,
+          "g1_auc_pct": 39.28,
+          "oracle_g1_pct": 61.19,
+          "oracle_gap_pct": 21.91,
+          "rej_f1_50": 65.46,
+          "auroc": 77.08
+        }
+      },
+      "full": {
+        "gmr": {
+          "mAP": 20.62,
+          "g1_auc_pct": 40.75,
+          "oracle_g1_pct": 59.12,
+          "oracle_gap_pct": 18.37,
+          "rej_f1_50": 71.79,
+          "auroc": 80.99
+        },
+        "gmr_dqcgpv3": {
+          "mAP": 19.57,
+          "g1_auc_pct": 40.14,
+          "oracle_g1_pct": 58.18,
+          "oracle_gap_pct": 18.04,
+          "rej_f1_50": 72.01,
+          "auroc": 80.13
+        },
+        "gmr_dqcgpv3_geq_g1": {
+          "mAP": 20.74,
+          "g1_auc_pct": 41.76,
+          "oracle_g1_pct": 58.53,
+          "oracle_gap_pct": 16.77,
+          "rej_f1_50": 77.58,
+          "auroc": 83.32
+        },
+        "gmr_dqcgpv3_geq_map": {
+          "mAP": 21.21,
+          "g1_auc_pct": 37.94,
+          "oracle_g1_pct": 58.93,
+          "oracle_gap_pct": 20.99,
+          "rej_f1_50": 68.07,
+          "auroc": 82.87
+        }
+      }
+    }
+  },
+  "sim_detr": {
+    "display_name": "Sim-DETR",
+    "splits": {
+      "standard": {
+        "gmr": {
+          "mAP": 20.73,
+          "g1_auc_pct": 37.57,
+          "oracle_g1_pct": 60.08,
+          "oracle_gap_pct": 22.51,
+          "rej_f1_50": 74.69,
+          "auroc": 72.97
+        },
+        "gmr_dqcgpv3": {
+          "mAP": 20.63,
+          "g1_auc_pct": 38.9,
+          "oracle_g1_pct": 60.06,
+          "oracle_gap_pct": 21.16,
+          "rej_f1_50": 75.43,
+          "auroc": 75.84
+        },
+        "gmr_dqcgpv3_geq_g1": {
+          "mAP": 21.43,
+          "g1_auc_pct": 44.96,
+          "oracle_g1_pct": 60.4,
+          "oracle_gap_pct": 15.44,
+          "rej_f1_50": 75.56,
+          "auroc": 76.79
+        },
+        "gmr_dqcgpv3_geq_map": {
+          "mAP": 21.71,
+          "g1_auc_pct": 36.79,
+          "oracle_g1_pct": 61.19,
+          "oracle_gap_pct": 24.4,
+          "rej_f1_50": 67.73,
+          "auroc": 76.7
+        }
+      },
+      "full": {
+        "gmr": {
+          "mAP": 19.18,
+          "g1_auc_pct": 35.68,
+          "oracle_g1_pct": 57.46,
+          "oracle_gap_pct": 21.78,
+          "rej_f1_50": 75.72,
+          "auroc": 78.87
+        },
+        "gmr_dqcgpv3": {
+          "mAP": 19.62,
+          "g1_auc_pct": 37.24,
+          "oracle_g1_pct": 57.81,
+          "oracle_gap_pct": 20.57,
+          "rej_f1_50": 75.69,
+          "auroc": 80.2
+        },
+        "gmr_dqcgpv3_geq_g1": {
+          "mAP": 19.5,
+          "g1_auc_pct": 43.05,
+          "oracle_g1_pct": 57.82,
+          "oracle_gap_pct": 14.77,
+          "rej_f1_50": 76.12,
+          "auroc": 82.41
+        },
+        "gmr_dqcgpv3_geq_map": {
+          "mAP": 20.19,
+          "g1_auc_pct": 35.58,
+          "oracle_g1_pct": 58.47,
+          "oracle_gap_pct": 22.89,
+          "rej_f1_50": 70.09,
+          "auroc": 80.95
+        }
+      }
+    }
+  },
+  "uvcom": {
+    "display_name": "UVCOM",
+    "splits": {
+      "standard": {
+        "gmr": {
+          "mAP": 7.12,
+          "g1_auc_pct": 35.95,
+          "oracle_g1_pct": 53.19,
+          "oracle_gap_pct": 17.24,
+          "rej_f1_50": 75.0,
+          "auroc": 70.03
+        },
+        "gmr_dqcgpv3": {
+          "mAP": 17.06,
+          "g1_auc_pct": 38.75,
+          "oracle_g1_pct": 60.11,
+          "oracle_gap_pct": 21.36,
+          "rej_f1_50": 70.06,
+          "auroc": 76.83
+        },
+        "gmr_dqcgpv3_geq_g1": {
+          "mAP": 18.4,
+          "g1_auc_pct": 42.62,
+          "oracle_g1_pct": 61.1,
+          "oracle_gap_pct": 18.48,
+          "rej_f1_50": 72.28,
+          "auroc": 76.65
+        },
+        "gmr_dqcgpv3_geq_map": {
+          "mAP": 17.16,
+          "g1_auc_pct": 36.99,
+          "oracle_g1_pct": 60.48,
+          "oracle_gap_pct": 23.49,
+          "rej_f1_50": 59.8,
+          "auroc": 75.83
+        }
+      },
+      "full": {
+        "gmr": {
+          "mAP": 6.4,
+          "g1_auc_pct": 34.32,
+          "oracle_g1_pct": 51.15,
+          "oracle_gap_pct": 16.83,
+          "rej_f1_50": 76.8,
+          "auroc": 78.98
+        },
+        "gmr_dqcgpv3": {
+          "mAP": 16.41,
+          "g1_auc_pct": 37.37,
+          "oracle_g1_pct": 58.15,
+          "oracle_gap_pct": 20.78,
+          "rej_f1_50": 67.2,
+          "auroc": 75.32
+        },
+        "gmr_dqcgpv3_geq_g1": {
+          "mAP": 17.12,
+          "g1_auc_pct": 40.8,
+          "oracle_g1_pct": 58.46,
+          "oracle_gap_pct": 17.66,
+          "rej_f1_50": 71.45,
+          "auroc": 76.29
+        },
+        "gmr_dqcgpv3_geq_map": {
+          "mAP": 16.5,
+          "g1_auc_pct": 35.85,
+          "oracle_g1_pct": 58.22,
+          "oracle_gap_pct": 22.37,
+          "rej_f1_50": 59.55,
+          "auroc": 75.48
+        }
+      }
+    }
+  },
+  "flashvtg": {
+    "display_name": "FlashVTG",
+    "splits": {
+      "standard": {
+        "gmr": {
+          "mAP": 25.43,
+          "g1_auc_pct": 36.22,
+          "oracle_g1_pct": 61.69,
+          "oracle_gap_pct": 25.47,
+          "rej_f1_50": 66.35,
+          "auroc": 74.3
+        },
+        "gmr_dqcgpv3": {
+          "mAP": 26.13,
+          "g1_auc_pct": 40.06,
+          "oracle_g1_pct": 62.42,
+          "oracle_gap_pct": 22.36,
+          "rej_f1_50": 67.25,
+          "auroc": 76.02
+        },
+        "gmr_dqcgpv3_geq_g1": {
+          "mAP": 25.81,
+          "g1_auc_pct": 44.2,
+          "oracle_g1_pct": 61.77,
+          "oracle_gap_pct": 17.57,
+          "rej_f1_50": 74.62,
+          "auroc": 74.69
+        },
+        "gmr_dqcgpv3_geq_map": {
+          "mAP": 26.11,
+          "g1_auc_pct": 41.27,
+          "oracle_g1_pct": 61.96,
+          "oracle_gap_pct": 20.69,
+          "rej_f1_50": 73.23,
+          "auroc": 74.34
+        }
+      },
+      "full": {
+        "gmr": {
+          "mAP": 20.43,
+          "g1_auc_pct": 33.9,
+          "oracle_g1_pct": 58.03,
+          "oracle_gap_pct": 24.13,
+          "rej_f1_50": 68.48,
+          "auroc": 82.21
+        },
+        "gmr_dqcgpv3": {
+          "mAP": 21.11,
+          "g1_auc_pct": 37.65,
+          "oracle_g1_pct": 58.55,
+          "oracle_gap_pct": 20.9,
+          "rej_f1_50": 68.95,
+          "auroc": 82.76
+        },
+        "gmr_dqcgpv3_geq_g1": {
+          "mAP": 20.87,
+          "g1_auc_pct": 41.76,
+          "oracle_g1_pct": 58.28,
+          "oracle_gap_pct": 16.52,
+          "rej_f1_50": 78.13,
+          "auroc": 81.95
+        },
+        "gmr_dqcgpv3_geq_map": {
+          "mAP": 21.07,
+          "g1_auc_pct": 38.72,
+          "oracle_g1_pct": 58.47,
+          "oracle_gap_pct": 19.75,
+          "rej_f1_50": 76.92,
+          "auroc": 81.91
+        }
+      }
+    }
+  }
+}
