@@ -8,7 +8,7 @@ This module implements the lightweight interlayer adapter for E1-E8:
 - E5: E2 + Dominance-aware slot refresh (EMA of positive Top-1 slot index).
 - E6: E2 + Innovation + Dominance refresh.
 - E7: E6 with binding_loss_coef = 0.
-- E8: Multi-layer shared binding adapter.
+- E8: Strict serial A -> B without C (Temporal binding + slot-private innovation, no refresh).
 """
 
 from __future__ import annotations
@@ -69,7 +69,12 @@ class InterLayerBind(nn.Module):
         self.warmup_epochs = int(warmup_epochs)
         self.ema_decay = float(ema_decay)
         self.binding_loss_coef = float(binding_loss_coef)
-        self.variant_name = str(variant_name)
+        self.variant_name = str(variant_name).upper()
+
+        if self.variant_name == "E8":
+            self.refresh_mode = "none"
+            self.enable_residual = True
+            self.use_innovation = True
 
         if frf_hidden_dim is None:
             frf_hidden_dim = 2 * hidden_dim
@@ -121,6 +126,8 @@ class InterLayerBind(nn.Module):
         
         Must NOT be called during validation or testing.
         """
+        if self.refresh_mode not in ("dominance", "uniform"):
+            return
         self.current_epoch.fill_(epoch)
         if top1_slots is None or top1_slots.numel() == 0:
             return
@@ -202,6 +209,46 @@ class InterLayerBind(nn.Module):
                 opportunity_count=0,
             )
             return decoder_state
+
+        # E8: Strict serial A -> B without C
+        if self.variant_name == "E8":
+            sem_expand = query_semantic.unsqueeze(1).expand(-1, num_queries, -1)
+            # Step 1: Mechanism A residual update
+            # r = R([S ; c ; s])
+            res_in = torch.cat([candidate, temporal_context, sem_expand], dim=-1)
+            r_i = self.residual_norm(self.residual_out(F.gelu(self.residual_fc(res_in))))
+            beta_val = self.beta.to(candidate.dtype)
+            # Intermediate slot state H_A = S + beta * r
+            h_A = candidate + beta_val * r_i
+
+            # Step 2: Mechanism B recomputes temporal context using H_A
+            # c_A = T(H_A, V, s)
+            cand_norm_A = self.decoder_norm(h_A)
+            q_cand_A = self.candidate_projection(cand_norm_A)
+            temporal_query_A = q_cand_A + q_sem
+            temporal_logits_A = torch.einsum("bmd,btd->bmt", temporal_query_A, temporal_key) / math.sqrt(self.hidden_dim)
+            temporal_attention_A = self._masked_temporal_softmax(temporal_logits_A, video_padding_mask)
+            temporal_context_A = torch.einsum("bmt,btd->bmd", temporal_attention_A, video_value)
+
+            # Context difference innovation: n_A = W_nov(c_A - sg(mean_slot(c_A)))
+            c_bar_A = temporal_context_A.mean(dim=1, keepdim=True).detach()
+            n_A = self.innovation_projection(temporal_context_A - c_bar_A)
+
+            # S_out = H_A + beta * lambda_nov * n_A
+            adapted_candidate = h_A + beta_val * (self.lambda_nov * n_A)
+            adapted_state = adapted_candidate.transpose(0, 1)  # [K, B, d]
+
+            self.last_output = InterLayerBindOutput(
+                adapted_state=adapted_state,
+                temporal_logits=temporal_logits,
+                temporal_attention=temporal_attention,
+                temporal_context=temporal_context,
+                residual_update=r_i,
+                basis_weights=None,
+                actual_refresh_count=0,
+                opportunity_count=0,
+            )
+            return adapted_state
 
         # 2. Refresh Mechanism (C) - Training only, strictly disabled in eval
         h_current = candidate
@@ -311,8 +358,10 @@ def build_interlayer_adapter(options, hidden_dim: int, num_queries: int) -> Opti
             refresh_mode = "dominance"
             binding_loss_coef = 0.0
         elif variant == "E8":
-            # Multi-layer shared binding
-            pass
+            enable_residual = True
+            use_innovation = True
+            refresh_mode = "none"
+            binding_loss_coef = float(getattr(options, "si_bind_loss_coef", 0.2))
 
         # Allow explicit overrides from options if specified
         if hasattr(options, "si_bind_enable_residual"):

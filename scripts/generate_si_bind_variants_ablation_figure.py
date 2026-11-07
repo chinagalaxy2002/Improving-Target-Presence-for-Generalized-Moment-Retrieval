@@ -17,8 +17,8 @@ CURRENT_BRAIN = Path("/home/guoxiangyu/.gemini/antigravity-cli/brain/e32cc1be-00
 BACKBONES = [
     ("moment_detr", "Moment-DETR", ["E1", "E2", "E3", "E4", "E5", "E6", "E7"]),
     ("bm_detr", "BM-DETR", ["E2", "E3", "E4", "E5", "E6", "E7"]),
-    ("uvcom", "UVCOM", ["E1", "E2", "E4", "E5", "E6"]),
-    ("cg_detr", "CG-DETR", ["E2", "E5", "E6"]),
+    ("uvcom", "UVCOM", ["E1", "E2", "E3", "E4", "E5", "E6", "E7"]),
+    ("cg_detr", "CG-DETR", ["E2", "E3", "E4", "E5", "E6", "E7"]),
     ("qd_detr", "QD-DETR", ["E6"]),
 ]
 
@@ -30,6 +30,7 @@ VAR_INFO = {
     "E5": ("5. E5: E2 + Dominance-Aware Refresh (C)", "#b45309", "bold", "#fffbeb"),
     "E6": ("6. E6: E2 + Innovation (B) + Dominance (C)", "#6d28d9", "bold", "#f5f3ff"),
     "E7": ("7. E7: E6 - Binding (bind_coef=0 Ablation)", "#475569", "normal", None),
+    "E8": ("8. E8: Strict Serial A -> B (No Refresh C)", "#0284c7", "bold", "#f0f9ff"),
 }
 
 def render():

@@ -230,6 +230,66 @@ def test_7_strict_state_dict_save_load():
     assert failed, "Loading E2 checkpoint into E3 under strict=True must fail"
 
 
+def test_8_e8_strict_serial_no_c():
+    """Assertion 8: E8 executes strict serial A -> B, removes C, and satisfies boundaries."""
+    B, K, T, d = 2, 10, 32, 256
+    opt = Options(interlayer_adapter_type="si_bind", interlayer_variant="E8")
+    m = build_interlayer_adapter(opt, hidden_dim=d, num_queries=K)
+
+    assert m.variant_name == "E8"
+    assert m.refresh_mode == "none"
+    assert hasattr(m, "innovation_projection")
+    assert not hasattr(m, "refresh_fc")
+
+    h = torch.randn(K, B, d, requires_grad=True)
+    v = torch.randn(T, B, d, requires_grad=True)
+    mask = torch.zeros(B, T, dtype=torch.bool)
+    s = torch.randn(B, d, requires_grad=True)
+
+    # 1. Output shape & C removal in training mode
+    m.train()
+    out = m(h, v, mask, s, video_length=T)
+    assert out.shape == (K, B, d)
+    diag = m.last_output
+    assert diag is not None
+    assert diag.actual_refresh_count == 0
+    assert diag.opportunity_count == 0
+
+    # 2. EMA must not update
+    init_ema = m.top1_ema.clone()
+    m.update_top1_ema(torch.tensor([0, 1]), epoch=10)
+    assert torch.equal(m.top1_ema, init_ema), "E8 must not update EMA"
+
+    # 3. Gradient flow through serial chain
+    loss = out.sum()
+    loss.backward()
+    assert h.grad is not None and torch.isfinite(h.grad).all() and h.grad.abs().sum() > 0
+    assert v.grad is not None and torch.isfinite(v.grad).all() and v.grad.abs().sum() > 0
+    assert s.grad is not None and torch.isfinite(s.grad).all() and s.grad.abs().sum() > 0
+
+    # 4. Boundary property: lambda_nov = 0 reduces to A alone
+    m.eval()
+    with torch.no_grad():
+        m.lambda_nov = 0.0
+        out_no_nov = m(h, v, mask, s, video_length=T)
+        # Compare with manual A
+        cand = h.transpose(0, 1)
+        v_mem = v.transpose(0, 1)
+        q = m.candidate_projection(m.decoder_norm(cand)) + m.semantic_projection(s).unsqueeze(1)
+        k = m.memory_key_projection(m.memory_norm(v_mem))
+        attn = m._masked_temporal_softmax(torch.einsum("bmd,btd->bmt", q, k) / 16.0, mask)
+        ctx = torch.einsum("bmt,btd->bmd", attn, m.memory_value_projection(v_mem))
+        r = m.residual_norm(m.residual_out(torch.nn.functional.gelu(m.residual_fc(torch.cat([cand, ctx, s.unsqueeze(1).expand(-1, K, -1)], dim=-1)))))
+        expected_h_a = (cand + m.beta * r).transpose(0, 1)
+        assert torch.allclose(out_no_nov, expected_h_a, atol=1e-5), "E8 with lambda_nov=0 must match A"
+
+        # 5. Boundary property: beta = 0 reduces to identity
+        m.beta.fill_(0.0)
+        m.lambda_nov = 0.2
+        out_beta0 = m(h, v, mask, s, video_length=T)
+        assert torch.allclose(out_beta0, h, atol=1e-5), "E8 with beta=0 must return identity"
+
+
 if __name__ == "__main__":
     tests = [
         test_1_structure_and_shape,
@@ -239,6 +299,7 @@ if __name__ == "__main__":
         test_5_different_slot_counts,
         test_6_diagnostic_algebraic_closure,
         test_7_strict_state_dict_save_load,
+        test_8_e8_strict_serial_no_c,
     ]
     print(f"Running {len(tests)} Gate-0 unit tests...")
     for t in tests:
