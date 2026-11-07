@@ -1,0 +1,17 @@
+# RUN DECISION: rev_0001_bm_detr_E3
+- **Hypothesis**: H4: Slot-Private Innovation
+- **Backbone**: bm_detr | **Variant**: E3
+- **Git SHA**: `061e2a11d2617322157d53d4c40b444e1235a3c9`
+- **Seed**: 2023 | **Best Epoch**: 83
+- **Val mAP**: 7.3300
+- **Val H_all**: 180 / 365
+- **Val H@5**: 130
+- **Val Missing**: 185
+- **Val Omission@5**: 50
+- **Multi-GT Full@5**: 6 / 90
+- **Top-2 Slot Top-1 Concentration**: 94.50980392156862%
+- **Top-2 Slot Hit Concentration**: 47.22222222222222%
+- **T / D / U**: 182 / 2 / 2368
+- **Layer H**: `[59, 140, 180]`
+- **Verdict**: **INCONCLUSIVE**
+- **Test used for iteration**: No (Standard Val only)

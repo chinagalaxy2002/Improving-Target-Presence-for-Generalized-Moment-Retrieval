@@ -66,23 +66,35 @@ def build(config, device='cpu'):
     model,criterion=getattr(import_module(module),function)(options)
     if spec.name=='bm_detr':
         from .bm_adapter import BMModel, BMLoss
-        return BMModel(model, options.hidden_dim).to(device), BMLoss(criterion).to(device)
-    if spec.name=='bam_detr':
+        model, loss = BMModel(model, options.hidden_dim, options).to(device), BMLoss(criterion).to(device)
+    elif spec.name=='bam_detr':
         from .bam_adapter import BAMModel, BAMLoss
-        return BAMModel(model, options.hidden_dim*3).to(device), BAMLoss(criterion).to(device)
-    if spec.name=='uvcom':
+        model, loss = BAMModel(model, options.hidden_dim*3, options).to(device), BAMLoss(criterion).to(device)
+    elif spec.name=='uvcom':
         from .uvcom_adapter import UVModel, UVLoss
-        return UVModel(model, options.hidden_dim).to(device), UVLoss(criterion).to(device)
-    if spec.name=='eatr':
-        model.exist_head=import_module('models.module').MLP(options.hidden_dim,options.hidden_dim,1,2)
-    if spec.name=='moment_detr':
-        criterion.losses=[x for x in criterion.losses if x!='exist']
-    if spec.name=='qd_detr':criterion=criterion.native
-    if spec.name=='cg_detr':
-        from .loss import stable_cg_criterion
-        criterion=stable_cg_criterion(criterion)
-    from .loss import GMRLoss
-    return model.to(device),GMRLoss(criterion,spec.name).to(device)
+        model, loss = UVModel(model, options.hidden_dim, options).to(device), UVLoss(criterion).to(device)
+    else:
+        if spec.name=='eatr':
+            model.exist_head=import_module('models.module').MLP(options.hidden_dim,options.hidden_dim,1,2)
+        if spec.name=='moment_detr':
+            criterion.losses=[x for x in criterion.losses if x!='exist']
+        if spec.name=='qd_detr':criterion=criterion.native
+        if spec.name=='cg_detr':
+            from .loss import stable_cg_criterion
+            criterion=stable_cg_criterion(criterion)
+        from .loss import GMRLoss
+        model, loss = model.to(device), GMRLoss(criterion,spec.name).to(device)
+
+    # Diagnostic logging: print injected adapter info
+    adapter = getattr(model, "query_cgp", None)
+    if adapter is None and hasattr(model, "native"):
+        adapter = getattr(model.native, "query_cgp", None)
+    adapter_name = type(adapter).__name__ if adapter is not None else "None"
+    adapter_params = sum(p.numel() for p in adapter.parameters()) if adapter is not None else 0
+    variant = getattr(adapter, "variant_name", "N/A") if adapter is not None else "None"
+    print(f"[{spec.name}] Interlayer Adapter: {adapter_name} ({variant}), trainable_params={adapter_params}", flush=True)
+
+    return model, loss
 
 def encoder_root(model, name):
     if name in ('bm_detr','bam_detr','uvcom'):return model.native

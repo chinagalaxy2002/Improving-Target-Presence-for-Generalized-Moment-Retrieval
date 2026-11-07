@@ -1,0 +1,17 @@
+# RUN DECISION: rev_0001_moment_detr_E5
+- **Hypothesis**: H3: Dominance-aware slot refresh
+- **Backbone**: moment_detr | **Variant**: E5
+- **Git SHA**: `061e2a11d2617322157d53d4c40b444e1235a3c9`
+- **Seed**: 2023 | **Best Epoch**: 7
+- **Val mAP**: 8.5200
+- **Val H_all**: 180 / 365
+- **Val H@5**: 113
+- **Val Missing**: 185
+- **Val Omission@5**: 67
+- **Multi-GT Full@5**: 4 / 90
+- **Top-2 Slot Top-1 Concentration**: 100.0%
+- **Top-2 Slot Hit Concentration**: 30.555555555555557%
+- **T / D / U**: 287 / 107 / 2263
+- **Layer H**: `[161, 180]`
+- **Verdict**: **PROMOTE**
+- **Test used for iteration**: No (Standard Val only)

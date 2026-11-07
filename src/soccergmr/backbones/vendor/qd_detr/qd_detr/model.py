@@ -26,7 +26,7 @@ class QDDETR(nn.Module):
     def __init__(self, transformer, position_embed, txt_position_embed, txt_dim, vid_dim,
                  num_queries, input_dropout, aux_loss=False,
                  contrastive_align_loss=False, contrastive_hdim=64,
-                 max_v_l=75, span_loss_type="l1", use_txt_pos=False, n_input_proj=2, aud_dim=0):
+                 max_v_l=75, span_loss_type="l1", use_txt_pos=False, n_input_proj=2, aud_dim=0, args=None):
         """ Initializes the model.
         Parameters:
             transformer: torch module of the transformer architecture. See transformer.py
@@ -89,16 +89,8 @@ class QDDETR(nn.Module):
         self.global_rep_token = torch.nn.Parameter(torch.randn(hidden_dim))
         self.global_rep_pos = torch.nn.Parameter(torch.randn(hidden_dim))
 
-        from soccergmr.modules.dq_cgp import DETRQueryCGP
-        self.query_cgp = DETRQueryCGP(
-            hidden_dim=hidden_dim,
-            num_basis=16,
-            prompt_length=6,
-            router_hidden_dim=256,
-            frf_hidden_dim=512,
-            temperature=1.0,
-            beta=0.05,
-        )
+        from soccergmr.modules.interlayer_bind import build_interlayer_adapter
+        self.query_cgp = build_interlayer_adapter(args, hidden_dim=hidden_dim, num_queries=num_queries)
         self.transformer.decoder.interlayer_adapter = self.query_cgp
 
     def forward(self, src_txt, src_txt_mask, src_vid, src_vid_mask, src_aud=None, src_aud_mask=None):
@@ -519,6 +511,7 @@ def build_model(args):
             span_loss_type=args.span_loss_type,
             use_txt_pos=args.use_txt_pos,
             n_input_proj=args.n_input_proj,
+            args=args,
         )
     else:
         model = QDDETR(
@@ -536,6 +529,7 @@ def build_model(args):
             span_loss_type=args.span_loss_type,
             use_txt_pos=args.use_txt_pos,
             n_input_proj=args.n_input_proj,
+            args=args,
         )
 
     matcher = build_matcher(args)

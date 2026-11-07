@@ -1,0 +1,17 @@
+# RUN DECISION: rev_0001_bm_detr_E7
+- **Hypothesis**: H2 Ablation: E6 without Binding (bind_coef=0)
+- **Backbone**: bm_detr | **Variant**: E7
+- **Git SHA**: `061e2a11d2617322157d53d4c40b444e1235a3c9`
+- **Seed**: 2023 | **Best Epoch**: 70
+- **Val mAP**: 9.0800
+- **Val H_all**: 167 / 365
+- **Val H@5**: 104
+- **Val Missing**: 198
+- **Val Omission@5**: 63
+- **Multi-GT Full@5**: 4 / 90
+- **Top-2 Slot Top-1 Concentration**: 100.0%
+- **Top-2 Slot Hit Concentration**: 35.32934131736527%
+- **T / D / U**: 169 / 2 / 2381
+- **Layer H**: `[46, 138, 167]`
+- **Verdict**: **CONTROL**
+- **Test used for iteration**: No (Standard Val only)

@@ -1,0 +1,17 @@
+# RUN DECISION: rev_0001_uvcom_E2
+- **Hypothesis**: H1: Lightweight Binding + residual (no basis)
+- **Backbone**: uvcom | **Variant**: E2
+- **Git SHA**: `061e2a11d2617322157d53d4c40b444e1235a3c9`
+- **Seed**: 2023 | **Best Epoch**: 175
+- **Val mAP**: 20.3000
+- **Val H_all**: 316 / 365
+- **Val H@5**: 219
+- **Val Missing**: 49
+- **Val Omission@5**: 97
+- **Multi-GT Full@5**: 30 / 90
+- **Top-2 Slot Top-1 Concentration**: 68.23529411764706%
+- **Top-2 Slot Hit Concentration**: 20.88607594936709%
+- **T / D / U**: 849 / 533 / 6801
+- **Layer H**: `[312, 310, 316]`
+- **Verdict**: **PROMOTE**
+- **Test used for iteration**: No (Standard Val only)

@@ -1,0 +1,17 @@
+# RUN DECISION: rev_0001_cg_detr_E2
+- **Hypothesis**: Phase 3 Transfer: E2 on cg_detr
+- **Backbone**: cg_detr | **Variant**: E2
+- **Git SHA**: `061e2a11d2617322157d53d4c40b444e1235a3c9`
+- **Seed**: 2023 | **Best Epoch**: 54
+- **Val mAP**: 14.0000
+- **Val H_all**: 237 / 365
+- **Val H@5**: 208
+- **Val Missing**: 128
+- **Val Omission@5**: 29
+- **Multi-GT Full@5**: 18 / 90
+- **Top-2 Slot Top-1 Concentration**: 60.78431372549019%
+- **Top-2 Slot Hit Concentration**: 38.39662447257383%
+- **T / D / U**: 296 / 59 / 2254
+- **Layer H**: `[188, 192, 237]`
+- **Verdict**: **PROMOTE**
+- **Test used for iteration**: No (Standard Val only)

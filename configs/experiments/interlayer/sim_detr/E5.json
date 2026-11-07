@@ -1,0 +1,21 @@
+{
+  "backbone": "sim_detr",
+  "description": "sim_detr with SI-Bind E5 from-scratch training (seed=2023)",
+  "data": {
+    "splits": {
+      "train": "/home/guoxiangyu/ImprovingGeneralizedMomentRetrieval/soccergmr_standard/d_gmr_two_stage/dataset/data/label/Standard/train.jsonl",
+      "val": "/home/guoxiangyu/ImprovingGeneralizedMomentRetrieval/soccergmr_standard/d_gmr_two_stage/dataset/data/label/Standard/val.jsonl",
+      "test_standard": "/home/guoxiangyu/ImprovingGeneralizedMomentRetrieval/soccergmr_standard/d_gmr_two_stage/dataset/data/label/Standard/test.jsonl",
+      "test_full": "/home/guoxiangyu/GMR_Unseen_s4_minus_fusion_baseline_20261019/experiments/gmr-Global-Eventquery/data/full_decodable/Full/test.jsonl"
+    },
+    "features": {
+      "standard": "/home/guoxiangyu/VLMbasedIter_momentretrival/generalized-moment-retrieval/Soccergmr",
+      "full": "/home/guoxiangyu/VLMbasedIter_momentretrival/generalized-moment-retrieval/Soccergmr/Full_features"
+    },
+    "full_label": "Full-Decodable 2970/2986",
+    "max_video_tokens": 128,
+    "max_text_tokens": 32
+  },
+  "protocol": {},
+  "architecture": "/home/guoxiangyu/SoccerGMR_SI_Bind_IsolatedLab/revisions/rev_0001/configs/interlayer_architectures/sim_detr/E5.json"
+}

@@ -17,7 +17,7 @@ class EaTR(nn.Module):
                  num_queries, input_dropout, aux_loss=False,
                  contrastive_align_loss=False, contrastive_hdim=64,
                  max_v_l=75, span_loss_type="l1", use_txt_pos=False, n_input_proj=2,
-                 query_dim=2):
+                 query_dim=2, args=None):
         """ Initializes the model.
         Parameters:
             transformer: torch module of the transformer architecture. See transformer.py
@@ -95,16 +95,8 @@ class EaTR(nn.Module):
         self.transformer.decoder.moment_span_embed = self.moment_span_embed
         self.transformer.decoder.event_span_embed = self.event_span_embed
 
-        from soccergmr.modules.dq_cgp import DETRQueryCGP
-        self.query_cgp = DETRQueryCGP(
-            hidden_dim=hidden_dim,
-            num_basis=16,
-            prompt_length=6,
-            router_hidden_dim=256,
-            frf_hidden_dim=512,
-            temperature=1.0,
-            beta=0.05,
-        )
+        from soccergmr.modules.interlayer_bind import build_interlayer_adapter
+        self.query_cgp = build_interlayer_adapter(args, hidden_dim=hidden_dim, num_queries=num_queries)
         self.transformer.decoder.interlayer_adapter = self.query_cgp
 
         # loss

@@ -46,6 +46,7 @@ def build_model(args):
         use_txt_pos=args.use_txt_pos,
         n_input_proj=args.n_input_proj,
         query_dim=args.query_dim,
+        args=args,
     )
 
     matcher = build_matcher(args)

@@ -1,0 +1,17 @@
+# RUN DECISION: rev_0001_uvcom_E5
+- **Hypothesis**: H3: Dominance-aware slot refresh
+- **Backbone**: uvcom | **Variant**: E5
+- **Git SHA**: `061e2a11d2617322157d53d4c40b444e1235a3c9`
+- **Seed**: 2023 | **Best Epoch**: 180
+- **Val mAP**: 21.9300
+- **Val H_all**: 329 / 365
+- **Val H@5**: 224
+- **Val Missing**: 36
+- **Val Omission@5**: 105
+- **Multi-GT Full@5**: 24 / 90
+- **Top-2 Slot Top-1 Concentration**: 61.1764705882353%
+- **Top-2 Slot Hit Concentration**: 18.541033434650455%
+- **T / D / U**: 934 / 605 / 6716
+- **Layer H**: `[307, 309, 329]`
+- **Verdict**: **PROMOTE**
+- **Test used for iteration**: No (Standard Val only)

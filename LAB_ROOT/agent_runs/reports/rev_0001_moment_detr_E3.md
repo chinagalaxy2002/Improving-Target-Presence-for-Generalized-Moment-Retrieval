@@ -1,0 +1,17 @@
+# RUN DECISION: rev_0001_moment_detr_E3
+- **Hypothesis**: H4: Slot-Private Innovation
+- **Backbone**: moment_detr | **Variant**: E3
+- **Git SHA**: `061e2a11d2617322157d53d4c40b444e1235a3c9`
+- **Seed**: 2023 | **Best Epoch**: 73
+- **Val mAP**: 16.7800
+- **Val H_all**: 220 / 365
+- **Val H@5**: 167
+- **Val Missing**: 145
+- **Val Omission@5**: 53
+- **Multi-GT Full@5**: 14 / 90
+- **Top-2 Slot Top-1 Concentration**: 59.21568627450981%
+- **Top-2 Slot Hit Concentration**: 27.27272727272727%
+- **T / D / U**: 416 / 196 / 2134
+- **Layer H**: `[214, 220]`
+- **Verdict**: **INCONCLUSIVE**
+- **Test used for iteration**: No (Standard Val only)

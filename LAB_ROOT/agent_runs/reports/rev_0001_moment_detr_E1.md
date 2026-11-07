@@ -1,0 +1,17 @@
+# RUN DECISION: rev_0001_moment_detr_E1
+- **Hypothesis**: H2: Binding only without residual
+- **Backbone**: moment_detr | **Variant**: E1
+- **Git SHA**: `061e2a11d2617322157d53d4c40b444e1235a3c9`
+- **Seed**: 2023 | **Best Epoch**: 69
+- **Val mAP**: 16.5800
+- **Val H_all**: 190 / 365
+- **Val H@5**: 167
+- **Val Missing**: 175
+- **Val Omission@5**: 23
+- **Multi-GT Full@5**: 14 / 90
+- **Top-2 Slot Top-1 Concentration**: 74.50980392156863%
+- **Top-2 Slot Hit Concentration**: 47.368421052631575%
+- **T / D / U**: 268 / 78 / 2282
+- **Layer H**: `[203, 190]`
+- **Verdict**: **CONTROL**
+- **Test used for iteration**: No (Standard Val only)

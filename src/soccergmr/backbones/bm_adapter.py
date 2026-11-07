@@ -6,21 +6,27 @@ from .loss import select
 
 
 class BMModel(nn.Module):
-    def __init__(self, native, dimension):
+    def __init__(self, native, dimension, options=None):
         super().__init__()
         self.native = native
         self.exist_head = nn.Sequential(nn.Linear(dimension, dimension), nn.ReLU(), nn.Linear(dimension, 1))
 
-        from soccergmr.modules.dq_cgp import DETRQueryCGP
-        self.query_cgp = DETRQueryCGP(
-            hidden_dim=dimension,
-            num_basis=16,
-            prompt_length=6,
-            router_hidden_dim=256,
-            frf_hidden_dim=512,
-            temperature=1.0,
-            beta=0.05,
-        )
+        from soccergmr.modules.interlayer_bind import build_interlayer_adapter
+        num_queries = getattr(options, "num_queries", getattr(native, "num_queries", 10))
+        hidden_dim = getattr(options, "hidden_dim", dimension)
+        if options is not None:
+            self.query_cgp = build_interlayer_adapter(options, hidden_dim, num_queries)
+        else:
+            from soccergmr.modules.dq_cgp import DETRQueryCGP
+            self.query_cgp = DETRQueryCGP(
+                hidden_dim=dimension,
+                num_basis=16,
+                prompt_length=6,
+                router_hidden_dim=256,
+                frf_hidden_dim=512,
+                temperature=1.0,
+                beta=0.05,
+            )
         self.native.transformer.decoder.interlayer_adapter = self.query_cgp
 
     def forward(self, **inputs):
@@ -42,7 +48,8 @@ class BMModel(nn.Module):
         out['pred_exist_logits'] = self.exist_head(out['hs'][-1].amax(dim=1)).squeeze(-1)
         if self.query_cgp is not None and self.query_cgp.last_output is not None:
             out["query_cgp_temporal_attention"] = self.query_cgp.last_output.temporal_attention
-            out["query_cgp_basis_weights"] = self.query_cgp.last_output.basis_weights
+            if getattr(self.query_cgp.last_output, "basis_weights", None) is not None:
+                out["query_cgp_basis_weights"] = self.query_cgp.last_output.basis_weights
             out["query_cgp_video_mask"] = src_vid_mask.bool()
         return out
 

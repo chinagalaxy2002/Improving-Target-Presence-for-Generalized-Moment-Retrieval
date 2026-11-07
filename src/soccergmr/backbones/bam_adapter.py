@@ -4,23 +4,17 @@ from torch import nn
 
 
 class BAMModel(nn.Module):
-    def __init__(self, native, dimension):
+    def __init__(self, native, dimension, options=None):
         super().__init__()
         self.native = native
         self.exist_head = nn.Sequential(nn.Linear(dimension, dimension), nn.ReLU(), nn.Linear(dimension, 1))
         self._decoder_features = None
         self.native.class_embed[-1].register_forward_pre_hook(self._capture)
 
-        from soccergmr.modules.dq_cgp import DETRQueryCGP
-        self.query_cgp = DETRQueryCGP(
-            hidden_dim=getattr(native, "hidden_dim", 256),
-            num_basis=16,
-            prompt_length=6,
-            router_hidden_dim=256,
-            frf_hidden_dim=512,
-            temperature=1.0,
-            beta=0.05,
-        )
+        from soccergmr.modules.interlayer_bind import build_interlayer_adapter
+        hidden_dim = getattr(native, "hidden_dim", 256)
+        num_queries = getattr(options, "num_queries", 10) if options is not None else 10
+        self.query_cgp = build_interlayer_adapter(options, hidden_dim=hidden_dim, num_queries=num_queries)
         self.native.transformer.decoder.interlayer_adapter = self.query_cgp
 
     def _capture(self, module, args):

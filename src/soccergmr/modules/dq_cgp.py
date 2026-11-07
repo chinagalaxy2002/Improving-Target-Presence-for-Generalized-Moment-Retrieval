@@ -318,10 +318,9 @@ def span_cxw_to_xx(cxw: Tensor) -> Tensor:
 
 
 def compute_query_cgp_loss(outputs: dict, targets: dict, matcher=None, indices=None, span_loss_type: str = "l1") -> dict:
-    """Compute native binding loss and routing entropy regularization for DQ-CGPv3."""
+    """Compute native binding loss and optional routing entropy regularization."""
     required = {
         "query_cgp_temporal_attention",
-        "query_cgp_basis_weights",
         "query_cgp_video_mask",
     }
     if (
@@ -336,7 +335,7 @@ def compute_query_cgp_loss(outputs: dict, targets: dict, matcher=None, indices=N
         }
 
     attention = outputs["query_cgp_temporal_attention"]
-    basis_weights = outputs["query_cgp_basis_weights"]
+    basis_weights = outputs.get("query_cgp_basis_weights", None)
     video_mask = outputs["query_cgp_video_mask"].bool()
     binding_terms = []
     matched_routes = []
@@ -389,23 +388,27 @@ def compute_query_cgp_loss(outputs: dict, targets: dict, matcher=None, indices=N
 
         target_mass = (matched_attention * overlap.to(attention.dtype)).sum(dim=1)
         binding_terms.append(-target_mass.clamp_min(eps).log())
-        matched_routes.append(basis_weights[batch_index, src_indices])
+        if basis_weights is not None:
+            matched_routes.append(basis_weights[batch_index, src_indices])
 
     if binding_terms:
         binding_loss = torch.cat(binding_terms).mean()
-        routes = torch.cat(matched_routes, dim=0)
-        route_eps = torch.finfo(routes.dtype).eps
-        conditional_entropy = -(
-            routes * routes.clamp_min(route_eps).log()
-        ).sum(dim=-1).mean()
-        marginal = routes.mean(dim=0)
-        marginal_entropy = -(
-            marginal * marginal.clamp_min(route_eps).log()
-        ).sum()
-        route_loss = conditional_entropy - marginal_entropy
+        if basis_weights is not None and matched_routes:
+            routes = torch.cat(matched_routes, dim=0)
+            route_eps = torch.finfo(routes.dtype).eps
+            conditional_entropy = -(
+                routes * routes.clamp_min(route_eps).log()
+            ).sum(dim=-1).mean()
+            marginal = routes.mean(dim=0)
+            marginal_entropy = -(
+                marginal * marginal.clamp_min(route_eps).log()
+            ).sum()
+            route_loss = conditional_entropy - marginal_entropy
+        else:
+            route_loss = binding_loss * 0.0
     else:
         binding_loss = attention.sum() * 0.0
-        route_loss = basis_weights.sum() * 0.0
+        route_loss = binding_loss * 0.0
 
     return {
         "loss_query_cgp_bind": binding_loss,

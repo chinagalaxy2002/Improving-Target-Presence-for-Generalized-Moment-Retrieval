@@ -24,7 +24,7 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
 ROOT = Path(__file__).resolve().parents[1]
-RESULTS_FILE = ROOT / "runs" / "dq_cgp_v3" / "results" / "ablation_study_geq_map_results.json"
+RESULTS_FILE = ROOT / "docs" / "tables" / "ablation_study_si_bind_results.json"
 OUT_DIR = ROOT / "runs" / "dq_cgp_v3" / "results" / "ablation_table"
 DOCS_IMAGES = ROOT / "docs" / "images"
 DOCS_TABLES = ROOT / "docs" / "tables"

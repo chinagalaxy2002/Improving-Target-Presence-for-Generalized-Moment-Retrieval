@@ -1,0 +1,17 @@
+# RUN DECISION: rev_0001_bm_detr_E2
+- **Hypothesis**: Phase 3 Transfer: E2 on bm_detr
+- **Backbone**: bm_detr | **Variant**: E2
+- **Git SHA**: `061e2a11d2617322157d53d4c40b444e1235a3c9`
+- **Seed**: 2023 | **Best Epoch**: 42
+- **Val mAP**: 8.6500
+- **Val H_all**: 149 / 365
+- **Val H@5**: 84
+- **Val Missing**: 216
+- **Val Omission@5**: 65
+- **Multi-GT Full@5**: 1 / 90
+- **Top-2 Slot Top-1 Concentration**: 100.0%
+- **Top-2 Slot Hit Concentration**: 38.92617449664429%
+- **T / D / U**: 160 / 11 / 2390
+- **Layer H**: `[101, 135, 149]`
+- **Verdict**: **PROMOTE**
+- **Test used for iteration**: No (Standard Val only)

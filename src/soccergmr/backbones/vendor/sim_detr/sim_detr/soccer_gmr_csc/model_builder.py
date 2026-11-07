@@ -38,6 +38,7 @@ def build_soccer_gmr_model(opt):
         exist_pool=opt.exist_pool,
         evidence_source=opt.semantic_evidence_source,
         binding_loss_coef=opt.binding_loss_coef,
+        options=opt,
     )
     return model, NullSafeCriterion(
         native_criterion,

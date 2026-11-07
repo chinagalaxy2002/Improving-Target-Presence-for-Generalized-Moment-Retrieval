@@ -31,7 +31,7 @@ class MomentDETR(nn.Module):
                  use_query_cgp=False, query_cgp_num_basis=16,
                  query_cgp_prompt_length=6, query_cgp_router_hidden_dim=256,
                  query_cgp_frf_hidden_dim=512, query_cgp_temperature=1.0,
-                 query_cgp_beta=0.05):
+                 query_cgp_beta=0.05, interlayer_adapter=None):
         """ Initializes the model.
         Parameters:
             transformer: torch module of the transformer architecture. See transformer.py
@@ -122,7 +122,10 @@ class MomentDETR(nn.Module):
         )
         if enabled_cgp_modules > 1:
             raise ValueError("T-CGP, token VMR-CGP, and DETR-Query CGP are mutually exclusive")
-        if self.use_query_cgp:
+        if interlayer_adapter is not None:
+            self.query_cgp = interlayer_adapter
+            self.use_query_cgp = True
+        elif self.use_query_cgp:
             if self.transformer.decoder.num_layers < 2:
                 raise ValueError("DETR-Query CGP requires at least two decoder layers")
             self.query_cgp = DETRQueryCGP(
@@ -223,7 +226,8 @@ class MomentDETR(nn.Module):
         if self.query_cgp is not None and self.query_cgp.last_output is not None:
             query_cgp_output = self.query_cgp.last_output
             out["query_cgp_temporal_attention"] = query_cgp_output.temporal_attention
-            out["query_cgp_basis_weights"] = query_cgp_output.basis_weights
+            if getattr(query_cgp_output, "basis_weights", None) is not None:
+                out["query_cgp_basis_weights"] = query_cgp_output.basis_weights
             out["query_cgp_video_mask"] = src_vid_mask.bool()
 
         if self.exist_head is not None:
@@ -603,6 +607,9 @@ def build_model(args):
     transformer = build_transformer(args)
     position_embedding, txt_position_embedding = build_position_encoding(args)
 
+    from soccergmr.modules.interlayer_bind import build_interlayer_adapter
+    adapter = build_interlayer_adapter(args, hidden_dim=args.hidden_dim, num_queries=args.num_queries)
+
     model = MomentDETR(
         transformer,
         position_embedding,
@@ -642,6 +649,7 @@ def build_model(args):
         ),
         query_cgp_temperature=float(getattr(args, "query_cgp_temperature", 1.0)),
         query_cgp_beta=float(getattr(args, "query_cgp_beta", 0.05)),
+        interlayer_adapter=adapter,
     )
 
     matcher = build_matcher(args)

@@ -138,16 +138,8 @@ class CGDETR(nn.Module):
 
         self.exist_head = nn.Sequential(nn.Linear(hidden_dim, hidden_dim), nn.ReLU(), nn.Linear(hidden_dim, 1))
 
-        from soccergmr.modules.dq_cgp import DETRQueryCGP
-        self.query_cgp = DETRQueryCGP(
-            hidden_dim=hidden_dim,
-            num_basis=16,
-            prompt_length=6,
-            router_hidden_dim=256,
-            frf_hidden_dim=512,
-            temperature=1.0,
-            beta=0.05,
-        )
+        from soccergmr.modules.interlayer_bind import build_interlayer_adapter
+        self.query_cgp = build_interlayer_adapter(args, hidden_dim=hidden_dim, num_queries=num_queries)
         self.transformer.decoder.interlayer_adapter = self.query_cgp
 
     def forward(self, src_txt, src_txt_mask, src_vid, src_vid_mask, vid, qid, src_aud=None, src_aud_mask=None, targets=None):

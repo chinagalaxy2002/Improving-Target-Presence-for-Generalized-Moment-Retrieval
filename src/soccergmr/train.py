@@ -16,6 +16,29 @@ from .predict import predict
 from .selection import Selector,score
 
 
+def extract_top1_slots(outputs, targets):
+    pos_mask = targets.get("exist_label", None)
+    if pos_mask is None:
+        return None
+    pos_indices = torch.where(pos_mask > 0)[0]
+    if len(pos_indices) == 0:
+        return None
+
+    if "pred_quality" in outputs:
+        foreground = outputs["pred_quality"].squeeze(-1)
+    elif "pred_logits" in outputs:
+        foreground = outputs["pred_logits"].softmax(-1)[..., 0]
+    else:
+        return None
+
+    if "iou_scores" in outputs:
+        foreground = foreground * outputs["iou_scores"].squeeze(-1).sigmoid()
+
+    pos_foreground = foreground[pos_indices]
+    top1_slots = pos_foreground.argmax(dim=-1)
+    return top1_slots.detach()
+
+
 def train(config,output,stage,device='cuda:0',baseline=None,resume=False):
     directory=Path(output).resolve()
     if stage not in ('gmr','geq_full'):raise ValueError(stage)
@@ -95,6 +118,10 @@ def _train(config,directory,stage,device,baseline,resume):
                 inputs,targets=move(inputs,device),move(targets,device)
                 outputs=forward(model,config['backbone'],inputs,targets,metas,epoch=native_epoch_offset+epoch)
                 loss,_=criterion(outputs.get('native_output',outputs),targets,epoch)
+                for module in model.modules():
+                    if hasattr(module, "update_top1_ema"):
+                        top1 = extract_top1_slots(outputs.get('native_output', outputs), targets)
+                        module.update_top1_ema(top1, epoch)
                 if stage=='geq_full':
                     loss=loss+F.binary_cross_entropy_with_logits(outputs['geq_logit'],targets['exist_label'])
                 if not torch.isfinite(loss):raise FloatingPointError('Nonfinite training loss')
@@ -110,8 +137,18 @@ def _train(config,directory,stage,device,baseline,resume):
             value=score(stage,metrics)
             decision=selector.update(epoch,value)
             improved=decision['improved']
+            refresh_stats = {}
+            for module in model.modules():
+                if hasattr(module, "actual_refresh_count") and hasattr(module, "top1_ema"):
+                    refresh_stats = {
+                        "actual_refresh_count": int(module.actual_refresh_count.item()),
+                        "opportunity_count": int(module.opportunity_count.item()),
+                        "top1_ema": [round(float(x), 4) for x in module.top1_ema.cpu().tolist()],
+                    }
+                    break
             history.append(dict(epoch=epoch,loss=total_loss/batches,selection_score=value,
-                                improved=improved,stale=selector.stale,metrics=metrics))
+                                improved=improved,stale=selector.stale,metrics=metrics,
+                                refresh_stats=refresh_stats))
             state=payload()
             if improved:
                 ck.save(directory/'best.pt',state)
@@ -119,7 +156,10 @@ def _train(config,directory,stage,device,baseline,resume):
                 dump_jsonl(directory/'best_val_predictions.jsonl',predictions)
             ck.save(directory/'last.pt',state)
             dump_jsonl(directory/'history.jsonl',history)
-            print(json.dumps(dict(stage=stage,epoch=epoch,score=value,best=selector.best,stale=selector.stale)),flush=True)
+            log_dict = dict(stage=stage,epoch=epoch,score=value,best=selector.best,stale=selector.stale)
+            if refresh_stats and refresh_stats.get("opportunity_count", 0) > 0:
+                log_dict["refresh_rate"] = round(refresh_stats["actual_refresh_count"] / max(1, refresh_stats["opportunity_count"]), 4)
+            print(json.dumps(log_dict),flush=True)
             if stop_requested:return dict(status='interrupted',resume_from=str(directory/'last.pt'),completed_epoch=epoch)
         completed=dict(status='complete',stage=stage,identity=identity,completed_epoch=epoch,
             best_epoch=selector.best_epoch,best_score=selector.best,metric=selector.metric,

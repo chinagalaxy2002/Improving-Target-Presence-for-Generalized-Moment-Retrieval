@@ -40,6 +40,7 @@ class SoccerGMRModel(nn.Module):
         exist_pool: str = "max",
         evidence_source: str = "native_mask_logits",
         binding_loss_coef: float = 0.0,
+        options = None,
     ):
         super().__init__()
         self.semantic_model = semantic_model
@@ -49,16 +50,9 @@ class SoccerGMRModel(nn.Module):
         self.exist_capture = TransformerOutputCapture(semantic_model.base_model.transformer)
         self.d1_capture = NativeD1AttentionCapture(semantic_model.base_model.transformer)
 
-        from soccergmr.modules.dq_cgp import DETRQueryCGP
-        self.query_cgp = DETRQueryCGP(
-            hidden_dim=hidden_dim,
-            num_basis=16,
-            prompt_length=6,
-            router_hidden_dim=256,
-            frf_hidden_dim=512,
-            temperature=1.0,
-            beta=0.05,
-        )
+        from soccergmr.modules.interlayer_bind import build_interlayer_adapter
+        num_queries = getattr(options, "num_queries", 10) if options is not None else 10
+        self.query_cgp = build_interlayer_adapter(options, hidden_dim=hidden_dim, num_queries=num_queries)
         self.semantic_model.base_model.transformer.decoder.interlayer_adapter = self.query_cgp
 
     def forward(self, *args, **kwargs):

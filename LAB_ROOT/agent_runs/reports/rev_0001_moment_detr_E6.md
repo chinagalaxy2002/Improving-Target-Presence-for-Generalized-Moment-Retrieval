@@ -1,0 +1,17 @@
+# RUN DECISION: rev_0001_moment_detr_E6
+- **Hypothesis**: H4+H3: E2 + Innovation + Dominance
+- **Backbone**: moment_detr | **Variant**: E6
+- **Git SHA**: `061e2a11d2617322157d53d4c40b444e1235a3c9`
+- **Seed**: 2023 | **Best Epoch**: 78
+- **Val mAP**: 12.9600
+- **Val H_all**: 222 / 365
+- **Val H@5**: 190
+- **Val Missing**: 143
+- **Val Omission@5**: 32
+- **Multi-GT Full@5**: 19 / 90
+- **Top-2 Slot Top-1 Concentration**: 60.0%
+- **Top-2 Slot Hit Concentration**: 37.83783783783784%
+- **T / D / U**: 291 / 69 / 2259
+- **Layer H**: `[215, 222]`
+- **Verdict**: **PROMOTE**
+- **Test used for iteration**: No (Standard Val only)

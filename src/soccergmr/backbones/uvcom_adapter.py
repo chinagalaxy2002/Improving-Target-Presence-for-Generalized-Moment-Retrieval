@@ -7,23 +7,29 @@ from .loss import select
 
 
 class UVModel(nn.Module):
-    def __init__(self, native, dimension):
+    def __init__(self, native, dimension, options=None):
         super().__init__()
         self.native = native
         self.exist_head = nn.Sequential(nn.Linear(dimension, dimension), nn.ReLU(), nn.Linear(dimension, 1))
         self._decoder_features = None
         self.native.class_embed.register_forward_pre_hook(self._capture)
 
-        from soccergmr.modules.dq_cgp import DETRQueryCGP
-        self.query_cgp = DETRQueryCGP(
-            hidden_dim=getattr(native, "hidden_dim", 256),
-            num_basis=16,
-            prompt_length=6,
-            router_hidden_dim=256,
-            frf_hidden_dim=512,
-            temperature=1.0,
-            beta=0.05,
-        )
+        from soccergmr.modules.interlayer_bind import build_interlayer_adapter
+        num_queries = getattr(options, "num_queries", getattr(native, "num_queries", 30))
+        hidden_dim = getattr(options, "hidden_dim", getattr(native, "hidden_dim", 256))
+        if options is not None:
+            self.query_cgp = build_interlayer_adapter(options, hidden_dim, num_queries)
+        else:
+            from soccergmr.modules.dq_cgp import DETRQueryCGP
+            self.query_cgp = DETRQueryCGP(
+                hidden_dim=hidden_dim,
+                num_basis=16,
+                prompt_length=6,
+                router_hidden_dim=256,
+                frf_hidden_dim=512,
+                temperature=1.0,
+                beta=0.05,
+            )
         self.native.CIM.decoder.interlayer_adapter = self.query_cgp
 
     def _capture(self, module, args):
@@ -52,7 +58,8 @@ class UVModel(nn.Module):
             out['pred_exist_logits'] = self.exist_head(self._decoder_features.amax(dim=1)).squeeze(-1)
             if self.query_cgp is not None and self.query_cgp.last_output is not None:
                 out["query_cgp_temporal_attention"] = self.query_cgp.last_output.temporal_attention
-                out["query_cgp_basis_weights"] = self.query_cgp.last_output.basis_weights
+                if getattr(self.query_cgp.last_output, "basis_weights", None) is not None:
+                    out["query_cgp_basis_weights"] = self.query_cgp.last_output.basis_weights
                 out["query_cgp_video_mask"] = src_vid_mask.bool()
             return out
         finally:

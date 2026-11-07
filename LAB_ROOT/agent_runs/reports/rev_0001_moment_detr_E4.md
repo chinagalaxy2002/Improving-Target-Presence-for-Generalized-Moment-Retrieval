@@ -1,0 +1,17 @@
+# RUN DECISION: rev_0001_moment_detr_E4
+- **Hypothesis**: H3 Control: Uniform Refresh matching E5 rate
+- **Backbone**: moment_detr | **Variant**: E4
+- **Git SHA**: `061e2a11d2617322157d53d4c40b444e1235a3c9`
+- **Seed**: 2023 | **Best Epoch**: 102
+- **Val mAP**: 16.6200
+- **Val H_all**: 218 / 365
+- **Val H@5**: 177
+- **Val Missing**: 147
+- **Val Omission@5**: 41
+- **Multi-GT Full@5**: 14 / 90
+- **Top-2 Slot Top-1 Concentration**: 54.509803921568626%
+- **Top-2 Slot Hit Concentration**: 36.69724770642202%
+- **T / D / U**: 343 / 125 / 2207
+- **Layer H**: `[222, 218]`
+- **Verdict**: **INCONCLUSIVE**
+- **Test used for iteration**: No (Standard Val only)
