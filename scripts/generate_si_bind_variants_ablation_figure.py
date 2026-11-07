@@ -17,8 +17,8 @@ CURRENT_BRAIN = Path("/home/guoxiangyu/.gemini/antigravity-cli/brain/e32cc1be-00
 BACKBONES = [
     ("moment_detr", "Moment-DETR", ["E1", "E2", "E3", "E4", "E5", "E6", "E7"]),
     ("bm_detr", "BM-DETR", ["E2", "E3", "E4", "E5", "E6", "E7"]),
-    ("uvcom", "UVCOM", ["E1", "E2", "E5"]),
-    ("cg_detr", "CG-DETR", ["E2", "E5"]),
+    ("uvcom", "UVCOM", ["E1", "E2", "E4", "E5", "E6"]),
+    ("cg_detr", "CG-DETR", ["E2", "E5", "E6"]),
     ("qd_detr", "QD-DETR", ["E6"]),
 ]
 
