@@ -39,8 +39,8 @@ def load_config(path):
     protocol = dict(DEFAULT_PROTOCOL, **raw.get('protocol', {}))
     if protocol['thresholds'] != [0.4, 0.5, 0.6]:
         raise ValueError('GEQ selection thresholds must be exactly 0.4/0.5/0.6')
-    if protocol['geq_patience'] != 10:
-        raise ValueError('The primary protocol requires GEQ patience=10')
+    if protocol['geq_patience'] < 1:
+        raise ValueError('GEQ patience must be positive')
     for name in ('batch_size','eval_batch_size','accumulation','max_epochs','geq_max_epochs','patience','validation_every'):
         if protocol[name] < 1:
             raise ValueError(name+' must be positive')
