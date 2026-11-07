@@ -6,15 +6,15 @@
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Hardware](https://img.shields.io/badge/Hardware-Dual%20RTX%203090%20(24GB)-success.svg)]()
 
-> **Official Implementation of SI-Bind for Generalized Video Moment Retrieval (SoccerGMR)**  
+> **Official Implementation of SI-Bind and SI-Bind + GEQ for Generalized Video Moment Retrieval (SoccerGMR)**  
 > Comprehensive multi-backbone integration across **9 temporal DETR backbones** (`Moment-DETR`, `EaTR`, `QD-DETR`, `CG-DETR`, `BM-DETR`, `BAM-DETR`, `Sim-DETR`, `UVCOM`, `FlashVTG`) evaluated under both **Standard Test (1,036 queries)** and **Full-Decodable Test (2,970 queries)** under strict single-seed (2023) scientific isolation protocols.
 
 ---
 
 ## 📖 Table of Contents
 1. [Overview & Research Motivation](#-overview--research-motivation)
-2. [Benchmark Comparison: GMR Baseline vs. SI-Bind (Ours - E6)](#-benchmark-comparison-gmr-baseline-vs-si-bind-ours---e6)
-3. [🔥 GEQ Fine-Tuning Benchmark: SI-Bind (E6) + GEQ](#-geq-fine-tuning-benchmark-si-bind-e6--geq)
+2. [Benchmark Comparison: Baseline vs. SI-Bind (E6) vs. SI-Bind + GEQ (Ours)](#-benchmark-comparison-baseline-vs-si-bind-e6-vs-si-bind--geq-ours)
+3. [🔥 Detailed GEQ Fine-Tuning Analysis & Threshold Sensitivity](#-detailed-geq-fine-tuning-analysis--threshold-sensitivity)
 4. [Key Performance Takeaways](#-key-performance-takeaways)
 5. [Core Mechanisms of SI-Bind (E6 Triad)](#-core-mechanisms-of-si-bind-e6-triad)
 6. [Detailed Component Ablation Study (E1 to E7)](#-detailed-component-ablation-study-e1-to-e7)
@@ -36,52 +36,15 @@ Prior empirical diagnostics revealed three fundamental failure modes in native D
 
 ---
 
-## 📊 Benchmark Comparison: GMR Baseline vs. SI-Bind (Ours - E6)
+## 📊 Benchmark Comparison: Baseline vs. SI-Bind (E6) vs. SI-Bind + GEQ (Ours)
 
-Below is the definitive head-to-head comparison between **GMR Baseline** and **GMR + SI-Bind (Ours - E6)** across all 9 backbones on both official test splits. All models are trained with identical random seed (2023) and selected strictly by validation performance (`best.pt`).
+Below is the definitive 3-way head-to-head comparison between **GMR Baseline**, **GMR + SI-Bind (E6)**, and **GMR + SI-Bind (E6) + GEQ (Ours)** across all 9 backbones on both official test splits. All models are evaluated under strict single-seed (2023) scientific protocols and selected strictly by validation performance (`best.pt`).
 
-![GMR Baseline vs. SI-Bind E6](docs/images/baseline_vs_si_bind_e6.png)
+![GMR Baseline vs. SI-Bind E6 vs. SI-Bind E6 + GEQ](docs/images/baseline_vs_si_bind_e6.png)
 
-*Figure 1: Publication-quality head-to-head comparison between GMR Baseline and GMR + SI-Bind (Ours - E6) across 9 temporal DETR backbones on Standard Test (1,036 queries) and Full-Decodable Test (2,970 queries). Vector PDF available at [`docs/tables/baseline_vs_si_bind_e6.pdf`](docs/tables/baseline_vs_si_bind_e6.pdf).*
+*Figure 1: Publication-quality 3-way performance benchmark comparing GMR Baseline, GMR + SI-Bind (E6), and GMR + SI-Bind (E6) + GEQ (Ours) across 9 temporal DETR backbones on Standard Test (1,036 queries) and Full-Decodable Test (2,970 queries). Vector PDF available at [`docs/tables/baseline_vs_si_bind_e6.pdf`](docs/tables/baseline_vs_si_bind_e6.pdf).*
 
-### Head-to-Head Test Performance Table
-
-| Backbone | Configuration / Method | Std mAP (%) ↑ | Std $\Delta$ | Std Orc-Gap (%) ↓ | Std Rej-F1@.5 (%) ↑ | Std AUROC (%) ↑ | Full mAP (%) ↑ | Full $\Delta$ | Full Orc-Gap (%) ↓ | Full Rej-F1@.5 (%) ↑ | Full AUROC (%) ↑ | Best E6 Checkpoint |
-|---|---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-| **Moment-DETR** | 1. GMR Baseline | 6.68 | — | 24.28 | **67.94** | 70.20 | 5.47 | — | 23.48 | **72.08** | 78.91 | — |
-| | **2. GMR + SI-Bind (Ours - E6)** | **15.21** | **+8.53** | **23.66** | 65.52 | **74.32** | **12.58** | **+7.11** | **22.21** | 68.83 | **81.86** | Ep 78 (`58f18d...`) |
-| **EaTR** | 1. GMR Baseline | 16.49 | — | **21.51** | 65.60 | **76.56** | 15.19 | — | **20.39** | 67.38 | **81.59** | — |
-| | **2. GMR + SI-Bind (Ours - E6)** | **17.12** | **+0.63** | 21.80 | **67.74** | 76.23 | **15.35** | **+0.16** | 20.89 | **68.66** | 81.03 | Ep 118 (`ba9fcd...`) |
-| **QD-DETR** | 1. GMR Baseline | 14.62 | — | **20.23** | 71.48 | **77.01** | 12.65 | — | **19.05** | 72.49 | 81.75 | — |
-| | **2. GMR + SI-Bind (Ours - E6)** | **16.30** | **+1.68** | 20.65 | **73.71** | 76.63 | **13.20** | **+0.55** | 19.84 | **75.91** | **82.47** | Ep 103 (`d8e556...`) |
-| **CG-DETR** | 1. GMR Baseline | **18.65** | — | 25.66 | 57.47 | **76.40** | 14.67 | — | 23.28 | 63.23 | **81.81** | — |
-| | **2. GMR + SI-Bind (Ours - E6)** | 17.38 | -1.27 | **22.89** | **70.85** | 75.92 | **15.54** | **+0.87** | **21.61** | **73.14** | 80.94 | Ep 95 (`1cde46...`) |
-| **BM-DETR** | 1. GMR Baseline | 4.00 | — | **17.59** | **75.00** | **71.55** | 3.65 | — | **17.62** | **78.58** | 79.11 | — |
-| | **2. GMR + SI-Bind (Ours - E6)** | **7.72** | **+3.72** | 20.91 | 73.40 | 70.18 | **7.03** | **+3.38** | 20.30 | 77.47 | **79.27** | Ep 70 (`e8e8e8...`) |
-| **BAM-DETR** | 1. GMR Baseline | 23.25 | — | **19.82** | **70.43** | **78.66** | 20.62 | — | **18.37** | **71.79** | **80.99** | — |
-| | **2. GMR + SI-Bind (Ours - E6)** | **23.78** | **+0.53** | 20.40 | 68.96 | 78.37 | **21.78** | **+1.16** | 19.07 | 69.28 | 78.69 | Ep 76 (`b15e82...`) |
-| **Sim-DETR** | 1. GMR Baseline | 20.73 | — | 22.51 | 74.69 | 72.97 | 19.18 | — | 21.78 | **75.72** | **78.87** | — |
-| | **2. GMR + SI-Bind (Ours - E6)** | **21.17** | **+0.44** | **21.26** | **74.89** | **75.12** | **20.08** | **+0.90** | **20.83** | 73.10 | 77.83 | Ep 112 (`9a525b...`) |
-| **UVCOM** | 1. GMR Baseline | 7.12 | — | 17.24 | 75.00 | 70.03 | 6.40 | — | 16.83 | **76.80** | **78.98** | — |
-| | **2. GMR + SI-Bind (Ours - E6)** | **18.99** | **+11.87** | **16.30** | **75.40** | **76.91** | **17.74** | **+11.34** | **15.55** | 73.11 | 75.20 | Ep 120 (`1e7a29...`) |
-| **FlashVTG** | 1. GMR Baseline | 25.43 | — | 25.47 | 66.35 | 74.30 | 20.43 | — | 24.13 | 68.48 | 82.21 | — |
-| | **2. GMR + SI-Bind (Ours - E6)** | *pending* | — | *pending* | *pending* | *pending* | *pending* | — | *pending* | *pending* | *pending* | In queue |
-
-*Note: Bold numbers highlight the superior result between Baseline and SI-Bind (Ours - E6) per backbone. Orc-Gap (%): Area between Oracle envelope and G-mIoU@1 threshold curve (lower is better).*
-
----
-
-## 🔥 GEQ Fine-Tuning Benchmark: SI-Bind (E6) + GEQ
-
-To further resolve the target presence dilemma and eliminate temporal hallucination on null-event queries, we incorporate the **Global Event Query (GEQ)** gating mechanism on top of our frozen **SI-Bind (E6)** checkpoints, strictly following the two-stage fine-tuning protocol from the [`soccergmr-standard-geq-full`](https://github.com/chinagalaxy2002/Improving-Target-Presence-for-Generalized-Moment-Retrieval/tree/soccergmr-standard-geq-full) branch.
-
-### 🎯 GEQ Fine-Tuning Protocol
-- **Base Checkpoint**: Initialized from our best SI-Bind (E6) `best.pt` checkpoints.
-- **Model Selection**: Strictly governed by **Validation Orc-gap (%)** ($G_1 \text{ Gap} = \text{Oracle } G_1 - \text{AUC}_{G_1}$, lower is better) to optimize target absence discrimination without compromising temporal boundary precision.
-- **Early Stopping**: Strict **20 epochs patience** early stopping.
-- **Optimization**: Native base layers $\text{lr}=10^{-5}$, GEQ head $\text{lr}=3 \times 10^{-5}$, weight decay $10^{-4}$, seed 2023.
-
-### 📈 3-Way Comparative Benchmark Table across 8 Temporal DETR Backbones
+### Head-to-Head 3-Way Test Performance Table
 
 | Backbone | Configuration / Method | Std mAP (%) ↑ | Std $\Delta$ vs Base | Std Orc-Gap (%) ↓ | Std Rej-F1@.5 (%) ↑ | Std AUROC (%) ↑ | Full mAP (%) ↑ | Full $\Delta$ vs Base | Full Orc-Gap (%) ↓ | Full Rej-F1@.5 (%) ↑ | Full AUROC (%) ↑ | Selected Best Checkpoint |
 |---|---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
@@ -109,6 +72,23 @@ To further resolve the target presence dilemma and eliminate temporal hallucinat
 | **UVCOM** | 1. GMR Baseline | 7.12 | — | 17.33 | 75.00 | 70.03 | 6.40 | — | 16.92 | 76.80 | 78.98 | — |
 | | 2. GMR + SI-Bind (E6) | **18.99** | **+11.87** | **16.30** | **75.40** | 76.91 | **17.74** | **+11.34** | **15.55** | 73.11 | 75.20 | Ep 120 (`1e7a29...`) |
 | | **3. SI-Bind (E6) + GEQ (Ours)** | 17.94 | **+10.82** | 17.89 | 72.92 | **77.37** | 16.55 | **+10.15** | 17.04 | **73.98** | **81.37** | Ep 10 (`cee9e4...`) |
+| **FlashVTG** | 1. GMR Baseline | 25.43 | — | 25.47 | 66.35 | 74.30 | 20.43 | — | 24.13 | 68.48 | 82.21 | — |
+| | 2. GMR + SI-Bind (E6) | *pending* | — | *pending* | *pending* | *pending* | *pending* | — | *pending* | *pending* | *pending* | In queue |
+| | 3. SI-Bind (E6) + GEQ | *pending* | — | *pending* | *pending* | *pending* | *pending* | — | *pending* | *pending* | *pending* | In queue |
+
+*Note: Bold numbers highlight the superior result across all three configurations per backbone. Orc-Gap (%): Area between Oracle envelope and G-mIoU@1 threshold curve across tau in [0, 1] (lower is better).*
+
+---
+
+## 🔥 GEQ Fine-Tuning Benchmark: SI-Bind (E6) + GEQ
+
+To further resolve the target presence dilemma and eliminate temporal hallucination on null-event queries, we incorporate the **Global Event Query (GEQ)** gating mechanism on top of our frozen **SI-Bind (E6)** checkpoints, strictly following the two-stage fine-tuning protocol from the [`soccergmr-standard-geq-full`](https://github.com/chinagalaxy2002/Improving-Target-Presence-for-Generalized-Moment-Retrieval/tree/soccergmr-standard-geq-full) branch.
+
+### 🎯 GEQ Fine-Tuning Protocol
+- **Base Checkpoint**: Initialized from our best SI-Bind (E6) `best.pt` checkpoints.
+- **Model Selection**: Strictly governed by **Validation Orc-gap (%)** ($G_1 \text{ Gap} = \text{Oracle } G_1 - \text{AUC}_{G_1}$, lower is better) to optimize target absence discrimination without compromising temporal boundary precision.
+- **Early Stopping**: Strict **20 epochs patience** early stopping.
+- **Optimization**: Native base layers $\text{lr}=10^{-5}$, GEQ head $\text{lr}=3 \times 10^{-5}$, weight decay $10^{-4}$, seed 2023.
 
 ### 📊 Threshold Sensitivity Curves (Supplemented with SI-Bind E6 + GEQ)
 

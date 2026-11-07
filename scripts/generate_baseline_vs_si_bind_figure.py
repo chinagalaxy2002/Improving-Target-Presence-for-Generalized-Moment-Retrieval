@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
-"""Generate publication-quality vector table figure (SVG, PDF, PNG) comparing ONLY:
+"""Generate publication-quality vector table figure (SVG, PDF, PNG) comparing:
 1. GMR Baseline
-2. GMR + SI-Bind (Ours - E6)
+2. GMR + SI-Bind (E6)
+3. GMR + SI-Bind (E6) + GEQ (Ours)
 
 Across 9 temporal DETR backbones:
 - Moment-DETR
@@ -37,8 +38,7 @@ ROOT = Path(__file__).resolve().parents[1]
 RESULTS_FILE = ROOT / "docs" / "tables" / "ablation_study_si_bind_results.json"
 OUT_TABLES = ROOT / "docs" / "tables"
 OUT_IMAGES = ROOT / "docs" / "images"
-BRAIN_DIR = Path("/home/guoxiangyu/.gemini/antigravity-cli/brain/62a59d6f-74ff-44d8-a47a-d538b53ca17b")
-CURRENT_BRAIN = Path("/home/guoxiangyu/.gemini/antigravity-cli/brain/e32cc1be-0019-4e4d-9a30-81c95fb95359")
+CURRENT_BRAIN = Path("/home/guoxiangyu/.gemini/antigravity-cli/brain/6cf519de-4155-4a17-84bc-d520930b5c2d")
 
 BACKBONES = [
     ("moment_detr", "Moment-DETR"),
@@ -54,8 +54,10 @@ BACKBONES = [
 
 METHODS = [
     ("gmr", "1. GMR Baseline", "#334155", "normal", None),
-    ("gmr_si_bind", "2. GMR + SI-Bind (Ours - E6)", "#6d28d9", "bold", "#f5f3ff"),
+    ("gmr_si_bind", "2. GMR + SI-Bind (E6)", "#6d28d9", "normal", None),
+    ("gmr_si_bind_geq", "3. GMR + SI-Bind (E6) + GEQ (Ours)", "#b91c1c", "bold", "#fef2f2"),
 ]
+
 
 def render():
     with open(RESULTS_FILE) as f:
@@ -69,7 +71,7 @@ def render():
     })
 
     left = 24
-    backbone_w = 100
+    backbone_w = 95
     config_w = 230
     col_step = 72
     num_std_cols = 4  # mAP, Orc-Gap, Rej-F1@.5, AUROC
@@ -79,10 +81,10 @@ def render():
     full_left = std_left + num_std_cols * col_step + 18
     width = full_left + num_full_cols * col_step + 24
 
-    row_height = 23
+    row_height = 20
     n_bb = len(BACKBONES)
     table_content_h = n_bb * len(METHODS) * row_height + (n_bb - 1) * 6
-    height = 110 + table_content_h + 80
+    height = 115 + table_content_h + 85
 
     fig = plt.figure(figsize=(width / 72, height / 72), facecolor="white", dpi=220)
     ax = fig.add_axes([0, 0, 1, 1], xlim=(0, width), ylim=(0, height))
@@ -95,12 +97,12 @@ def render():
         ax.plot([x0, x1], [y, y], color=color, lw=lw)
 
     # Title
-    text(left, height - 26, "SoccerGMR Performance Benchmark: GMR Baseline vs. SI-Bind (Ours - E6)", 13.5, "bold", color="#0f172a")
+    text(left, height - 26, "SoccerGMR Performance Benchmark: Baseline vs. SI-Bind (E6) vs. SI-Bind + GEQ (Ours)", 13.0, "bold", color="#0f172a")
     sub = (
         "Head-to-head evaluation across 9 temporal DETR backbones on Standard Test (1,036 queries) "
         "and Full-Decodable Test (2,970 queries). Strict single seed (2023)."
     )
-    text(left, height - 46, sub, 9.0, color="#475569")
+    text(left, height - 46, sub, 8.8, color="#475569")
 
     top = height - 64
     rule(top, lw=1.2, color="#0f172a")
@@ -125,73 +127,77 @@ def render():
 
     rule(top - 48, lw=0.8, color="#0f172a")
 
-    y = top - 64
+    metric_keys = ["mAP", "oracle_gap_pct", "rej_f1_50", "auroc"]
+
+    y = top - 62
     for b_idx, (b_name, display_name) in enumerate(BACKBONES):
         b_data = data.get(b_name, {}).get("splits", {})
+
+        # Pre-compute best value per metric for this backbone across all available methods
+        best_vals = {}
+        for split_key in ["standard", "full"]:
+            best_vals[split_key] = {}
+            for c_idx, m_field in enumerate(metric_keys):
+                candidate_vals = []
+                for m_k, _, _, _, _ in METHODS:
+                    m_row = b_data.get(split_key, {}).get(m_k)
+                    if m_row and m_row.get(m_field) is not None:
+                        candidate_vals.append((m_k, m_row[m_field]))
+                if candidate_vals:
+                    if c_idx == 1:  # Orc-Gap: min is best
+                        opt_val = min(v for _, v in candidate_vals)
+                    else:  # higher is best
+                        opt_val = max(v for _, v in candidate_vals)
+                    best_vals[split_key][m_field] = opt_val
 
         for m_idx, (m_key, m_label, m_color, m_weight, tint) in enumerate(METHODS):
             curr_y = y - m_idx * row_height
 
-            # Highlight tint for E6
+            # Highlight tint for GEQ row
             if tint:
-                ax.add_patch(plt.Rectangle((left - 4, curr_y - 9), width - left - 16, 18, color=tint, zorder=-1))
+                ax.add_patch(plt.Rectangle((left - 4, curr_y - 8), width - left - 16, 17, color=tint, zorder=-1))
 
             if m_idx == 0:
                 text(left, curr_y, display_name, 9.8, "bold", color="#0f172a")
 
-            text(left + backbone_w, curr_y, m_label, 9.0, m_weight, color=m_color)
+            text(left + backbone_w, curr_y, m_label, 8.8, m_weight, color=m_color)
 
             for split_i, (split_key, base_x) in enumerate([("standard", std_left), ("full", full_left)]):
                 row_metrics = b_data.get(split_key, {}).get(m_key)
                 if not row_metrics:
-                    text(base_x + 2.0 * col_step, curr_y, "-- running / pending --", size=8.2, style="italic", ha="center", color="#94a3b8")
+                    text(base_x + 2.0 * col_step, curr_y, "-- running / pending --", size=8.0, style="italic", ha="center", color="#94a3b8")
                     continue
 
-                vals = [
-                    row_metrics.get("mAP"),
-                    row_metrics.get("oracle_gap_pct"),
-                    row_metrics.get("rej_f1_50"),
-                    row_metrics.get("auroc"),
-                ]
-
-                # Compare strictly between baseline and e6
-                other_key = "gmr_si_bind" if m_key == "gmr" else "gmr"
-                other_metrics = b_data.get(split_key, {}).get(other_key)
-
-                metric_keys = ["mAP", "oracle_gap_pct", "rej_f1_50", "auroc"]
-                for c_idx, val in enumerate(vals):
+                for c_idx, m_field in enumerate(metric_keys):
+                    val = row_metrics.get(m_field)
                     if val is None:
                         continue
-                    
-                    is_winner = False
-                    if other_metrics and other_metrics.get(metric_keys[c_idx]) is not None:
-                        other_val = other_metrics[metric_keys[c_idx]]
-                        if c_idx == 1:  # Orc-Gap: lower is better
-                            is_winner = (val < other_val)
-                        else:  # higher is better
-                            is_winner = (val > other_val)
+
+                    opt_val = best_vals.get(split_key, {}).get(m_field)
+                    is_winner = (opt_val is not None and abs(val - opt_val) < 1e-4)
 
                     v_str = f"{val:.2f}"
                     val_color = m_color if is_winner else "#475569"
                     val_weight = "bold" if is_winner else "normal"
 
-                    text(base_x + (c_idx + 0.5) * col_step, curr_y, v_str, 9.0, val_weight, ha="center", color=val_color)
+                    text(base_x + (c_idx + 0.5) * col_step, curr_y, v_str, 8.8, val_weight, ha="center", color=val_color)
 
         y -= len(METHODS) * row_height
         if b_idx < len(BACKBONES) - 1:
-            rule(y + 10, lw=0.45, color="#cbd5e1")
+            rule(y + 8, lw=0.4, color="#cbd5e1")
             y -= 6
 
-    rule(y + 8, lw=1.2, color="#0f172a")
+    rule(y + 6, lw=1.2, color="#0f172a")
 
     notes = [
         "Method 1 (GMR Baseline): Official temporal DETR baseline checkpoints evaluated with native bipartite matching.",
-        "Method 2 (GMR + SI-Bind [Ours - E6]): Full Structural Triad (Temporal Residual Stream + Slot-Private Innovation + Dominance-Aware Refresh).",
+        "Method 2 (GMR + SI-Bind [E6]): Full Structural Triad (Temporal Residual Stream + Slot-Private Innovation + Dominance-Aware Refresh).",
+        "Method 3 (GMR + SI-Bind [E6] + GEQ [Ours]): Two-stage Global Event Query (GEQ) fine-tuning selected by Validation Orc-gap with 20 epochs patience.",
         "Orc-Gap (%): Area between Oracle envelope and G-mIoU@1 threshold curve across tau in [0, 1] (Integral of Oracle_G1 minus G1-AUC). Lower is better.",
-        "Bold values highlight superior performance between GMR Baseline and SI-Bind (Ours - E6) per backbone. FlashVTG E6 currently running.",
+        "Bold values highlight the optimal performance across all 3 configurations per backbone. FlashVTG E6 currently in queue.",
     ]
     for i, line in enumerate(notes):
-        text(left, y - 4 - i * 11.5, line, 8.0, color="#64748b")
+        text(left, y - 6 - i * 11.0, line, 7.8, color="#64748b")
 
     out_stem = "baseline_vs_si_bind_e6"
     svg_p = OUT_TABLES / f"{out_stem}.svg"
@@ -209,14 +215,14 @@ def render():
     OUT_IMAGES.mkdir(parents=True, exist_ok=True)
     shutil.copy2(png_p, OUT_IMAGES / f"{out_stem}.png")
 
-    # Copy to brain directories
-    for b_dir in [BRAIN_DIR, CURRENT_BRAIN]:
-        if b_dir.exists():
-            shutil.copy2(pdf_p, b_dir / f"{out_stem}.pdf")
-            shutil.copy2(png_p, b_dir / f"{out_stem}.png")
-            shutil.copy2(svg_p, b_dir / f"{out_stem}.svg")
+    # Copy to current conversation artifact directory
+    if CURRENT_BRAIN.exists():
+        shutil.copy2(pdf_p, CURRENT_BRAIN / f"{out_stem}.pdf")
+        shutil.copy2(png_p, CURRENT_BRAIN / f"{out_stem}.png")
+        shutil.copy2(svg_p, CURRENT_BRAIN / f"{out_stem}.svg")
 
-    print(f"Copied {out_stem} to images and brain directories!")
+    print(f"Copied {out_stem} to images and brain directory!")
+
 
 if __name__ == "__main__":
     render()
