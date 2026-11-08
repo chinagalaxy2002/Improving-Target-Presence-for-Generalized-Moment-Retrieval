@@ -39,9 +39,9 @@ Prior empirical diagnostics revealed three fundamental failure modes in native D
 
 Below is the definitive head-to-head comparison between **GMR Baseline**, **GMR + SI-Bind (E6)**, **GMR + SI-Bind (E6) + GEQ**, and **GMR + SI-Bind (E9 / CAB - Ours)** across all 9 temporal DETR backbones on both official test splits. All models are evaluated under strict single-seed (2023) scientific protocols and selected strictly by validation performance (`best.pt`).
 
-![GMR Baseline vs. SI-Bind Variants](docs/images/baseline_vs_si_bind_e6.png)
+![GMR Baseline vs. SI-Bind Variants](docs/images/baseline_vs_si_bind_e9.png)
 
-*Figure 1: Publication-quality head-to-head performance benchmark comparing GMR Baseline vs. GMR + SI-Bind (E6) vs. GMR + SI-Bind (E6) + GEQ vs. GMR + SI-Bind (E9 / CAB - Ours) across 9 temporal DETR backbones on Standard Test (1,036 queries) and Full-Decodable Test (2,970 queries). Vector PDF available at [`docs/tables/baseline_vs_si_bind_e6.pdf`](docs/tables/baseline_vs_si_bind_e6.pdf).*
+*Figure 1: Publication-quality head-to-head performance benchmark comparing GMR Baseline vs. GMR + SI-Bind (E6) vs. GMR + SI-Bind (E6) + GEQ vs. GMR + SI-Bind (E9 / CAB - Ours) across 9 temporal DETR backbones on Standard Test (1,036 queries) and Full-Decodable Test (2,970 queries). Vector PDF available at [`docs/tables/baseline_vs_si_bind_e9.pdf`](docs/tables/baseline_vs_si_bind_e9.pdf) and [`docs/tables/baseline_vs_si_bind_e6.pdf`](docs/tables/baseline_vs_si_bind_e6.pdf).*
 
 ### Head-to-Head Test Performance Table
 
