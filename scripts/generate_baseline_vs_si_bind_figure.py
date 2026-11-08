@@ -57,7 +57,8 @@ METHODS = [
     ("gmr", "1. GMR Baseline", "#334155", "normal", None),
     ("gmr_si_bind", "2. GMR + SI-Bind (E6)", "#6d28d9", "normal", None),
     ("gmr_si_bind_geq", "3. GMR + SI-Bind (E6) + GEQ", "#047857", "normal", None),
-    ("gmr_si_bind_e9", "4. GMR + SI-Bind (E9 / CAB - Ours)", "#b91c1c", "bold", "#fef2f2"),
+    ("gmr_si_bind_e9", "4. GMR + SI-Bind (E9 / CAB)", "#b91c1c", "normal", None),
+    ("gmr_si_bind_e9_geq", "5. GMR + SI-Bind (E9) + GEQ (Ours)", "#0284c7", "bold", "#f0f9ff"),
 ]
 
 
@@ -195,14 +196,15 @@ def render():
         "Method 1 (GMR Baseline): Official temporal DETR baseline checkpoints evaluated with native bipartite matching.",
         "Method 2 (GMR + SI-Bind [E6]): Structural Triad (Temporal Residual Stream + Slot-Private Innovation + Dominance-Aware Refresh).",
         "Method 3 (GMR + SI-Bind [E6] + GEQ): Two-stage Global Event Query fine-tuning on top of SI-Bind E6 representations.",
-        "Method 4 (GMR + SI-Bind [E9 / CAB - Ours]): Serial C -> A -> B Triad (Controlled Refresh -> Temporal Re-binding -> Context Innovation).",
+        "Method 4 (GMR + SI-Bind [E9 / CAB]): Serial C -> A -> B Triad (Controlled Refresh -> Temporal Re-binding -> Context Innovation).",
+        "Method 5 (GMR + SI-Bind [E9] + GEQ [Ours]): Two-stage Global Event Query fine-tuning on top of SI-Bind E9 representations (Val Orc-gap selected).",
         "Orc-Gap (%): Area between Oracle envelope and G-mIoU@1 threshold curve across tau in [0, 1]. Lower is better.",
         "Bold values highlight the optimal performance across methods per backbone. FlashVTG E6/E9 currently in queue.",
     ]
     for i, line in enumerate(notes):
         text(left, y - 6 - i * 11.0, line, 7.8, color="#64748b")
 
-    out_stem = "baseline_vs_si_bind_e6"
+    out_stem = "baseline_vs_si_bind_e9"
     svg_p = OUT_TABLES / f"{out_stem}.svg"
     pdf_p = OUT_TABLES / f"{out_stem}.pdf"
     png_p = OUT_TABLES / f"{out_stem}.png"
@@ -213,6 +215,12 @@ def render():
     plt.close(fig)
 
     print(f"Generated {out_stem}: SVG, PDF, PNG in {OUT_TABLES}")
+    # Dual copy to baseline_vs_si_bind_e6
+    shutil.copy2(png_p, OUT_TABLES / "baseline_vs_si_bind_e6.png")
+    shutil.copy2(pdf_p, OUT_TABLES / "baseline_vs_si_bind_e6.pdf")
+    shutil.copy2(svg_p, OUT_TABLES / "baseline_vs_si_bind_e6.svg")
+    shutil.copy2(png_p, OUT_IMAGES / "baseline_vs_si_bind_e6.png")
+
 
     # Copy to docs/images
     OUT_IMAGES.mkdir(parents=True, exist_ok=True)

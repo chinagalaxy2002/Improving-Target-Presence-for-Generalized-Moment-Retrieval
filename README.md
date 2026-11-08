@@ -35,54 +35,71 @@ Prior empirical diagnostics revealed three fundamental failure modes in native D
 
 ---
 
-## 📊 Benchmark Comparison: Baseline vs. SI-Bind (E6) vs. SI-Bind + GEQ
+## 📊 Benchmark Comparison: Baseline vs. SI-Bind (E6) vs. SI-Bind (E9) vs. SI-Bind (E9) + GEQ
 
-Below is the definitive head-to-head comparison between **GMR Baseline**, **GMR + SI-Bind (E6)**, **GMR + SI-Bind (E6) + GEQ**, and **GMR + SI-Bind (E9 / CAB - Ours)** across all 9 temporal DETR backbones on both official test splits. All models are evaluated under strict single-seed (2023) scientific protocols and selected strictly by validation performance (`best.pt`).
+Below is the definitive head-to-head comparison between **GMR Baseline**, **GMR + SI-Bind (E6)**, **GMR + SI-Bind (E6) + GEQ**, **GMR + SI-Bind (E9 / CAB)**, and **GMR + SI-Bind (E9) + GEQ (Ours)** across all 9 temporal DETR backbones on both official test splits. All models are evaluated under strict single-seed (2023) scientific protocols and selected strictly by validation performance (`best.pt`).
 
 ![GMR Baseline vs. SI-Bind Variants](docs/images/baseline_vs_si_bind_e9.png)
 
-*Figure 1: Publication-quality head-to-head performance benchmark comparing GMR Baseline vs. GMR + SI-Bind (E6) vs. GMR + SI-Bind (E6) + GEQ vs. GMR + SI-Bind (E9 / CAB - Ours) across 9 temporal DETR backbones on Standard Test (1,036 queries) and Full-Decodable Test (2,970 queries). Vector PDF available at [`docs/tables/baseline_vs_si_bind_e9.pdf`](docs/tables/baseline_vs_si_bind_e9.pdf) and [`docs/tables/baseline_vs_si_bind_e6.pdf`](docs/tables/baseline_vs_si_bind_e6.pdf).*
+*Figure 1: Publication-quality head-to-head performance benchmark comparing GMR Baseline vs. GMR + SI-Bind (E6) vs. GMR + SI-Bind (E6) + GEQ vs. GMR + SI-Bind (E9 / CAB) vs. GMR + SI-Bind (E9) + GEQ (Ours) across 9 temporal DETR backbones on Standard Test (1,036 queries) and Full-Decodable Test (2,970 queries). Vector PDF available at [`docs/tables/baseline_vs_si_bind_e9.pdf`](docs/tables/baseline_vs_si_bind_e9.pdf) and [`docs/tables/baseline_vs_si_bind_e6.pdf`](docs/tables/baseline_vs_si_bind_e6.pdf).*
+
+### 📈 Threshold Sensitivity Curves (E9 + GEQ)
+
+| Standard Test (1,036 queries) | Full-Decodable Test (2,970 queries) |
+|:---:|:---:|
+| [![Standard Test Threshold Sensitivity](results/test_thresholds_e9_geq/STANDARD_TEST.png)](results/test_thresholds_e9_geq/STANDARD_TEST.png) | [![Full Test Threshold Sensitivity](results/test_thresholds_e9_geq/FULL_TEST.png)](results/test_thresholds_e9_geq/FULL_TEST.png) |
+
+*Figure 2: Performance metrics across presence rejection thresholds $\tau \in [0, 1]$ on Standard Test (1,036 queries) and Full-Decodable Test (2,970 queries) for E9 + GEQ. High-resolution vector formats: [`results/test_thresholds_e9_geq/STANDARD_TEST.pdf`](results/test_thresholds_e9_geq/STANDARD_TEST.pdf) | [`results/test_thresholds_e9_geq/FULL_TEST.pdf`](results/test_thresholds_e9_geq/FULL_TEST.pdf) | [`results/test_thresholds_e9_geq/BOTH_TESTS.pdf`](results/test_thresholds_e9_geq/BOTH_TESTS.pdf).*
 
 ### Head-to-Head Test Performance Table
 
 | Backbone | Configuration / Method | Std mAP (%) ↑ | Std $\Delta$ vs Base | Std Orc-Gap (%) ↓ | Std Rej-F1@.5 (%) ↑ | Std AUROC (%) ↑ | Full mAP (%) ↑ | Full $\Delta$ vs Base | Full Orc-Gap (%) ↓ | Full Rej-F1@.5 (%) ↑ | Full AUROC (%) ↑ | Selected Best Checkpoint |
 |---|---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
 | **Moment-DETR** | 1. GMR Baseline | 6.68 | — | 24.28 | 67.94 | 70.20 | 5.47 | — | 23.48 | 72.08 | 78.91 | — |
-| | 2. GMR + SI-Bind (E6) | **15.21** | **+8.53** | 23.66 | 65.52 | 74.32 | 12.58 | +7.11 | 22.21 | 68.83 | **81.86** | Ep 78 (`58f18d...`) |
-| | 3. GMR + SI-Bind (E6) + GEQ | 14.97 | +8.29 | **16.61** | **75.33** | 74.23 | 12.95 | +7.48 | **15.95** | **78.51** | 81.81 | Ep 34 (`591161...`) |
-| | **4. GMR + SI-Bind (E9 / CAB - Ours)** | 13.35 | +6.67 | 21.60 | 63.61 | **74.93** | **12.99** | **+7.52** | 19.56 | 66.27 | 79.12 | Ep 189 (`24573c...`) |
+|  | 2. GMR + SI-Bind (E6) | **15.21** | +8.53 | 23.66 | 65.52 | 74.32 | 12.58 | +7.11 | 22.21 | 68.83 | **81.86** | E6 Checkpoint |
+|  | 3. GMR + SI-Bind (E6) + GEQ | 14.97 | +8.29 | **16.61** | **75.33** | 74.23 | 12.95 | +7.48 | **15.95** | **78.51** | 81.81 | E6+GEQ Checkpoint |
+|  | 4. GMR + SI-Bind (E9 / CAB) | 13.35 | +6.67 | 21.60 | 63.61 | 74.93 | **12.99** | +7.52 | 19.56 | 66.27 | 79.12 | E9 Checkpoint |
+|  | **5. GMR + SI-Bind (E9) + GEQ (Ours)** | 13.61 | +6.93 | 17.61 | 70.14 | **75.53** | **12.99** | +7.52 | 17.08 | 73.16 | 81.84 | Ep 4 (`cc2407...`) |
 | **EaTR** | 1. GMR Baseline | 16.49 | — | 21.51 | 65.60 | 76.56 | 15.19 | — | 20.39 | 67.38 | 81.59 | — |
-| | 2. GMR + SI-Bind (E6) | 17.12 | +0.63 | 21.80 | 67.74 | 76.23 | **15.35** | **+0.16** | 20.89 | 68.66 | 81.03 | Ep 118 (`ba9fcd...`) |
-| | 3. GMR + SI-Bind (E6) + GEQ | 15.54 | -0.95 | **17.51** | **72.25** | 76.57 | 14.36 | -0.83 | **16.42** | **76.22** | **83.05** | Ep 10 (`924a11...`) |
-| | **4. GMR + SI-Bind (E9 / CAB - Ours)** | **17.17** | **+0.68** | 21.58 | 69.33 | **77.21** | 15.25 | +0.06 | 19.81 | 72.41 | 82.55 | Ep 123 (`416182...`) |
-| **QD-DETR** | 1. GMR Baseline | 14.62 | — | 20.23 | 71.48 | 77.01 | 12.65 | — | 19.05 | 72.49 | 81.75 | — |
-| | 2. GMR + SI-Bind (E6) | 16.30 | +1.68 | 20.65 | 73.71 | 76.63 | 13.20 | +0.55 | 19.84 | 75.91 | 82.47 | Ep 103 (`d8e556...`) |
-| | 3. GMR + SI-Bind (E6) + GEQ | **18.27** | **+3.65** | **15.94** | **75.14** | 76.16 | **14.98** | **+2.33** | **15.70** | **78.45** | **82.73** | Ep 4 (`631b2f...`) |
-| | **4. GMR + SI-Bind (E9 / CAB - Ours)** | 16.77 | +2.15 | 24.35 | 59.41 | 75.27 | 14.96 | +2.31 | 22.68 | 61.60 | 81.78 | Ep 145 (`ddc20f...`) |
+|  | 2. GMR + SI-Bind (E6) | 17.12 | +0.63 | 21.80 | 67.74 | 76.23 | **15.35** | +0.16 | 20.89 | 68.66 | 81.03 | E6 Checkpoint |
+|  | 3. GMR + SI-Bind (E6) + GEQ | 15.54 | -0.95 | **17.51** | 72.25 | 76.57 | 14.36 | -0.83 | **16.42** | **76.22** | **83.05** | E6+GEQ Checkpoint |
+|  | 4. GMR + SI-Bind (E9 / CAB) | 17.17 | +0.68 | 21.58 | 69.33 | **77.21** | 15.25 | +0.06 | 19.81 | 72.41 | 82.55 | E9 Checkpoint |
+|  | **5. GMR + SI-Bind (E9) + GEQ (Ours)** | **17.23** | +0.74 | 17.80 | **73.23** | 75.93 | 15.19 | +0.00 | 16.43 | 75.87 | 82.47 | Ep 10 (`bb107e...`) |
+| **QD-DETR** | 1. GMR Baseline | 14.62 | — | 20.23 | 71.48 | **77.01** | 12.65 | — | 19.05 | 72.49 | 81.75 | — |
+|  | 2. GMR + SI-Bind (E6) | 16.30 | +1.68 | 20.65 | 73.71 | 76.63 | 13.20 | +0.55 | 19.84 | 75.91 | 82.47 | E6 Checkpoint |
+|  | 3. GMR + SI-Bind (E6) + GEQ | **18.27** | +3.65 | **15.94** | **75.14** | 76.16 | **14.98** | +2.33 | 15.70 | **78.45** | 82.73 | E6+GEQ Checkpoint |
+|  | 4. GMR + SI-Bind (E9 / CAB) | 16.77 | +2.15 | 24.35 | 59.41 | 75.27 | 14.96 | +2.31 | 22.68 | 61.60 | 81.78 | E9 Checkpoint |
+|  | **5. GMR + SI-Bind (E9) + GEQ (Ours)** | 17.65 | +3.03 | 16.73 | 73.03 | 75.47 | 14.85 | +2.20 | **15.65** | 76.11 | **82.98** | Ep 10 (`5ee08c...`) |
 | **CG-DETR** | 1. GMR Baseline | 18.65 | — | 25.66 | 57.47 | 76.40 | 14.67 | — | 23.28 | 63.23 | 81.81 | — |
-| | 2. GMR + SI-Bind (E6) | 17.38 | -1.27 | 22.89 | 70.85 | 75.92 | 15.54 | +0.87 | 21.61 | 73.14 | 80.94 | Ep 95 (`1cde46...`) |
-| | 3. GMR + SI-Bind (E6) + GEQ | 17.66 | -0.99 | **16.30** | **75.64** | 76.40 | 15.47 | +0.80 | **15.74** | **78.88** | **82.36** | Ep 4 (`410e3c...`) |
-| | **4. GMR + SI-Bind (E9 / CAB - Ours)** | **18.76** | **+0.11** | 21.55 | 69.27 | **77.50** | **17.41** | **+2.74** | 20.21 | 70.53 | 81.24 | Ep 198 (`6c3549...`) |
-| **BM-DETR** | 1. GMR Baseline | 4.00 | — | 17.59 | 75.00 | 71.55 | 3.65 | — | 17.62 | 78.58 | 79.11 | — |
-| | 2. GMR + SI-Bind (E6) | 7.72 | +3.72 | 20.91 | 73.40 | 70.18 | 7.03 | +3.38 | 20.30 | 77.47 | 79.27 | Ep 70 (`e8e8e8...`) |
-| | 3. GMR + SI-Bind (E6) + GEQ | 6.17 | +2.17 | **13.19** | **75.00** | 70.57 | 5.63 | +1.98 | **13.44** | **78.86** | 79.08 | Ep 4 (`349c13...`) |
-| | **4. GMR + SI-Bind (E9 / CAB - Ours)** | **10.72** | **+6.72** | 23.09 | 70.85 | **72.73** | **9.54** | **+5.89** | 21.78 | 75.34 | **80.12** | Ep 102 (`6cb6bc...`) |
+|  | 2. GMR + SI-Bind (E6) | 17.38 | -1.27 | 22.89 | 70.85 | 75.92 | 15.54 | +0.87 | 21.61 | 73.14 | 80.94 | E6 Checkpoint |
+|  | 3. GMR + SI-Bind (E6) + GEQ | 17.66 | -0.99 | **16.30** | **75.64** | 76.40 | 15.47 | +0.80 | **15.74** | **78.88** | 82.36 | E6+GEQ Checkpoint |
+|  | 4. GMR + SI-Bind (E9 / CAB) | 18.76 | +0.11 | 21.55 | 69.27 | **77.50** | **17.41** | +2.74 | 20.21 | 70.53 | 81.24 | E9 Checkpoint |
+|  | **5. GMR + SI-Bind (E9) + GEQ (Ours)** | **19.34** | +0.69 | 16.84 | 75.02 | 77.32 | 16.91 | +2.24 | 15.77 | 77.41 | **83.57** | Ep 10 (`19e61a...`) |
+| **BM-DETR** | 1. GMR Baseline | 4.00 | — | 17.59 | **75.00** | 71.55 | 3.65 | — | 17.62 | 78.58 | 79.11 | — |
+|  | 2. GMR + SI-Bind (E6) | 7.72 | +3.72 | 20.91 | 73.40 | 70.18 | 7.03 | +3.38 | 20.30 | 77.47 | 79.27 | E6 Checkpoint |
+|  | 3. GMR + SI-Bind (E6) + GEQ | 6.17 | +2.17 | 13.19 | **75.00** | 70.57 | 5.63 | +1.98 | 13.44 | **78.86** | 79.08 | E6+GEQ Checkpoint |
+|  | 4. GMR + SI-Bind (E9 / CAB) | 10.72 | +6.72 | 23.09 | 70.85 | 72.73 | 9.54 | +5.89 | 21.78 | 75.34 | **80.12** | E9 Checkpoint |
+|  | **5. GMR + SI-Bind (E9) + GEQ (Ours)** | **11.87** | +7.87 | **12.07** | **75.00** | **73.43** | **10.91** | +7.26 | **11.71** | 78.82 | 80.04 | Ep 4 (`f2a296...`) |
 | **BAM-DETR** | 1. GMR Baseline | 23.25 | — | 19.82 | 70.43 | 78.66 | 20.62 | — | 18.37 | 71.79 | 80.99 | — |
-| | 2. GMR + SI-Bind (E6) | 23.78 | +0.53 | 20.40 | 68.96 | 78.37 | 21.78 | +1.16 | 19.07 | 69.28 | 78.69 | Ep 76 (`b15e82...`) |
-| | 3. GMR + SI-Bind (E6) + GEQ | 23.99 | +0.74 | **17.48** | **71.31** | 77.08 | 21.56 | +0.94 | **16.37** | **73.81** | **83.35** | Ep 34 (`b78bd3...`) |
-| | **4. GMR + SI-Bind (E9 / CAB - Ours)** | **24.21** | **+0.96** | 20.68 | 69.53 | **78.96** | **22.17** | **+1.55** | 19.15 | 69.12 | 79.03 | Ep 75 (`72c3c4...`) |
-| **Sim-DETR** | 1. GMR Baseline | 20.73 | — | 22.51 | 74.69 | 72.97 | 19.18 | — | 21.78 | 75.72 | 78.87 | — |
-| | 2. GMR + SI-Bind (E6) | 21.17 | +0.44 | 21.26 | 74.89 | 75.12 | 20.08 | +0.90 | 20.83 | 73.10 | 77.83 | Ep 112 (`9a525b...`) |
-| | 3. GMR + SI-Bind (E6) + GEQ | 21.14 | +0.41 | **12.72** | **75.00** | 75.60 | 19.96 | +0.78 | **12.59** | 75.25 | **81.21** | Ep 4 (`7348c2...`) |
-| | **4. GMR + SI-Bind (E9 / CAB - Ours)** | **21.34** | **+0.61** | 23.16 | 72.12 | 74.70 | **20.46** | **+1.28** | 22.30 | 73.46 | 79.47 | Ep 145 (`bcf9ca...`) |
-| **UVCOM** | 1. GMR Baseline | 7.12 | — | 17.24 | 75.00 | 70.03 | 6.40 | — | 16.83 | 76.80 | 78.98 | — |
-| | 2. GMR + SI-Bind (E6) | 18.99 | +11.87 | **16.30** | **75.40** | 76.91 | 17.74 | +11.34 | **15.55** | 73.11 | 75.20 | Ep 120 (`1e7a29...`) |
-| | 3. GMR + SI-Bind (E6) + GEQ | 17.94 | +10.82 | 17.89 | 72.92 | 77.37 | 16.55 | +10.15 | 17.04 | **73.98** | **81.37** | Ep 10 (`cee9e4...`) |
-| | **4. GMR + SI-Bind (E9 / CAB - Ours)** | **19.74** | **+12.62** | 17.28 | 72.89 | **77.84** | **18.58** | **+12.18** | 16.69 | 69.85 | 75.33 | Ep 147 (`6ca0d4...`) |
-| **FlashVTG** | 1. GMR Baseline | 25.43 | — | 25.47 | 66.35 | 74.30 | 20.43 | — | 24.13 | 68.48 | 82.21 | — |
-| | 2. GMR + SI-Bind (E6) | *pending* | — | *pending* | *pending* | *pending* | *pending* | — | *pending* | *pending* | *pending* | In queue |
-| | 3. GMR + SI-Bind (E6) + GEQ | *pending* | — | *pending* | *pending* | *pending* | *pending* | — | *pending* | *pending* | *pending* | In queue |
-| | 4. GMR + SI-Bind (E9 / CAB - Ours) | *pending* | — | *pending* | *pending* | *pending* | *pending* | — | *pending* | *pending* | *pending* | In queue |
+|  | 2. GMR + SI-Bind (E6) | 23.78 | +0.53 | 20.40 | 68.96 | 78.37 | 21.78 | +1.16 | 19.07 | 69.28 | 78.69 | E6 Checkpoint |
+|  | 3. GMR + SI-Bind (E6) + GEQ | 23.99 | +0.74 | 17.48 | 71.31 | 77.08 | 21.56 | +0.94 | 16.37 | 73.81 | **83.35** | E6+GEQ Checkpoint |
+|  | 4. GMR + SI-Bind (E9 / CAB) | **24.21** | +0.96 | 20.68 | 69.53 | **78.96** | **22.17** | +1.55 | 19.15 | 69.12 | 79.03 | E9 Checkpoint |
+|  | **5. GMR + SI-Bind (E9) + GEQ (Ours)** | 23.26 | +0.01 | **16.16** | **71.76** | 77.07 | 21.43 | +0.81 | **15.03** | **74.57** | 82.86 | Ep 34 (`284fef...`) |
+| **Sim-DETR** | 1. GMR Baseline | 20.73 | — | 22.51 | 74.69 | 72.97 | 19.18 | — | 21.78 | **75.72** | 78.87 | — |
+|  | 2. GMR + SI-Bind (E6) | 21.17 | +0.44 | 21.26 | 74.89 | 75.12 | 20.08 | +0.90 | 20.83 | 73.10 | 77.83 | E6 Checkpoint |
+|  | 3. GMR + SI-Bind (E6) + GEQ | 21.14 | +0.41 | 12.72 | **75.00** | **75.60** | 19.96 | +0.78 | 12.59 | 75.25 | 81.21 | E6+GEQ Checkpoint |
+|  | 4. GMR + SI-Bind (E9 / CAB) | 21.34 | +0.61 | 23.16 | 72.12 | 74.70 | 20.46 | +1.28 | 22.30 | 73.46 | 79.47 | E9 Checkpoint |
+|  | **5. GMR + SI-Bind (E9) + GEQ (Ours)** | **22.45** | +1.72 | **11.71** | **75.00** | 74.86 | **21.05** | +1.87 | **11.60** | 75.52 | **81.43** | Ep 4 (`4008ed...`) |
+| **UVCOM** | 1. GMR Baseline | 7.12 | — | 17.24 | 75.00 | 70.03 | 6.40 | — | 16.83 | **76.80** | 78.98 | — |
+|  | 2. GMR + SI-Bind (E6) | 18.99 | +11.87 | 16.30 | **75.40** | 76.91 | 17.74 | +11.34 | 15.55 | 73.11 | 75.20 | E6 Checkpoint |
+|  | 3. GMR + SI-Bind (E6) + GEQ | 17.94 | +10.82 | 17.89 | 72.92 | 77.37 | 16.55 | +10.15 | 17.04 | 73.98 | **81.37** | E6+GEQ Checkpoint |
+|  | 4. GMR + SI-Bind (E9 / CAB) | **19.74** | +12.62 | 17.28 | 72.89 | **77.84** | **18.58** | +12.18 | 16.69 | 69.85 | 75.33 | E9 Checkpoint |
+|  | **5. GMR + SI-Bind (E9) + GEQ (Ours)** | 18.51 | +11.39 | **14.78** | 71.55 | 77.77 | 17.37 | +10.97 | **14.36** | 69.25 | 77.51 | Ep 36 (`8d1eda...`) |
+| **FlashVTG** | 1. GMR Baseline | **25.43** | — | **25.47** | **66.35** | **74.30** | **20.43** | — | **24.13** | **68.48** | **82.21** | — |
+|  | 2. GMR + SI-Bind (E6) | *pending* | — | *pending* | *pending* | *pending* | *pending* | — | *pending* | *pending* | *pending* | In queue |
+|  | 3. GMR + SI-Bind (E6) + GEQ | *pending* | — | *pending* | *pending* | *pending* | *pending* | — | *pending* | *pending* | *pending* | In queue |
+|  | 4. GMR + SI-Bind (E9 / CAB) | *pending* | — | *pending* | *pending* | *pending* | *pending* | — | *pending* | *pending* | *pending* | In queue |
+|  | **5. GMR + SI-Bind (E9) + GEQ (Ours)** | *pending* | — | *pending* | *pending* | *pending* | *pending* | — | *pending* | *pending* | *pending* | In queue |
 
 *Note: Bold numbers highlight the optimal result across all evaluated configurations per backbone. Orc-Gap (%): Area between Oracle envelope and G-mIoU@1 threshold curve across tau in [0, 1] (lower is better).*
 
