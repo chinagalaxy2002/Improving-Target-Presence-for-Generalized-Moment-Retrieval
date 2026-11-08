@@ -55,6 +55,7 @@ BACKBONES = [
 METHODS = [
     ("gmr", "1. GMR Baseline", "#334155", "normal", None),
     ("gmr_si_bind", "2. GMR + SI-Bind (Ours - E6)", "#6d28d9", "bold", "#f5f3ff"),
+    ("gmr_si_bind_geq", "3. GMR + SI-Bind (E6) + GEQ (Ours)", "#047857", "bold", "#ecfdf5"),
 ]
 
 
@@ -83,7 +84,7 @@ def render():
     row_height = 20
     n_bb = len(BACKBONES)
     table_content_h = n_bb * len(METHODS) * row_height + (n_bb - 1) * 6
-    height = 115 + table_content_h + 85
+    height = 115 + table_content_h + 95
 
     fig = plt.figure(figsize=(width / 72, height / 72), facecolor="white", dpi=220)
     ax = fig.add_axes([0, 0, 1, 1], xlim=(0, width), ylim=(0, height))
@@ -96,7 +97,7 @@ def render():
         ax.plot([x0, x1], [y, y], color=color, lw=lw)
 
     # Title
-    text(left, height - 26, "SoccerGMR Performance Benchmark: Baseline vs. SI-Bind (Ours - E6)", 13.0, "bold", color="#0f172a")
+    text(left, height - 26, "SoccerGMR Performance Benchmark: Baseline vs. SI-Bind (E6) vs. SI-Bind + GEQ", 13.0, "bold", color="#0f172a")
     sub = (
         "Head-to-head evaluation across 9 temporal DETR backbones on Standard Test (1,036 queries) "
         "and Full-Decodable Test (2,970 queries). Strict single seed (2023)."
@@ -191,8 +192,9 @@ def render():
     notes = [
         "Method 1 (GMR Baseline): Official temporal DETR baseline checkpoints evaluated with native bipartite matching.",
         "Method 2 (GMR + SI-Bind [Ours - E6]): Full Structural Triad (Temporal Residual Stream + Slot-Private Innovation + Dominance-Aware Refresh).",
+        "Method 3 (GMR + SI-Bind [E6] + GEQ [Ours]): Two-stage Global Event Query fine-tuning on top of SI-Bind representations.",
         "Orc-Gap (%): Area between Oracle envelope and G-mIoU@1 threshold curve across tau in [0, 1] (Integral of Oracle_G1 minus G1-AUC). Lower is better.",
-        "Bold values highlight the optimal performance between Baseline and SI-Bind (E6) per backbone. FlashVTG E6 currently in queue.",
+        "Bold values highlight the optimal performance across methods per backbone. FlashVTG E6 currently in queue.",
     ]
     for i, line in enumerate(notes):
         text(left, y - 6 - i * 11.0, line, 7.8, color="#64748b")
