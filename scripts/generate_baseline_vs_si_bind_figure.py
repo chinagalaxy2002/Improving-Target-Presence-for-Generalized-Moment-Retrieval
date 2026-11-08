@@ -2,7 +2,8 @@
 """Generate publication-quality vector table figure (SVG, PDF, PNG) comparing:
 1. GMR Baseline
 2. GMR + SI-Bind (E6)
-3. GMR + SI-Bind (E6) + GEQ (Ours)
+3. GMR + SI-Bind (E6) + GEQ
+4. GMR + SI-Bind (E9 / CAB - Ours)
 
 Across 9 temporal DETR backbones:
 - Moment-DETR
@@ -54,8 +55,9 @@ BACKBONES = [
 
 METHODS = [
     ("gmr", "1. GMR Baseline", "#334155", "normal", None),
-    ("gmr_si_bind", "2. GMR + SI-Bind (Ours - E6)", "#6d28d9", "bold", "#f5f3ff"),
-    ("gmr_si_bind_geq", "3. GMR + SI-Bind (E6) + GEQ (Ours)", "#047857", "bold", "#ecfdf5"),
+    ("gmr_si_bind", "2. GMR + SI-Bind (E6)", "#6d28d9", "normal", None),
+    ("gmr_si_bind_geq", "3. GMR + SI-Bind (E6) + GEQ", "#047857", "normal", None),
+    ("gmr_si_bind_e9", "4. GMR + SI-Bind (E9 / CAB - Ours)", "#b91c1c", "bold", "#fef2f2"),
 ]
 
 
@@ -72,7 +74,7 @@ def render():
 
     left = 24
     backbone_w = 95
-    config_w = 230
+    config_w = 236
     col_step = 72
     num_std_cols = 4  # mAP, Orc-Gap, Rej-F1@.5, AUROC
     num_full_cols = 4
@@ -84,7 +86,7 @@ def render():
     row_height = 20
     n_bb = len(BACKBONES)
     table_content_h = n_bb * len(METHODS) * row_height + (n_bb - 1) * 6
-    height = 115 + table_content_h + 95
+    height = 115 + table_content_h + 105
 
     fig = plt.figure(figsize=(width / 72, height / 72), facecolor="white", dpi=220)
     ax = fig.add_axes([0, 0, 1, 1], xlim=(0, width), ylim=(0, height))
@@ -97,7 +99,7 @@ def render():
         ax.plot([x0, x1], [y, y], color=color, lw=lw)
 
     # Title
-    text(left, height - 26, "SoccerGMR Performance Benchmark: Baseline vs. SI-Bind (E6) vs. SI-Bind + GEQ", 13.0, "bold", color="#0f172a")
+    text(left, height - 26, "SoccerGMR Performance Benchmark: Baseline vs. SI-Bind Variants (E6, GEQ, E9 / CAB)", 13.0, "bold", color="#0f172a")
     sub = (
         "Head-to-head evaluation across 9 temporal DETR backbones on Standard Test (1,036 queries) "
         "and Full-Decodable Test (2,970 queries). Strict single seed (2023)."
@@ -153,7 +155,7 @@ def render():
         for m_idx, (m_key, m_label, m_color, m_weight, tint) in enumerate(METHODS):
             curr_y = y - m_idx * row_height
 
-            # Highlight tint for GEQ row
+            # Highlight tint for target method row
             if tint:
                 ax.add_patch(plt.Rectangle((left - 4, curr_y - 8), width - left - 16, 17, color=tint, zorder=-1))
 
@@ -191,10 +193,11 @@ def render():
 
     notes = [
         "Method 1 (GMR Baseline): Official temporal DETR baseline checkpoints evaluated with native bipartite matching.",
-        "Method 2 (GMR + SI-Bind [Ours - E6]): Full Structural Triad (Temporal Residual Stream + Slot-Private Innovation + Dominance-Aware Refresh).",
-        "Method 3 (GMR + SI-Bind [E6] + GEQ [Ours]): Two-stage Global Event Query fine-tuning on top of SI-Bind representations.",
-        "Orc-Gap (%): Area between Oracle envelope and G-mIoU@1 threshold curve across tau in [0, 1] (Integral of Oracle_G1 minus G1-AUC). Lower is better.",
-        "Bold values highlight the optimal performance across methods per backbone. FlashVTG E6 currently in queue.",
+        "Method 2 (GMR + SI-Bind [E6]): Structural Triad (Temporal Residual Stream + Slot-Private Innovation + Dominance-Aware Refresh).",
+        "Method 3 (GMR + SI-Bind [E6] + GEQ): Two-stage Global Event Query fine-tuning on top of SI-Bind E6 representations.",
+        "Method 4 (GMR + SI-Bind [E9 / CAB - Ours]): Serial C -> A -> B Triad (Controlled Refresh -> Temporal Re-binding -> Context Innovation).",
+        "Orc-Gap (%): Area between Oracle envelope and G-mIoU@1 threshold curve across tau in [0, 1]. Lower is better.",
+        "Bold values highlight the optimal performance across methods per backbone. FlashVTG E6/E9 currently in queue.",
     ]
     for i, line in enumerate(notes):
         text(left, y - 6 - i * 11.0, line, 7.8, color="#64748b")
