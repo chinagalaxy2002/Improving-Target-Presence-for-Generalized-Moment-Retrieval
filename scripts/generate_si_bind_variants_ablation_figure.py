@@ -75,7 +75,7 @@ def render():
         ax.plot([x0, x1], [y, y], color=color, lw=lw)
 
     # Title
-    text(left, height - 26, "SoccerGMR SI-Bind: Detailed Component Ablation Study (E1 to E7)", 13.5, "bold", color="#0f172a")
+    text(left, height - 26, "SoccerGMR SI-Bind: Detailed Component Ablation Study (E1 to E8)", 13.5, "bold", color="#0f172a")
     sub = (
         "Fine-grained ablation across mechanisms: Mechanism A (Binding & Residual), Mechanism B (Slot Innovation), "
         "and Mechanism C (Dominance Refresh) on Standard Test (1,036 queries) and Full Test (2,970 queries)."
