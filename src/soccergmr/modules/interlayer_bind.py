@@ -1,6 +1,6 @@
 """SI-Bind: Structurally Isolated Inter-Layer Binding and Slot-Private Refinement.
 
-This module implements the lightweight interlayer adapter for E1-E8:
+This module implements the lightweight interlayer adapter for E1-E9:
 - E1: Pure temporal binding supervision (identity residual return).
 - E2: Temporal binding + lightweight residual update (no RCG/basis/FRF).
 - E3: E2 + Slot-Private Innovation (relative to detached mean temporal context).
@@ -9,6 +9,7 @@ This module implements the lightweight interlayer adapter for E1-E8:
 - E6: E2 + Innovation + Dominance refresh.
 - E7: E6 with binding_loss_coef = 0.
 - E8: Strict serial A -> B without C (Temporal binding + slot-private innovation, no refresh).
+- E9: Strict serial C -> A -> B (Refresh C -> Re-bound A -> Context innovation B).
 """
 
 from __future__ import annotations
@@ -73,6 +74,10 @@ class InterLayerBind(nn.Module):
 
         if self.variant_name == "E8":
             self.refresh_mode = "none"
+            self.enable_residual = True
+            self.use_innovation = True
+        elif self.variant_name == "E9":
+            self.refresh_mode = "dominance"
             self.enable_residual = True
             self.use_innovation = True
 
@@ -250,6 +255,91 @@ class InterLayerBind(nn.Module):
             )
             return adapted_state
 
+        # E9: Strict serial C -> A -> B (Refresh C -> Re-bound A -> Context Innovation B)
+        if self.variant_name == "E9":
+            sem_expand = query_semantic.unsqueeze(1).expand(-1, num_queries, -1)
+            beta_val = self.beta.to(candidate.dtype)
+
+            # Step 1: Mechanism C - Controlled Soft Refresh
+            h_C = candidate
+            refresh_count = 0
+            opportunity = 0
+            if self.training and self.refresh_mode in ("dominance", "uniform") and self.current_epoch.item() >= self.warmup_epochs:
+                excess = torch.clamp(self.top1_ema - 1.0 / self.num_queries, min=0.0)
+                max_excess = excess.max()
+                if max_excess > 1e-6:
+                    if self.refresh_mode == "dominance":
+                        p_i = self.p_max * excess / (max_excess + 1e-7)
+                    else:  # uniform control
+                        p_val = (self.p_max * excess / (max_excess + 1e-7)).mean()
+                        p_i = torch.full_like(self.top1_ema, float(p_val))
+                else:
+                    p_i = torch.zeros_like(self.top1_ema)
+
+                p_expand = p_i.unsqueeze(0).expand(batch_size, -1)
+                z = torch.bernoulli(p_expand)  # [B, K]
+                refresh_count = int(z.sum().item())
+                opportunity = int(z.numel())
+                self.actual_refresh_count.add_(refresh_count)
+                self.opportunity_count.add_(opportunity)
+
+                if refresh_count > 0:
+                    # Construct refresh candidate from c_0 and s
+                    cat_cs = torch.cat([temporal_context, sem_expand], dim=-1)
+                    refreshed_state = self.refresh_norm(self.refresh_fc(cat_cs))
+                    z_expand = z.unsqueeze(-1)  # [B, K, 1]
+                    h_C = (1.0 - self.alpha * z_expand) * candidate + (self.alpha * z_expand) * refreshed_state
+
+            # Step 2: Mechanism A - Temporal Re-binding and Residual Update from S_C
+            if refresh_count > 0:
+                # S_C != S: recompute temporal attention and context c_C = T(S_C, V, s)
+                cand_norm_C = self.decoder_norm(h_C)
+                q_cand_C = self.candidate_projection(cand_norm_C)
+                temporal_query_C = q_cand_C + q_sem
+                temporal_logits_C = torch.einsum("bmd,btd->bmt", temporal_query_C, temporal_key) / math.sqrt(self.hidden_dim)
+                temporal_attention_C = self._masked_temporal_softmax(temporal_logits_C, video_padding_mask)
+                temporal_context_C = torch.einsum("bmt,btd->bmd", temporal_attention_C, video_value)
+            else:
+                # S_C == S: reuse c_0 and attention directly
+                temporal_logits_C = temporal_logits
+                temporal_attention_C = temporal_attention
+                temporal_context_C = temporal_context
+
+            # r_A = R([S_C ; c_C ; s])
+            res_in_A = torch.cat([h_C, temporal_context_C, sem_expand], dim=-1)
+            r_A = self.residual_norm(self.residual_out(F.gelu(self.residual_fc(res_in_A))))
+            # Intermediate state H_A = S_C + beta * r_A
+            h_A = h_C + beta_val * r_A
+
+            # Step 3: Mechanism B - Context Innovation using updated slot state H_A
+            # c_A = T(H_A, V, s)
+            cand_norm_A = self.decoder_norm(h_A)
+            q_cand_A = self.candidate_projection(cand_norm_A)
+            temporal_query_A = q_cand_A + q_sem
+            temporal_logits_A = torch.einsum("bmd,btd->bmt", temporal_query_A, temporal_key) / math.sqrt(self.hidden_dim)
+            temporal_attention_A = self._masked_temporal_softmax(temporal_logits_A, video_padding_mask)
+            temporal_context_A = torch.einsum("bmt,btd->bmd", temporal_attention_A, video_value)
+
+            # Context difference innovation: n_A = W_nov(c_A - sg(mean_slot(c_A)))
+            c_bar_A = temporal_context_A.mean(dim=1, keepdim=True).detach()
+            n_A = self.innovation_projection(temporal_context_A - c_bar_A)
+
+            # S_out = H_A + beta * lambda_nov * n_A
+            adapted_candidate = h_A + beta_val * (self.lambda_nov * n_A)
+            adapted_state = adapted_candidate.transpose(0, 1)  # [K, B, d]
+
+            self.last_output = InterLayerBindOutput(
+                adapted_state=adapted_state,
+                temporal_logits=temporal_logits_C,
+                temporal_attention=temporal_attention_C,
+                temporal_context=temporal_context_C,
+                residual_update=r_A,
+                basis_weights=None,
+                actual_refresh_count=refresh_count,
+                opportunity_count=opportunity,
+            )
+            return adapted_state
+
         # 2. Refresh Mechanism (C) - Training only, strictly disabled in eval
         h_current = candidate
         refresh_count = 0
@@ -361,6 +451,11 @@ def build_interlayer_adapter(options, hidden_dim: int, num_queries: int) -> Opti
             enable_residual = True
             use_innovation = True
             refresh_mode = "none"
+            binding_loss_coef = float(getattr(options, "si_bind_loss_coef", 0.2))
+        elif variant == "E9":
+            enable_residual = True
+            use_innovation = True
+            refresh_mode = "dominance"
             binding_loss_coef = float(getattr(options, "si_bind_loss_coef", 0.2))
 
         # Allow explicit overrides from options if specified

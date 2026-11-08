@@ -290,6 +290,76 @@ def test_8_e8_strict_serial_no_c():
         assert torch.allclose(out_beta0, h, atol=1e-5), "E8 with beta=0 must return identity"
 
 
+def test_9_e9_serial_c_a_b():
+    """Assertion 9: E9 executes strict serial C -> A -> B, re-binds A from S_C, and innovates B from H_A."""
+    B, K, T, d = 2, 10, 32, 256
+    opt = Options(interlayer_adapter_type="si_bind", interlayer_variant="E9")
+    m = build_interlayer_adapter(opt, hidden_dim=d, num_queries=K)
+
+    assert m.variant_name == "E9"
+    assert m.refresh_mode == "dominance"
+    assert hasattr(m, "refresh_fc")
+    assert hasattr(m, "refresh_norm")
+    assert hasattr(m, "innovation_projection")
+    assert hasattr(m, "residual_fc")
+
+    h = torch.randn(K, B, d, requires_grad=True)
+    v = torch.randn(T, B, d, requires_grad=True)
+    mask = torch.zeros(B, T, dtype=torch.bool)
+    s = torch.randn(B, d, requires_grad=True)
+
+    # 1. Eval mode: strictly deterministic, no refresh
+    m.eval()
+    with torch.no_grad():
+        out1 = m(h, v, mask, s, video_length=T)
+        out2 = m(h, v, mask, s, video_length=T)
+        assert torch.equal(out1, out2), "E9 eval must be deterministic"
+        diag = m.last_output
+        assert diag.actual_refresh_count == 0
+
+    # 2. Training mode: test refresh triggers when epoch >= warmup and EMA skewed
+    m.train()
+    m.current_epoch.fill_(6)
+    m.top1_ema.zero_()
+    m.top1_ema[0] = 0.95
+    m.top1_ema[1:] = 0.05 / (K - 1)
+
+    torch.manual_seed(42)
+    out_train = m(h, v, mask, s, video_length=T)
+    assert out_train.shape == (K, B, d)
+    diag_tr = m.last_output
+    assert diag_tr.opportunity_count > 0
+
+    # 3. Gradients flow back to h, v, s
+    loss = out_train.sum()
+    loss.backward()
+    assert h.grad is not None and torch.isfinite(h.grad).all() and h.grad.abs().sum() > 0
+    assert v.grad is not None and torch.isfinite(v.grad).all() and v.grad.abs().sum() > 0
+    assert s.grad is not None and torch.isfinite(s.grad).all() and s.grad.abs().sum() > 0
+
+    # 4. Boundary property: lambda_nov = 0 reduces to C -> A
+    m.eval()
+    with torch.no_grad():
+        m.lambda_nov = 0.0
+        out_no_nov = m(h, v, mask, s, video_length=T)
+        # In eval mode without refresh, S_C == S, so C -> A without B is exactly Mechanism A on S
+        cand = h.transpose(0, 1)
+        v_mem = v.transpose(0, 1)
+        q = m.candidate_projection(m.decoder_norm(cand)) + m.semantic_projection(s).unsqueeze(1)
+        k = m.memory_key_projection(m.memory_norm(v_mem))
+        attn = m._masked_temporal_softmax(torch.einsum("bmd,btd->bmt", q, k) / 16.0, mask)
+        ctx = torch.einsum("bmt,btd->bmd", attn, m.memory_value_projection(v_mem))
+        r = m.residual_norm(m.residual_out(torch.nn.functional.gelu(m.residual_fc(torch.cat([cand, ctx, s.unsqueeze(1).expand(-1, K, -1)], dim=-1)))))
+        expected_h_a = (cand + m.beta * r).transpose(0, 1)
+        assert torch.allclose(out_no_nov, expected_h_a, atol=1e-5), "E9 with lambda_nov=0 in eval must match A"
+
+        # 5. Boundary property: beta = 0 reduces to S_C (in eval: identity S)
+        m.beta.fill_(0.0)
+        m.lambda_nov = 0.2
+        out_beta0 = m(h, v, mask, s, video_length=T)
+        assert torch.allclose(out_beta0, h, atol=1e-5), "E9 with beta=0 in eval must return identity"
+
+
 if __name__ == "__main__":
     tests = [
         test_1_structure_and_shape,
@@ -300,6 +370,7 @@ if __name__ == "__main__":
         test_6_diagnostic_algebraic_closure,
         test_7_strict_state_dict_save_load,
         test_8_e8_strict_serial_no_c,
+        test_9_e9_serial_c_a_b,
     ]
     print(f"Running {len(tests)} Gate-0 unit tests...")
     for t in tests:

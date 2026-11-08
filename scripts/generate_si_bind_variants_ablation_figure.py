@@ -15,14 +15,14 @@ BRAIN_DIR = Path("/home/guoxiangyu/.gemini/antigravity-cli/brain/62a59d6f-74ff-4
 CURRENT_BRAIN = Path("/home/guoxiangyu/.gemini/antigravity-cli/brain/e32cc1be-0019-4e4d-9a30-81c95fb95359")
 
 BACKBONES = [
-    ("moment_detr", "Moment-DETR", ["E1", "E2", "E3", "E4", "E5", "E6", "E7", "E8"]),
-    ("bm_detr", "BM-DETR", ["E2", "E3", "E4", "E5", "E6", "E7", "E8"]),
-    ("uvcom", "UVCOM", ["E1", "E2", "E3", "E4", "E5", "E6", "E7", "E8"]),
-    ("cg_detr", "CG-DETR", ["E2", "E3", "E4", "E5", "E6", "E7", "E8"]),
-    ("bam_detr", "BAM-DETR", ["E2", "E3", "E5", "E6", "E8"]),
-    ("sim_detr", "Sim-DETR", ["E2", "E3", "E5", "E6", "E8"]),
-    ("eatr", "EaTR", ["E2", "E3", "E5", "E6", "E8"]),
-    ("qd_detr", "QD-DETR", ["E2", "E3", "E5", "E6", "E8"]),
+    ("moment_detr", "Moment-DETR", ["E1", "E2", "E3", "E4", "E5", "E6", "E7", "E8", "E9"]),
+    ("bm_detr", "BM-DETR", ["E2", "E3", "E4", "E5", "E6", "E7", "E8", "E9"]),
+    ("uvcom", "UVCOM", ["E1", "E2", "E3", "E4", "E5", "E6", "E7", "E8", "E9"]),
+    ("cg_detr", "CG-DETR", ["E2", "E3", "E4", "E5", "E6", "E7", "E8", "E9"]),
+    ("bam_detr", "BAM-DETR", ["E2", "E3", "E5", "E6", "E8", "E9"]),
+    ("sim_detr", "Sim-DETR", ["E2", "E3", "E5", "E6", "E8", "E9"]),
+    ("eatr", "EaTR", ["E2", "E3", "E5", "E6", "E8", "E9"]),
+    ("qd_detr", "QD-DETR", ["E2", "E3", "E5", "E6", "E8", "E9"]),
 ]
 
 VAR_INFO = {
@@ -34,6 +34,7 @@ VAR_INFO = {
     "E6": ("6. E6: E2 + Innovation (B) + Dominance (C)", "#6d28d9", "bold", "#f5f3ff"),
     "E7": ("7. E7: E6 - Binding (bind_coef=0 Ablation)", "#475569", "normal", None),
     "E8": ("8. E8: Strict Serial A -> B (No Refresh C)", "#0284c7", "bold", "#f0f9ff"),
+    "E9": ("9. E9: Serial C -> A -> B (Refresh -> Re-bound -> Nov)", "#dc2626", "bold", "#fef2f2"),
 }
 
 def render():
@@ -75,7 +76,7 @@ def render():
         ax.plot([x0, x1], [y, y], color=color, lw=lw)
 
     # Title
-    text(left, height - 26, "SoccerGMR SI-Bind: Detailed Component Ablation Study (E1 to E8)", 13.5, "bold", color="#0f172a")
+    text(left, height - 26, "SoccerGMR SI-Bind: Detailed Component Ablation Study (E1 to E9)", 13.5, "bold", color="#0f172a")
     sub = (
         "Fine-grained ablation across mechanisms: Mechanism A (Binding & Residual), Mechanism B (Slot Innovation), "
         "and Mechanism C (Dominance Refresh) on Standard Test (1,036 queries) and Full Test (2,970 queries)."
@@ -174,7 +175,7 @@ def render():
     f_sub = (
         "Note: E1 = Binding only (identity across layers); E2 = Lite Binding + Residual; E3 = E2 + Slot-Private Innovation (B); "
         "E4 = E2 + Uniform Random Refresh (C Control); E5 = E2 + Dominance Refresh (C); E6 = E2+B+C (Champion Triad); E7 = E6 - Binding; "
-        "E8 = Strict Serial A -> B without C."
+        "E8 = Strict Serial A -> B without C; E9 = Strict Serial C -> A -> B (Refresh -> Re-bound -> Nov)."
     )
     text(left, footer_y, f_sub, 8.2, color="#64748b")
     text(left, footer_y - 14, "Bold numbers indicate best performance among ablation variants within the same backbone. Oracle Gap: lower is better.", 8.2, color="#64748b")
